@@ -1,3 +1,5 @@
+use BOTSTARTER; 
+
 -- Creazione delle tabelle
 CREATE TABLE Utente (
     email VARCHAR(255) PRIMARY KEY,
@@ -56,6 +58,14 @@ CREATE TABLE Skill (
     nome VARCHAR(100) PRIMARY KEY
 );
 
+CREATE TABLE Profilo (
+    nome VARCHAR(100),
+    nomeProgetto VARCHAR(255),
+    numero_posizioni INT CHECK (numero_posizioni > 0),
+    PRIMARY KEY (nome, nomeProgetto),
+    FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
+);
+
 CREATE TABLE Skill_Possesso (
     emailUtente VARCHAR(255),
     nomeSkill VARCHAR(100),
@@ -73,14 +83,6 @@ CREATE TABLE Skill_Requisito (
     PRIMARY KEY (nomeSkill, nomeProfilo, nomeProgetto),
     FOREIGN KEY (nomeSkill) REFERENCES Skill(nome),
     FOREIGN KEY (nomeProfilo, nomeProgetto) REFERENCES Profilo(nome, nomeProgetto)
-);
-
-CREATE TABLE Profilo (
-    nome VARCHAR(100),
-    nomeProgetto VARCHAR(255),
-    numero_posizioni INT CHECK (numero_posizioni > 0),
-    PRIMARY KEY (nome, nomeProgetto),
-    FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 );
 
 CREATE TABLE Candidatura (
