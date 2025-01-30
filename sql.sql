@@ -21,7 +21,7 @@ CREATE TABLE Amministratore (
 
 CREATE TABLE Creatore (
     emailCreatore VARCHAR(255) PRIMARY KEY,
-    affidabilita INT,
+    affidabilita INT DEFAULT 0,
     FOREIGN KEY (emailCreatore) REFERENCES Utente(email)
 );
 
@@ -31,7 +31,7 @@ CREATE TABLE Progetto (
     data_limite DATE,
     descr TEXT,
     stato ENUM('aperto', 'chiuso'),
-    budget_avvio DECIMAL(10,2),
+    budget_limite DECIMAL(10,2),
     tipoProgetto ENUM('Hardware', 'Software'),
     emailCreatore VARCHAR(255),
     FOREIGN KEY (emailCreatore) REFERENCES Creatore(emailCreatore)
@@ -158,3 +158,131 @@ INSERT INTO Candidatura VALUES (1, 'in attesa', 'Data Scientist', 'SmartWatch AI
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 
 INSERT INTO Risposta VALUES (1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
+
+-- Operazioni	che	riguardano	tutti	gli	utenti:
+
+-- Autenticazione Utente normale: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna 2
+DELIMITER $
+CREATE PROCEDURE AutenticazioneNormale(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), OUT esito INT)
+BEGIN	
+	declare esisteUtente boolean;
+	declare passwordCorretta boolean;
+    
+    set esisteUtente = emailI IN (SELECT email FROM Utente);
+   
+    if (NOT esisteUtente) then
+		set esito = 0;
+	else 
+		set passwordCorretta = passwordI = (SELECT password FROM Utente WHERE email = emailI);
+        if(NOT passwordCorretta) then
+			set esito = 1;
+		else
+			set esito = 2;
+		end if;
+	end if;
+END;
+$ DELIMITER ;
+
+-- Autenticazione Amministratore: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna ma il codice errato torna 2, mentre se tutto giusto 3
+DELIMITER $
+CREATE PROCEDURE AutenticazioneAmministratore(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), IN codiceI INT, OUT esito INT)
+BEGIN	
+	declare esisteUtente boolean;
+	declare passwordCorretta boolean;
+    declare codiceCorretto boolean;
+    
+    set esisteUtente = emailI IN (SELECT email FROM Amministratore);
+   
+    if (NOT esisteUtente) then
+		set esito = 0;
+	else 
+		set passwordCorretta = passwordI = (SELECT password FROM Utente WHERE email = emailI);
+        if(NOT passwordCorretta) then
+			set esito = 1;
+		else
+			set codiceCorretto = codiceI = (SELECT codice FROM Amministratore WHERE email = emailI);
+           
+           if (NOT codiceCorretto) then
+				set esito = 2;
+			else
+				set esito = 3;
+			end if;
+		end if;
+	end if;
+END;
+$ DELIMITER ;
+
+ DELIMITER $
+CREATE PROCEDURE RegistrazioneNormale(
+	IN emailI VARCHAR(255),
+    IN passwordI VARCHAR(255),
+    IN nomeI VARCHAR(100),
+    IN cognomeI VARCHAR(100),
+    IN luogo_nascitaI VARCHAR(100),
+    IN anno_nascitaI INT,
+    IN nicknameI VARCHAR(50),
+    OUT esito INT)
+BEGIN
+	declare esisteUtente boolean;
+	set esisteUtente = emailI IN (SELECT email from Utente);
+	
+	if(NOT esisteUtente) then
+		INSERT INTO Utente VALUES (emailI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, passwordI);
+		set esito = 1; -- utente registrato
+	else
+		set esito = 0; -- utente non registrato
+	end if;
+END;
+$ DELIMITER ;
+
+DELIMITER $
+CREATE PROCEDURE RegistrazioneCreatore(
+	IN emailI VARCHAR(255),
+    IN passwordI VARCHAR(255),
+    IN nomeI VARCHAR(100),
+    IN cognomeI VARCHAR(100),
+    IN luogo_nascitaI VARCHAR(100),
+    IN anno_nascitaI INT,
+    IN nicknameI VARCHAR(50),
+    OUT esito INT)
+BEGIN
+	declare esisteCreatore INT;
+    CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, esitoNormale);
+	set esisteCreatore = esitoNormale;
+    
+    if (esisteCreatore = 0) then
+		set esito = 0; -- creatore non registrato
+	else
+		set esito = 1; -- creatore registrato
+        INSERT INTO Creatore (emailCreatore) VALUES (emailI);
+	end if;
+END;
+$ DELIMITER ;
+
+DELIMITER $
+CREATE PROCEDURE RegistrazioneAmministratore(
+	IN emailI VARCHAR(255),
+    IN passwordI VARCHAR(255),
+    IN nomeI VARCHAR(100),
+    IN cognomeI VARCHAR(100),
+    IN luogo_nascitaI VARCHAR(100),
+    IN anno_nascitaI INT,
+    IN nicknameI VARCHAR(50),
+    IN codice INT,
+    OUT esito INT)
+BEGIN
+	declare esisteAmministratore INT;
+    CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, esitoNormale);
+	set esisteAmministratore = esitoNormale;
+    
+    if (esisteAmministratore = 0) then
+		set esito = 0; -- amministratore non registrato
+	else
+		set esito = 1; -- amministratore registrato
+        INSERT INTO Amministratore  VALUES (emailI, codiceI);
+	end if;
+END;
+$ DELIMITER ;
+	
+    
+    
