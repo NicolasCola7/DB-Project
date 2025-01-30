@@ -1,3 +1,5 @@
+drop database if exists BOTSTARTER;
+create database if not exists BOTSTARTER;
 use BOTSTARTER; 
 
 -- Creazione delle tabelle
