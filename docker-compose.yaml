@@ -4,16 +4,15 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Nic0l4sC0l4
-      MYSQL_USER: nicolas
-      MYSQL_PASSWORD: Nic0l4sC0l4
+      MYSQL_ROOT_PASSWORD: MatAleNic
+      MYSQL_USER: username
+      MYSQL_PASSWORD: MatAleNic
       MYSQL_DATABASE: BOTSTARTER
     ports:
       - "3307:3306"
     networks:
       - databases
    
-
   phpmyadmin:
      image: phpmyadmin:latest
      restart: always
@@ -22,8 +21,8 @@ services:
      environment:
        PMA_HOST: mysql
        PMA_PORT: 3306
-       PMA_USER: nicolas
-       PMA_PASSWORD: Nic0l4sC0l4
+       PMA_USER: username
+       PMA_PASSWORD: MatAleNic
      ports:
        - "9876:80"
      networks:
@@ -33,13 +32,13 @@ services:
     image: mongo:latest
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: nicolas
-      MONGO_INITDB_ROOT_PASSWORD: Nic0l4sC0l4
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: MatAleNic
     ports:
       - "27018:27017"
     networks:
       - databases
-   
+
   mongo-express:
     image: mongo-express:latest
     restart: always
@@ -47,8 +46,8 @@ services:
       - mongodb
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_ADMINUSERNAME: nicolas
-      ME_CONFIG_MONGODB_ADMINPASSWORD: Nic0l4sC0l4
+      ME_CONFIG_MONGODB_ADMINUSERNAME: username
+      ME_CONFIG_MONGODB_ADMINPASSWORD: MatAleNic
       ME_CONFIG_BASICAUTH: false
     ports:
       - "8081:8081"
