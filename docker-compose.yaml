@@ -1,19 +1,18 @@
 services:
 
   mysql:
-    image: mariadb:latest
+    image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_USER: username
-      MYSQL_PASSWORD: password
-      MYSQL_DATABASE: mariadb_test_db
+      MYSQL_ROOT_PASSWORD: Nic0l4sC0l4
+      MYSQL_USER: nicolas
+      MYSQL_PASSWORD: Nic0l4sC0l4
+      MYSQL_DATABASE: BOTSTARTER
     ports:
-      - "3307:3306"  # Cambiata porta esterna per evitare conflitti
+      - "3307:3306"
     networks:
       - databases
-    volumes:
-      - ./mysql:/var/lib/mysql
+   
 
   phpmyadmin:
      image: phpmyadmin:latest
@@ -23,8 +22,8 @@ services:
      environment:
        PMA_HOST: mysql
        PMA_PORT: 3306
-       PMA_USER: username
-       PMA_PASSWORD: password
+       PMA_USER: nicolas
+       PMA_PASSWORD: Nic0l4sC0l4
      ports:
        - "9876:80"
      networks:
@@ -34,15 +33,13 @@ services:
     image: mongo:latest
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin_username
-      MONGO_INITDB_ROOT_PASSWORD: admin_password
+      MONGO_INITDB_ROOT_USERNAME: nicolas
+      MONGO_INITDB_ROOT_PASSWORD: Nic0l4sC0l4
     ports:
-      - "27017:27017"
+      - "27018:27017"
     networks:
       - databases
-    volumes:
-      - ./mongo:/data/db
-
+   
   mongo-express:
     image: mongo-express:latest
     restart: always
@@ -50,11 +47,11 @@ services:
       - mongodb
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_MONGODB_ADMINUSERNAME: admin_username
-      ME_CONFIG_MONGODB_ADMINPASSWORD: admin_password
+      ME_CONFIG_MONGODB_ADMINUSERNAME: nicolas
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Nic0l4sC0l4
       ME_CONFIG_BASICAUTH: false
     ports:
-      - "9877:80"  # Cambiata porta esterna per evitare conflitti
+      - "8081:8081"
     networks:
       - databases
 
