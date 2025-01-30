@@ -11,19 +11,19 @@ CREATE TABLE Utente (
     anno_nascita INT,
     nickname VARCHAR(50),
     password VARCHAR(255)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Amministratore (
     emailAmministratore VARCHAR(255) PRIMARY KEY,
     codice INT UNIQUE,
     FOREIGN KEY (emailAmministratore) REFERENCES Utente(email)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Creatore (
     emailCreatore VARCHAR(255) PRIMARY KEY,
     affidabilita INT DEFAULT 0,
     FOREIGN KEY (emailCreatore) REFERENCES Utente(email)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Progetto (
     nome VARCHAR(255) PRIMARY KEY,
@@ -31,11 +31,19 @@ CREATE TABLE Progetto (
     data_limite DATE,
     descr TEXT,
     stato ENUM('aperto', 'chiuso'),
-    budget_limite DECIMAL(10,2),
+    budget_avvio DECIMAL(10,2),
     tipoProgetto ENUM('Hardware', 'Software'),
     emailCreatore VARCHAR(255),
     FOREIGN KEY (emailCreatore) REFERENCES Creatore(emailCreatore)
-);
+) ENGINE=INNODB;
+
+CREATE TABLE Reward (
+    codice INT PRIMARY KEY,
+    foto TEXT,
+    descr TEXT,
+    nomeProgetto VARCHAR(255),
+    FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
+) ENGINE=INNODB;
 
 CREATE TABLE Finanziamento (
     data DATE,
@@ -45,20 +53,13 @@ CREATE TABLE Finanziamento (
     codiceReward INT,
     PRIMARY KEY (data, emailUtente, nomeProgetto),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email),
-    FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
-);
-
-CREATE TABLE Reward (
-    codice INT PRIMARY KEY,
-    foto TEXT,
-    descr TEXT,
-    nomeProgetto VARCHAR(255),
-    FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
-);
+    FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome),
+    FOREIGN KEY (codiceReward) REFERENCES Reward(codice)
+) ENGINE=INNODB;
 
 CREATE TABLE Skill (
     nome VARCHAR(100) PRIMARY KEY
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Profilo (
     nome VARCHAR(100),
@@ -66,7 +67,7 @@ CREATE TABLE Profilo (
     numero_posizioni INT CHECK (numero_posizioni > 0),
     PRIMARY KEY (nome, nomeProgetto),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Skill_Possesso (
     emailUtente VARCHAR(255),
@@ -75,7 +76,7 @@ CREATE TABLE Skill_Possesso (
     PRIMARY KEY (emailUtente, nomeSkill),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email),
     FOREIGN KEY (nomeSkill) REFERENCES Skill(nome)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Skill_Requisito (
     nomeSkill VARCHAR(100),
@@ -85,27 +86,27 @@ CREATE TABLE Skill_Requisito (
     PRIMARY KEY (nomeSkill, nomeProfilo, nomeProgetto),
     FOREIGN KEY (nomeSkill) REFERENCES Skill(nome),
     FOREIGN KEY (nomeProfilo, nomeProgetto) REFERENCES Profilo(nome, nomeProgetto)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Candidatura (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     stato VARCHAR(50),
     nomeProfilo VARCHAR(100),
     nomeProgetto VARCHAR(255),
     emailUtente VARCHAR(255),
     FOREIGN KEY (nomeProfilo, nomeProgetto) REFERENCES Profilo(nome, nomeProgetto),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Commento (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     data DATE,
     testo TEXT,
     emailUtente VARCHAR(255),
     nomeProgetto VARCHAR(255),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Risposta (
     idCommento INT PRIMARY KEY,
@@ -113,14 +114,14 @@ CREATE TABLE Risposta (
     emailCreatore VARCHAR(255),
     FOREIGN KEY (idCommento) REFERENCES Commento(id),
     FOREIGN KEY (emailCreatore) REFERENCES Creatore(emailCreatore)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Foto_Progetto (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     descrizione TEXT,
     nomeProgetto VARCHAR(255),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
-);
+) ENGINE=INNODB;
 
 CREATE TABLE Componente (
     nome VARCHAR(255),
@@ -130,36 +131,32 @@ CREATE TABLE Componente (
     quantita INT CHECK (quantita > 0),
     PRIMARY KEY (nome, nomeProgetto),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
-);
+) ENGINE=INNODB;
+
+
+-- TRIGGERS
+
+-- TODO: cambio stato (prima o dopo?) inserimento progetto 
+-- TODO: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
+-- TODO: 
 
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 'pass123');
 INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', 'securePass');
-
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
-
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
-
 INSERT INTO Progetto VALUES ('SmartWatch AI', '2024-01-01', '2024-12-31', 'Progetto innovativo di AI per smartwatch', 'aperto', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
-
 INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, NULL);
-
 INSERT INTO Reward VALUES (1, 'reward1.jpg', 'T-shirt esclusiva', 'SmartWatch AI');
-
 INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
-
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
-
 INSERT INTO Profilo VALUES ('Data Scientist', 'SmartWatch AI', 2);
-
 INSERT INTO Candidatura VALUES (1, 'in attesa', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
-
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
-
 INSERT INTO Risposta VALUES (1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
 
--- Operazioni	che	riguardano	tutti	gli	utenti:
+-- OPERAZIONI RIGARDANTI GLI UTENTI:
 
 -- Autenticazione Utente normale: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna 2
 DELIMITER $
@@ -173,7 +170,7 @@ BEGIN
     if (NOT esisteUtente) then
 		set esito = 0;
 	else 
-		set passwordCorretta = passwordI = (SELECT password FROM Utente WHERE email = emailI);
+		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI AND password = passwordI) > 0;
         if(NOT passwordCorretta) then
 			set esito = 1;
 		else
@@ -196,11 +193,11 @@ BEGIN
     if (NOT esisteUtente) then
 		set esito = 0;
 	else 
-		set passwordCorretta = passwordI = (SELECT password FROM Utente WHERE email = emailI);
+		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI and passwordI = password) > 0;
         if(NOT passwordCorretta) then
 			set esito = 1;
 		else
-			set codiceCorretto = codiceI = (SELECT codice FROM Amministratore WHERE email = emailI);
+			set codiceCorretto = (SELECT count(*) FROM Amministratore WHERE email = emailI AND codice = codiceI);
            
            if (NOT codiceCorretto) then
 				set esito = 2;
@@ -246,11 +243,9 @@ CREATE PROCEDURE RegistrazioneCreatore(
     IN nicknameI VARCHAR(50),
     OUT esito INT)
 BEGIN
-	declare esisteCreatore INT;
-    CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, esitoNormale);
-	set esisteCreatore = esitoNormale;
+    CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, @esitoNormale);
     
-    if (esisteCreatore = 0) then
+    if ( @esitoNormale = 0) then
 		set esito = 0; -- creatore non registrato
 	else
 		set esito = 1; -- creatore registrato
@@ -271,11 +266,9 @@ CREATE PROCEDURE RegistrazioneAmministratore(
     IN codice INT,
     OUT esito INT)
 BEGIN
-	declare esisteAmministratore INT;
-    CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, esitoNormale);
-	set esisteAmministratore = esitoNormale;
+    CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, @esitoNormale);
     
-    if (esisteAmministratore = 0) then
+    if ( @esitoNormale = 0) then
 		set esito = 0; -- amministratore non registrato
 	else
 		set esito = 1; -- amministratore registrato
@@ -284,5 +277,52 @@ BEGIN
 END;
 $ DELIMITER ;
 	
+DELIMITER $
+CREATE PROCEDURE InserimentoSkillCurriculum (IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(255), IN livelloI INT, OUT esito INT)
+BEGIN
+	declare nomeCorretto boolean;
+    declare livelloCorretto boolean;
+    
+    set nomeCorretto = nomeSkillI IN (SELECT nome from Skill);
+    set livelloCorretto = (livelloI >= 0 and livelloI <= 5);
+    
+    if (nomeCorretto and livelloCorretto) then
+		INSERT INTO Skill_Possesso VALUES (emailI, nomeSkillI, livelloI);
+        set esito = 1; -- inserimento con successo
+	else
+		set esito = 0; -- inserimento con insuccesso
+	end if;
+END;
+$ DELIMITER ;
+
+DELIMITER $
+CREATE PROCEDURE VisualizzaProgettiAperti()
+BEGIN
+	SELECT * FROM Progetto WHERE stato = "aperto";
+END;
+$ DELIMITER ;
+
+DELIMITER $
+CREATE PROCEDURE InserimentoFinanziamento(IN progettoI VARCHAR(255), IN dataI DATE, IN importoI DECIMAL(10,2), IN emailI VARCHAR(255), OUT esito INT)
+BEGIN
+	declare progettoValido boolean;
+    declare emailCorretta boolean;
+    
+    set progettoValido = progettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
+    set emailCorretta = emailI IN (SELECT email FROM Utente);
+    
+    -- TODO: come gestire le Reward???
+    
+    if(progettoValido AND emailCorretta) then
+		set esito = 1;
+        INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (dataI, emailI, progettoI, importoI);
+	else
+		set esito = 0;
+	end if;
+END;
+$ DELIMITER ;
+    
+    
+    
     
     
