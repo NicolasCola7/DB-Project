@@ -170,7 +170,7 @@ BEGIN
     if (NOT esisteUtente) then
 		set esito = 0;
 	else 
-		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI AND password = passwordI) > 0;
+		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI AND password = MD5(passwordI)) > 0;
         if(NOT passwordCorretta) then
 			set esito = 1;
 		else
@@ -193,7 +193,7 @@ BEGIN
     if (NOT esisteUtente) then
 		set esito = 0;
 	else 
-		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI and passwordI = password) > 0;
+		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI and MD5(passwordI) = password) > 0;
         if(NOT passwordCorretta) then
 			set esito = 1;
 		else
@@ -224,7 +224,7 @@ BEGIN
 	set esisteUtente = emailI IN (SELECT email from Utente);
 	
 	if(NOT esisteUtente) then
-		INSERT INTO Utente VALUES (emailI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, passwordI);
+		INSERT INTO Utente VALUES (emailI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, MD5(passwordI));
 		set esito = 1; -- utente registrato
 	else
 		set esito = 0; -- utente non registrato
@@ -298,7 +298,7 @@ $ DELIMITER ;
 DELIMITER $
 CREATE PROCEDURE VisualizzaProgettiAperti()
 BEGIN
-	SELECT * FROM Progetto WHERE stato = "aperto";
+	SELECT * FROM Progetto WHERE stato = "aperto" ORDER BY data_inserimento DESC;
 END;
 $ DELIMITER ;
 
@@ -311,18 +311,32 @@ BEGIN
     set progettoValido = progettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
     set emailCorretta = emailI IN (SELECT email FROM Utente);
     
-    -- TODO: come gestire le Reward???
+   
     
     if(progettoValido AND emailCorretta) then
 		set esito = 1;
+         -- TODO: come gestire le Reward??? Come la faccio scegliere all'utente?
+        CALL MostraRewardDisponibili(progettoI); -- mostro all'utente le reward che puoò scegliere
+        
         INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (dataI, emailI, progettoI, importoI);
 	else
 		set esito = 0;
 	end if;
 END;
 $ DELIMITER ;
-    
-    
-    
+
+DELIMITER $
+CREATE PROCEDURE MostraRewardDisponibili (IN progettoI VARCHAR(255))
+BEGIN
+	SELECT * FROM Reward WHERE nomeProgetto = progettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = progettoI);
+END;
+$ DELIMITER ;
+
+DELIMITER $
+CREATE PROCEDURE SceltaReward (IN codiceReward INT)
+BEGIN
+
+END;
+$ DELIMITER ;
     
     
