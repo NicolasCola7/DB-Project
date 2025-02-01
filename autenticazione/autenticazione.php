@@ -167,6 +167,6 @@ $conn = null; // Close connection
 <body>
     <h1>Result:</h1>
     <p><?php echo htmlspecialchars($message); ?></p>
-    <a href="index.html">Back to Test</a>
+    <a href="autenticazione.html">Back to Test</a>
 </body>
 </html>

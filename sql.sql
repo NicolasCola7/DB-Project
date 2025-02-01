@@ -141,8 +141,8 @@ CREATE TABLE Componente (
 -- TODO: 
 
 -- Popolamento delle tabelle con dati di esempio
-INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 'pass123');
-INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', 'securePass');
+INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
+INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', md5('securePass'));
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
 INSERT INTO Progetto VALUES ('SmartWatch AI', '2024-01-01', '2024-12-31', 'Progetto innovativo di AI per smartwatch', 'aperto', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
