@@ -1,4 +1,5 @@
 <?php
+session_start();
 $host = 'localhost:3307';
 $dbname = 'BOTSTARTER';
 $user = 'username'; 
@@ -35,7 +36,12 @@ try {
             switch ($result['esito']) {
                 case 0: $message = "User not found"; break;
                 case 1: $message = "Wrong password"; break;
-                case 2: $message = "Authentication successful!"; break;
+                case 2: 
+                    $message = "Authentication successful!";
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['email'] = $email;
+                    header("Location: dashboard.php");
+                    break;
             }
             break;
 
@@ -60,7 +66,12 @@ try {
                 case 0: $message = "Admin not found"; break;
                 case 1: $message = "Wrong password"; break;
                 case 2: $message = "Wrong code"; break;
-                case 3: $message = "Admin authentication successful!"; break;
+                case 3: 
+                    $message = "Admin authentication successful!";
+                    $_SESSION['loggedin'] = true;
+                    $_SESSION['email'] = $email;
+                    header("Location: dashboard.php");
+                    break;
             }
             break;
 
