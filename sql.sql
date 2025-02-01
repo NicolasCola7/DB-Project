@@ -297,6 +297,22 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
+CREATE PROCEDURE RimozioneSkillCurriculum(IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(255),  OUT esito INT)
+BEGIN
+	declare esisteSkill boolean;
+    
+    set esisteSkill = nomeSkillI IN (SELECT nomeSkill from Skill_Possesso WHERE emailUtente = emailI AND nomeSkill = nomeSkillI);
+    
+    if (esisteSkill) then
+        DELETE FROM Skill_Possesso WHERE emailUtente = emailI AND nomeSkill = nomeSkillI;
+        set esito = 1;
+    else
+        set esito = 0;
+    end if;
+END;
+$ DELIMITER ;
+	
+DELIMITER $
 CREATE PROCEDURE VisualizzaProgettiAperti()
 BEGIN
 	SELECT * FROM Progetto WHERE stato = "aperto" ORDER BY data_inserimento DESC;
@@ -367,7 +383,7 @@ END;
 $ DELIMITER ;
 		
 DELIMITER $ 
-CREATE PROCEDURE InserimentoCondidatura(IN nomeProgettoI VARCHAR(255), IN emailCandidato VARCHAR(255), IN nomeProfiloI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE InserimentoCandidatura(IN nomeProgettoI VARCHAR(255), IN emailCandidato VARCHAR(255), IN nomeProfiloI VARCHAR(255), OUT esito INT)
 BEGIN
 	declare progettoValido boolean;
     declare candidatoEsistente boolean;
@@ -400,7 +416,8 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ;
-            
+
+-- HO MESSO IL TRIGGER IN FONDO PERCHE MI DA UN ERRORE E NON CAPISCO IL MOTIVO
 DELIMITER $
 CREATE TRIGGER CambioStatoProgetto AFTER INSERT ON Finanziamento FOR EACH ROW
 BEGIN
