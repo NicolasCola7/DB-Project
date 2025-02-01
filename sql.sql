@@ -90,7 +90,7 @@ CREATE TABLE Skill_Requisito (
 
 CREATE TABLE Candidatura (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    stato VARCHAR(50),
+    stato ENUM('Aperta', 'Chiusa') DEFAULT 'Aperta',
     nomeProfilo VARCHAR(100),
     nomeProgetto VARCHAR(255),
     emailUtente VARCHAR(255),
@@ -152,7 +152,7 @@ INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
 INSERT INTO Profilo VALUES ('Data Scientist', 'SmartWatch AI', 2);
-INSERT INTO Candidatura VALUES (1, 'in attesa', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
+INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 INSERT INTO Risposta VALUES (1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
 
@@ -338,5 +338,60 @@ BEGIN
 
 END;
 $ DELIMITER ;
+
+DELIMITER $ 
+CREATE PROCEDURE CommentaProgetto(IN nomeProgettoI VARCHAR(255), IN emailAutoreI VARCHAR(255), IN testoI TEXT, OUT esito INT)
+BEGIN
+	declare progettoEsistente boolean;
+    declare autoreEsistente boolean;
+    declare testoNonVuoto boolean;
     
+    set progettoEsistente = nomeProgettoI IN (SELECT nome FROM Progetto WHERE nome = nomeProgettoI);
+    set autoreEsistente = emailAutoreI IN (SELECT email FROM Utente WHERE email = emailAutoreI);
+    set testoNonVuoto = LENGTH(testoI) > 0;
+    
+    if (progettoEsistente AND autoreEsistente AND testoNonVuoto) then
+		set esito = 1;
+		INSERT INTO Commento (data, testo, emailUtente, nomeProgetto) VALUES (current_date(), testoI, emailAutoreI, nomeProgettoI);
+	else
+		set esito = 0;
+	end if;
+END;
+$ DELIMITER ;
+		
+DELIMITER $ 
+CREATE PROCEDURE InserimentoCondidatura(IN nomeProgettoI VARCHAR(255), IN emailCandidato VARCHAR(255), IN nomeProfiloI VARCHAR(255), OUT esito INT)
+BEGIN
+	declare progettoValido boolean;
+    declare candidatoEsistente boolean;
+    declare candidaturaPossibile boolean; -- possibile candidarsi solo se non c'è un'altra candidatura aperta per lo stesso profilo dello stesso progetto
+    declare profiloValido boolean; -- le skill devono avere livello >= al livello richiesto, essere uguali ai nomi di quello richiesti, , 
+    declare numSkillRichieste int;
+    declare profiloDisponibile boolean; -- devono esserci >=1 posizioni disponibili
+    
+	set progettoValido = nomeProgettoI IN (SELECT nome FROM Progetto WHERE nome = nomeProgettoI AND tipoProgetto = 'Software');
+    set candidatoEsistente = emailCandidato IN (SELECT email FROM Utente WHERE email = emailCandidato);
+    set candidaturaPossibile = NOT EXISTS (SELECT * FROM Candidatura WHERE nomeProgetto = nomeProgettoI AND emailUtente = emailCandidato AND nomeProfilo = nomeProfiloI AND stato = 'Aperta');
+    set numSkillRichieste = (SELECT COUNT(*) FROM Skill_Requisito WHERE nomeProgetto = nomeProgettoI AND nomeProfilo = nomeProfiloI);
+    set profiloValido = numSkillRichieste = (SELECT count(*) FROM Skill_Requisito AS sr WHERE nomeProgetto = nomeProgettoI AND nomeProfilo = nomeProfiloI AND EXISTS (
+											SELECT 1 FROM Skill_Possesso AS sp WHERE sr.nomeSkill = sp.nomeSkill AND sp.livello >= sr.livello AND emailUtente = emailCandidato));
+	set profiloDisponibile = ((SELECT numero_posizioni FROM Profilo WHERE nomeProgetto = nomeProgettoI AND nome = nomeProfiloI) >= 1);
+    
+    if (NOT(progettoValido AND progettoEsistente)) then
+		set esito = 0; -- candidato non trovato o progetto non trovato
+	else 
+		if (NOT(candidaturaPossibile AND profiloDisponibile)) then
+			set esito = 1; -- impossibile candidarsi a causa di candidatura già esistente o nessuna posizione disponibile
+		else
+			if (NOT(profiloValido)) then
+				set esito = 2; -- impossibile candidarsi a causa di skill non compatibili
+			else
+				set esito = 3; -- candidatura effettuata con successo
+                INSERT INTO Candidatura (nomeProfilo, nomeProgetto, emailUtente) VALUES (nomeProfiloI, nomeProgettoI, emailCandidato);
+			end if;
+		end if;
+	end if;
+END;
+$ DELIMITER ;
+            
     
