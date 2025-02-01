@@ -303,24 +303,29 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoFinanziamento(IN progettoI VARCHAR(255), IN dataI DATE, IN importoI DECIMAL(10,2), IN emailI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE InserimentoFinanziamento(IN progettoI VARCHAR(255), IN importoI DECIMAL(10,2), IN emailI VARCHAR(255), OUT esito INT)
 BEGIN
 	declare progettoValido boolean;
     declare emailCorretta boolean;
+    declare importoValido boolean; -- l'importo del finanziamento sommato a tutti gli altri finanziamenti non deve eccedere il budget di avvio
+    declare budgetCorrente decimal;
+    declare budgetAvvio decimal;
     
     set progettoValido = progettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
     set emailCorretta = emailI IN (SELECT email FROM Utente);
+    set budgetCorrente = (SELECT SUM(importo) FROM Finanziamento WHERE nomeProgetto = progettoI);
+    set budgetAvvio = (SELECT budget_avvio FROM Progetto WHERE nome = progettoI);
+    set importoValido = (importoI + budgetCorrente) <=  budgetAvvio; 
     
-   
-    
-    if(progettoValido AND emailCorretta) then
-		set esito = 1;
-         -- TODO: come gestire le Reward??? Come la faccio scegliere all'utente?
-        CALL MostraRewardDisponibili(progettoI); -- mostro all'utente le reward che puoò scegliere
-        
-        INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (dataI, emailI, progettoI, importoI);
+    if(NOT(progettoValido AND emailCorretta)) then
+		set esito = 0; -- errore: progetto o utente non trovati
 	else
-		set esito = 0;
+		if(importoValido) then
+			set esito = 2; -- finanziamento eseguito correttamente
+			INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, progettoI, importoI);
+		else
+			set esito = 1; -- importo eccedente al budget di avvio
+		end if;
 	end if;
 END;
 $ DELIMITER ;
@@ -335,6 +340,7 @@ $ DELIMITER ;
 DELIMITER $
 CREATE PROCEDURE SceltaReward (IN codiceReward INT)
 BEGIN
+	
 
 END;
 $ DELIMITER ;
@@ -373,7 +379,7 @@ BEGIN
     set candidatoEsistente = emailCandidato IN (SELECT email FROM Utente WHERE email = emailCandidato);
     set candidaturaPossibile = NOT EXISTS (SELECT * FROM Candidatura WHERE nomeProgetto = nomeProgettoI AND emailUtente = emailCandidato AND nomeProfilo = nomeProfiloI AND stato = 'Aperta');
     set numSkillRichieste = (SELECT COUNT(*) FROM Skill_Requisito WHERE nomeProgetto = nomeProgettoI AND nomeProfilo = nomeProfiloI);
-    set profiloValido = numSkillRichieste = (SELECT count(*) FROM Skill_Requisito AS sr WHERE nomeProgetto = nomeProgettoI AND nomeProfilo = nomeProfiloI AND EXISTS (
+    set profiloValido = numSkillRichieste = (SELECT COUNT(*) FROM Skill_Requisito AS sr WHERE nomeProgetto = nomeProgettoI AND nomeProfilo = nomeProfiloI AND EXISTS (
 											SELECT 1 FROM Skill_Possesso AS sp WHERE sr.nomeSkill = sp.nomeSkill AND sp.livello >= sr.livello AND emailUtente = emailCandidato));
 	set profiloDisponibile = ((SELECT numero_posizioni FROM Profilo WHERE nomeProgetto = nomeProgettoI AND nome = nomeProfiloI) >= 1);
     
