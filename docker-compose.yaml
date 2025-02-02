@@ -8,10 +8,12 @@ services:
       MYSQL_USER: username
       MYSQL_PASSWORD: MatAleNic
       MYSQL_DATABASE: BOTSTARTER
+    command: ["--log_bin_trust_function_creators=1"] #serve per far andare i trigger
     ports:
       - "3307:3306"
     networks:
       - databases
+  
    
   phpmyadmin:
      image: phpmyadmin:latest
@@ -38,6 +40,8 @@ services:
       - "27018:27017"
     networks:
       - databases
+
+
 
   mongo-express:
     image: mongo-express:latest

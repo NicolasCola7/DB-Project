@@ -135,11 +135,22 @@ CREATE TABLE Componente (
 
 
 -- TRIGGERS
-
-
+DELIMITER $
+CREATE TRIGGER CambioStatoProgetto AFTER INSERT ON Finanziamento FOR EACH ROW
+BEGIN
+	declare budgetRaggiunto decimal(10,2);
+    declare budgetAvvio decimal(10,2);
+    
+	set budgetRaggiunto = (SELECT SUM(importo) FROM Finanziamento WHERE nomeProgetto = NEW.nomeprogetto);
+    set budgetAvvio = (SELECT budget_avvio FROM Progetto WHERE nome = NEW.nomeProgetto);
+    
+    if(budgetraggiunto = budgetAvvio) then
+		UPDATE Progetto SET stato = 'chiuso' WHERE nome = NEW.nomeProgetto;
+	end if;
+END;
+$ DELIMITER ;
 
 -- TODO: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
-
 
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
@@ -417,18 +428,3 @@ BEGIN
 END;
 $ DELIMITER ;
 
--- HO MESSO IL TRIGGER IN FONDO PERCHE MI DA UN ERRORE E NON CAPISCO IL MOTIVO
-DELIMITER $
-CREATE TRIGGER CambioStatoProgetto AFTER INSERT ON Finanziamento FOR EACH ROW
-BEGIN
-	declare budgetRaggiunto decimal(10,2);
-    declare budgetAvvio decimal(10,2);
-    
-	set budgetRaggiunto = (SELECT SUM(importo) FROM Finanziamento WHERE nomeProgetto = NEW.nomeprogetto);
-    set budgetAvvio = (SELECT budget_avvio FROM Progetto WHERE nome = NEW.nomeProgetto);
-    
-    if(budgetraggiunto = budgetAvvio) then
-		UPDATE Progetto SET stato = 'chiuso' WHERE nome = NEW.nomeProgetto;
-	end if;
-END;
-$ DELIMITER ;
