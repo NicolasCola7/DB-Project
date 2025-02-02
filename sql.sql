@@ -366,7 +366,9 @@ $ DELIMITER ;
 DELIMITER $
 CREATE PROCEDURE MostraRewardDisponibili (IN progettoI VARCHAR(255))
 BEGIN
-	SELECT * FROM Reward WHERE nomeProgetto = progettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE Finanziamento.nomeProgetto = progettoI);
+	SELECT codice, foto, descr 
+    FROM Reward LEFT JOIN Finanziamento ON codice = codiceReward AND Finanziamento.nomeProgetto = progettoI
+    WHERE Reward.nomeProgetto = progettoI AND codiceReward IS NULL;
 END;
 $ DELIMITER ;
 
@@ -375,11 +377,11 @@ CREATE PROCEDURE SceltaReward (IN codiceRewardI INT, IN emailUtenteI VARCHAR(255
 BEGIN
 	declare rewardCorretta boolean;
     
-    set rewardCorretta = codiceRewardI IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = nomeProgettoI));
+   -- set rewardCorretta = codiceRewardI IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = nomeProgettoI));
 
-	if (rewardCorretta) then
+	-- if (rewardCorretta) then
 		UPDATE Finanziamento SET codiceReward = codiceRewardI WHERE emailUtente = emailUtenteI AND nomeProgetto = nomeProgettoI AND data = current_date();
-	end if;
+	 -- end if;
 END;
 $ DELIMITER ;
 
@@ -437,3 +439,5 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ;
+
+CALL MostraRewardDisponibili('SmartWatch AI');
