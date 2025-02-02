@@ -160,7 +160,7 @@ $conn = null;
             </div>
             <div>
                 <label>Amount:</label>
-                <input type="number" name="importo" step="0.01" required>
+                <input type="number" name="importo" step="0.01" min="0.01" required>
             </div>
             <input type="submit" value="Fund Project">
         </form>

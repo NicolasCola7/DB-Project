@@ -38,7 +38,7 @@ CREATE TABLE Progetto (
 ) ENGINE=INNODB;
 
 CREATE TABLE Reward (
-    codice INT PRIMARY KEY,
+    codice INT PRIMARY KEY auto_increment,
     foto TEXT,
     descr TEXT,
     nomeProgetto VARCHAR(255),
@@ -158,8 +158,11 @@ INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Mil
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
 INSERT INTO Progetto VALUES ('SmartWatch AI', '2024-01-01', '2024-12-31', 'Progetto innovativo di AI per smartwatch', 'aperto', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
-INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, NULL);
-INSERT INTO Reward VALUES (1, 'reward1.jpg', 'T-shirt esclusiva', 'SmartWatch AI');
+INSERT INTO Reward VALUES (1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
+INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
+INSERT INTO Reward VALUES (2, 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
+INSERT INTO Reward VALUES (3, 'reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI');
+INSERT INTO Reward VALUES (4, 'reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
 INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
@@ -335,18 +338,20 @@ CREATE PROCEDURE InserimentoFinanziamento(IN progettoI VARCHAR(255), IN importoI
 BEGIN
 	declare progettoValido boolean;
     declare emailCorretta boolean;
+    declare utenteValido boolean; -- valido se il finanziamento che sta venendo fatto è in una data diversa dagli altri finanziamenti fatti dallo stesso utente
     declare importoValido boolean; -- l'importo del finanziamento sommato a tutti gli altri finanziamenti non deve eccedere il budget di avvio
     declare budgetCorrente decimal;
     declare budgetAvvio decimal;
     
     set progettoValido = progettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
     set emailCorretta = emailI IN (SELECT email FROM Utente);
+    set utenteValido = emailI NOT IN (SELECT emailUtente FROM Finanziamento WHERE nomeProgetto = progettoI AND data = current_date());
     set budgetCorrente = (SELECT SUM(importo) FROM Finanziamento WHERE nomeProgetto = progettoI);
     set budgetAvvio = (SELECT budget_avvio FROM Progetto WHERE nome = progettoI);
     set importoValido = (importoI + budgetCorrente) <=  budgetAvvio; 
     
-    if(NOT(progettoValido AND emailCorretta)) then
-		set esito = 0; -- errore: progetto o utente non trovati
+    if(NOT(progettoValido AND emailCorretta AND utenteValido)) then
+		set esito = 0; -- errore: progetto o utente non trovati o utente ha gia eseguito finanziamento
 	else
 		if(importoValido) then
 			set esito = 2; -- finanziamento eseguito correttamente
@@ -361,15 +366,20 @@ $ DELIMITER ;
 DELIMITER $
 CREATE PROCEDURE MostraRewardDisponibili (IN progettoI VARCHAR(255))
 BEGIN
-	SELECT * FROM Reward WHERE nomeProgetto = progettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = progettoI);
+	SELECT * FROM Reward WHERE nomeProgetto = progettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE Finanziamento.nomeProgetto = progettoI);
 END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE SceltaReward (IN codiceReward INT)
+CREATE PROCEDURE SceltaReward (IN codiceRewardI INT, IN emailUtenteI VARCHAR(255), IN nomeProgettoI VARCHAR(255))
 BEGIN
-	
+	declare rewardCorretta boolean;
+    
+    set rewardCorretta = codiceRewardI IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = nomeProgettoI));
 
+	if (rewardCorretta) then
+		UPDATE Finanziamento SET codiceReward = codiceRewardI WHERE emailUtente = emailUtenteI AND nomeProgetto = nomeProgettoI AND data = current_date();
+	end if;
 END;
 $ DELIMITER ;
 
@@ -427,4 +437,3 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ;
-
