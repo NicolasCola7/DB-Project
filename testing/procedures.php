@@ -118,10 +118,44 @@ try {
                     $message = "Error selecting reward: " . $e->getMessage();
                 }
                 break;
+        case "crea_progetto":
+            if(empty($_POST['txtNome']) || empty($_POST['txtDataLimite']) || empty($_POST['txtDescr']) || empty($_POST['txtBudget']) || empty($_POST['txtTipo'])){
+                throw new PDOException("Tutti i campi sono obbligatori");
+                exit;
+            }
+            $nome = trim($_POST['txtNome']);
+            $dataLimite = trim($_POST['txtDataLimite']);
+            $descrizione = trim($_POST['txtDescr']);
+            $budget = trim($_POST['txtBudget']);
+            $tipo = trim($_POST['txtTipo']);
+
+            if($budget <= 0){
+                throw new InvalidArgumentException("Il budget deve essere un valore positivo");
+                exit;
+            }
+            if($dataLimite < new DateTime()){
+                throw new InvalidArgumentException("La data limite deve essere futura");
+            }
+            $stmt = $conn->prepare("CALL CreazioneProgetto(:nome, :dataLimite, :descrizione, :budget, :tipo, :emailCreatore)");
+            $stmt->bindValue(":nome",$nome);
+            $stmt->bindValue(":dataLimite",$dataLimite);
+            $stmt->bindValue(":descrizione",$descrizione);
+            $stmt->bindValue(":budget",$budget);
+            $stmt->bindValue(":tipo",$tipo);
+            $stmt->bindValue(":emailCreatore",$_SESSION["email"]);
+
+            $stmt->execute();
+            echo "Progetto creato con successo!";
+            header("Location: dashboard.php");
+            break;
+
+
     }
 
 } catch(PDOException $e) {
     $message = "Database Error: " . $e->getMessage();
+} catch(InvalidArgumentException $e){
+    $message = "Errore in input: ".$e->getMessage();
 }
 
 $conn = null;

@@ -152,24 +152,7 @@ $ DELIMITER ;
 
 -- TODO: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
 
--- Popolamento delle tabelle con dati di esempio
-INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
-INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', md5('securePass'));
-INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
-INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
-INSERT INTO Progetto VALUES ('SmartWatch AI', '2024-01-01', '2024-12-31', 'Progetto innovativo di AI per smartwatch', 'aperto', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
-INSERT INTO Reward VALUES (1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
-INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
-INSERT INTO Reward VALUES (2, 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
-INSERT INTO Reward VALUES (3, 'reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI');
-INSERT INTO Reward VALUES (4, 'reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
-INSERT INTO Skill VALUES ('Python');
-INSERT INTO Skill VALUES ('Machine Learning');
-INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
-INSERT INTO Profilo VALUES ('Data Scientist', 'SmartWatch AI', 2);
-INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
-INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
-INSERT INTO Risposta VALUES (1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
+
 
 -- OPERAZIONI RIGARDANTI GLI UTENTI:
 
@@ -198,12 +181,12 @@ $ DELIMITER ;
 -- Autenticazione Amministratore: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna ma il codice errato torna 2, mentre se tutto giusto 3
 DELIMITER $
 CREATE PROCEDURE AutenticazioneAmministratore(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), IN codiceI INT, OUT esito INT)
-BEGIN	
+BEGIN
 	declare esisteUtente boolean;
 	declare passwordCorretta boolean;
     declare codiceCorretto boolean;
     
-    set esisteUtente = emailI IN (SELECT email FROM Amministratore);
+    set esisteUtente = emailI IN (SELECT emailAmministratore FROM Amministratore);
    
     if (NOT esisteUtente) then
 		set esito = 0;
@@ -212,7 +195,7 @@ BEGIN
         if(NOT passwordCorretta) then
 			set esito = 1;
 		else
-			set codiceCorretto = (SELECT count(*) FROM Amministratore WHERE email = emailI AND codice = codiceI);
+			set codiceCorretto = (SELECT count(*) FROM Amministratore WHERE emailAmministratore = emailI AND codice = codiceI);
            
            if (NOT codiceCorretto) then
 				set esito = 2;
@@ -299,9 +282,8 @@ BEGIN
     declare livelloCorretto boolean;
     
     set nomeCorretto = nomeSkillI IN (SELECT nome from Skill);
-    set livelloCorretto = (livelloI >= 0 and livelloI <= 5);
     
-    if (nomeCorretto and livelloCorretto) then
+    if (nomeCorretto) then
 		INSERT INTO Skill_Possesso VALUES (emailI, nomeSkillI, livelloI);
         set esito = 1; -- inserimento con successo
 	else
@@ -334,7 +316,7 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoFinanziamento(IN progettoI VARCHAR(255), IN importoI DECIMAL(10,2), IN emailI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE InserimentoFinanziamento(IN nomeProgettoI VARCHAR(255), IN importoI DECIMAL(10,2), IN emailI VARCHAR(255), OUT esito INT)
 BEGIN
 	declare progettoValido boolean;
     declare emailCorretta boolean;
@@ -343,11 +325,11 @@ BEGIN
     declare budgetCorrente decimal;
     declare budgetAvvio decimal;
     
-    set progettoValido = progettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
+    set progettoValido = nomeProgettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
     set emailCorretta = emailI IN (SELECT email FROM Utente);
-    set utenteValido = emailI NOT IN (SELECT emailUtente FROM Finanziamento WHERE nomeProgetto = progettoI AND data = current_date());
-    set budgetCorrente = (SELECT SUM(importo) FROM Finanziamento WHERE nomeProgetto = progettoI);
-    set budgetAvvio = (SELECT budget_avvio FROM Progetto WHERE nome = progettoI);
+    set utenteValido = emailI NOT IN (SELECT emailUtente FROM Finanziamento WHERE nomeProgetto = nomeProgettoI AND data = current_date());
+    set budgetCorrente = (SELECT SUM(importo) FROM Finanziamento WHERE nomeProgetto = nomeProgettoI);
+    set budgetAvvio = (SELECT budget_avvio FROM Progetto WHERE nome = nomeProgettoI);
     set importoValido = (importoI + budgetCorrente) <=  budgetAvvio; 
     
     if(NOT(progettoValido AND emailCorretta AND utenteValido)) then
@@ -355,7 +337,7 @@ BEGIN
 	else
 		if(importoValido) then
 			set esito = 2; -- finanziamento eseguito correttamente
-			INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, progettoI, importoI);
+			INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, nomeProgettoI, importoI);
 		else
 			set esito = 1; -- importo eccedente al budget di avvio
 		end if;
@@ -364,11 +346,11 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE MostraRewardDisponibili (IN progettoI VARCHAR(255))
+CREATE PROCEDURE MostraRewardDisponibili (IN nomeProgettoI VARCHAR(255))
 BEGIN
 	SELECT codice, foto, descr 
-    FROM Reward LEFT JOIN Finanziamento ON codice = codiceReward AND Finanziamento.nomeProgetto = progettoI
-    WHERE Reward.nomeProgetto = progettoI AND codiceReward IS NULL;
+    FROM Reward LEFT JOIN Finanziamento ON codice = codiceReward AND Finanziamento.nomeProgetto = nomeProgettoI
+    WHERE Reward.nomeProgetto = nomeProgettoI AND codiceReward IS NULL;
 END;
 $ DELIMITER ;
 
@@ -439,5 +421,53 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ;
+
+DELIMITER $
+CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI DATE, IN descrI TEXT, IN budgetI DECIMAL(10,2), IN TipoI ENUM('Hardware', 'Software'), IN emailCreatoreI VARCHAR(255))
+BEGIN
+	declare correttezzaBudget boolean;
+    declare correttezzaData boolean;
+    declare correttezzaEmailCreatore int;
+    
+    set correttezzaEmailCreatore = true;
+    set correttezzaBudget = true;
+    set correttezzaData = true;
+	-- controllo che il budget sia positivo
+	if(budgetI <= 0) then
+		set correttezzaBudget = false;
+	end if;
+    -- la data limite deve essere maggiore di quella odierna
+    if(dataLimiteI < curdate()) then
+		set  correttezzaData = false;
+	end if;
+    -- il creatore del progetto deve esistere
+	set correttezzaEmailCreatore = (select count(*) from Creatore where emailCreatoreI = Creatore.emailCreatore);
+    
+    if(correttezzaBudget and correttezzaData and correttezzaEmailCreatore > 0) then
+		INSERT INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, descrI, 'aperto', budgetI, TipoI, emailCreatoreI);
+	end if;
+END;
+$ DELIMITER ; 
+
+-- Popolamento delle tabelle con dati di esempio
+INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
+INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', md5('securePass'));
+INSERT INTO Utente VALUES ('normal.user@email.com','User', 'Normal', 'Rimini', 2025, 'normalUser', md5('userpw'));
+INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
+INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
+CALL CreazioneProgetto('SmartWatch AI', '2024-12-31', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
+INSERT INTO Reward VALUES (1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
+INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
+INSERT INTO Reward VALUES (2, 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
+INSERT INTO Reward VALUES (3, 'reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI');
+INSERT INTO Reward VALUES (4, 'reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
+INSERT INTO Skill VALUES ('Python');
+INSERT INTO Skill VALUES ('Machine Learning');
+INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
+INSERT INTO Profilo VALUES ('Data Scientist', 'SmartWatch AI', 2);
+INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
+INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
+INSERT INTO Risposta VALUES (1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
+
 
 CALL MostraRewardDisponibili('SmartWatch AI');

@@ -15,6 +15,7 @@ $skill_options = '';
 $skill_error = '';
 $user_skills = [];
 $skill_management_error = '';
+$userCreatore = false;
 
 try {
     // Fetch available skills
@@ -42,6 +43,15 @@ try {
                           WHERE sp.emailUtente = ?");
     $stmt->execute([$_SESSION['email']]);
     $user_skills = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //controllo che l'utente sia un creatore
+    $res = $conn->prepare("SELECT emailCreatore from Creatore WHERE emailCreatore = :email");
+    $res->bindValue(":email",$_SESSION["email"]);
+    $res->execute();
+    //se la query restituisce risultati significa che l'utente è anche un creatore
+    if($res->fetch()){
+        $userCreatore = true;
+    }
 
 } catch(PDOException $e) {
     $skill_error = '<option value="" disabled>Error loading skills</option>';
@@ -173,6 +183,39 @@ $conn = null;
             <input type="submit" value="View Open Projects">
         </form>
     </div>
+
+    <?php if($userCreatore): ?>
+        <div class="card">
+            <h2>Creazione di un nuovo progetto</h2>
+            <form action="procedures.php" method="post">
+                <input type="hidden" name="procedure" value="crea_progetto">
+                <div>
+                    <label for="txtNome">Nome del progetto</label>
+                    <input type="text" name="txtNome" required>
+                </div>
+                <div>
+                    <label for="txtDataLimite">Data limite del progetto</label>
+                    <input type="date" name="txtDataLimite" required>
+                </div>
+                <div>
+                    <label for="txtDescr">Descrizione</label>
+                    <textarea name="txtDescr" required></textarea>
+                </div>
+                <div>
+                    <label for="txtBudget">Budget</label>
+                    <input type="number" name="txtBudget" min="1" required>
+                </div>
+                <div>
+                    <label for="txtTipo">Tipo</label>
+                    <select name="txtTipo" required>
+                        <option id="hardware">Hardware</option>
+                        <option id="software">Software</option>
+                    </select>
+                </div>
+                <button type="submit">CREA PROGETTO</button>
+            </form>
+        </div>
+    <?php endif; ?>
 
     <div class="clear"></div>
 </body>
