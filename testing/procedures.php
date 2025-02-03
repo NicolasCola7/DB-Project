@@ -124,7 +124,8 @@ try {
                 exit;
             }
             $nome = trim($_POST['txtNome']);
-            $dataLimite = trim($_POST['txtDataLimite']);
+            
+            $dataLimite = new DateTime($_POST['txtDataLimite']);
             $descrizione = trim($_POST['txtDescr']);
             $budget = trim($_POST['txtBudget']);
             $tipo = trim($_POST['txtTipo']);
@@ -133,12 +134,13 @@ try {
                 throw new InvalidArgumentException("Il budget deve essere un valore positivo");
                 exit;
             }
+            
             if($dataLimite < new DateTime()){
                 throw new InvalidArgumentException("La data limite deve essere futura");
             }
             $stmt = $conn->prepare("CALL CreazioneProgetto(:nome, :dataLimite, :descrizione, :budget, :tipo, :emailCreatore)");
             $stmt->bindValue(":nome",$nome);
-            $stmt->bindValue(":dataLimite",$dataLimite);
+            $stmt->bindValue(":dataLimite",$dataLimite->format('Y-m-d'));
             $stmt->bindValue(":descrizione",$descrizione);
             $stmt->bindValue(":budget",$budget);
             $stmt->bindValue(":tipo",$tipo);

@@ -427,23 +427,19 @@ CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI DATE, I
 BEGIN
 	declare correttezzaBudget boolean;
     declare correttezzaData boolean;
-    declare correttezzaEmailCreatore int;
+    declare correttezzaEmailCreatore boolean;
+    declare correttezzaTipo boolean;
     
-    set correttezzaEmailCreatore = true;
-    set correttezzaBudget = true;
-    set correttezzaData = true;
 	-- controllo che il budget sia positivo
-	if(budgetI <= 0) then
-		set correttezzaBudget = false;
-	end if;
+	set correttezzaBudget = (budgetI > 0);
     -- la data limite deve essere maggiore di quella odierna
-    if(dataLimiteI < curdate()) then
-		set  correttezzaData = false;
-	end if;
+    set correttezzaData = (dataLimiteI > curdate());
     -- il creatore del progetto deve esistere
-	set correttezzaEmailCreatore = (select count(*) from Creatore where emailCreatoreI = Creatore.emailCreatore);
+	set correttezzaEmailCreatore = (SELECT COUNT(*) FROM Creatore WHERE emailCreatore = emailCreatoreI) > 0;
+    -- il tipo deve essere o hardware o software
+    set correttezzaTipo = (tipoI IN ('Hardware','Software'));
     
-    if(correttezzaBudget and correttezzaData and correttezzaEmailCreatore > 0) then
+    if correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo then
 		INSERT INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, descrI, 'aperto', budgetI, TipoI, emailCreatoreI);
 	end if;
 END;
@@ -455,7 +451,7 @@ INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Mil
 INSERT INTO Utente VALUES ('normal.user@email.com','User', 'Normal', 'Rimini', 2025, 'normalUser', md5('userpw'));
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
-CALL CreazioneProgetto('SmartWatch AI', '2024-12-31', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
+CALL CreazioneProgetto('SmartWatch AI', '2025-12-22', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
 INSERT INTO Reward VALUES (1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
 INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
 INSERT INTO Reward VALUES (2, 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
