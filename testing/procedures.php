@@ -120,7 +120,7 @@ try {
                 break;
         case "crea_progetto":
             if(empty($_POST['txtNome']) || empty($_POST['txtDataLimite']) || empty($_POST['txtDescr']) || empty($_POST['txtBudget']) || empty($_POST['txtTipo'])){
-                throw new PDOException("Tutti i campi sono obbligatori");
+                throw new InvalidArgumentException("Tutti i campi sono obbligatori");
                 exit;
             }
             $nome = trim($_POST['txtNome']);
@@ -147,10 +147,45 @@ try {
             $stmt->bindValue(":emailCreatore",$_SESSION["email"]);
 
             $stmt->execute();
-            echo "Progetto creato con successo!";
             header("Location: dashboard.php");
             break;
+        case "addRewardsToProject":
+            //controllo che tutti i campi siano compilati
+            if(empty($_POST["txtCodReward"]) || empty($_POST["txtUrlImg"]) || empty($_POST["txtDescr"])){
+                throw new InvalidArgumentException("Tutti i campi sono obbligatori");
+                exit;
+            }
+            $codiceReward = trim($_POST["txtCodReward"]);
+            $urlImg = trim($_POST["txtUrlImg"]);
+            $descrizione = trim($_POST["txtDescr"]);
+            $nomeProg = $_POST["slcProgetti"];
 
+            /*
+                Il metodo ctype_digit controlla che la stringa contenga solo cifre. Dopo di che
+                provo a convertire la stringa in un intero tramite cast e controllo se è maggiore di zero
+            */
+            if(!ctype_digit($codiceReward) || !(int)$codiceReward > 0){
+                throw new InvalidArgumentException("Il codice inserito deve essere un numero intero maggiore di zero");
+                exit;
+            }
+
+            /*
+                Il metodo filter_var controlla se la stringa $urlImg sia in formato URL (forse da togliere poi ne parliamo)
+                Tramite il metodo preg_match e l'espressione regolare controlliamo che la stringa termini con un'estensione di immagine
+            */
+            if(/*!filter_var($urlImg, FILTER_VALIDATE_URL) ||*/ !preg_match('/\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i',$urlImg)){
+                throw new InvalidArgumentException("Il nome dell'immagine deve essere nel formato 'nome.estensione'");
+                exit;
+            }
+            $stmt = $conn->prepare("CALL CreazioneReward(:codice, :foto, :descrizione, :nomeProg)");
+            $stmt->bindValue(":codice", $codiceReward);
+            $stmt->bindValue(":foto", $urlImg);
+            $stmt->bindValue(":descrizione", $descrizione);
+            $stmt->bindValue(":nomeProg", $nomeProg);
+            
+            $stmt->execute();
+            header("Location: dashboard.php");
+            break;
 
     }
 

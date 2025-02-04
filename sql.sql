@@ -444,6 +444,27 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ; 
+DELIMITER $
+CREATE PROCEDURE CreazioneReward(IN codiceI VARCHAR(255), IN FotoI TEXT, IN descrI TEXT, IN nomeI VARCHAR(255))
+BEGIN
+    declare correttezzaCodice boolean;
+    declare correttezzaFoto boolean;
+    declare correttezzaNomeProg boolean;
+
+    -- il codice deve essere un numero positivo (utilizzo di espressione regolare che mi ritorna vero se il codiceI è un numero)
+    set correttezzaCodice = (codiceI REGEXP '^[0-9]+$' and CAST(codiceI AS UNSIGNED) > 0);
+    -- la foto deve avere una estensione valida
+    set correttezzaFoto = (FotoI REGEXP '\\.(jpg|jpeg|png|gif|bmp|webp)$');
+    -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
+    -- creare la reward
+    set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI) > 0;
+    
+    if(correttezzaCodice and correttezzaFoto and correttezzaNomeProg) then
+        -- se descrI è vuoto o null imposto di default la descrizione
+		INSERT INTO Reward values (codiceI, FotoI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), nomeI);
+	end if;
+END
+$ DELIMITER ; 
 
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
@@ -452,11 +473,12 @@ INSERT INTO Utente VALUES ('normal.user@email.com','User', 'Normal', 'Rimini', 2
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
 CALL CreazioneProgetto('SmartWatch AI', '2025-12-22', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
-INSERT INTO Reward VALUES (1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
+CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 100000.00, 'Hardware', 'giulia.bianchi@email.com');
+CALL CreazioneReward(1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
 INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
-INSERT INTO Reward VALUES (2, 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
-INSERT INTO Reward VALUES (3, 'reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI');
-INSERT INTO Reward VALUES (4, 'reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
+CALL CreazioneReward(2, 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
+CALL CreazioneReward(3, 'reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI');
+CALL CreazioneReward(4, 'reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
 INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);

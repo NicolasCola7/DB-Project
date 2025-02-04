@@ -16,6 +16,8 @@ $skill_error = '';
 $user_skills = [];
 $skill_management_error = '';
 $userCreatore = false;
+$projects;
+$rewards;
 
 try {
     // Fetch available skills
@@ -52,6 +54,10 @@ try {
     if($res->fetch()){
         $userCreatore = true;
     }
+
+    $res = $conn->prepare("SELECT nome from Progetto");
+    $res->execute();
+    $projects = $res->fetchAll(PDO::FETCH_ASSOC);
 
 } catch(PDOException $e) {
     $skill_error = '<option value="" disabled>Error loading skills</option>';
@@ -213,6 +219,34 @@ $conn = null;
                     </select>
                 </div>
                 <button type="submit">CREA PROGETTO</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Aggiungi reward a un progetto</h2>
+            <form action="procedures.php" method="post">
+                <input type="hidden" name="procedure" value="addRewardsToProject">
+                <label for="slcProgetti">Progetto:</label>
+                <select name="slcProgetti">
+                    <?php foreach ($projects as $project): ?>
+                        <option value="<?= htmlspecialchars($project['nome'])?>">
+                            <?= htmlspecialchars($project['nome'])?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+                <p>Compila i campi per creare una reward</p>
+                <div>
+                    <label for="txtCodReward">Codice:</label>
+                    <input type="text" name="txtCodReward" required>
+                </div>
+                <div>
+                    <label for="txtUrlImg">Foto:</label>
+                    <input type="text" name="txtUrlImg" placeholder="foto.png" required>
+                </div>
+                <div>
+                    <label for="txtDescr">Descrizione:</label>
+                    <textarea name="txtDescr" required></textarea>
+                </div>
+                <button type="submit">Crea reward</button>
             </form>
         </div>
     <?php endif; ?>
