@@ -465,6 +465,28 @@ BEGIN
 	end if;
 END
 $ DELIMITER ; 
+DELIMITER $
+CREATE PROCEDURE rispondiACommento(IN idCommentoI VARCHAR(255), IN contenutoI TEXT, IN emailCreatoreI VARCHAR(255))
+BEGIN
+    declare correttezzaCommento boolean;
+    declare correttezzaContenuto boolean;
+    declare correttezzaEmail boolean;
+
+    -- il codice deve essere un numero positivo (utilizzo di espressione regolare che mi ritorna vero se il codiceI è un numero)
+    set correttezzaCommento = (idCommentoI REGEXP '^[0-9]+$' and CAST(idCommentoI AS UNSIGNED) > 0);
+
+    -- se descrI è una stringa vuota la imposto a null altrimenti restituisce il valore stesso (uso di nullif)
+    -- sul risultato interno poi verifico ancora se esso è null -> se è null ritorno false altrimenti true (uso di ifnull)
+    set correttezzaContenuto = IF(contenutoI = '' or contenutoI is null, false, true);
+
+    -- se la query ritorna zero significa che non esiste nessun utente creatore con quell'email che ha creato un progetto
+    set correttezzaEmail = (SELECT count(*) from Progetto where Progetto.emailCreatore = emailCreatoreI) > 0;
+
+    if(correttezzaCommento and correttezzaContenuto and correttezzaEmail) then
+        INSERT INTO Risposta values (idCommentoI, contenutoI, emailCreatoreI);
+    end if;
+END
+$ DELIMITER ;
 
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
@@ -485,7 +507,7 @@ INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
 INSERT INTO Profilo VALUES ('Data Scientist', 'SmartWatch AI', 2);
 INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
-INSERT INTO Risposta VALUES (1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
+CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
 
 
 CALL MostraRewardDisponibili('SmartWatch AI');
