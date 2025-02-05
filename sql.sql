@@ -423,24 +423,40 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI DATE, IN descrI TEXT, IN budgetI DECIMAL(10,2), IN TipoI ENUM('Hardware', 'Software'), IN emailCreatoreI VARCHAR(255))
+CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI VARCHAR(255), IN descrI TEXT, IN budgetI VARCHAR(255), IN TipoI VARCHAR(255), IN emailCreatoreI VARCHAR(255))
 BEGIN
+    declare correttezzaNome boolean;
 	declare correttezzaBudget boolean;
     declare correttezzaData boolean;
     declare correttezzaEmailCreatore boolean;
     declare correttezzaTipo boolean;
     
-	-- controllo che il budget sia positivo
-	set correttezzaBudget = (budgetI > 0);
-    -- la data limite deve essere maggiore di quella odierna
-    set correttezzaData = (dataLimiteI > curdate());
+    set correttezzaData = false;
+    
+    -- il nome deve essere compilato
+    set correttezzaNome = IF(nomeI = '' or nomeI is null, false, true);
+    
+	-- controllo che il campo budget sia convertibile in un numero e che sia positivo
+	set correttezzaBudget = (budgetI REGEXP '^[0-9]+(\.[0-9]{1,2})?$' AND CAST(budgetI AS DECIMAL(10,2)) > 0);
+    
+    -- controllo che il campo data sia in formato YYYY-MM-DD
+    if(dataLimiteI REGEXP '^[0-9]{2,4}-[0-9]{1,2}-[0-9]{1,2}$')then
+		-- controllo che sia un valore convertibile in data
+		if(STR_TO_DATE(dataLimiteI,'%Y-%m-%d') is not null) then
+			-- controllo che la data inserita sia futura
+			if(dataLimiteI > curdate()) then
+				set correttezzaData = true;
+			end if;
+		end if;
+	end if;
+    
     -- il creatore del progetto deve esistere
 	set correttezzaEmailCreatore = (SELECT COUNT(*) FROM Creatore WHERE emailCreatore = emailCreatoreI) > 0;
     -- il tipo deve essere o hardware o software
     set correttezzaTipo = (tipoI IN ('Hardware','Software'));
     
-    if correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo then
-		INSERT INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, descrI, 'aperto', budgetI, TipoI, emailCreatoreI);
+    if (correttezzaNome and correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo) then
+		INSERT INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
 	end if;
 END;
 $ DELIMITER ; 
@@ -522,7 +538,7 @@ INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Mil
 INSERT INTO Utente VALUES ('normal.user@email.com','User', 'Normal', 'Rimini', 2025, 'normalUser', md5('userpw'));
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
-CALL CreazioneProgetto('SmartWatch AI', '2025-12-22', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Software', 'giulia.bianchi@email.com');
+CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Software', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 100000.00, 'Hardware', 'giulia.bianchi@email.com');
 CALL CreazioneReward(1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
 INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
