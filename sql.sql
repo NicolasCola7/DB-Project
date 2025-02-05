@@ -531,6 +531,29 @@ BEGIN
     end if;
 END
 $ DELIMITER ;
+DELIMITER $
+CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
+BEGIN
+    declare correttezzaNomeEProgetto boolean;
+    declare correttezzaEmail boolean;
+    declare correttezzaLivello boolean;
+    declare skillsUtente;
+    declare skillRichiestaProfilo;
+
+    -- il campo profilo deve coincidere un profilo esistente nel sistema
+    set correttezzaNomeEProgetto = (SELECT count(*) from Profilo where Profilo.nome = nomeProfiloI and Profilo.nomeProgetto = nomeProgettoI) > 0;
+    -- il campo email dell'utente deve esistere
+    set correttezzaEmail = (SELECT count(*) from Utente where Utente.email = emailUtenteI) > 0;
+
+    -- ottengo tutte le skill possedute da quel utente
+    set skillsUtente = SELECT Sk_p.nomeSkill from Skill_Possesso Sk_p join Utente U on Sk_p.emailUtente = U.email;
+    -- ottengo tutte le skill richieste dal profilo
+    set skillRichiestaProfilo = SELECT Sk_r.nomeSkill 
+                                from Skill_Requisito Sk_r join Profilo P
+                                    on Sk_r.nomeProfilo = P.nome and Sk_r.nomeProgetto = P.nomeProgetto
+    -- TODO: da finire e correggere -> (il risultato delle query non si può salvare così facilmente in una variabile)
+END
+$ DELIMITER ;
 
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
