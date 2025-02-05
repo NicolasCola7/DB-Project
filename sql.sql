@@ -64,7 +64,7 @@ CREATE TABLE Skill (
 CREATE TABLE Profilo (
     nome VARCHAR(100),
     nomeProgetto VARCHAR(255),
-    numero_posizioni INT CHECK (numero_posizioni > 0),
+    numero_posizioni INT,
     PRIMARY KEY (nome, nomeProgetto),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;
@@ -452,6 +452,7 @@ BEGIN
     declare correttezzaNomeProg boolean;
 
     -- il codice deve essere un numero positivo (utilizzo di espressione regolare che mi ritorna vero se il codiceI è un numero)
+    -- (unsigned ammette interi senza segno quindi per forza positivi)
     set correttezzaCodice = (codiceI REGEXP '^[0-9]+$' and CAST(codiceI AS UNSIGNED) > 0);
     -- la foto deve avere una estensione valida
     set correttezzaFoto = (FotoI REGEXP '\\.(jpg|jpeg|png|gif|bmp|webp)$');
@@ -473,6 +474,7 @@ BEGIN
     declare correttezzaEmail boolean;
 
     -- il codice deve essere un numero positivo (utilizzo di espressione regolare che mi ritorna vero se il codiceI è un numero)
+    -- (unsigned ammette interi senza segno quindi per forza positivi)
     set correttezzaCommento = (idCommentoI REGEXP '^[0-9]+$' and CAST(idCommentoI AS UNSIGNED) > 0);
 
     -- se descrI è una stringa vuota la imposto a null altrimenti restituisce il valore stesso (uso di nullif)
@@ -487,6 +489,32 @@ BEGIN
     end if;
 END
 $ DELIMITER ;
+DELIMITER $
+CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN livelloRichiestoI VARCHAR(255), IN skillRichiestaI VARCHAR(100))
+BEGIN
+    declare correttezzaProfilo boolean;
+    declare correttezzaProgetto boolean;
+    declare correttezzaNPosizioni boolean;
+    declare correttezzaLivello boolean;
+    declare correttezzaSkill boolean;
+
+    -- il campo del profilo deve essere compilato e non deve contenere esclusivamente cifre
+    set correttezzaProfilo = IF(nomeProfiloI = '' or nomeProfiloI is null or nomeProfiloI REGEXP '^[0-9]+$', false, true);
+    -- se la query ritorna zero significa che non esiste nessun progetto avente il nome specificato
+    set correttezzaProgetto = (SELECT count(*) from Progetto where Progetto.nome = nomeProgettoI and Progetto.tipoProgetto = "Software") > 0;
+    -- il campo delle posizioni deve essere un numero intero positivo (unsigned ammette interi senza segno quindi per forza positivi)
+    set correttezzaNPosizioni = (numeroPosizioniI REGEXP '^[0-9]+$' and CAST(numeroPosizioniI AS UNSIGNED));
+    -- il campo livello deve essere un numero intero compreso tra 1 e 5
+    set correttezzaLivello = (livelloRichiestoI REGEXP '^[0-9]+$' and CAST(livelloRichiestoI AS UNSIGNED) and livelloRichiestoI < 6);
+    -- la skill deve esistere tra quelle inserite nel sistema
+    set correttezzaSkill = (SELECT count(*) from Skill where Skill.nome = skillRichiestaI) > 0;
+   
+    if(correttezzaProfilo and correttezzaProgetto and correttezzaNPosizioni and correttezzaLivello and correttezzaSkill) then
+        INSERT INTO Profilo VALUES (nomeProfiloI, nomeProgettoI, numeroPosizioniI);
+        INSERT INTO Skill_Requisito VALUES (skillRichiestaI, nomeProfiloI, nomeProgettoI, livelloRichiestoI);
+    end if;
+END
+$ DELIMITER ;
 
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
@@ -494,7 +522,7 @@ INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Mil
 INSERT INTO Utente VALUES ('normal.user@email.com','User', 'Normal', 'Rimini', 2025, 'normalUser', md5('userpw'));
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
-CALL CreazioneProgetto('SmartWatch AI', '2025-12-22', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Hardware', 'giulia.bianchi@email.com');
+CALL CreazioneProgetto('SmartWatch AI', '2025-12-22', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Software', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 100000.00, 'Hardware', 'giulia.bianchi@email.com');
 CALL CreazioneReward(1, 'reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
 INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
@@ -504,7 +532,7 @@ CALL CreazioneReward(4, 'reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
 INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
-INSERT INTO Profilo VALUES ('Data Scientist', 'SmartWatch AI', 2);
+CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3, 4,"Python");
 INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
