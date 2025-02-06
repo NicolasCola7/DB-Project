@@ -460,6 +460,7 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ; 
+
 DELIMITER $
 CREATE PROCEDURE CreazioneReward(IN codiceI VARCHAR(255), IN FotoI TEXT, IN descrI TEXT, IN nomeI VARCHAR(255))
 BEGIN
@@ -482,6 +483,7 @@ BEGIN
 	end if;
 END
 $ DELIMITER ; 
+
 DELIMITER $
 CREATE PROCEDURE rispondiACommento(IN idCommentoI VARCHAR(255), IN contenutoI TEXT, IN emailCreatoreI VARCHAR(255))
 BEGIN
@@ -505,6 +507,7 @@ BEGIN
     end if;
 END
 $ DELIMITER ;
+
 DELIMITER $
 CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN livelloRichiestoI VARCHAR(255), IN skillRichiestaI VARCHAR(100))
 BEGIN
@@ -531,6 +534,7 @@ BEGIN
     end if;
 END
 $ DELIMITER ;
+
 DELIMITER $
 CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
 BEGIN
@@ -575,6 +579,5 @@ CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3, 4,"Python");
 INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
-
 
 CALL MostraRewardDisponibili('SmartWatch AI');
