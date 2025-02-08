@@ -151,23 +151,14 @@ try {
             break;
         case "addRewardsToProject":
             //controllo che tutti i campi siano compilati
-            if(empty($_POST["txtCodReward"]) || empty($_POST["txtUrlImg"]) || empty($_POST["txtDescr"])){
+            if(empty($_POST["txtUrlImg"]) || empty($_POST["txtDescr"])){
                 throw new InvalidArgumentException("Tutti i campi sono obbligatori");
                 exit;
             }
-            $codiceReward = trim($_POST["txtCodReward"]);
+           
             $urlImg = trim($_POST["txtUrlImg"]);
             $descrizione = trim($_POST["txtDescr"]);
             $nomeProg = $_POST["slcProgetti"];
-
-            /*
-                Il metodo ctype_digit controlla che la stringa contenga solo cifre. Dopo di che
-                provo a convertire la stringa in un intero tramite cast e controllo se è maggiore di zero
-            */
-            if(!ctype_digit($codiceReward) || !(int)$codiceReward > 0){
-                throw new InvalidArgumentException("Il codice inserito deve essere un numero intero maggiore di zero");
-                exit;
-            }
 
             /*
                 Il metodo filter_var controlla se la stringa $urlImg sia in formato URL (forse da togliere poi ne parliamo)
@@ -177,8 +168,7 @@ try {
                 throw new InvalidArgumentException("Il nome dell'immagine deve essere nel formato 'nome.estensione'");
                 exit;
             }
-            $stmt = $conn->prepare("CALL CreazioneReward(:codice, :foto, :descrizione, :nomeProg)");
-            $stmt->bindValue(":codice", $codiceReward);
+            $stmt = $conn->prepare("CALL CreazioneReward(:foto, :descrizione, :nomeProg)");
             $stmt->bindValue(":foto", $urlImg);
             $stmt->bindValue(":descrizione", $descrizione);
             $stmt->bindValue(":nomeProg", $nomeProg);

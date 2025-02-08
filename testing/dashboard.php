@@ -235,10 +235,6 @@ $conn = null;
                 </select>
                 <p>Compila i campi per creare una reward</p>
                 <div>
-                    <label for="txtCodReward">Codice:</label>
-                    <input type="text" name="txtCodReward" required>
-                </div>
-                <div>
                     <label for="txtUrlImg">Foto:</label>
                     <input type="text" name="txtUrlImg" placeholder="foto.png" required>
                 </div>
