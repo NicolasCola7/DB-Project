@@ -442,8 +442,8 @@ BEGIN
     
     set correttezzaData = false;
     
-    -- il nome deve essere compilato
-    set correttezzaNome = IF(nomeI = '' or nomeI is null, false, true);
+    -- il nome deve essere compilato e non già presente
+    set correttezzaNome = (LENGTH(nomeI) > 0 AND (nomeI IS NOT NULL)) AND (nomeI NOT IN (SELECT nome FROM Progetto));
     
 	-- controllo che il campo budget sia convertibile in un numero e che sia positivo
 	set correttezzaBudget = (budgetI REGEXP '^[0-9]+(\.[0-9]{1,2})?$' AND CAST(budgetI AS DECIMAL(10,2)) > 0);
@@ -468,13 +468,13 @@ BEGIN
 		INSERT INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
 	end if;
 END;
-
 $ DELIMITER ; 
 
 DELIMITER $
 CREATE PROCEDURE CreazioneReward(IN FotoI TEXT, IN descrI TEXT, IN nomeI VARCHAR(255))
 BEGIN
 
+	-- TODO: fare in modo che un utente non possa inserire una reward in un progetto di cui non ne è creatore
     declare correttezzaFoto boolean;
     declare correttezzaNomeProg boolean;
 
