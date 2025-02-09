@@ -9,7 +9,7 @@ CREATE TABLE Utente (
     cognome VARCHAR(100),
     luogo_nascita VARCHAR(100),
     anno_nascita INT,
-    nickname VARCHAR(50),
+    nickname VARCHAR(50) UNIQUE,
     password VARCHAR(255)
 ) ENGINE=INNODB;
 
@@ -39,7 +39,7 @@ CREATE TABLE Progetto (
 
 CREATE TABLE Reward (
     codice INT PRIMARY KEY auto_increment,
-    foto TEXT,
+    foto BLOB,
     descr TEXT,
     nomeProgetto VARCHAR(255),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)

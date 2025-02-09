@@ -118,6 +118,7 @@ try {
                     $message = "Error selecting reward: " . $e->getMessage();
                 }
                 break;
+                
         case "crea_progetto":
             if(empty($_POST['txtNome']) || empty($_POST['txtDataLimite']) || empty($_POST['txtDescr']) || empty($_POST['txtBudget']) || empty($_POST['txtTipo'])){
                 throw new InvalidArgumentException("Tutti i campi sono obbligatori");
