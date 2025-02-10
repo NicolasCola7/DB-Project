@@ -1,6 +1,7 @@
-drop database if exists BOTSTARTER;
-create database if not exists BOTSTARTER;
-use BOTSTARTER; 
+#rimuovo il database "BOTSTARTER" se esiste già o creo il database "BOTSTARTER" se non esiste già
+DROP DATABASE IF exists BOTSTARTER;
+CREATE database IF NOT exists BOTSTARTER;
+USE BOTSTARTER;
 
 -- Creazione delle tabelle
 CREATE TABLE Utente (
@@ -542,11 +543,34 @@ BEGIN
 END
 $ DELIMITER ;
 
+-- Vista che visualizza la classifica degli utenti creatori, in base al loro valore di affidabilità (mostra solo i primi 3 nickname)
+CREATE VIEW ClassificaCreatoriAffidabilita AS
+SELECT Utente.nickname, Creatore.affidabilita
+FROM Utente 
+JOIN Creatore ON Utente.email = Creatore.emailCreatore
+-- Ordino i creatori in base all'affidabilità in ordine decrescente
+ORDER BY Creatore.affidabilita DESC
+-- Seleziono solo i primi 3 creatori
+LIMIT 3;  
+
+-- Vista che visualizza i progetti aperti che sono più vicini al completamento, minore differenza tra budget_avvio e somma totale dei finanziamenti ricevuti (mostra solo i primi 3 progetti)
+CREATE VIEW ProgettiApertiCompletamentoFinanziamento AS
+ -- Calcolo la differenza tra budget e fondi ricevuti. COALESCE indica che se il progetto non ha ricevuto finanziamenti, la funzione non restituisce null ma 0
+SELECT Progetto.nome, (Progetto.budget_avvio - COALESCE(SUM(Finanziamento.importo), 0)) AS budget_mancante 
+FROM Progetto 
+-- Unisco i finanziamenti ai vari progetti
+LEFT JOIN Finanziamento ON Progetto.nome = Finanziamento.nomeProgetto
+WHERE Progetto.stato = "aperto"
+GROUP BY Progetto.nome, Progetto.budget_avvio
+-- Ordino in ordine crescente per vedere il budget dei progetti più vicini al completamento
+ORDER BY budget_mancante ASC 
+LIMIT 3;  
+
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
 INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', md5('securePass'));
 INSERT INTO Utente VALUES ('normal.user@email.com','User', 'Normal', 'Rimini', 2025, 'normalUser', md5('userpw'));
-INSERT INTO Utente VALUES ('giulia.bianchi2@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', md5('securePass'));
+INSERT INTO Utente VALUES ('giulia.bianchi2@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', md5('securePass'));
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
 INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
 INSERT INTO Creatore VALUES ('giulia.bianchi2@email.com', 5);
@@ -565,7 +589,6 @@ CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3, 4,"Python");
 INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
-
 
 DELIMITER $
 CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
