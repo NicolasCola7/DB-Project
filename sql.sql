@@ -558,7 +558,7 @@ CREATE VIEW ProgettiApertiCompletamentoFinanziamento AS
  -- Calcolo la differenza tra budget e fondi ricevuti. COALESCE indica che se il progetto non ha ricevuto finanziamenti, la funzione non restituisce null ma 0
 SELECT Progetto.nome, (Progetto.budget_avvio - COALESCE(SUM(Finanziamento.importo), 0)) AS budget_mancante 
 FROM Progetto 
--- Unisco i finanziamenti ai vari progetti
+-- Utilizzo il LEFT JOIN per visualizzare anche eventuali progetti che non hanno ancora ricevuto un finanziamento (valore 0)
 LEFT JOIN Finanziamento ON Progetto.nome = Finanziamento.nomeProgetto
 WHERE Progetto.stato = "aperto"
 GROUP BY Progetto.nome, Progetto.budget_avvio
@@ -566,19 +566,33 @@ GROUP BY Progetto.nome, Progetto.budget_avvio
 ORDER BY budget_mancante ASC 
 LIMIT 3;  
 
+-- Vista che visualizza la classifica degli utenti ordinati in base al totale di finanziamenti erogati (mostra solo i primi 3 nickname)
+CREATE VIEW ClassificaUtentiFinanziatori AS
+ -- Sommo il totale dei vari finanziamenti del singolo utente con COALESCE che, nel caso non siano presenti finanziamenti, non restituisce null ma 0 
+SELECT Utente.nickname, COALESCE(SUM(Finanziamento.importo), 0) AS totale_finanziamento 
+FROM Utente 
+-- Utilizzo il LEFT JOIN per visualizzare anche eventuali utenti che non hanno ancora fatto un finanziamento (valore 0)
+LEFT JOIN Finanziamento ON Utente.email = Finanziamento.emailUtente
+GROUP BY Utente.nickname
+-- Ordino in modo decrescente per trovare quale utente ha finanziato di più
+ORDER BY totale_finanziamento DESC  
+LIMIT 3;
+
 -- Popolamento delle tabelle con dati di esempio
 INSERT INTO Utente VALUES ('mario.rossi@email.com', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', md5('pass123'));
 INSERT INTO Utente VALUES ('giulia.bianchi@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', md5('securePass'));
 INSERT INTO Utente VALUES ('normal.user@email.com','User', 'Normal', 'Rimini', 2025, 'normalUser', md5('userpw'));
 INSERT INTO Utente VALUES ('giulia.bianchi2@email.com', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', md5('securePass'));
 INSERT INTO Amministratore VALUES ('mario.rossi@email.com', 1001);
-INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 5);
-INSERT INTO Creatore VALUES ('giulia.bianchi2@email.com', 5);
-CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 50000.00, 'Software', 'giulia.bianchi@email.com');
-CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 100000.00, 'Hardware', 'giulia.bianchi@email.com');
-CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 100000.00, 'Hardware', 'giulia.bianchi2@email.com');
+INSERT INTO Creatore VALUES ('giulia.bianchi@email.com', 2);
+INSERT INTO Creatore VALUES ('giulia.bianchi2@email.com', 4);
+CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 100000.00, 'Software', 'giulia.bianchi@email.com');
+CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 200000.00, 'Hardware', 'giulia.bianchi@email.com');
+CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 300000.00, 'Hardware', 'giulia.bianchi2@email.com');
 CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
-INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 1000.00, 1);
+INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 10000.00, 1);
+INSERT INTO Finanziamento VALUES ('2024-04-02', 'mario.rossi@email.com', 'SmartWatch AI', 5000.00, 1);
+INSERT INTO Finanziamento VALUES ('2024-04-02', 'giulia.bianchi2@email.com', 'SmartWatch AI', 20000.00, 1);
 CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
 CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI');
 CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
@@ -613,4 +627,3 @@ BEGIN
     -- TODO: da finire e correggere -> (il risultato delle query non si può salvare così facilmente in una variabile)
 END
 $ DELIMITER ;
-
