@@ -151,7 +151,7 @@ END;
 $ DELIMITER ;
 -- TODO: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
 
--- OPERAZIONI RIGARDANTI GLI UTENTI:
+-- OPERAZIONI RIGUARDANTI GLI UTENTI:
 -- Autenticazione Utente normale: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna 2
 DELIMITER $
 CREATE PROCEDURE AutenticazioneNormale(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), OUT esito INT)
@@ -215,9 +215,12 @@ CREATE PROCEDURE RegistrazioneNormale(
     OUT esito INT)
 BEGIN
 	declare esisteUtente boolean;
+    declare esisteNickname boolean;
+    
 	set esisteUtente = emailI IN (SELECT email from Utente);
-	
-	if(NOT esisteUtente) then
+	set esisteNickname = nicknameI IN (SELECT nickname from Utente);
+    
+	if((NOT esisteUtente) AND (NOT esisteNickname)) then
 		INSERT INTO Utente VALUES (emailI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, MD5(passwordI));
 		set esito = 1; -- utente registrato
 	else
