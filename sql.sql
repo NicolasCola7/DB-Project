@@ -550,7 +550,7 @@ FROM Utente
 JOIN Creatore ON Utente.email = Creatore.emailCreatore
 -- Ordino i creatori in base all'affidabilità in ordine decrescente
 ORDER BY Creatore.affidabilita DESC
--- Seleziono solo i primi 3 creatori
+-- Restituisco solo i primi 3 come richiesto dalla consegna
 LIMIT 3;  
 
 -- Vista che visualizza i progetti aperti che sono più vicini al completamento, minore differenza tra budget_avvio e somma totale dei finanziamenti ricevuti (mostra solo i primi 3 progetti)
@@ -574,7 +574,7 @@ FROM Utente
 -- Utilizzo il LEFT JOIN per visualizzare anche eventuali utenti che non hanno ancora fatto un finanziamento (valore 0)
 LEFT JOIN Finanziamento ON Utente.email = Finanziamento.emailUtente
 GROUP BY Utente.nickname
--- Ordino in modo decrescente per trovare quale utente ha finanziato di più
+-- Ordino in modo decrescente per trovare quali utenti hanno finanziato di più
 ORDER BY totale_finanziamento DESC  
 LIMIT 3;
 
