@@ -444,7 +444,7 @@ BEGIN
     set correttezzaData = false;
     
     -- il nome deve essere compilato e non già presente
-    set correttezzaNome = (LENGTH(nomeI) > 0 AND (nomeI IS NOT NULL)) AND (nomeI NOT IN (SELECT nome FROM Progetto));
+    set correttezzaNome = (LENGTH(nomeI) > 0 AND (nomeI IS NOT NULL));
     
 	-- controllo che il campo budget sia convertibile in un numero e che sia positivo
 	set correttezzaBudget = (budgetI REGEXP '^[0-9]+(\.[0-9]{1,2})?$' AND CAST(budgetI AS DECIMAL(10,2)) > 0);
@@ -466,7 +466,7 @@ BEGIN
     set correttezzaTipo = (tipoI IN ('Hardware','Software'));
     
     if (correttezzaNome and correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo) then
-		INSERT INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
+		INSERT IGNORE INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
 	end if;
 END;
 $ DELIMITER ; 
@@ -509,7 +509,7 @@ BEGIN
     set correttezzaEmail = (SELECT count(*) from Progetto where Progetto.emailCreatore = emailCreatoreI) > 0;
 
     if(correttezzaCommento and correttezzaContenuto and correttezzaEmail) then
-        INSERT INTO Risposta values (idCommentoI, contenutoI, emailCreatoreI);
+        INSERT IGNORE INTO Risposta values (idCommentoI, contenutoI, emailCreatoreI);
     end if;
 END
 $ DELIMITER ;
@@ -535,8 +535,8 @@ BEGIN
     set correttezzaSkill = (SELECT count(*) from Skill where Skill.nome = skillRichiestaI) > 0;
    
     if(correttezzaProfilo and correttezzaProgetto and correttezzaNPosizioni and correttezzaLivello and correttezzaSkill) then
-        INSERT INTO Profilo VALUES (nomeProfiloI, nomeProgettoI, numeroPosizioniI);
-        INSERT INTO Skill_Requisito VALUES (skillRichiestaI, nomeProfiloI, nomeProgettoI, livelloRichiestoI);
+        INSERT IGNORE INTO Profilo VALUES (nomeProfiloI, nomeProgettoI, numeroPosizioniI);
+        INSERT IGNORE INTO Skill_Requisito VALUES (skillRichiestaI, nomeProfiloI, nomeProgettoI, livelloRichiestoI);
     end if;
 END
 $ DELIMITER ;
@@ -575,7 +575,7 @@ BEGIN
                                     C.nomeProfilo = nomeProfiloI and
                                     C.nomeProgetto = nomeProgettoI and
                                     C.emailUtente = emailUtenteI and
-                                    C.stato = 'aperto') > 0;
+                                    C.stato = 'aperta') > 0;
 
     if(correttezzaNomeEProgetto and correttezzaEmail and not candidaturaGiaPresente) then
         -- inizia il ciclo che scorre tutte le skill possedute 
