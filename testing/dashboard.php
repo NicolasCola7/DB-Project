@@ -16,7 +16,7 @@ $skill_error = '';
 $user_skills = [];
 $skill_management_error = '';
 $userCreatore = false;
-$projects;
+$projectsOfUser;
 $rewards;
 
 try {
@@ -55,9 +55,10 @@ try {
         $userCreatore = true;
     }
 
-    $res = $conn->prepare("SELECT nome from Progetto");
+    $res = $conn->prepare("SELECT nome from Progetto WHERE emailCreatore = :email");
+    $res->bindValue(":email",$_SESSION["email"]);
     $res->execute();
-    $projects = $res->fetchAll(PDO::FETCH_ASSOC);
+    $projectsOfUser = $res->fetchAll(PDO::FETCH_ASSOC);
 
 } catch(PDOException $e) {
     $skill_error = '<option value="" disabled>Error loading skills</option>';
@@ -222,12 +223,12 @@ $conn = null;
             </form>
         </div>
         <div class="card">
-            <h2>Aggiungi reward a un progetto</h2>
+            <h2>Aggiungi reward a un tuo progetto</h2>
             <form action="procedures.php" method="post">
                 <input type="hidden" name="procedure" value="addRewardsToProject">
                 <label for="slcProgetti">Progetto:</label>
                 <select name="slcProgetti">
-                    <?php foreach ($projects as $project): ?>
+                    <?php foreach ($projectsOfUser as $project): ?>
                         <option value="<?= htmlspecialchars($project['nome'])?>">
                             <?= htmlspecialchars($project['nome'])?>
                         </option>

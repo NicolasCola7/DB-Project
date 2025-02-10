@@ -169,10 +169,11 @@ try {
                 throw new InvalidArgumentException("Il nome dell'immagine deve essere nel formato 'nome.estensione'");
                 exit;
             }
-            $stmt = $conn->prepare("CALL CreazioneReward(:foto, :descrizione, :nomeProg)");
+            $stmt = $conn->prepare("CALL CreazioneReward(:foto, :descrizione, :nomeProg, :emailCreatore)");
             $stmt->bindValue(":foto", $urlImg);
             $stmt->bindValue(":descrizione", $descrizione);
             $stmt->bindValue(":nomeProg", $nomeProg);
+            $stmt->bindValue(":emailCreatore",$_SESSION["email"]);
             
             $stmt->execute();
             header("Location: dashboard.php");

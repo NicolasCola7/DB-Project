@@ -472,18 +472,16 @@ END;
 $ DELIMITER ; 
 
 DELIMITER $
-CREATE PROCEDURE CreazioneReward(IN FotoI TEXT, IN descrI TEXT, IN nomeI VARCHAR(255))
+CREATE PROCEDURE CreazioneReward(IN FotoI TEXT, IN descrI TEXT, IN nomeI VARCHAR(255), IN emailCreatoreI VARCHAR(255))
 BEGIN
-
-	-- TODO: fare in modo che un utente non possa inserire una reward in un progetto di cui non ne è creatore
     declare correttezzaFoto boolean;
     declare correttezzaNomeProg boolean;
 
     -- la foto deve avere una estensione valida
     set correttezzaFoto = (FotoI REGEXP '\\.(jpg|jpeg|png|gif|bmp|webp)$');
-    -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
+    -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome creato da quell'utente e quindi non è possibile
     -- creare la reward
-    set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI) > 0;
+    set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI and Progetto.emailCreatore = emailCreatoreI) > 0;
     
     if(correttezzaFoto and correttezzaNomeProg) then
         -- se descrI è vuoto o null imposto di default la descrizione
@@ -589,13 +587,13 @@ INSERT INTO Creatore VALUES ('giulia.bianchi2@email.com', 4);
 CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 100000.00, 'Software', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 200000.00, 'Hardware', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 300000.00, 'Hardware', 'giulia.bianchi2@email.com');
-CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI');
+CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI', 'giulia.bianchi@email.com');
+CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI', 'giulia.bianchi@email.com');
+CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI', 'giulia.bianchi@email.com');
+CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI', 'giulia.bianchi@email.com');
 INSERT INTO Finanziamento VALUES ('2024-02-01', 'mario.rossi@email.com', 'SmartWatch AI', 10000.00, 1);
 INSERT INTO Finanziamento VALUES ('2024-04-02', 'mario.rossi@email.com', 'SmartWatch AI', 5000.00, 1);
 INSERT INTO Finanziamento VALUES ('2024-04-02', 'giulia.bianchi2@email.com', 'SmartWatch AI', 20000.00, 1);
-CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI');
-CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI');
-CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI');
 INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
