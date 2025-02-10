@@ -151,7 +151,13 @@ END;
 $ DELIMITER ;
 -- TODO: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
 
--- OPERAZIONI RIGUARDANTI GLI UTENTI:
+DELIMITER $
+CREATE EVENT CambiaStatoProgetto on schedule every 1 day starts date_format(curdate(), '%Y-%m-%d 00:00:00') do
+begin
+	update Progetto P set P.stato = 'chiuso' where P.data_limite < curdate() and stato <> 'chiuso';
+end
+$ DELIMITER ;
+-- OPERAZIONI RIGARDANTI GLI UTENTI:
 -- Autenticazione Utente normale: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna 2
 DELIMITER $
 CREATE PROCEDURE AutenticazioneNormale(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), OUT esito INT)
@@ -722,9 +728,9 @@ INSERT INTO Finanziamento VALUES ('2024-04-02', 'giulia.bianchi2@email.com', 'Sm
 INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
 INSERT INTO Skill VALUES ('Conoscenza lingua inglese');
-INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
-INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Machine Learning', 2);
-CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python", "livello": 5},{"skill":"Machine Learning", "livello": 3}]');
+INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 5);
+INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Machine Learning', 4);
+CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
 CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
