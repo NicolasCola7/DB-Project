@@ -91,7 +91,7 @@ CREATE TABLE Skill_Requisito (
 
 CREATE TABLE Candidatura (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    stato ENUM('Aperta', 'Chiusa') DEFAULT 'Aperta',
+    stato ENUM('aperta', 'chiusa'),
     nomeProfilo VARCHAR(100),
     nomeProgetto VARCHAR(255),
     emailUtente VARCHAR(255),
@@ -541,6 +541,77 @@ BEGIN
 END
 $ DELIMITER ;
 
+
+
+DELIMITER $
+CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
+BEGIN
+    declare correttezzaNomeEProgetto boolean;
+    declare correttezzaEmail boolean;
+    declare candidaturaGiaPresente boolean default false;
+
+    -- variabili da usare in fase di controllo della correttezza della candidatura
+    declare livelloRichiesto int;
+    declare livelloPosseduto int;
+    declare nomeSkillRichiesta varchar(100);
+    -- di default l'utente possiede tutte le skill richieste con il livello minimo
+    declare skillsCorrette boolean default true;
+    declare fineCursor boolean default false;
+
+	-- cursore che scorre tutte le skill richieste dal profilo con il loro livello minimo richiesto
+    declare cursore_skillRichiestaProfilo CURSOR FOR SELECT Sk_r.nomeSkill, Sk_r.livello
+                                from Skill_Requisito Sk_r join Profilo P
+                                    on Sk_r.nomeProfilo = P.nome and Sk_r.nomeProgetto = P.nomeProgetto;
+	
+	-- quando il cursore non trova più righe questa variabile viene impostata a true
+	declare continue handler for not found set fineCursor = true;
+
+    -- il campo profilo deve coincidere un profilo esistente nel sistema
+    set correttezzaNomeEProgetto = (SELECT count(*) from Profilo where Profilo.nome = nomeProfiloI and Profilo.nomeProgetto = nomeProgettoI) > 0;
+    -- il campo email dell'utente deve esistere
+    set correttezzaEmail = (SELECT count(*) from Utente where Utente.email = emailUtenteI) > 0;
+    -- non deve esistere già una candidatura identica ancora aperta nel db
+    set candidaturaGiaPresente = (SELECT count(*) from Candidatura C where
+                                    C.nomeProfilo = nomeProfiloI and
+                                    C.nomeProgetto = nomeProgettoI and
+                                    C.emailUtente = emailUtenteI and
+                                    C.stato = 'aperto') > 0;
+
+    if(correttezzaNomeEProgetto and correttezzaEmail and not candidaturaGiaPresente) then
+        -- inizia il ciclo che scorre tutte le skill possedute 
+        open cursore_skillRichiestaProfilo;
+
+        ciclo_skill: loop
+            fetch cursore_skillRichiestaProfilo into nomeSkillRichiesta, livelloRichiesto;
+
+			if(fineCursor) then
+				leave ciclo_skill;
+			end if;
+            
+            -- leggo il livello posseduto dell'i-esima skill dell'utente
+            set livelloPosseduto = (SELECT Sk_p.livello from Skill_Possesso Sk_p 
+                                    where Sk_p.emailUtente = emailUtenteI and
+                                          Sk_p.nomeSkill = nomeSkillRichiesta);
+            
+            -- se il livello non è almeno uguale a quello richiesto mi salvo questa info ed esco dal ciclo
+            if(livelloPosseduto < livelloRichiesto) then
+                set skillsCorrette = false;
+                leave ciclo_skill;
+            end if;
+        end loop;
+
+        close cursore_skillRichiestaProfilo;
+
+        -- se tutte le skill possedute hanno un livello minimo superiore a quello richiesto dalle skill del profilo la candidatura
+        -- è accettabile e quindi la si inserisce
+        if(skillsCorrette) then
+            INSERT INTO Candidatura (stato, nomeProfilo, nomeProgetto, emailUtente) 
+                   values ('aperta', nomeProfiloI, nomeProgettoI, emailUtenteI);
+        end if;
+    end if;
+END
+$ DELIMITER ;
+
 -- Vista che visualizza la classifica degli utenti creatori, in base al loro valore di affidabilità (mostra solo i primi 3 nickname)
 CREATE VIEW ClassificaCreatoriAffidabilita AS
 SELECT Utente.nickname, Creatore.affidabilita
@@ -596,32 +667,10 @@ INSERT INTO Finanziamento VALUES ('2024-04-02', 'mario.rossi@email.com', 'SmartW
 INSERT INTO Finanziamento VALUES ('2024-04-02', 'giulia.bianchi2@email.com', 'SmartWatch AI', 20000.00, 1);
 INSERT INTO Skill VALUES ('Python');
 INSERT INTO Skill VALUES ('Machine Learning');
+INSERT INTO Skill VALUES ('Conoscenza lingua inglese');
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
-CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3, 4,"Python");
-INSERT INTO Candidatura VALUES (1, 'Aperta', 'Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
+INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Machine Learning', 2);
+CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3, 3,"Python");
+CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
-
-DELIMITER $
-CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
-BEGIN
-    declare correttezzaNomeEProgetto boolean;
-    declare correttezzaEmail boolean;
-    declare correttezzaLivello boolean;
-    declare skillsUtente;
-    declare skillRichiestaProfilo;
-
-    -- il campo profilo deve coincidere un profilo esistente nel sistema
-    set correttezzaNomeEProgetto = (SELECT count(*) from Profilo where Profilo.nome = nomeProfiloI and Profilo.nomeProgetto = nomeProgettoI) > 0;
-    -- il campo email dell'utente deve esistere
-    set correttezzaEmail = (SELECT count(*) from Utente where Utente.email = emailUtenteI) > 0;
-
-    -- ottengo tutte le skill possedute da quel utente
-    set skillsUtente = SELECT Sk_p.nomeSkill from Skill_Possesso Sk_p join Utente U on Sk_p.emailUtente = U.email;
-    -- ottengo tutte le skill richieste dal profilo
-    set skillRichiestaProfilo = SELECT Sk_r.nomeSkill 
-                                from Skill_Requisito Sk_r join Profilo P
-                                    on Sk_r.nomeProfilo = P.nome and Sk_r.nomeProgetto = P.nomeProgetto
-    -- TODO: da finire e correggere -> (il risultato delle query non si può salvare così facilmente in una variabile)
-END
-$ DELIMITER ;
