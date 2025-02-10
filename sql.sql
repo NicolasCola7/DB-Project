@@ -515,7 +515,7 @@ END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN livelloRichiestoI VARCHAR(255), IN skillRichiestaI VARCHAR(100))
+CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN skillsRichiestaI TeXT)
 BEGIN
     declare correttezzaProfilo boolean;
     declare correttezzaProgetto boolean;
@@ -523,20 +523,51 @@ BEGIN
     declare correttezzaLivello boolean;
     declare correttezzaSkill boolean;
 
+    -- nome dell'i-esima skill della lista passata come parametro alla procedura
+    declare skillNome varchar(100);
+    declare livelloSkill int;
+    declare fineCursor boolean default false;
+
+    -- definisco un cursore che scorrerà una tabella con n righe e una colonna contenente le skills passate come parametro
+    /*
+		il metodo json_table prende in input un oggetto json e ne ritorna una tabella
+    */
+    declare skillCursore cursor for 
+		select skill, livello from json_table(skillsRichiestaI,'$[*]' 
+			columns (skill varchar(100) path '$.skill', livello varchar(1) path '$.livello')) as tabella;
+
+    -- quanto il cursore non troverà righe da leggere imposterà la variabile booleana fineCursor a true
+    declare continue handler for not found set fineCursor = true;
+
     -- il campo del profilo deve essere compilato e non deve contenere esclusivamente cifre
     set correttezzaProfilo = IF(nomeProfiloI = '' or nomeProfiloI is null or nomeProfiloI REGEXP '^[0-9]+$', false, true);
     -- se la query ritorna zero significa che non esiste nessun progetto avente il nome specificato
     set correttezzaProgetto = (SELECT count(*) from Progetto where Progetto.nome = nomeProgettoI and Progetto.tipoProgetto = "Software") > 0;
     -- il campo delle posizioni deve essere un numero intero positivo (unsigned ammette interi senza segno quindi per forza positivi)
     set correttezzaNPosizioni = (numeroPosizioniI REGEXP '^[0-9]+$' and CAST(numeroPosizioniI AS UNSIGNED));
-    -- il campo livello deve essere un numero intero compreso tra 1 e 5
-    set correttezzaLivello = (livelloRichiestoI REGEXP '^[0-9]+$' and CAST(livelloRichiestoI AS UNSIGNED) and livelloRichiestoI < 6);
-    -- la skill deve esistere tra quelle inserite nel sistema
-    set correttezzaSkill = (SELECT count(*) from Skill where Skill.nome = skillRichiestaI) > 0;
    
-    if(correttezzaProfilo and correttezzaProgetto and correttezzaNPosizioni and correttezzaLivello and correttezzaSkill) then
+    if(correttezzaProfilo and correttezzaProgetto and correttezzaNPosizioni) then
         INSERT IGNORE INTO Profilo VALUES (nomeProfiloI, nomeProgettoI, numeroPosizioniI);
-        INSERT IGNORE INTO Skill_Requisito VALUES (skillRichiestaI, nomeProfiloI, nomeProgettoI, livelloRichiestoI);
+
+        OPEN skillCursore;
+        skill_loop: loop
+            fetch skillCursore into skillNome, livelloSkill;
+
+            -- se non ci sono ulteriori righe da leggere nella tabella esco dal ciclo
+            if(fineCursor) then
+                leave skill_loop;
+            end if;
+
+            -- controllo se la skill esiste
+            set correttezzaSkill = (SELECT count(*) from Skill S where S.nome = skillNome) > 0;
+            -- il campo livello deve essere un numero intero compreso tra 1 e 5
+			set correttezzaLivello = (livelloSkill REGEXP '^[0-9]+$' and CAST(livelloSkill AS UNSIGNED) and livelloSkill < 6);
+            
+            if(correttezzaSkill and correttezzaLivello) then
+                INSERT INTO Skill_Requisito VALUES (skillNome, nomeProfiloI, nomeProgettoI, livelloSkill);
+            end if;
+        end loop;
+        CLOSE skillCursore;
     end if;
 END
 $ DELIMITER ;
@@ -670,7 +701,7 @@ INSERT INTO Skill VALUES ('Machine Learning');
 INSERT INTO Skill VALUES ('Conoscenza lingua inglese');
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Python', 4);
 INSERT INTO Skill_Possesso VALUES ('mario.rossi@email.com', 'Machine Learning', 2);
-CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3, 3,"Python");
+CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python", "livello": 5},{"skill":"Machine Learning", "livello": 3}]');
 CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
