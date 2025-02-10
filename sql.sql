@@ -134,8 +134,7 @@ CREATE TABLE Componente (
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;
 
-
--- TRIGGERS
+-- I vari trigger
 DELIMITER $
 CREATE TRIGGER CambioStatoProgetto AFTER INSERT ON Finanziamento FOR EACH ROW
 BEGIN
@@ -150,13 +149,9 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ;
-
 -- TODO: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
 
-
-
 -- OPERAZIONI RIGARDANTI GLI UTENTI:
-
 -- Autenticazione Utente normale: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna 2
 DELIMITER $
 CREATE PROCEDURE AutenticazioneNormale(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), OUT esito INT)
@@ -529,9 +524,7 @@ BEGIN
     declare fineCursor boolean default false;
 
     -- definisco un cursore che scorrerà una tabella con n righe e una colonna contenente le skills passate come parametro
-    /*
-		il metodo json_table prende in input un oggetto json e ne ritorna una tabella
-    */
+    -- il metodo json_table prende in input un oggetto json e ne ritorna una tabella
     declare skillCursore cursor for 
 		select skill, livello from json_table(skillsRichiestaI,'$[*]' 
 			columns (skill varchar(100) path '$.skill', livello varchar(1) path '$.livello')) as tabella;
@@ -571,8 +564,6 @@ BEGIN
     end if;
 END
 $ DELIMITER ;
-
-
 
 DELIMITER $
 CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
@@ -643,6 +634,35 @@ BEGIN
 END
 $ DELIMITER ;
 
+-- Inserimento di una competenza da parte di un utente amministratore
+DELIMITER $ 
+CREATE PROCEDURE InserimentoCompetenza(IN emailAmm VARCHAR(255), IN nomeCompetenza VARCHAR(255), OUT esito INT)
+BEGIN
+	declare amministratoreEsistente boolean;
+    declare competenzaEsistente boolean;
+    
+    -- Controllo se l'utente è un amministratore
+	set amministratoreEsistente = EXISTS (SELECT 1 FROM Amministratore WHERE emailAmministratore = emailAmm);
+    -- Controllo se la comptetenza non è già presente all'interno del sistema
+	set competenzaEsistente = EXISTS (SELECT 1 FROM Skill WHERE nome = nomeCompetenza);
+    
+    if (NOT(amministratoreEsistente)) then
+		-- Restituisco 0 che indica che l'utente non è un amministratore
+		set esito = 0; 
+	else 
+		if (competenzaEsistente) then
+        		-- Restituisco 1 che indica che la competenza è già esistente
+			set esito = 1;
+		else
+			INSERT INTO Skill (nome) VALUES (nomeCompetenza);
+			-- Restituisco 2 che indica che l'inserimento è andato bene
+			set esito = 2;
+		end if;
+	end if;
+END;
+$ DELIMITER ;
+
+-- Statistiche che vengono calcolate tramite le viste
 -- Vista che visualizza la classifica degli utenti creatori, in base al loro valore di affidabilità (mostra solo i primi 3 nickname)
 CREATE VIEW ClassificaCreatoriAffidabilita AS
 SELECT Utente.nickname, Creatore.affidabilita
@@ -705,3 +725,4 @@ CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python"
 CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 INSERT INTO Commento VALUES (1, '2024-02-02', 'Sembra un progetto interessante!', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
