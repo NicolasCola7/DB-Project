@@ -176,12 +176,13 @@ $ DELIMITER ;
 
 -- Autenticazione Amministratore: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna ma il codice errato torna 2, mentre se tutto giusto 3
 DELIMITER $
-CREATE PROCEDURE AutenticazioneAmministratore(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), IN codiceI INT, OUT esito INT)
+CREATE PROCEDURE AutenticazioneAmministratore(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), IN codiceI VARCHAR(50), OUT esito INT)
 BEGIN
 	declare esisteUtente boolean;
 	declare passwordCorretta boolean;
     declare codiceCorretto boolean;
     
+    set codiceI = CAST(codiceI AS UNSIGNED);
     set esisteUtente = emailI IN (SELECT emailAmministratore FROM Amministratore);
    
     if (NOT esisteUtente) then
@@ -210,7 +211,7 @@ CREATE PROCEDURE RegistrazioneNormale(
     IN nomeI VARCHAR(100),
     IN cognomeI VARCHAR(100),
     IN luogo_nascitaI VARCHAR(100),
-    IN anno_nascitaI INT,
+    IN anno_nascitaI VARCHAR(4),
     IN nicknameI VARCHAR(50),
     OUT esito INT)
 BEGIN
@@ -221,6 +222,7 @@ BEGIN
 	set esisteNickname = nicknameI IN (SELECT nickname from Utente);
     
 	if((NOT esisteUtente) AND (NOT esisteNickname)) then
+		set anno_nascitaI = CAST(anno_nascitaI AS UNSIGNED);
 		INSERT INTO Utente VALUES (emailI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, MD5(passwordI));
 		set esito = 1; -- utente registrato
 	else
@@ -236,7 +238,7 @@ CREATE PROCEDURE RegistrazioneCreatore(
     IN nomeI VARCHAR(100),
     IN cognomeI VARCHAR(100),
     IN luogo_nascitaI VARCHAR(100),
-    IN anno_nascitaI INT,
+    IN anno_nascitaI VARCHAR(4),
     IN nicknameI VARCHAR(50),
     OUT esito INT)
 BEGIN
@@ -258,9 +260,9 @@ CREATE PROCEDURE RegistrazioneAmministratore(
     IN nomeI VARCHAR(100),
     IN cognomeI VARCHAR(100),
     IN luogo_nascitaI VARCHAR(100),
-    IN anno_nascitaI INT,
+    IN anno_nascitaI VARCHAR(4),
     IN nicknameI VARCHAR(50),
-    IN codice INT,
+    IN codiceI VARCHAR(50),
     OUT esito INT)
 BEGIN
     CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, @esitoNormale);
@@ -269,20 +271,23 @@ BEGIN
 		set esito = 0; -- amministratore non registrato
 	else
 		set esito = 1; -- amministratore registrato
+        set codiceI = (CAST(codiceI AS UNSIGNED));
         INSERT INTO Amministratore  VALUES (emailI, codiceI);
 	end if;
 END;
 $ DELIMITER ;
 	
 DELIMITER $
-CREATE PROCEDURE InserimentoSkillCurriculum (IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(255), IN livelloI INT, OUT esito INT)
+CREATE PROCEDURE InserimentoSkillCurriculum (IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(255), IN livelloI CHAR, OUT esito INT)
 BEGIN
 	declare nomeCorretto boolean;
     declare livelloCorretto boolean;
     
     set nomeCorretto = nomeSkillI IN (SELECT nome from Skill);
+    set livelloCorretto = (livelloI REGEXP '^[0-5]$');
     
-    if (nomeCorretto) then
+    if (nomeCorretto and livelloCorretto) then
+		set livelloI = (CAST(livelloI AS UNSIGNED));
 		INSERT INTO Skill_Possesso VALUES (emailI, nomeSkillI, livelloI);
         set esito = 1; -- inserimento con successo
 	else
@@ -315,8 +320,9 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoFinanziamento(IN nomeProgettoI VARCHAR(255), IN importoI DECIMAL(10,2), IN emailI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE InserimentoFinanziamento(IN nomeProgettoI VARCHAR(255), IN importoI VARCHAR(50), IN emailI VARCHAR(255), OUT esito INT)
 BEGIN
+	
 	declare progettoValido boolean;
     declare emailCorretta boolean;
     declare utenteValido boolean; -- valido se il finanziamento che sta venendo fatto è in una data diversa dagli altri finanziamenti fatti dallo stesso utente
@@ -326,6 +332,7 @@ BEGIN
     declare haFinanziamenti boolean;  --  controllo se ha finanziamenti in quanto, se cerco di inserirene uno in un progetto 
 										-- che non ne ha, tale procedura non funziona ed è come se l'imorto eccedesse il budget
     
+    set importoI = CAST(importoI AS DECIMAL(10,2));
     set progettoValido = nomeProgettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
     set emailCorretta = emailI IN (SELECT email FROM Utente);
     set utenteValido = emailI NOT IN (SELECT emailUtente FROM Finanziamento WHERE nomeProgetto = nomeProgettoI AND data = current_date());
@@ -363,13 +370,14 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE SceltaReward (IN codiceRewardI INT, IN emailUtenteI VARCHAR(255), IN nomeProgettoI VARCHAR(255))
+CREATE PROCEDURE SceltaReward (IN codiceRewardI VARCHAR(50), IN emailUtenteI VARCHAR(255), IN nomeProgettoI VARCHAR(255))
 BEGIN
 	declare rewardCorretta boolean;
     
    -- set rewardCorretta = codiceRewardI IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = nomeProgettoI));
-
+	
 	-- if (rewardCorretta) then
+		set codiceRewardI = CAST(codiceRewardI AS DECIMAL(10,2));
 		UPDATE Finanziamento SET codiceReward = codiceRewardI WHERE emailUtente = emailUtenteI AND nomeProgetto = nomeProgettoI AND data = current_date();
 	 -- end if;
 END;
