@@ -1,7 +1,7 @@
 <?php
 // questo file serve per gestire le variabli d'ambiente del progetto e settare le credenziali del db con esse
 
-require_once __DIR__ . '/../vendor/autoload.php'; //
+require_once __DIR__ . '/../vendor/autoload.php'; 
 
 // carico variabbili d'ambiente da .env
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
