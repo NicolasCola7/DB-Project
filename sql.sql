@@ -412,7 +412,7 @@ END;
 $ DELIMITER ;
 		
 DELIMITER $ 
-CREATE PROCEDURE InserimentoCandidatura(IN nomeProgettoI VARCHAR(255), IN emailCandidato VARCHAR(255), IN nomeProfiloI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE InserimentoCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
 BEGIN
 	declare correttezzaNomeEProgetto boolean;
     declare correttezzaEmail boolean;
@@ -619,28 +619,13 @@ END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
+CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), IN sceltaCreatoreI VARCHAR(5))
 BEGIN
     declare correttezzaNomeEProgetto boolean;
     declare correttezzaEmail boolean;
     declare candidaturaGiaPresente boolean default false;
-
-    -- variabili da usare in fase di controllo della correttezza della candidatura
-    declare livelloRichiesto int;
-    declare livelloPosseduto int;
-    declare nomeSkillRichiesta varchar(100);
-    -- di default l'utente possiede tutte le skill richieste con il livello minimo
-    declare skillsCorrette boolean default true;
-    declare fineCursor boolean default false;
-
-	-- cursore che scorre tutte le skill richieste dal profilo con il loro livello minimo richiesto
-    declare cursore_skillRichiestaProfilo CURSOR FOR SELECT Sk_r.nomeSkill, Sk_r.livello
-                                from Skill_Requisito Sk_r join Profilo P
-                                    on Sk_r.nomeProfilo = P.nome and Sk_r.nomeProgetto = P.nomeProgetto;
-	
-	-- quando il cursore non trova più righe questa variabile viene impostata a true
-	declare continue handler for not found set fineCursor = true;
-
+	declare correttezzaSceltaCreatore boolean default false;
+    
     -- il campo profilo deve coincidere un profilo esistente nel sistema
     set correttezzaNomeEProgetto = (SELECT count(*) from Profilo where Profilo.nome = nomeProfiloI and Profilo.nomeProgetto = nomeProgettoI) > 0;
     -- il campo email dell'utente deve esistere
@@ -651,38 +636,18 @@ BEGIN
                                     C.nomeProgetto = nomeProgettoI and
                                     C.emailUtente = emailUtenteI and
                                     C.stato = 'aperta') > 0;
+	if(CAST(sceltaCreatoreI AS decimal(1,0))) then
+		if(sceltaCreatoreI = 0 or sceltaCreatoreI = 1) then
+			set correttezzaSceltaCreatore = true;
+		end if;
+    end if;
+	
 
-    if(correttezzaNomeEProgetto and correttezzaEmail and not candidaturaGiaPresente) then
-        -- inizia il ciclo che scorre tutte le skill possedute 
-        open cursore_skillRichiestaProfilo;
-
-        ciclo_skill: loop
-            fetch cursore_skillRichiestaProfilo into nomeSkillRichiesta, livelloRichiesto;
-
-			if(fineCursor) then
-				leave ciclo_skill;
-			end if;
-            
-            -- leggo il livello posseduto dell'i-esima skill dell'utente
-            set livelloPosseduto = (SELECT Sk_p.livello from Skill_Possesso Sk_p 
-                                    where Sk_p.emailUtente = emailUtenteI and
-                                          Sk_p.nomeSkill = nomeSkillRichiesta);
-            
-            -- se il livello non è almeno uguale a quello richiesto mi salvo questa info ed esco dal ciclo
-            if(livelloPosseduto < livelloRichiesto) then
-                set skillsCorrette = false;
-                leave ciclo_skill;
-            end if;
-        end loop;
-
-        close cursore_skillRichiestaProfilo;
-
-        -- se tutte le skill possedute hanno un livello minimo superiore a quello richiesto dalle skill del profilo la candidatura
-        -- è accettabile e quindi la si inserisce
-        if(skillsCorrette) then
-            INSERT INTO Candidatura (stato, nomeProfilo, nomeProgetto, emailUtente) 
-                   values ('aperta', nomeProfiloI, nomeProgettoI, emailUtenteI);
-        end if;
+    if(correttezzaNomeEProgetto and correttezzaEmail and correttezzaSceltaCreatore and candidaturaGiaPresente) then
+        UPDATE Candidatura C SET C.accettata = sceltaCreatoreI, C.stato = 'chiusa' where C.nomeProfilo = nomeProfiloI and 
+																	 C.nomeProgetto = nomeProgettoI and 
+                                                                     C.emailUtente = emailUtenteI and
+                                                                     C.stato = 'aperta';
     end if;
 END
 $ DELIMITER ;
@@ -761,27 +726,35 @@ CALL RegistrazioneNormale('normal.user@email.com', md5('userpw'), 'User', 'Norma
 CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 100000.00, 'Software', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 200000.00, 'Hardware', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 300000.00, 'Hardware', 'giulia.bianchi2@email.com');
+
 CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI', 'giulia.bianchi@email.com');
 CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI', 'giulia.bianchi@email.com');
 CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI', 'giulia.bianchi@email.com');
 CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI', 'giulia.bianchi@email.com');
+
 CALL InserimentoFinanziamento('SmartWatch AI', 10000.00, 'mario.rossi@email.com', @esito);
 CALL SceltaReward(1, 'mario.rossi@email.com', 'SmartWatch AI');
 -- questo secondo finanziamento non andrà a buon fine perchè lo stesso utente ne ha inviato uno per lo stesso progetto lo stesso giorno
 CALL InserimentoFinanziamento('SmartWatch AI', 5000.00, 'mario.rossi@email.com', @esito);
 CALL SceltaReward('1', 'mario.rossi@email.com', 'SmartWatch AI');
 CALL InserimentoFinanziamento('SmartWatch AI', 20000.00, 'giulia.bianchi2@email.com', @esito);
+
 CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'SmartWatch AI');
-INSERT INTO Skill VALUES ('Python');
-INSERT INTO Skill VALUES ('Machine Learning');
-INSERT INTO Skill VALUES ('Conoscenza lingua inglese');
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
+
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Python', 5, @esito);
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Machine Learning', 4, @esito);
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', 2, @esito);
 CALL RimozioneSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
+
 CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
-CALL InserimentoCandidatura('Data Scientist', 'mario.rossi@email.com', 'SmartWatch AI', @esito);
--- CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
+
+CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
+
+CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', true);
+
 CALL CommentaProgetto('SmartWatch AI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
+
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
-CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
