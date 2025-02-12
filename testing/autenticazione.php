@@ -1,6 +1,7 @@
 <?php
 session_start();
 $host = 'localhost:3307';
+
 $dbname = 'BOTSTARTER';
 $user = 'username'; 
 $pass = 'MatAleNic';  

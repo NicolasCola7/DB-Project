@@ -1,3 +1,4 @@
+
 services:
 
   mysql:
@@ -41,8 +42,6 @@ services:
     networks:
       - databases
 
-
-
   mongo-express:
     image: mongo-express:latest
     restart: always
@@ -55,6 +54,15 @@ services:
       ME_CONFIG_BASICAUTH: false
     ports:
       - "8081:8081"
+    networks:
+      - databases
+  apache:
+    build: .
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./testing:/var/www/html/testing
     networks:
       - databases
 

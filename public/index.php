@@ -6,3 +6,5 @@
     //Routing
     require_once '../routes/web.php';
     require_once '../app/Router.php';
+
+    
