@@ -718,10 +718,10 @@ LIMIT 3;
 
 
 -- Popolamento delle tabelle con dati di esempio
-CALL RegistrazioneAmministratore('mario.rossi@email.com', md5('pass123'), 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 1001, @esito);
-CALL RegistrazioneCreatore('giulia.bianchi@email.com', md5('securePass'), 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', @esito);
-CALL RegistrazioneCreatore('giulia.bianchi2@email.com', md5('securePass'), 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', @esito);
-CALL RegistrazioneNormale('normal.user@email.com', md5('userpw'), 'User', 'Normal', 'Rimini', 2025, 'normalUser', @esito);
+CALL RegistrazioneAmministratore('mario.rossi@email.com', 'pass123', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 1001, @esito);
+CALL RegistrazioneCreatore('giulia.bianchi@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', @esito);
+CALL RegistrazioneCreatore('giulia.bianchi2@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', @esito);
+CALL RegistrazioneNormale('normal.user@email.com', 'userpw', 'User', 'Normal', 'Rimini', 2025, 'normalUser', @esito);
 
 CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 100000.00, 'Software', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 200000.00, 'Hardware', 'giulia.bianchi@email.com');

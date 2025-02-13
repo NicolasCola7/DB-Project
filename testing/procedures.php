@@ -5,7 +5,7 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-$host = 'localhost:3307';
+$host = 'db-project-mysql-1';
 $dbname = 'BOTSTARTER';
 $user = 'username'; 
 $pass = 'MatAleNic';  
