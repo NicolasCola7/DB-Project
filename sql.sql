@@ -22,6 +22,7 @@ CREATE TABLE Amministratore (
 
 CREATE TABLE Creatore (
     emailCreatore VARCHAR(255) PRIMARY KEY,
+    num_progetti INT DEFAULT 0,
     affidabilita INT DEFAULT 0,
     FOREIGN KEY (emailCreatore) REFERENCES Utente(email)
 ) ENGINE=INNODB;
@@ -135,7 +136,7 @@ CREATE TABLE Componente (
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;
 
--- I vari trigger
+-- Il trigger per cambiare lo stato del progetto da "aperto" a "chiuso"
 DELIMITER $
 CREATE TRIGGER CambioStatoProgetto AFTER INSERT ON Finanziamento FOR EACH ROW
 BEGIN
@@ -150,7 +151,16 @@ BEGIN
 	end if;
 END;
 $ DELIMITER ;
--- TODO: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
+
+-- TRIGGER: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
+
+-- Il trigger per aggiornare il numero di progetti dell'utente creatore
+DELIMITER $
+CREATE TRIGGER AggiornaNumProgetti AFTER INSERT ON Progetto FOR EACH ROW
+BEGIN
+	UPDATE Creatore SET num_progetti = num_progetti + 1 WHERE emailCreatore = NEW.emailCreatore;
+END;
+$ DELIMITER ;
 
 DELIMITER $
 CREATE EVENT CambiaStatoProgetto on schedule every 1 day starts date_format(curdate(), '%Y-%m-%d 00:00:00') do
@@ -158,6 +168,7 @@ begin
 	update Progetto P set P.stato = 'chiuso' where P.data_limite < curdate() and stato <> 'chiuso';
 end
 $ DELIMITER ;
+
 -- OPERAZIONI RIGARDANTI GLI UTENTI:
 -- Autenticazione Utente normale: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna 2
 DELIMITER $
