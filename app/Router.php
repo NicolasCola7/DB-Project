@@ -1,49 +1,101 @@
 <?php
+
 namespace App;
-use Symfony\Component\Routing\RequestContext;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Routing\Matcher\UrlMatcher;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Exception\NoConfigurationException;
-class Router
-{
-  public function __invoke(RouteCollection $routes)
-  {
-    $context = new RequestContext();
-    
-    // Routing permette di associare i percorsi al  le richieste in arrivo
-    $matcher = new UrlMatcher($routes, $context);
-    try {
-      $arrayUri = explode('?', $_SERVER['REQUEST_URI']);
-      $matcher = $matcher->match($arrayUri[0]);
-      
-      // Cast params to int if numeric
-      array_walk($matcher, function(&$param)
-      {
-        if(is_numeric($param))
-        {
-          $param = (int) $param;
-        }
-      });
 
-    // https://github.com/gmaccario/simple-mvc-php-framework/issues/2
-    // Issue #2: Fix Non-static method ... should not be called statically
-    $className = '\\App\\Controllers\\' . $matcher['controller'];
-    $classInstance = new $className();
+class Router {
 
-    // Add routes as paramaters to the next class
-    $params = array_merge(array_slice($matcher, 2, -1), array('routes' => $routes));
-    call_user_func_array(array($classInstance, $matcher['method']), $params);
-    } catch (MethodNotAllowedException $e) {
-      echo 'Metodo del percorso non permesso.';
-    } catch (ResourceNotFoundException $e) {
-      echo 'Percorso non trovato';
-    } catch (NoConfigurationException $e) {
-      echo 'Configurazione inesistente.';
+  protected $routes = [];
+
+  /**
+   * Aggiunge una nuova route alla lista delle routes.
+   * 
+   * @param string $method Il metodo HTTP (GET, POST, PUT, DELETE, PATCH)
+   * @param string $uri L'URI della route
+   * @param string $controller Il controller associato alla route
+   */
+  public function add($method, $uri, $controller){
+    $this->routes[] = [
+      'uri' => $uri,
+      'controller' => $controller,
+      'method' => $method
+    ];
+  }
+
+  /**
+   * Definisce una route per il metodo GET.
+   * 
+   * @param string $uri L'URI della route
+   * @param string $controller Il controller associato
+   */
+  public function get($uri, $controller){
+    $this->add('GET', $uri, $controller);
+  }
+
+  /**
+   * Definisce una route per il metodo POST.
+   * 
+   * @param string $uri L'URI della route
+   * @param string $controller Il controller associato
+   */
+  public function post($uri, $controller){
+    $this->add('POST', $uri, $controller);
+  }
+
+  /**
+   * Definisce una route per il metodo PUT.
+   * 
+   * @param string $uri L'URI della route
+   * @param string $controller Il controller associato
+   */
+  public function put($uri, $controller){
+    $this->add('PUT', $uri, $controller);
+  }
+
+  /**
+   * Definisce una route per il metodo DELETE.
+   * 
+   * @param string $uri L'URI della route
+   * @param string $controller Il controller associato
+   */
+  public function delete($uri, $controller){
+    $this->add('DELETE', $uri, $controller);
+  }
+
+  /**
+   * Definisce una route per il metodo PATCH.
+   * 
+   * @param string $uri L'URI della route
+   * @param string $controller Il controller associato
+   */
+  public function patch($uri, $controller){
+    $this->add('PATCH', $uri, $controller);
+  }
+
+  /**
+   * Cerca una route corrispondente all'URI e al metodo forniti e la esegue.
+   * Se la route non esiste, chiama il metodo abort().
+   * 
+   * @param string $uri L'URI richiesto dall'utente
+   * @param string $method Il metodo HTTP utilizzato
+   */
+  public function route($uri, $method){
+    foreach ($this->routes as $route) {
+      if ($route['uri'] == $uri && $route['method'] == strtoupper($method)) {
+        return require base_path($route['controller']);
+      }
     }
+    
+    $this->abort(); // Se non viene trovata una route, genera un errore 404
+  }
+
+  /**
+   * Imposta il codice di risposta HTTP e carica la pagina di errore corrispondente.
+   * 
+   * @param int $code Il codice di errore HTTP (default: 404)
+   */
+  public function abort($code = 404){
+    http_response_code($code);
+    require base_path("app/views/{$code}.php");
+    die(); // Termina l'esecuzione dello script
   }
 }
-
-$router = new Router();
-$router($routes);
