@@ -21,7 +21,7 @@ require percorso_base("bootstrap.php");
 $router = new \core\Router();
 
 // Carica le rotte definite nel file 'routes.php'
-$routes = require percorso_base('/routes/routes.php');
+$routes = require percorso_base('/routes.php');
 
 // Ottiene l'URI della richiesta eliminando eventuali query string
 $uri = parse_url($_SERVER['REQUEST_URI'])['percorso'];

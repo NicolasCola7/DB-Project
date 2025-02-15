@@ -53,7 +53,34 @@ class Database {
     /**
      * Metodo per eseguire una stored procedure sul database.
      */
-    public function procedure(){
-        // Qui va implementata la logica per eseguire una stored procedure
+    public function procedure($nome, $parametri = []){
+        $stringa = "(";
+
+        if(count($parametri) < 1) 
+            $stringa = "()";
+        else {
+            $chiavi = array_keys($parametri);
+            $stringa .= ":{$chiavi[0]}";
+
+            for ($i = 1; $i < count($chiavi); $i++) {
+                if($chiavi[$i] == '@esito')
+                    $stringa .= ", {$chiavi[$i]}";
+                else
+                    $stringa .= ", :{$chiavi[$i]}";
+            }
+            $stringa .= ")";
+        }
+
+        $procedure = $this->connessione->prepare("CALL {$nome}{$stringa}");
+        
+        foreach ($parametri as $chiave => $valore) {
+            if($chiave != '@esito')
+                $procedure->bindValue(":{$chiave}", $valore);
+        }
+
+        $procedure->execute();
+        $esito = $this->connessione->query("SELECT @esito AS esito")->fetch(PDO::FETCH_ASSOC);
+        
+        return $esito; 
     }
 }

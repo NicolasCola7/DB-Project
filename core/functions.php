@@ -39,9 +39,10 @@ function percorso_base($percorso){
  * Restituisce il percorso completo della vista specificata.
  *
  * @param string $percorso Il percorso relativo della vista.
+ * @param array $errori Gli errori derivati 
  * @return string Il percorso assoluto della vista.
  */
-function view($percorso) {
+function view($percorso, $errori = []) {
     return percorso_base("app/views" . $percorso);
 }
 
