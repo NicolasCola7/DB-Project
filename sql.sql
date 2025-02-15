@@ -152,7 +152,46 @@ BEGIN
 END;
 $ DELIMITER ;
 
--- TRIGGER: cambio affidabilità dopo inserimento progetto e ricezione finanziamento
+-- Il trigger che permette di aggiornare l'affidabilità dopo ogni volta che l'utente crea un progetto
+DELIMITER $
+CREATE TRIGGER AggiornaAffidabilitaProgetto AFTER INSERT ON Progetto FOR EACH ROW
+BEGIN
+	declare numProgetti INT;
+    declare numProgettiFinanziati INT;
+    
+    -- Il numero totale di progetti creati dall'utente creatore
+	set numProgetti = (SELECT COUNT(*) FROM Progetto WHERE emailCreatore = NEW.emailCreatore);
+	-- Il numero di progetti dell'utente creatore che hanno ricevuto almeno un finanziamento
+    set numProgettiFinanziati = (SELECT COUNT(DISTINCT nomeProgetto) FROM Finanziamento WHERE nomeProgetto IN (SELECT nome FROM Progetto WHERE emailCreatore = NEW.emailCreatore));
+    
+    -- Se l'utente ha almeno un progetto creato, aggiorno l'affidabilità dopo l'inserimento del progetto
+    IF(numProgetti > 0) THEN
+		UPDATE Creatore SET affidabilita = (numProgettiFinanziati / numProgetti * 100) WHERE emailCreatore = NEW.emailCreatore;
+	END IF;
+END;
+$ DELIMITER ;
+
+-- Il trigger che permette di aggiornare l'affidabilità dopo ogni volta il progetto riceve un finanziamento
+DELIMITER $
+CREATE TRIGGER AggiornaAffidabilitaFinanziamento AFTER INSERT ON Finanziamento FOR EACH ROW
+BEGIN
+    declare emailCreatoreProgetto VARCHAR(255);
+	declare numProgetti INT;
+    declare numProgettiFinanziati INT;
+    
+    -- La email del creatore del progetto finanziato
+	set emailCreatoreProgetto = (SELECT emailCreatore FROM Progetto WHERE nome = NEW.nomeProgetto);
+    -- Il numero totale di progetti creati dall'utente creatore
+	set numProgetti = (SELECT COUNT(*) FROM Progetto WHERE emailCreatore = emailCreatoreProgetto);
+	-- Il numero di progetti dell'utente creatore che hanno ricevuto almeno un finanziamento
+    set numProgettiFinanziati = (SELECT COUNT(DISTINCT nomeProgetto) FROM Finanziamento WHERE nomeProgetto IN (SELECT nome FROM Progetto WHERE emailCreatore = emailCreatoreProgetto));
+
+    -- Se l'utente ha almeno un progetto creato, aggiorno l'affidabilità dopo l'inserimento del finanziamento
+    IF(numProgetti > 0) THEN
+		UPDATE Creatore SET affidabilita = (numProgettiFinanziati / numProgetti * 100) WHERE emailCreatore = emailCreatoreProgetto;
+	END IF;
+END;
+$ DELIMITER ;
 
 -- Il trigger per aggiornare il numero di progetti dell'utente creatore
 DELIMITER $
@@ -669,11 +708,11 @@ CREATE PROCEDURE InserimentoCompetenza(IN emailAmm VARCHAR(255), IN nomeCompeten
 BEGIN
 	declare amministratoreEsistente boolean;
     declare competenzaEsistente boolean;
-    
+
     -- Controllo se l'utente è un amministratore
-	set amministratoreEsistente = EXISTS (SELECT 1 FROM Amministratore WHERE emailAmministratore = emailAmm);
+	set amministratoreEsistente = (SELECT COUNT(*) FROM Amministratore WHERE emailAmministratore = emailAmm) > 0;
     -- Controllo se la comptetenza non è già presente all'interno del sistema
-	set competenzaEsistente = EXISTS (SELECT 1 FROM Skill WHERE nome = nomeCompetenza);
+	set competenzaEsistente = (SELECT COUNT(*) FROM Skill WHERE nome = nomeCompetenza) > 0;
     
     if (NOT(amministratoreEsistente)) then
 		-- Restituisco 0 che indica che l'utente non è un amministratore
