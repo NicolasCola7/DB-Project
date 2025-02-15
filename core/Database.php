@@ -1,5 +1,10 @@
 <?php
 
+namespace core;
+
+use PDO;
+use PDOException;
+
 class Database {
 
     // Proprietà per la connessione PDO e per i parametri di configurazione
@@ -7,7 +12,7 @@ class Database {
     private $password;
     private $username;
     private $host;
-    private $db_name;
+    private $nome_db;
     private $charset;
 
     /**
@@ -25,14 +30,17 @@ class Database {
         $this->password = $config['databases']['mysql']['password'];
         $this->username = $config['databases']['mysql']['username'];
         $this->host     = $config['databases']['mysql']['host'];
-        $this->db_name  = $config['databases']['mysql']['dbname'];
+        $this->nome_db  = $config['databases']['mysql']['nome_db'];
         $this->charset  = $config['databases']['mysql']['charset'];
 
-        $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset={$this->charset}";
-
-        $this->connessione = new PDO($dsn, $this->username, $this->password, [
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ]);
+        $dsn = "mysql:host={$this->host};dbname={$this->nome_db};charset={$this->charset}";
+        try {
+            $this->connessione = new PDO($dsn, $this->username, $this->password, [
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+            ]);
+        } catch (PDOException $e) {
+            die("Connessione fallita: " . $e->getMessage());
+        }
     }
 
     /**

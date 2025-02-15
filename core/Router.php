@@ -1,6 +1,7 @@
 <?php
 
-namespace App;
+namespace core;
+require_once "./functions.php";
 
 class Router {
 
@@ -9,15 +10,15 @@ class Router {
   /**
    * Aggiunge una nuova route alla lista delle routes.
    * 
-   * @param string $method Il metodo HTTP (GET, POST, PUT, DELETE, PATCH)
+   * @param string $metodo Il metodo HTTP (GET, POST, PUT, DELETE, PATCH)
    * @param string $uri L'URI della route
    * @param string $controller Il controller associato alla route
    */
-  public function add($method, $uri, $controller){
+  public function aggiungi($metodo, $uri, $controller){
     $this->routes[] = [
       'uri' => $uri,
       'controller' => $controller,
-      'method' => $method
+      'metodo' => $metodo
     ];
   }
 
@@ -28,7 +29,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function get($uri, $controller){
-    $this->add('GET', $uri, $controller);
+    $this->aggiungi('GET', $uri, $controller);
   }
 
   /**
@@ -38,7 +39,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function post($uri, $controller){
-    $this->add('POST', $uri, $controller);
+    $this->aggiungi('POST', $uri, $controller);
   }
 
   /**
@@ -48,7 +49,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function put($uri, $controller){
-    $this->add('PUT', $uri, $controller);
+    $this->aggiungi('PUT', $uri, $controller);
   }
 
   /**
@@ -58,7 +59,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function delete($uri, $controller){
-    $this->add('DELETE', $uri, $controller);
+    $this->aggiungi('DELETE', $uri, $controller);
   }
 
   /**
@@ -68,7 +69,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function patch($uri, $controller){
-    $this->add('PATCH', $uri, $controller);
+    $this->aggiungi('PATCH', $uri, $controller);
   }
 
   /**
@@ -76,26 +77,15 @@ class Router {
    * Se la route non esiste, chiama il metodo abort().
    * 
    * @param string $uri L'URI richiesto dall'utente
-   * @param string $method Il metodo HTTP utilizzato
+   * @param string $metodo Il metodo HTTP utilizzato
    */
-  public function route($uri, $method){
+  public function route($uri, $metodo){
     foreach ($this->routes as $route) {
-      if ($route['uri'] == $uri && $route['method'] == strtoupper($method)) {
-        return require base_path($route['controller']);
+      if ($route['uri'] == $uri && $route['metodo'] == strtoupper($metodo)) {
+        return require percorso_base($route['controller']);
       }
     }
     
-    $this->abort(); // Se non viene trovata una route, genera un errore 404
-  }
-
-  /**
-   * Imposta il codice di risposta HTTP e carica la pagina di errore corrispondente.
-   * 
-   * @param int $code Il codice di errore HTTP (default: 404)
-   */
-  public function abort($code = 404){
-    http_response_code($code);
-    require base_path("app/views/{$code}.php");
-    die(); // Termina l'esecuzione dello script
+    abort(); // Se non viene trovata una route, genera un errore 404
   }
 }
