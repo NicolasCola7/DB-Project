@@ -704,27 +704,63 @@ $ DELIMITER ;
 
 -- Inserimento di una competenza da parte di un utente amministratore
 DELIMITER $ 
-CREATE PROCEDURE InserimentoCompetenza(IN emailAmm VARCHAR(255), IN nomeCompetenza VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE InserimentoCompetenza(IN emailAmministratoreI VARCHAR(255), IN nomeCompetenzaI VARCHAR(255), OUT esito INT)
 BEGIN
 	declare amministratoreEsistente boolean;
     declare competenzaEsistente boolean;
 
     -- Controllo se l'utente è un amministratore
-	set amministratoreEsistente = (SELECT COUNT(*) FROM Amministratore WHERE emailAmministratore = emailAmm) > 0;
+	set amministratoreEsistente = (SELECT COUNT(*) FROM Amministratore WHERE emailAmministratore = emailAmministratoreI) > 0;
     -- Controllo se la comptetenza non è già presente all'interno del sistema
-	set competenzaEsistente = (SELECT COUNT(*) FROM Skill WHERE nome = nomeCompetenza) > 0;
+	set competenzaEsistente = (SELECT COUNT(*) FROM Skill WHERE nome = nomeCompetenzaI) > 0;
     
     if (NOT(amministratoreEsistente)) then
 		-- Restituisco 0 che indica che l'utente non è un amministratore
 		set esito = 0; 
 	else 
 		if (competenzaEsistente) then
-        		-- Restituisco 1 che indica che la competenza è già esistente
+			-- Restituisco 1 che indica che la competenza è già esistente
 			set esito = 1;
 		else
-			INSERT INTO Skill (nome) VALUES (nomeCompetenza);
-			-- Restituisco 2 che indica che l'inserimento è andato bene
+			INSERT INTO Skill (nome) VALUES (nomeCompetenzaI);
+			-- Restituisco 2 che indica che l'inserimento della competenza è andata bene
 			set esito = 2;
+		end if;
+	end if;
+END;
+$ DELIMITER ;
+
+-- Inserimento di una componente di tipo Hardware
+DELIMITER $ 
+CREATE PROCEDURE InserimentoComponenteHardware(IN nomeComponenteI VARCHAR(255), IN nomeProgettoI VARCHAR(255), IN descrI VARCHAR(255), IN prezzoI VARCHAR(255), IN quantitaI VARCHAR(255), OUT esito INT)
+BEGIN
+	declare progettoEsistente boolean;
+    declare progettoHardware boolean;
+    declare componenteEsistente boolean;
+
+    -- Controllo se il progetto è esistente
+	set progettoEsistente = (SELECT COUNT(*) FROM Progetto WHERE nome = nomeProgettoI) > 0;
+    -- Controllo se il progetto è di tipo "Hardware"
+	set progettoHardware = (SELECT COUNT(*) FROM Progetto WHERE nome = nomeProgettoI AND tipoProgetto = "Hardware") > 0;
+	-- Controllo se il componente è già esistente per il progetto (non possono esserci duplicati ma per lo stesso componente possono esserci più quantita)
+	set componenteEsistente = (SELECT COUNT(*) FROM Componente WHERE nome = nomeComponenteI AND nomeProgetto = nomeProgettoI) > 0;
+    
+    if (NOT(progettoEsistente)) then
+		-- Restituisco 0 che indica che il progetto non esiste
+		set esito = 0; 
+	else 
+		if (NOT(progettoHardware)) then
+			-- Restituisco 1 che indica che il progetto esiste, ma non è Hardware (è Software)
+			set esito = 1;
+		else
+			if (componenteEsistente) then
+				-- Restituisco 2 che indica che il componente Hardware è già presente
+				set esito = 2;
+			else
+				INSERT INTO Componente (nome, nomeProgetto, prezzo, descr, quantita) VALUES (nomeComponenteI, nomeProgettoI, prezzoI, descrI, quantitaI);
+				-- Restituisco 3 che indica che l'inserimento della componente è andata bene
+				set esito = 3;
+			end if;
 		end if;
 	end if;
 END;
@@ -765,7 +801,6 @@ GROUP BY Utente.nickname
 -- Ordino in modo decrescente per trovare quali utenti hanno finanziato di più
 ORDER BY totale_finanziamento DESC  
 LIMIT 3;
-
 
 -- Popolamento delle tabelle con dati di esempio
 CALL RegistrazioneAmministratore('mario.rossi@email.com', 'pass123', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 1001, @esito);
