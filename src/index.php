@@ -1,15 +1,15 @@
 <?php
 
 // Definisce il percorso base del progetto
-const PERCORSO_BASE = __DIR__.'/../';
+const PERCORSO_BASE = __DIR__.'/';
 
 // Include il file contenente funzioni di utilità
-require PERCORSO_BASE.'app/functions.php';
+require PERCORSO_BASE.'core/functions.php';
 
 // Registra una funzione di autoload per caricare automaticamente le classi non esplicitamente richieste con 'require'
 spl_autoload_register(function ($classe) {
     // Sostituisce il namespace con il separatore di directory corretto
-    $class = str_replace('\\', DIRECTORY_SEPARATOR, $classe);
+    $classe = str_replace('\\', DIRECTORY_SEPARATOR, $classe);
     
     // Include il file della classe richiesta utilizzando il percorso base
     require percorso_base("{$classe}.php");
@@ -18,17 +18,19 @@ spl_autoload_register(function ($classe) {
 // Inizializza il Database e lo associa al container
 require percorso_base("bootstrap.php");
 
-$router = new \core\Router();
+$router = new core\Router();
+
+
+session_start();
 
 // Carica le rotte definite nel file 'routes.php'
-$routes = require percorso_base('/routes.php');
+$routes = require percorso_base('routes.php');
 
 // Ottiene l'URI della richiesta eliminando eventuali query string
-$uri = parse_url($_SERVER['REQUEST_URI'])['percorso'];
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
 // Determina il metodo HTTP della richiesta (override possibile tramite input nascosto)
 $metodo = isset($_POST['_metodo']) ? $_POST['_metodo'] : $_SERVER['REQUEST_METHOD'];
-
 // Passa l'URI e il metodo HTTP al router per la gestione della richiesta
 $router->route($uri, $metodo);
 

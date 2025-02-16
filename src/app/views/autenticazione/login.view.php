@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
+    <title> Botstarter | Login </title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -105,7 +105,7 @@
             <div class="links">
                 <a href="/registrazione">Non hai un account? Registrati</a>
                 <a href="/recupero-password">Password dimenticata?</a>
-                <a href="/admin-login" class="admin-link">Accesso amministratore</a>
+                <a href="/login/admin" class="admin-link">Accesso amministratore</a>
             </div>
         </form>
     </div>

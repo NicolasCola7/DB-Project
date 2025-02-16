@@ -1,20 +1,10 @@
 FROM php:8.1-apache
 
-# Abilita il modulo rewrite, se necessario
-RUN a2enmod rewrite
-
-# Installa le estensioni PDO e pdo_mysql
 RUN docker-php-ext-install pdo pdo_mysql
+RUN a2enmod rewrite
+# Ensure Apache allows .htaccess overrides.
+# This command updates Apache’s main config to allow .htaccess files in /var/www/html.
+RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-# Copia i file della tua applicazione (modifica il percorso in base alla tua struttura)
-COPY ./testing /var/www/html/testing
-
-# Imposta i permessi corretti (opzionale ma consigliato)
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
-
-# Espone la porta 80 per Apache
-EXPOSE 80
-
-# Avvia Apache in modalità foreground
-CMD ["apache2-foreground"]
+# Copy your application files (including index.php and optionally an .htaccess file)
+COPY ./src /var/www/html/

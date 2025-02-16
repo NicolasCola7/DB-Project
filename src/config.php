@@ -3,11 +3,11 @@
 return [
     'databases' => [
         'mysql' => [
-            'host'     => 'db-project',
-            'nome_db'   => 'BOTSTARTER',
+            'host'     => 'db-project-mysql-1',
+            'nome_db'  => 'BOTSTARTER',
             'username' => 'username',
             'password' => 'MatAleNic',
-            'charset'  => 'utf8nb4'
+            'charset'  => 'utf8'
         ],
         'mongo' => [
 

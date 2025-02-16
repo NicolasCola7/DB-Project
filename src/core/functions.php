@@ -1,6 +1,6 @@
 <?php
 
-require_once percorso_base("/core/Risposta.php");
+require_once percorso_base("core/Risposta.php");
 
 
 /**
@@ -42,19 +42,11 @@ function percorso_base($percorso){
  * @param array $errori Gli errori derivati 
  * @return string Il percorso assoluto della vista.
  */
-function view($percorso, $errori = []) {
+function view($percorso, $attributi = []) {
+    extract($attributi);
     return percorso_base("app/views" . $percorso);
 }
 
-/**
- * Restituisce il percorso completo del controller specificato.
- *
- * @param string $percorso Il percorso relativo del controller.
- * @return string Il percorso assoluto del controller.
- */
-function controller($percorso) {
-    return percorso_base("app/controllers" . $percorso);
-}
 
 /**
 * Imposta il codice di risposta HTTP e carica la pagina di errore corrispondente.

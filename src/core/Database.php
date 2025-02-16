@@ -72,15 +72,19 @@ class Database {
         }
 
         $procedure = $this->connessione->prepare("CALL {$nome}{$stringa}");
-        
+        $risultato = [];
+
         foreach ($parametri as $chiave => $valore) {
-            if($chiave != '@esito')
+            if($chiave != '@esito') {
                 $procedure->bindValue(":{$chiave}", $valore);
+                $risultato[$chiave] = $valore;
+            }
         }
 
         $procedure->execute();
         $esito = $this->connessione->query("SELECT @esito AS esito")->fetch(PDO::FETCH_ASSOC);
+        $risultato['esito'] = $esito;
         
-        return $esito; 
+        return $risultato; 
     }
 }

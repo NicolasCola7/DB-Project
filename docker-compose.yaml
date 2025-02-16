@@ -57,12 +57,14 @@ services:
     networks:
       - databases
   apache:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "80:80"
     volumes:
-      - ./testing:/var/www/html/testing
+      - ./src/:/var/www/html/
     networks:
       - databases
 
