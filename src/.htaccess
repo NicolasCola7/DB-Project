@@ -1,5 +1,5 @@
 RewriteEngine On
-# If the request is not for an existing file or directory, route it to index.php
+# Questo file fa in modo che, se la richiesta non è ad un percorso esistente, la redirige a index.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /index.php [L]

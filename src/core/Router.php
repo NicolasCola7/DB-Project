@@ -79,12 +79,6 @@ class Router {
    * @param string $metodo Il metodo HTTP utilizzato
    */
   public function route($uri, $metodo){
-    // Sono loggato?
-    if (!isset($_SESSION['utente']) && $uri != '/login') {
-      header("location: /login");
-      header("HTTP/1.1 303 See Other");
-    }
-
     foreach ($this->routes as $route) {
       if ($route['uri'] === $uri && $route['metodo'] === strtoupper($metodo)) {
         return require percorso_base($route['controller']);

@@ -27,9 +27,10 @@ if (!Validatore::isString($password, 8, 50)) {
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore
 if (!empty($errori)) {
-    return view("/autenticazione/login.view.php", [
+    require view("/autenticazione/login.view.php", [
         "errori" => $errori
     ]);
+     exit();
 }
 
 // Definizione dei parametri per la procedura di autenticazione nel database
@@ -40,18 +41,24 @@ $parametri = [
 ];
 
 // Esegue la stored procedure "AutenticazioneNormale" nel database
-$risultato = $db->procedure("AutenticazioneNormale", $parametri);
+$esito = $db->procedure("AutenticazioneNormale", $parametri);
 
 // Se l'esito è negativo, mostra un errore nella vista login
-if (!$risultato['esito']) {
-    return view("/autenticazione/login.view.php", [
-        "errore" => "Email o password errata!"
+if (!$esito) {
+    $errori['procedura'] =  "Email o password errata!";
+    require view("/autenticazione/login.view.php", [
+        'errori' => $errori
     ]);
+    exit();
 }
+
+//Accedo al nickname dell'utente registrato
+$risultatoQuery = $db->query("SELECT nickname FROM Utente WHERE email = :email", [':email' => $email]);
 
 // Avvia la sessione per memorizzare i dati dell'utente autenticato
 $_SESSION['utente'] = [
-    'email' => $risultato['email']
+    'email' => $email,
+    'nickname' => $risultatoQuery[0]['nickname']
 ];
 
 // Reindirizza l'utente alla home dopo un login riuscito

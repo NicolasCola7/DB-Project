@@ -84,6 +84,11 @@
             color: #d93025 !important;
             margin-top: 1rem !important;
         }
+
+        #errori {
+            color: #d93025 !important;
+        }
+        
     </style>
 </head>
 <body>
@@ -99,13 +104,27 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            
+            <div id="errori">
+                <?php if (isset($errori['email'])) : ?>
+                    <p> <?= $errori['email'] ?> </p>
+                <?php endif; ?>
+
+                <?php if (isset($errori['password'])) : ?>
+                    <p> <?= $errori['password'] ?> </p>
+                <?php endif; ?>
+
+                <?php if (isset($errori['procedura'])) : ?>
+                    <p> <?= $errori['procedura'] ?> </p>
+                <?php endif; ?>
+            </div>
 
             <button type="submit" class="login-btn">Login</button>
 
             <div class="links">
                 <a href="/registrazione">Non hai un account? Registrati</a>
                 <a href="/recupero-password">Password dimenticata?</a>
-                <a href="/login/admin" class="admin-link">Accesso amministratore</a>
+                <a href="/admin/login" class="admin-link">Accesso amministratore</a>
             </div>
         </form>
     </div>

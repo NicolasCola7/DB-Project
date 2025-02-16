@@ -46,8 +46,17 @@ class Database {
     /**
      * Metodo per eseguire una query sul database.
      */
-    public function query() {
-        // Qui va implementata la logica per eseguire una query SQL
+    public function query($query, $parametri = []) {
+        $stmt = $this->connessione->prepare($query);
+        
+        foreach ($parametri as $chiave => $valore) {
+            $stmt->bindParam($chiave, $valore, PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+
+        $risultato = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $risultato;
     }
 
     /**
@@ -63,7 +72,7 @@ class Database {
             $stringa .= ":{$chiavi[0]}";
 
             for ($i = 1; $i < count($chiavi); $i++) {
-                if($chiavi[$i] == '@esito')
+                if($chiavi[$i] === '@esito')
                     $stringa .= ", {$chiavi[$i]}";
                 else
                     $stringa .= ", :{$chiavi[$i]}";
@@ -83,8 +92,7 @@ class Database {
 
         $procedure->execute();
         $esito = $this->connessione->query("SELECT @esito AS esito")->fetch(PDO::FETCH_ASSOC);
-        $risultato['esito'] = $esito;
         
-        return $risultato; 
+        return $esito['esito']; 
     }
 }

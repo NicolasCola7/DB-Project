@@ -219,10 +219,10 @@ BEGIN
     set esisteUtente = emailI IN (SELECT email FROM Utente);
 	set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI AND password = MD5(passwordI)) > 0;
 
-    if ((NOT esisteUtente) OR (NOT passwordCorretta)) then
-		set esito = 0;
-	else 
+    if (esisteUtente AND passwordCorretta) then
 		set esito = 1;
+	else 
+		set esito = 0;
 	end if;
 END;
 $ DELIMITER ;
