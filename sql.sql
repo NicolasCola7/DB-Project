@@ -217,16 +217,12 @@ BEGIN
 	declare passwordCorretta boolean;
     
     set esisteUtente = emailI IN (SELECT email FROM Utente);
-   
-    if (NOT esisteUtente) then
+	set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI AND password = MD5(passwordI)) > 0;
+
+    if ((NOT esisteUtente) OR (NOT passwordCorretta)) then
 		set esito = 0;
 	else 
-		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI AND password = MD5(passwordI)) > 0;
-        if(NOT passwordCorretta) then
-			set esito = 1;
-		else
-			set esito = 2;
-		end if;
+		set esito = 1;
 	end if;
 END;
 $ DELIMITER ;
@@ -241,22 +237,13 @@ BEGIN
     
     set codiceI = CAST(codiceI AS UNSIGNED);
     set esisteUtente = emailI IN (SELECT emailAmministratore FROM Amministratore);
-   
-    if (NOT esisteUtente) then
+	set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI and MD5(passwordI) = password) > 0;
+    set codiceCorretto = (SELECT count(*) FROM Amministratore WHERE emailAmministratore = emailI AND codice = codiceI);
+
+    if ((NOT esisteUtente) OR (NOT passwordCorretta) OR (NOT codiceCorretto)) then
 		set esito = 0;
 	else 
-		set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI and MD5(passwordI) = password) > 0;
-        if(NOT passwordCorretta) then
-			set esito = 1;
-		else
-			set codiceCorretto = (SELECT count(*) FROM Amministratore WHERE emailAmministratore = emailI AND codice = codiceI);
-           
-           if (NOT codiceCorretto) then
-				set esito = 2;
-			else
-				set esito = 3;
-			end if;
-		end if;
+		set esito = 1;
 	end if;
 END;
 $ DELIMITER ;
@@ -691,7 +678,6 @@ BEGIN
 			set correttezzaSceltaCreatore = true;
 		end if;
     end if;
-	
 
     if(correttezzaNomeEProgetto and correttezzaEmail and correttezzaSceltaCreatore and candidaturaGiaPresente) then
         UPDATE Candidatura C SET C.accettata = sceltaCreatoreI, C.stato = 'chiusa' where C.nomeProfilo = nomeProfiloI and 
@@ -714,18 +700,13 @@ BEGIN
     -- Controllo se la comptetenza non è già presente all'interno del sistema
 	set competenzaEsistente = (SELECT COUNT(*) FROM Skill WHERE nome = nomeCompetenzaI) > 0;
     
-    if (NOT(amministratoreEsistente)) then
-		-- Restituisco 0 che indica che l'utente non è un amministratore
+    if (NOT(amministratoreEsistente) OR (competenzaEsistente)) then
+		-- Restituisco 0 che indica che l'utente non è un amministratore o la competenza è già esistente
 		set esito = 0; 
 	else 
-		if (competenzaEsistente) then
-			-- Restituisco 1 che indica che la competenza è già esistente
-			set esito = 1;
-		else
-			INSERT INTO Skill (nome) VALUES (nomeCompetenzaI);
-			-- Restituisco 2 che indica che l'inserimento della competenza è andata bene
-			set esito = 2;
-		end if;
+		INSERT INTO Skill (nome) VALUES (nomeCompetenzaI);
+		-- Restituisco 1 che indica che l'inserimento della competenza è andata bene
+		set esito = 1;
 	end if;
 END;
 $ DELIMITER ;
@@ -737,7 +718,7 @@ BEGIN
 	declare progettoEsistente boolean;
     declare progettoHardware boolean;
     declare componenteEsistente boolean;
-
+    
     -- Controllo se il progetto è esistente
 	set progettoEsistente = (SELECT COUNT(*) FROM Progetto WHERE nome = nomeProgettoI) > 0;
     -- Controllo se il progetto è di tipo "Hardware"
@@ -745,23 +726,16 @@ BEGIN
 	-- Controllo se il componente è già esistente per il progetto (non possono esserci duplicati ma per lo stesso componente possono esserci più quantita)
 	set componenteEsistente = (SELECT COUNT(*) FROM Componente WHERE nome = nomeComponenteI AND nomeProgetto = nomeProgettoI) > 0;
     
-    if (NOT(progettoEsistente)) then
-		-- Restituisco 0 che indica che il progetto non esiste
+    if ((NOT(progettoEsistente)) OR (NOT(progettoHardware)) OR (componenteEsistente)) then
+		-- Restituisco 0 che indica che il progetto non esiste o il progetto è software o il componente hardware è già presente
 		set esito = 0; 
 	else 
-		if (NOT(progettoHardware)) then
-			-- Restituisco 1 che indica che il progetto esiste, ma non è Hardware (è Software)
-			set esito = 1;
-		else
-			if (componenteEsistente) then
-				-- Restituisco 2 che indica che il componente Hardware è già presente
-				set esito = 2;
-			else
-				INSERT INTO Componente (nome, nomeProgetto, prezzo, descr, quantita) VALUES (nomeComponenteI, nomeProgettoI, prezzoI, descrI, quantitaI);
-				-- Restituisco 3 che indica che l'inserimento della componente è andata bene
-				set esito = 3;
-			end if;
-		end if;
+    	-- Cast dei parametri
+        SET prezzoI = CAST(prezzoI AS DECIMAL(10,2));
+        SET quantitaI = CAST(quantitaI AS UNSIGNED);
+		INSERT INTO Componente (nome, nomeProgetto, prezzo, descr, quantita) VALUES (nomeComponenteI, nomeProgettoI, prezzoI, descrI, quantitaI);
+		-- Restituisco 1 che indica che l'inserimento della componente hardware è andata a buon fine
+		set esito = 1;
 	end if;
 END;
 $ DELIMITER ;
@@ -811,6 +785,10 @@ CALL RegistrazioneNormale('normal.user@email.com', 'userpw', 'User', 'Normal', '
 CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 100000.00, 'Software', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 200000.00, 'Hardware', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 300000.00, 'Hardware', 'giulia.bianchi2@email.com');
+
+CALL InserimentoComponenteHardware('CPU Intel', 'SmartWatch AI', 'Processore Intel i9', '350.00', '5', @esito);
+CALL InserimentoComponenteHardware('Scheda Madre', 'Robot AI', 'ASUS ROG STRIX', '200.00', '10', @esito);
+CALL InserimentoComponenteHardware('SSD 1TB', 'Robot AI2', 'Unità SSD NVMe', '120.00', '15', @esito);
 
 CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI', 'giulia.bianchi@email.com');
 CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI', 'giulia.bianchi@email.com');
