@@ -49,7 +49,7 @@
     input[type="text"],
     input[type="email"],
     input[type="password"],
-    input[type="date"] {
+    input[type="number"] {
       width: 100%;
       padding: 0.8rem;
       border: 1px solid #dadce0;
@@ -134,8 +134,8 @@
       </div>
 
       <div class="form-group">
-        <label for="data-nascita">Data di nascita</label>
-        <input type="date" id="data-nascita" name="data-nascita" required>
+        <label for="anno-nascita">Anno di nascita</label>
+        <input type="number" id="anno-nascita" name="anno-nascita" required min=1900>
       </div>
 
       <div class="form-group">
@@ -159,8 +159,8 @@
       </div>
 
       <div class="form-group" id="check">
-        <input type="checkbox" id="check-creatore" name="check-creatore" required>
-        <label for="check-creatore">Utente creatore?</label>
+        <input type="checkbox" id="check-creatore" name="check-creatore">
+        <label for="check-creatore">Utente creatore</label>
       </div>
       
       <div id="errori">

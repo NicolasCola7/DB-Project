@@ -8,11 +8,14 @@
         body {
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            padding: 0;
             background-color: #f0f2f5;
+            max-width: 100%;
         }
 
         .login-container {
@@ -22,6 +25,8 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 400px;
+            height: 80%;
+            margin-bottom: 40px;
         }
 
         h2 {
@@ -88,10 +93,25 @@
         #errori {
             color: #d93025 !important;
         }
+        .titolo{
+            width: 100%;
+            height: 8%;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid lightgrey;
+            text-align: center;
+            background-color: white;
+            margin-bottom: 30px;
+            align-items: center;
+            color: #1a73e8;;
+        }
         
     </style>
 </head>
 <body>
+    <div class="titolo">
+        <h1>BOSTARTER</h1>
+    </div>
     <div class="login-container">
         <h2>Accedi al tuo account</h2>
         <form action="/login" method="POST">
