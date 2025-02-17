@@ -1,7 +1,7 @@
 <?php
 
 // Definisce il percorso base del progetto
-const PERCORSO_BASE = __DIR__.'/';
+const PERCORSO_BASE = __DIR__ . '/';
 
 // Include il file contenente funzioni di utilità
 require PERCORSO_BASE.'core/functions.php';

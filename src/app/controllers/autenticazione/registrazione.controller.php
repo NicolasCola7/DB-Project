@@ -20,7 +20,7 @@ $email = $_POST['email'];
 $nickname = $_POST['nickname'];
 $password = $_POST['password'];
 $conferma_password = $_POST['conferma-password'];
-$check_creator = $_POST['check-creator'];
+$check_creatore = $_POST['check-creatore'];
 
 // Inizializza un array per raccogliere eventuali errori di validazione
 $errori = [];
@@ -34,6 +34,7 @@ if (!Validatore::isEmail($email)) {
 if (!Validatore::isString($password, 8, 50)) {
     $errori["password"] = "La password deve essere almeno 8 caratteri e al massimo 50!";
 }
+
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore
 if (!empty($errori)) {
@@ -55,7 +56,7 @@ $parametri = [
     '@esito' => '@esito' // Variabile di output dalla stored procedure
 ];
 
-if (isset($check_creator)) 
+if (isset($check_creatore)) 
 {
     // Esegue la stored procedure "RegistrazioneCreatore" nel database
     $esito = $db->procedure("RegistrazioneCreatore", $parametri);

@@ -1,5 +1,9 @@
-RewriteEngine On
-# Questo file fa in modo che, se la richiesta non è ad un percorso esistente, la redirige a index.php
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirige tutte le richieste a index.php
+    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+    
+    # Previne l'accesso diretto a file .php all'interno di src
+    RewriteRule ^src/.*\.php$ - [R=404,L]
+</IfModule>
