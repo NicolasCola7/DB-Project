@@ -719,14 +719,12 @@ BEGIN
     declare progettoHardware boolean;
     declare componenteEsistente boolean;
     
-    -- Controllo se il progetto è esistente
-	set progettoEsistente = (SELECT COUNT(*) FROM Progetto WHERE nome = nomeProgettoI) > 0;
-    -- Controllo se il progetto è di tipo "Hardware"
-	set progettoHardware = (SELECT COUNT(*) FROM Progetto WHERE nome = nomeProgettoI AND tipoProgetto = "Hardware") > 0;
+    -- Controllo se il progetto è esistente e se è di tipo "Hardware"
+	set progettoEsistenteHardware = (SELECT COUNT(*) FROM Progetto WHERE nome = nomeProgettoI AND tipoProgetto = "Hardware") > 0;
 	-- Controllo se il componente è già esistente per il progetto (non possono esserci duplicati ma per lo stesso componente possono esserci più quantita)
 	set componenteEsistente = (SELECT COUNT(*) FROM Componente WHERE nome = nomeComponenteI AND nomeProgetto = nomeProgettoI) > 0;
     
-    if ((NOT(progettoEsistente)) OR (NOT(progettoHardware)) OR (componenteEsistente)) then
+    if ((NOT(progettoEsistenteHardware)) OR (componenteEsistente)) then
 		-- Restituisco 0 che indica che il progetto non esiste o il progetto è software o il componente hardware è già presente
 		set esito = 0; 
 	else 
