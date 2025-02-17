@@ -17,7 +17,6 @@ $errori = [];
 // Controllo validità dell'email
 if (!Validatore::isEmail($email)) {
     $errori['email'] = "Devi inserire un indirizzo email valido!"; 
-
 }
 
 // Controllo validità della password (lunghezza tra 8 e 50 caratteri)
@@ -30,7 +29,7 @@ if (!empty($errori)) {
     require view("/autenticazione/login.view.php", [
         "errori" => $errori
     ]);
-     exit();
+    exit();
 }
 
 // Definizione dei parametri per la procedura di autenticazione nel database

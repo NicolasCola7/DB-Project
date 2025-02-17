@@ -118,7 +118,7 @@
     </div>
     <div class="login-container">
         <h2>Accedi al tuo account</h2>
-        <form action="/login" method="POST">
+        <form action="/admin/login" method="POST">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
@@ -131,7 +131,7 @@
 
             <div class="form-group">
                 <label for="codiceSicurezza">Codice sicurezza</label>
-                <input type="text" id="codiceSicurezza" name="codiceSicurezza" required>
+                <input type="number" id="codiceSicurezza" name="codiceSicurezza" required min = 0>
             </div>
             
             <div id="errori">
@@ -141,6 +141,10 @@
 
                 <?php if (isset($errori['password'])) : ?>
                     <p> <?= $errori['password'] ?> </p>
+                <?php endif; ?>
+
+                <?php if (isset($errori['codiceSicurezza'])) : ?>
+                    <p> <?= $errori['codiceSicurezza'] ?> </p>
                 <?php endif; ?>
 
                 <?php if (isset($errori['procedura'])) : ?>
