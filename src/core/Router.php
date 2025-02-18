@@ -1,6 +1,7 @@
 <?php
 
 namespace core;
+use core\middlewares\Middleware;
 
 class Router {
 
@@ -14,11 +15,14 @@ class Router {
    * @param string $controller Il controller associato alla route
    */
   public function aggiungi($metodo, $uri, $controller){
-    $this->routes[] = [
+     $this->routes[] = [
       'uri' => $uri,
       'controller' => $controller,
-      'metodo' => $metodo
+      'metodo' => $metodo,
+      'middleware' => null
     ];
+
+    return $this;
   }
 
   /**
@@ -28,7 +32,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function get($uri, $controller){
-    $this->aggiungi('GET', $uri, $controller);
+    return $this->aggiungi('GET', $uri, $controller);
   }
 
   /**
@@ -38,7 +42,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function post($uri, $controller){
-    $this->aggiungi('POST', $uri, $controller);
+    return $this->aggiungi('POST', $uri, $controller);
   }
 
   /**
@@ -48,7 +52,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function put($uri, $controller){
-    $this->aggiungi('PUT', $uri, $controller);
+    return $this->aggiungi('PUT', $uri, $controller);
   }
 
   /**
@@ -58,7 +62,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function delete($uri, $controller){
-    $this->aggiungi('DELETE', $uri, $controller);
+    return $this->aggiungi('DELETE', $uri, $controller);
   }
 
   /**
@@ -68,7 +72,7 @@ class Router {
    * @param string $controller Il controller associato
    */
   public function patch($uri, $controller){
-    $this->aggiungi('PATCH', $uri, $controller);
+    return $this->aggiungi('PATCH', $uri, $controller);
   }
 
   /**
@@ -81,10 +85,18 @@ class Router {
   public function route($uri, $metodo){
     foreach ($this->routes as $route) {
       if ($route['uri'] === $uri && $route['metodo'] === strtoupper($metodo)) {
+        Middleware::risolvi($route['middleware']);
+
         return require percorso_base($route['controller']);
       }
     }
     
     abort(); // Se non viene trovata una route, genera un errore 404
   }
+
+  public function soloSe($chiave) {
+        $this->routes[array_key_last($this->routes)]['middleware'] = $chiave;
+
+        return $this;
+    }
 }
