@@ -164,12 +164,36 @@
       </div>
       
       <div id="errori">
+        <?php if (isset($errori['nome'])) : ?>
+          <p><?= $errori['nome'] ?></p>
+        <?php endif; ?>
+
+        <?php if (isset($errori['cognome'])) : ?>
+          <p><?= $errori['cognome'] ?></p>
+        <?php endif; ?>
+
+        <?php if (isset($errori['luogo_nascita'])) : ?>
+          <p><?= $errori['luogo_nascita'] ?></p>
+        <?php endif; ?>
+
+        <?php if (isset($errori['anno_nascita'])) : ?>
+          <p><?= $errori['anno_nascita'] ?></p>
+        <?php endif; ?>
+
         <?php if (isset($errori['email'])) : ?>
           <p><?= $errori['email'] ?></p>
         <?php endif; ?>
 
+        <?php if (isset($errori['nickname'])) : ?>
+          <p><?= $errori['nickname'] ?></p>
+        <?php endif; ?>
+
         <?php if (isset($errori['password'])) : ?>
           <p><?= $errori['password'] ?></p>
+        <?php endif; ?>
+
+        <?php if (isset($errori['password_errate'])) : ?>
+          <p><?= $errori['password_errate'] ?></p>
         <?php endif; ?>
 
         <?php if (isset($errori['procedura'])) : ?>
@@ -186,5 +210,13 @@
       </div>
     </form>
   </div>
+  <?php if (isset($messaggio_successo)) : ?>
+    <script>
+        // Mostra un'alert con il messaggio di successo
+        alert("<?= $messaggio_successo ?>"); 
+        // Dopo il click sul bottone, reindirizza al login
+        window.location.href = "/login"; 
+    </script>
+  <?php endif; ?>
 </body>
 </html>

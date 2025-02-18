@@ -7,34 +7,61 @@ use \core\Validatore;
 // Ottiene un'istanza della classe Database dal container dell'applicazione
 $db = App::getContainer()->risolvi(Database::class);
 
-// TEO -> DA FINIRE!!!!!!!
-// controllare la validità dei campi 
-// aggiungere tipologia errore html
-
 // Recupera i dati inviati dal form tramite il metodo POST
 $nome = $_POST['nome'];
 $cognome = $_POST['cognome'];
 $luogo_nascita = $_POST['luogo-nascita'];
-$anno_nascita = $_POST['anno-nascita'];
+$anno_nascita =  (int) $_POST['anno-nascita'];
 $email = $_POST['email'];
 $nickname = $_POST['nickname'];
 $password = $_POST['password'];
 $conferma_password = $_POST['conferma-password'];
-$check_creatore = $_POST['check-creatore'];
+//se il check-box non è stato selezionato causa un errore
+$check_creatore = isset($_POST['check-creatore']) ? $_POST['check-creatore'] : null;
 
 // Inizializza un array per raccogliere eventuali errori di validazione
 $errori = [];
+
+// Controllo validità del nome (lunghezza tra 1 e 100 caratteri)
+if (!Validatore::isString($nome, 1, 100)) {
+    $errori['nome'] = "Devi inserire un nome valido!"; 
+}
+
+// Controllo validità del cognome (lunghezza tra 1 e 100 caratteri)
+if (!Validatore::isString($cognome, 1, 100)) {
+    $errori['cognome'] = "Devi inserire un cognome valido!"; 
+}
+
+// Controllo validità del luogo di nascita (lunghezza tra 1 e 100 caratteri)
+if (!Validatore::isString($luogo_nascita, 1, 100)) {
+    $errori['luogo_nascita'] = "Devi inserire un luogo di nascita valido!"; 
+}
+
+// Controllo validità dell'anno di nascita (minimo 1900)
+if (!Validatore::isNumber($anno_nascita, 1900)) {
+    $errori["anno_nascita"] = "Devi inserire un anno di nascita valido!";
+}
 
 // Controllo validità dell'email
 if (!Validatore::isEmail($email)) {
     $errori['email'] = "Devi inserire un indirizzo email valido!"; 
 }
 
+// Controllo validità del nickname (lunghezza tra 1 e 50 caratteri)
+if (!Validatore::isString($nickname, 1, 50)) {
+    $errori['nickname'] = "Devi inserire un nickname valido!";
+}
+
 // Controllo validità della password (lunghezza tra 8 e 50 caratteri)
-if (!Validatore::isString($password, 8, 50)) {
+if (!Validatore::isString($password, 8, 50) || !Validatore::isString($conferma_password, 8, 50)) {
     $errori["password"] = "La password deve essere almeno 8 caratteri e al massimo 50!";
 }
 
+// Controllo uguaglianza delle due password inserite
+if($password != $conferma_password)
+{
+    $errori["password_errate"] = "La due password non coincidono!";
+}
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore
 if (!empty($errori)) {
@@ -76,7 +103,10 @@ if (!$esito) {
     exit();
 }
 
-// Reindirizza l'utente al login dopo la registrazione riuscita
-header('location: /login');
-// Termina lo script dopo il reindirizzamento
+// Passiamo un messaggio di successo alla vista che terminerà con il click dell'utente
+$messaggio_successo = "Registrazione completata con successo!";
+require view("/autenticazione/registrazione.view.php", [ 
+    "messaggio_successo" => $messaggio_successo 
+]);
+// Termina lo script
 exit();
