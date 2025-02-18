@@ -54,7 +54,9 @@ if (!$esito) {
 //Accedo al nickname dell'utente registrato
 $risultatoQuery = $db->query("SELECT nickname FROM Utente WHERE email = :email", [':email' => $email]);
 
+
 // Avvia la sessione per memorizzare i dati dell'utente autenticato
+
 $_SESSION['utente'] = [
     'email' => $email,
     'nickname' => $risultatoQuery[0]['nickname']

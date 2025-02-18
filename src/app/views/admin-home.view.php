@@ -1,10 +1,10 @@
 <html>
     <header>
-        <title> Home </title>
+        <title> Botstarter | Admin-Home </title>
     </header>
 
     <body>
-            <h1> Bentornato/a, <?php echo($_SESSION['utente']['nickname']) ?> </h1>
+            <h1> Bentornato/a, <? echo($_SESSION['utente']['nickname']) ?> </h1>
             <form action='/logout' method='POST'>
                 <input type="submit" value='Logout'>
             </form>

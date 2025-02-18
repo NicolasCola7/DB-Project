@@ -2,7 +2,8 @@
 
 //GET
 $router->get('/', 'app/index.php');
-$router->get('/home', 'app/controllers/home.controller.php')->soloSe('autenticato');
+$router->get('/home', 'app/views/home.view.php')->soloSe('autenticato');
+$router->get('/admin/home', 'app/views/admin-home.view.php')->soloSe('admin');
 $router->get('/login', 'app/views/autenticazione/login.view.php')->soloSe('non-autenticato');
 $router->get('/registrazione', 'app/views/autenticazione/registrazione.view.php')->soloSe('non-autenticato');
 $router->get('/admin/login', 'app/views/autenticazione/login-admin.view.php')->soloSe('non-autenticato');
@@ -14,7 +15,7 @@ $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->
 $router->post('/registrazione', 'app/controllers/autenticazione/registrazione.controller.php')->soloSe('non-autenticato');
 $router->post('/admin/login', 'app/controllers/autenticazione/login-admin.controller.php')->soloSe('non-autenticato');
 $router->post('/admin/registrazione', 'app/controllers/autenticazione/registrazione-admin.controller.php')->soloSe('non-autenticato');
-$router->post('/home/logout', 'app/controllers/autenticazione/logout.controller.php')->soloSe('autenticato');
+$router->post('/logout', 'app/controllers/autenticazione/logout.controller.php')->soloSe('autenticato');
 //PUT
 
 
