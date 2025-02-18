@@ -15,7 +15,6 @@ $anno_nascita =  (int) $_POST['anno-nascita'];
 $email = $_POST['email'];
 $nickname = $_POST['nickname'];
 $password = $_POST['password'];
-$conferma_password = $_POST['conferma-password'];
 //se il check-box non è stato selezionato causa un errore
 $check_creatore = isset($_POST['check-creatore']) ? $_POST['check-creatore'] : null;
 
@@ -53,14 +52,8 @@ if (!Validatore::isString($nickname, 1, 50)) {
 }
 
 // Controllo validità della password (lunghezza tra 8 e 50 caratteri)
-if (!Validatore::isString($password, 8, 50) || !Validatore::isString($conferma_password, 8, 50)) {
+if (!Validatore::isString($password, 8, 50)) {
     $errori["password"] = "La password deve essere almeno 8 caratteri e al massimo 50!";
-}
-
-// Controllo uguaglianza delle due password inserite
-if($password != $conferma_password)
-{
-    $errori["password_errate"] = "La due password non coincidono!";
 }
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore

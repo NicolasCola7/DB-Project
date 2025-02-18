@@ -218,5 +218,35 @@
         window.location.href = "/login"; 
     </script>
   <?php endif; ?>
+  <!--script javascript per check validità campi lato client-->
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      //imposto al campo input dell'anno di nascita un valore massimo dinamico, in modo che l'utente sia maggiorenne
+      let oggi = new Date();
+      let annoMinimo = oggi.getFullYear() - 18;
+      document.getElementById("anno-nascita").setAttribute("max",annoMinimo);
+
+      let form = document.querySelector("form");
+      form.addEventListener("submit",function(event){
+        //leggo i valori presi in input
+        let password = document.getElementById("password").value;
+        let confermaPassword = document.getElementById("conferma-password").value;
+        let erroriDiv = document.getElementById("errori");
+        //pulisco errori precedenti
+        erroriDiv.innerHTML = "";
+
+        //se le due password sono diverse gestisco l'errore
+        if(password !== confermaPassword){
+          //blocca l'invio del form
+          event.preventDefault();
+          //stampo l'errore 
+          let errore = document.createElement("p");
+          errore.classList.add("errori");
+          errore.textContent = "Le password non coincidono.";
+          erroriDiv.appendChild(errore);
+        }
+      })
+    })
+  </script>
 </body>
 </html>
