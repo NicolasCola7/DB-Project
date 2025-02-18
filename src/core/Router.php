@@ -75,12 +75,14 @@ class Router {
     return $this->aggiungi('PATCH', $uri, $controller);
   }
 
-  /**
-   * Cerca una route corrispondente all'URI e al metodo forniti e la esegue.
-   * Se la route non esiste, chiama il metodo abort().
-   * 
-   * @param string $uri L'URI richiesto dall'utente
-   * @param string $metodo Il metodo HTTP utilizzato
+   /**
+   * Cerca una route corrispondente all'URI e al metodo HTTP forniti e la esegue.
+   * Se la route prevede un middleware, questo viene risolto ed eseguito.
+   * Se la route non viene trovata, viene chiamata la funzione abort() per gestire l'errore (404).
+   *
+   * @param string $uri L'URI richiesto dall'utente.
+   * @param string $metodo Il metodo HTTP utilizzato (GET, POST, etc.).
+   * @return mixed L'esecuzione del controller associato alla route, se presente.
    */
   public function route($uri, $metodo){
     foreach ($this->routes as $route) {
@@ -93,10 +95,17 @@ class Router {
     
     abort(); // Se non viene trovata una route, genera un errore 404
   }
-
+  
+  /**
+   * Associa un middleware all'ultima route aggiunta.
+   * Il middleware specificato verrà eseguito prima dell'invocazione del controller associato alla route.
+   *
+   * @param string $chiave La chiave identificativa del middleware da associare.
+   * @return $this Ritorna l'istanza corrente del router per permettere il method chaining.
+   */
   public function soloSe($chiave) {
-        $this->routes[array_key_last($this->routes)]['middleware'] = $chiave;
+    $this->routes[array_key_last($this->routes)]['middleware'] = $chiave;
 
-        return $this;
-    }
+    return $this;
+  }
 }
