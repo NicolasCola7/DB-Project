@@ -1,3 +1,4 @@
 <?
 
 header("location: /login");
+exit();
