@@ -26,8 +26,8 @@ if (!Validatore::isString($password, 8, 50)) {
 }
 
 // Controllo validità del codice di sicurezza (massimo 4 cifre, solo numeri)
-if (!Validatore::isNumber($codiceSicurezza, 1, 4)) {
-    $errori["codiceSicurezza"] = "Il codice di sicurezza deve essere numerico e deve essere massimo 4!";
+if (!Validatore::isNumber($codiceSicurezza, 1, 9999)) {
+    $errori["codiceSicurezza"] = "Il codice di sicurezza deve essere numerico e deve essere massimo 4 cifre!";
 }
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore

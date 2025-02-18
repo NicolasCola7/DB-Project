@@ -131,7 +131,7 @@
 
             <div class="form-group">
                 <label for="codiceSicurezza">Codice sicurezza</label>
-                <input type="number" id="codiceSicurezza" name="codiceSicurezza" required min = 0>
+                <input type="number" id="codiceSicurezza" name="codiceSicurezza" required min = "1" max = "9999">
             </div>
             
             <div id="errori">

@@ -774,7 +774,7 @@ ORDER BY totale_finanziamento DESC
 LIMIT 3;
 
 -- Popolamento delle tabelle con dati di esempio
-CALL RegistrazioneAmministratore('mario.rossi@email.com', 'pass1234', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 2, @esito);
+CALL RegistrazioneAmministratore('mario.rossi@email.com', 'pass1234', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 1001, @esito);
 CALL RegistrazioneCreatore('giulia.bianchi@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', @esito);
 CALL RegistrazioneCreatore('giulia.bianchi2@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', @esito);
 CALL RegistrazioneNormale('normal.user@email.com', 'pass1234', 'User', 'Normal', 'Rimini', 2025, 'normalUser', @esito);
