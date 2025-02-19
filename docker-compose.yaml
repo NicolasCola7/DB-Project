@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: MatAleNic
       MYSQL_USER: username
       MYSQL_PASSWORD: MatAleNic
-      MYSQL_DATABASE: BOTSTARTER
+      MYSQL_DATABASE: BOSTARTER
     command: ["--log_bin_trust_function_creators=1"] #serve per far andare i trigger
     ports:
       - "3307:3306"

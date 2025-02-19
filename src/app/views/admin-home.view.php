@@ -1,6 +1,6 @@
 <html>
     <header>
-        <title> Botstarter | Admin-Home </title>
+        <title> Bostarter | Admin-Home </title>
     </header>
 
     <body>

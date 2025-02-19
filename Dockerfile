@@ -1,7 +1,11 @@
 FROM php:8.1-apache
 
 RUN docker-php-ext-install pdo pdo_mysql
+
+RUN apt-get update && apt-get install -y libssl-dev
+
+RUN pecl install mongodb && docker-php-ext-enable mongodb
+
 RUN a2enmod rewrite
-# Ensure Apache allows .htaccess overrides.
-# This command updates Apache’s main config to allow .htaccess files in /var/www/html.
+
 RUN sed -i '/<Directory \/var\/www\/>/,/<\/Directory>/ s/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
