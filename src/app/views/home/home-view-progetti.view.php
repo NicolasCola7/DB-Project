@@ -106,8 +106,15 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             margin: 20px;
         }
+        .grid{
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
         .card {
-            width: 250px;
+            width: 300px;
+            height: 250px;
             border: 1px solid #ccc;
             border-radius: 10px;
             overflow: hidden;
@@ -185,8 +192,8 @@
     <div class="main">
         <div class="sidebar">
             <ul>
-                <li><a href="">Visualizza progetti disponibili</a></li>
-                <li><a href="/home/le-mie-skill">Aggiorna le proprie skill</a></li>
+                <li><a href="/home/visualizza-progetti-controller">Visualizza progetti disponibili</a></li>
+                <li><a href="../home/le-mie-skill">Le mie skill</a></li>
                 <?php if ($_SESSION['utente']['checkCreatore']) : ?>
                     <li><a href="">Crea un nuovo progetto</a></li> 
                 <?php endif; ?>
@@ -207,22 +214,32 @@
         </div>
         
         <div class="contenutoMain">
-            <h3>Ecco i progetti disponibili</h3>
-            <div class="card">
-                <div class="img">
-                    <img src="" alt="Foto del progetto">
-                </div>
-                <div class="info">
-                    <p>Nome, Fondatore, Stato</p>
-                </div>
-                <div class="azioni">
-                    <form action='' method='POST'>
-                        <button type="submit">Commenta</button>
-                    </form>
-                    <form action='' method='POST'>
-                        <button type="submit">Finanzia</button>
-                    </form>
-                </div>
+            <?php if(!empty($_SESSION['utente']['progetti']) && is_array($_SESSION['utente']['progetti'])): ?>
+                <h3>Ecco i progetti disponibili</h3>
+                <div class="grid">
+                    <?php foreach ($_SESSION['utente']['progetti'] as $project): ?>
+                        <div class="card">
+                            <div class="img">
+                                <img src="" alt="Foto del progetto">
+                            </div>
+                            <div class="info">
+                                <p><?= htmlspecialchars($project['NomeProgetto'])?>, 
+                                <?= htmlspecialchars($project['NomeCreatore'])?> <?= htmlspecialchars($project['cognome'])?>, 
+                                <?= htmlspecialchars($project['stato'])?></p>
+                            </div>
+                            <div class="azioni">
+                                <form action='' method='POST'>
+                                    <button type="submit">Commenta</button>
+                                </form>
+                                <form action='' method='POST'>
+                                    <button type="submit">Finanzia</button>
+                                </form>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <h3>Nessun progetto disponibile.</h3>
+                <?php endif; ?>
             </div>
         </div>
     </div>

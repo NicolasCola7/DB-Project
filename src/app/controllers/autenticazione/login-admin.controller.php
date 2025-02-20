@@ -70,5 +70,5 @@ $_SESSION['utente'] = [
 ];
 
 // Reindirizza l'utente alla home dopo un login riuscito
-header('location: /admin/home');
+header('location: /home');
 exit(); // Termina lo script dopo il reindirizzamento

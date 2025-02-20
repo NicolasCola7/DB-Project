@@ -3,13 +3,15 @@
 //GET
 $router->get('/', 'app/index.php');
 $router->get('/home', 'app/views/home/home.view.php')->soloSe('autenticato');
-$router->get('/homeController', 'app/controllers/home/home.controller.php')->soloSe('autenticato');
+$router->get('/home-controller', 'app/controllers/home/home.controller.php')->soloSe('autenticato');
 $router->get('/login', 'app/views/autenticazione/login.view.php')->soloSe('non-autenticato');
 $router->get('/registrazione', 'app/views/autenticazione/registrazione.view.php')->soloSe('non-autenticato');
 $router->get('/admin/login', 'app/views/autenticazione/login-admin.view.php')->soloSe('non-autenticato');
 $router->get('/admin/registrazione', 'app/views/autenticazione/registrazione-admin.view.php')->soloSe('non-autenticato');
-$router->get('/home/visualizzaProgettiController','app/controllers/home/homeViewProgetti.controller.php')->soloSe('autenticato');
-$router->get('/home/progetti','app/views/home/homeViewProgetti.view.php')->soloSe('autenticato');
+$router->get('/home/visualizza-progetti-controller','app/controllers/home/home-view-progetti.controller.php')->soloSe('autenticato');
+$router->get('/home/visualizza-progetti','app/views/home/home-view-progetti.view.php')->soloSe('autenticato');
+$router->get('/home/visualizza-progetti-controller','app/controllers/home/home-view-progetti.controller.php')->soloSe('autenticato');
+$router->get('/home/visualizza-progetti','app/views/home/home-view-progetti.view.php')->soloSe('autenticato');
 $router->get('/home/le-mie-skill', 'app/views/skills/le-mie-skill.view.php')->soloSe('autenticato');
 $router->get('/ottieni-skills', 'app/controllers/skills/ottieni-skill.controller.php')->soloSe('autenticato');
 

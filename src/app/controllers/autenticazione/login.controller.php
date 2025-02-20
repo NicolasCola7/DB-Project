@@ -58,9 +58,9 @@ $risultatoQuery = $db->query("SELECT nickname FROM Utente WHERE email = :email",
 // Avvia la sessione per memorizzare i dati dell'utente autenticato
 $_SESSION['utente'] = [
     'email' => $email,
-    'nickname' => $risultatoQuery[0]['nickname']
+    'nickname' => $risultatoQuery[0]['nickname'],
 ];
 
 // Reindirizza l'utente alla home dopo un login riuscito
-header('location: /homeController');
+header('location: /home-controller');
 exit(); // Termina lo script dopo il reindirizzamento
