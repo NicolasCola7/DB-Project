@@ -186,7 +186,7 @@
         <div class="sidebar">
             <ul>
                 <li><a href="">Visualizza progetti disponibili</a></li>
-                <li><a href="">Aggiorna le proprie skill</a></li>
+                <li><a href="/home/le-mie-skill">Aggiorna le proprie skill</a></li>
                 <?php if ($_SESSION['utente']['checkCreatore']) : ?>
                     <li><a href="">Crea un nuovo progetto</a></li> 
                 <?php endif; ?>
