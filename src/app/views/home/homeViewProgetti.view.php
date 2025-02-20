@@ -106,6 +106,58 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
             margin: 20px;
         }
+        .card {
+            width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            background: #fff;
+            margin-top: 15px;
+        }
+
+        .card .img {
+            width: 100%;
+            height: 150px;
+            background: #f0f0f0;
+        }
+
+        .card .img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card .info {
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card .azioni {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+        }
+
+        .card .azioni button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .card .azioni button:hover {
+            background: #0056b3;
+        }
+
 
         /* Footer */
         footer {
@@ -155,8 +207,23 @@
         </div>
         
         <div class="contenutoMain">
-            <h3>Bentornato/a <?php echo($_SESSION['utente']['nome']) ?> su Bostarter!</h3>
-            <p>Seleziona un'opzione dal menu per iniziare.</p>
+            <h3>Ecco i progetti disponibili</h3>
+            <div class="card">
+                <div class="img">
+                    <img src="" alt="Foto del progetto">
+                </div>
+                <div class="info">
+                    <p>Nome, Fondatore, Stato</p>
+                </div>
+                <div class="azioni">
+                    <form action='' method='POST'>
+                        <button type="submit">Commenta</button>
+                    </form>
+                    <form action='' method='POST'>
+                        <button type="submit">Finanzia</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
     
