@@ -135,27 +135,27 @@
             <ul>
                 <li><a href="">Visualizza progetti disponibili</a></li>
                 <li><a href="">Aggiorna le proprie skill</a></li>
-                <?php if ($_SESSION['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
                     <li><a href="">Crea un nuovo progetto</a></li> 
                 <?php endif; ?>
-                <?php if ($_SESSION['checkAdmin']) : ?>
+                <?php if ($_SESSION['utente']['checkAdmin']) : ?>
                     <li><a href="">Crea nuove skills</a></li> 
                 <?php endif; ?>
-                <?php if ($_SESSION['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
                     <li><a href="">Inserisci le rewards</a></li> 
                 <?php endif; ?>
-                <?php if ($_SESSION['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
                     <li><a href="">Visualizza i miei progetti</a></li>
                 <?php endif; ?>
                 <li><a href="">Visualizza statistiche</a></li>
-                <?php if ($_SESSION['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
                     <li><a href="">Inserisci profilo</a></li>
                 <?php endif; ?>
             </ul>
         </div>
         
         <div class="contenutoMain">
-            <h3>Benvenuto in BOSTARTER!</h3>
+            <h3>Bentornato/a <?php echo($_SESSION['utente']['nome']) ?> su Bostarter!</h3>
             <p>Seleziona un'opzione dal menu per iniziare.</p>
         </div>
     </div>

@@ -3,6 +3,7 @@
 //GET
 $router->get('/', 'app/index.php');
 $router->get('/home', 'app/views/home.view.php')->soloSe('autenticato');
+$router->get('/homeController', 'app/controllers/home.controller.php')->soloSe('autenticato');
 $router->get('/admin/home', 'app/views/admin-home.view.php')->soloSe('admin');
 $router->get('/login', 'app/views/autenticazione/login.view.php')->soloSe('non-autenticato');
 $router->get('/registrazione', 'app/views/autenticazione/registrazione.view.php')->soloSe('non-autenticato');
