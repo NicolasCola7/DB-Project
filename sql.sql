@@ -60,7 +60,7 @@ CREATE TABLE Finanziamento (
 ) ENGINE=INNODB;
 
 CREATE TABLE Skill (
-    nome VARCHAR(100) PRIMARY KEY ON DELETE CASCADE
+    nome VARCHAR(100) PRIMARY KEY
 ) ENGINE=INNODB;
 
 CREATE TABLE Profilo (
@@ -77,7 +77,7 @@ CREATE TABLE Skill_Possesso (
     livello INT CHECK (livello BETWEEN 0 AND 5),
     PRIMARY KEY (emailUtente, nomeSkill),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email),
-    FOREIGN KEY (nomeSkill) REFERENCES Skill(nome)
+    FOREIGN KEY (nomeSkill) REFERENCES Skill(nome) ON DELETE CASCADE
 ) ENGINE=INNODB;
 
 CREATE TABLE Skill_Requisito (
@@ -86,7 +86,7 @@ CREATE TABLE Skill_Requisito (
     nomeProgetto VARCHAR(255),
     livello INT CHECK (livello BETWEEN 0 AND 5),
     PRIMARY KEY (nomeSkill, nomeProfilo, nomeProgetto),
-    FOREIGN KEY (nomeSkill) REFERENCES Skill(nome),
+    FOREIGN KEY (nomeSkill) REFERENCES Skill(nome) ON DELETE CASCADE,
     FOREIGN KEY (nomeProfilo, nomeProgetto) REFERENCES Profilo(nome, nomeProgetto)
 ) ENGINE=INNODB;
 
