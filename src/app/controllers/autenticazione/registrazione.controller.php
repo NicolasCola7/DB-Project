@@ -96,10 +96,7 @@ if (!$esito) {
     exit();
 }
 
-// Passiamo un messaggio di successo alla vista che terminerà con il click dell'utente
-$messaggio_successo = "Registrazione completata con successo!";
-require view("/autenticazione/registrazione.view.php", [ 
-    "messaggio_successo" => $messaggio_successo 
-]);
+// reindirizzo l'utente al login
+header('location: /login');
 // Termina lo script
 exit();

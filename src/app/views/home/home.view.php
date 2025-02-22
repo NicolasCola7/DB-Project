@@ -135,27 +135,27 @@
             <ul>
                 <li><a href="/home/visualizza-progetti-controller">Visualizza progetti disponibili</a></li>
                 <li><a href="/home/le-mie-skill">Le mie skill</a></li>
-                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['creatore']) : ?>
                     <li><a href="">Crea un nuovo progetto</a></li> 
                 <?php endif; ?>
-                <?php if ($_SESSION['utente']['checkAdmin']) : ?>
+                <?php if ($_SESSION['utente']['admin']) : ?>
                     <li><a href="">Crea nuove skills</a></li> 
                 <?php endif; ?>
-                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['creatore']) : ?>
                     <li><a href="">Inserisci le rewards</a></li> 
                 <?php endif; ?>
-                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['creatore']) : ?>
                     <li><a href="">Visualizza i miei progetti</a></li>
                 <?php endif; ?>
                 <li><a href="">Visualizza statistiche</a></li>
-                <?php if ($_SESSION['utente']['checkCreatore']) : ?>
+                <?php if ($_SESSION['utente']['creatore']) : ?>
                     <li><a href="">Inserisci profilo</a></li>
                 <?php endif; ?>
             </ul>
         </div>
         
         <div class="contenutoMain">
-            <h3>Bentornato/a <?php echo($_SESSION['utente']['nome']) ?> su Bostarter!</h3>
+            <h3>Bentornato/a <?php echo($_SESSION['utente']['nickname']) ?> su Bostarter!</h3>
             <p>Seleziona un'opzione dal menu per iniziare.</p>
         </div>
     </div>

@@ -54,13 +54,17 @@ if (!$esito) {
 //Accedo al nickname dell'utente registrato
 $risultatoQuery = $db->query("SELECT nickname FROM Utente WHERE email = :email", [':email' => $email]);
 
+$checkCreatore = $db->query("SELECT emailCreatore FROM Creatore WHERE emailCreatore = :email", [':email' => $email]);
 
 // Avvia la sessione per memorizzare i dati dell'utente autenticato
 $_SESSION['utente'] = [
     'email' => $email,
     'nickname' => $risultatoQuery[0]['nickname'],
+    'creatore' => (isset($checkCreatore) ? true : false),
+    'admin' => false
+    
 ];
 
 // Reindirizza l'utente alla home dopo un login riuscito
-header('location: /home-controller');
+header('location: /home');
 exit(); // Termina lo script dopo il reindirizzamento

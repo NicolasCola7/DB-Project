@@ -66,7 +66,8 @@ $risultatoQuery = $db->query("SELECT nickname FROM Utente WHERE email = :email",
 $_SESSION['utente'] = [
     'email' => $email,
     'nickname' => $risultatoQuery[0]['nickname'],
-    'admin' => true
+    'admin' => true,
+    'creatore' => false
 ];
 
 // Reindirizza l'utente alla home dopo un login riuscito
