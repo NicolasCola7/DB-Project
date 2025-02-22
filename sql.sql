@@ -1,5 +1,5 @@
-#rimuovo il database "BOSTARTER" se esiste già o creo il database "BOTSTARTER" se non esiste già
-DROP DATABASE IF exists BOSTARTER;
+#rimuovo il database "BOTSTARTER" se esiste già o creo il database "BOTSTARTER" se non esiste già
+DROP DATABASE IF EXISTS BOSTARTER;
 CREATE database IF NOT exists BOSTARTER;
 USE BOSTARTER;
 
@@ -11,12 +11,12 @@ CREATE TABLE Utente (
     luogo_nascita VARCHAR(100),
     anno_nascita INT,
     nickname VARCHAR(50) UNIQUE,
-    password VARCHAR(50)
+    password VARCHAR(255)
 ) ENGINE=INNODB;
 
 CREATE TABLE Amministratore (
     emailAmministratore VARCHAR(255) PRIMARY KEY,
-    codice INT UNIQUE CHECK (codice BETWEEN 1 AND 9999),
+    codice INT UNIQUE,
     FOREIGN KEY (emailAmministratore) REFERENCES Utente(email)
 ) ENGINE=INNODB;
 
@@ -211,12 +211,12 @@ $ DELIMITER ;
 -- OPERAZIONI RIGARDANTI GLI UTENTI:
 -- Autenticazione Utente normale: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna 2
 DELIMITER $
-CREATE PROCEDURE AutenticazioneNormale(IN emailI VARCHAR(255), IN passwordI VARCHAR(50), OUT esito INT)
+CREATE PROCEDURE AutenticazioneNormale(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), OUT esito INT)
 BEGIN	
 	declare esisteUtente boolean;
 	declare passwordCorretta boolean;
     
-    set esisteUtente = emailI IN (SELECT email FROM Utente);
+    set esisteUtente = emailI IN (SELECT email FROM Utente) AND (emailI NOT IN (SELECT emailAmministratore FROM Amministratore));
 	set passwordCorretta = (SELECT count(*) FROM Utente WHERE email = emailI AND password = MD5(passwordI)) > 0;
 
     if (esisteUtente AND passwordCorretta) then
@@ -229,7 +229,7 @@ $ DELIMITER ;
 
 -- Autenticazione Amministratore: se non viene trovato l'utente ritorna 0, se la psw è errata ritorna 1, se è corretta torna ma il codice errato torna 2, mentre se tutto giusto 3
 DELIMITER $
-CREATE PROCEDURE AutenticazioneAmministratore(IN emailI VARCHAR(255), IN passwordI VARCHAR(50), IN codiceI VARCHAR(4), OUT esito INT)
+CREATE PROCEDURE AutenticazioneAmministratore(IN emailI VARCHAR(255), IN passwordI VARCHAR(255), IN codiceI VARCHAR(50), OUT esito INT)
 BEGIN
 	declare esisteUtente boolean;
 	declare passwordCorretta boolean;
@@ -249,7 +249,15 @@ END;
 $ DELIMITER ;
 
  DELIMITER $
-CREATE PROCEDURE RegistrazioneNormale(IN emailI VARCHAR(255), IN passwordI VARCHAR(50), IN nomeI VARCHAR(100), IN cognomeI VARCHAR(100), IN luogo_nascitaI VARCHAR(100), IN anno_nascitaI VARCHAR(4), IN nicknameI VARCHAR(50), OUT esito INT)
+CREATE PROCEDURE RegistrazioneNormale(
+	IN emailI VARCHAR(255),
+    IN passwordI VARCHAR(255),
+    IN nomeI VARCHAR(100),
+    IN cognomeI VARCHAR(100),
+    IN luogo_nascitaI VARCHAR(100),
+    IN anno_nascitaI VARCHAR(4),
+    IN nicknameI VARCHAR(50),
+    OUT esito INT)
 BEGIN
 	declare esisteUtente boolean;
     declare esisteNickname boolean;
@@ -268,7 +276,15 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE RegistrazioneCreatore(IN emailI VARCHAR(255), IN passwordI VARCHAR(50), IN nomeI VARCHAR(100), IN cognomeI VARCHAR(100), IN luogo_nascitaI VARCHAR(100), IN anno_nascitaI VARCHAR(4), IN nicknameI VARCHAR(50), OUT esito INT)
+CREATE PROCEDURE RegistrazioneCreatore(
+	IN emailI VARCHAR(255),
+    IN passwordI VARCHAR(255),
+    IN nomeI VARCHAR(100),
+    IN cognomeI VARCHAR(100),
+    IN luogo_nascitaI VARCHAR(100),
+    IN anno_nascitaI VARCHAR(4),
+    IN nicknameI VARCHAR(50),
+    OUT esito INT)
 BEGIN
     CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, @esitoNormale);
     
@@ -282,7 +298,16 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE RegistrazioneAmministratore(IN emailI VARCHAR(255), IN passwordI VARCHAR(50), IN nomeI VARCHAR(100), IN cognomeI VARCHAR(100), IN luogo_nascitaI VARCHAR(100), IN anno_nascitaI VARCHAR(4), IN nicknameI VARCHAR(50), IN codiceI VARCHAR(4), OUT esito INT)
+CREATE PROCEDURE RegistrazioneAmministratore(
+	IN emailI VARCHAR(255),
+    IN passwordI VARCHAR(255),
+    IN nomeI VARCHAR(100),
+    IN cognomeI VARCHAR(100),
+    IN luogo_nascitaI VARCHAR(100),
+    IN anno_nascitaI VARCHAR(4),
+    IN nicknameI VARCHAR(50),
+    IN codiceI VARCHAR(50),
+    OUT esito INT)
 BEGIN
     CALL RegistrazioneNormale(emailI, passwordI, nomeI, cognomeI, luogo_nascitaI, anno_nascitaI, nicknameI, @esitoNormale);
     
@@ -297,7 +322,7 @@ END;
 $ DELIMITER ;
 	
 DELIMITER $
-CREATE PROCEDURE InserimentoSkillCurriculum (IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(100), IN livelloI CHAR, OUT esito INT)
+CREATE PROCEDURE InserimentoSkillCurriculum (IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(255), IN livelloI CHAR, OUT esito INT)
 BEGIN
     declare emailCorretta boolean;
 	declare nomeCorretto boolean;
@@ -318,7 +343,7 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE RimozioneSkillCurriculum(IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(100),  OUT esito INT)
+CREATE PROCEDURE RimozioneSkillCurriculum(IN emailI VARCHAR(255), IN nomeSkillI VARCHAR(255),  OUT esito INT)
 BEGIN
 	declare esisteSkill boolean;
     
@@ -493,7 +518,7 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI VARCHAR(255), IN descrI TEXT, IN budgetI VARCHAR(255), IN TipoI VARCHAR(8), IN emailCreatoreI VARCHAR(255))
+CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI VARCHAR(255), IN descrI TEXT, IN budgetI VARCHAR(255), IN TipoI VARCHAR(255), IN emailCreatoreI VARCHAR(255))
 BEGIN
     declare correttezzaNome boolean;
 	declare correttezzaBudget boolean;
@@ -575,7 +600,7 @@ END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(10), IN skillsRichiestaI TeXT)
+CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN skillsRichiestaI TeXT)
 BEGIN
     declare correttezzaProfilo boolean;
     declare correttezzaProgetto boolean;
