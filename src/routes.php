@@ -9,7 +9,8 @@ $router->get('/admin/login', 'app/views/autenticazione/login-admin.view.php')->s
 $router->get('/admin/registrazione', 'app/views/autenticazione/registrazione-admin.view.php')->soloSe('non-autenticato');
 $router->get('/home/visualizza-progetti','app/views/home/home-view-progetti.view.php')->soloSe('autenticato');
 $router->get('/home/visualizza-progetti-controller','app/controllers/home/home-view-progetti.controller.php')->soloSe('autenticato');
-$router->get('/home/visualizza-progetti','app/views/home/home-view-progetti.view.php')->soloSe('autenticato');
+$router->get('/home/info-progetto','app/views/home/home-info-progetto.view.php')->soloSe('autenticato');
+$router->get('/home/info-progetto-controller','app/controllers/home/home-info-progetto.controller.php')->soloSe('autenticato');
 $router->get('/home/le-mie-skill', 'app/views/skills/le-mie-skill.view.php')->soloSe('autenticato');
 $router->get('/ottieni-mie-skills', 'app/controllers/skills/ottieni-mie-skill.controller.php')->soloSe('autenticato');
 $router->get('/ottieni-skills', 'app/controllers/skills/ottieni-skill.controller.php')->soloSe('autenticato');

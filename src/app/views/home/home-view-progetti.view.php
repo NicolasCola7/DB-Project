@@ -181,7 +181,8 @@
         <div>
             <h2>BOSTARTER</h2>
         </div>
-        <div>
+        <div id='info'>
+            <img src="/icona-profilo" alt='icona profilo'>
             <p><?php echo($_SESSION['utente']['nickname']) ?></p>
             <form action='/logout' method='POST'>
                 <input type="submit" value='Logout'>
@@ -218,24 +219,26 @@
                 <h3>Ecco i progetti disponibili</h3>
                 <div class="grid">
                     <?php foreach ($_SESSION['utente']['progetti'] as $project): ?>
-                        <div class="card">
-                            <div class="img">
-                                <img src="" alt="Foto del progetto">
+                        <a href="/home/info-progetto-controller">
+                            <div class="card">
+                                <div class="img">
+                                    <img src="" alt="Foto del progetto">
+                                </div>
+                                <div class="info">
+                                    <p><?= htmlspecialchars($project['NomeProgetto'])?>, 
+                                    <?= htmlspecialchars($project['NomeCreatore'])?> <?= htmlspecialchars($project['cognome'])?>, 
+                                    <?= htmlspecialchars($project['stato'])?></p>
+                                </div>
+                                <div class="azioni">
+                                    <form action='' method='POST'>
+                                        <button type="submit">Commenta</button>
+                                    </form>
+                                    <form action='' method='POST'>
+                                        <button type="submit">Finanzia</button>
+                                    </form>
+                                </div>
                             </div>
-                            <div class="info">
-                                <p><?= htmlspecialchars($project['NomeProgetto'])?>, 
-                                <?= htmlspecialchars($project['NomeCreatore'])?> <?= htmlspecialchars($project['cognome'])?>, 
-                                <?= htmlspecialchars($project['stato'])?></p>
-                            </div>
-                            <div class="azioni">
-                                <form action='' method='POST'>
-                                    <button type="submit">Commenta</button>
-                                </form>
-                                <form action='' method='POST'>
-                                    <button type="submit">Finanzia</button>
-                                </form>
-                            </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <h3>Nessun progetto disponibile.</h3>
