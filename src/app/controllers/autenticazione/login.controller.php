@@ -60,7 +60,7 @@ $checkCreatore = $db->query("SELECT emailCreatore FROM Creatore WHERE emailCreat
 $_SESSION['utente'] = [
     'email' => $email,
     'nickname' => $risultatoQuery[0]['nickname'],
-    'creatore' => (isset($checkCreatore) ? true : false),
+    'creatore' => (isset($checkCreatore[0]['emailCreatore']) ? true : false),
     'admin' => false
     
 ];

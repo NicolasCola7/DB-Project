@@ -6,4 +6,8 @@
     
     # Previne l'accesso diretto a file .php all'interno di src
     RewriteRule ^src/.*\.php$ - [R=404,L]
+
+    AddType image/svg+xml svg svgz
+    AddEncoding gzip svgz
+    
 </IfModule>

@@ -14,7 +14,7 @@ $router->get('/home/info-progetto-controller','app/controllers/home/home-info-pr
 $router->get('/home/le-mie-skill', 'app/views/skills/le-mie-skill.view.php')->soloSe('autenticato');
 $router->get('/ottieni-mie-skills', 'app/controllers/skills/non-admin/ottieni-mie-skill.controller.php')->soloSe('autenticato');
 $router->get('/ottieni-skills', 'app/controllers/skills/non-admin/ottieni-skill.controller.php')->soloSe('autenticato');
-$router->get('/icona-profilo', 'public/icone/profile-circle-svgrepo-com.svg');
+$router->get('/icona-profilo', 'public/icone/icona-profilo.svg');
 $router->get('/admin/home/gestione-skills', 'app/views/skills/gestione-skills.view.php')->soloSe('admin');
 $router->get('/admin/ottieni-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('admin');
 

@@ -392,7 +392,7 @@
                 popolaDisponibili(skills);
             }
         } catch(error) {
-            alert('Si è verificato un errore imprevisto');
+            console.log(error);
         }
     }
 
@@ -405,7 +405,7 @@
                 popolaMie(skills);
             }
         } catch(error) {
-            alert('Si è verificato un errore imprevisto');
+            console.log(error);
         }
     }
     
@@ -441,7 +441,7 @@
             getSkillDisponibili();
             getMieSkills();
         } catch(error) {
-            alert('Si è verificato un errore imprevisto');
+            console.log(error);
         }
     }
 

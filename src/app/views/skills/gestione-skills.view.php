@@ -231,7 +231,7 @@
             border: none;
             cursor: pointer;
             display: flex;
-            align-items: center;
+            align-content: center;
             justify-content: center;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
             transition: background 0.3s, transform 0.2s;
