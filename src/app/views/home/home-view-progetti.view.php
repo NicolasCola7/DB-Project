@@ -199,7 +199,7 @@
                     <li><a href="">Crea un nuovo progetto</a></li> 
                 <?php endif; ?>
                 <?php if ($_SESSION['utente']['admin']) : ?>
-                    <li><a href="">Crea nuove skills</a></li> 
+                    <li><a href="/admin/home/gestione-skills">Gestione skills</a></li> 
                 <?php endif; ?>
                 <?php if ($_SESSION['utente']['creatore']) : ?>
                     <li><a href="">Inserisci le rewards</a></li> 

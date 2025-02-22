@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Le mie Skill</title>
+    <title>Gestione Skills</title>
     <style>
         /* Stile generale */
         * {
@@ -204,9 +204,9 @@
         }
 
         #skills > .skill {
-            display: grid;
-            grid-template-columns: minmax(120px, 1fr) 1fr auto;
-            gap: 15px; 
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
             padding: 5%;
             border-bottom: 1px solid #0077cc;
@@ -245,7 +245,6 @@
             transform: scale(0.9);
         }
 
-
         #aggiunta > form {
             display: flex;
             flex-direction: row;
@@ -273,8 +272,7 @@
             margin-top: auto;
         }
 
-        #aggiunta form select,
-        #aggiunta form input[type="number"] {
+        #aggiunta form input {
             width: 20%;
             padding: 8px 12px;
             border: 2px solid #0077cc;
@@ -285,13 +283,11 @@
             transition: all 0.3s ease-in-out;
         }
 
-        #aggiunta form select:hover,
-        #aggiunta form input[type="number"]:hover {
+        #aggiunta form input:hover {
             border-color: #0056b3;
         }
 
-        #aggiunta form select:focus,
-        #aggiunta form input[type="number"]:focus {
+        #aggiunta form input:focus {
             outline: none;
             border-color: #0077cc;
             box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
@@ -338,20 +334,15 @@
         
         <div class="contenutoMain">
             <header>
-               <h2> Le mie Skill </h2>
+               <h2> Gestione Skills </h2>
             </header>
             <section id='skills'>
 
             </section>
 
             <section id='aggiunta'>
-                <form action='/home/le-mie-skill/aggiungi' method='POST'>
-                    <select id='skill-disponibili' name='nome' required >
-
-                    </select>
-                        
-                    <input type='number' min='1' max='5' name='livello' required>
-                    
+                <form action='/admin/home/gestione-skills/aggiungi' method='POST'>
+                    <input type="text" name='nome' id='aggiunta' required>
                     <button type='submit' id='aggiungi-skill'> + </button>
                 </form>
             </section>
@@ -359,10 +350,6 @@
             <div id="errori">
                 <?php if (isset($errori['nome'])) : ?>
                     <p> <?= $errori['nome'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['livello'])) : ?>
-                    <p> <?= $errori['livello'] ?> </p>
                 <?php endif; ?>
 
                 <?php if (isset($errori['procedura'])) : ?>
@@ -378,81 +365,50 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    let disponibili = document.getElementById('skill-disponibili');
-    let contenitoreSkills = document.getElementById('skills');
-    getSkillDisponibili();
-    getMieSkills();
+    let skillsPresenti = document.getElementById('skills');
+   
+    getSkillsPresenti();
 
-    async function getSkillDisponibili() {
+    async function getSkillsPresenti() {
         try {
-            const risposta = await axios.get("/ottieni-skills");
+            const risposta = await axios.get("/admin/ottieni-skills");
             let skills = risposta.data;
            
             if(skills) {
-                popolaDisponibili(skills);
+                popolaPresenti(skills);
             }
         } catch(error) {
             alert('Si è verificato un errore imprevisto');
         }
     }
 
-    async function getMieSkills() {
+    async function rimuoviSkill(nomeSkill){
         try {
-            const risposta = await axios.get("/ottieni-mie-skills");
-            let skills = risposta.data;
-            
-            if(skills) {
-                popolaMie(skills);
-            }
+            let risultato = await axios.delete(`/admin/rimuovi-skill?nome=${encodeURIComponent(nomeSkill)}`);
+            getSkillsPresenti();
         } catch(error) {
+            
             alert('Si è verificato un errore imprevisto');
         }
     }
-    
-    function popolaMie(skills) {
-        contenitoreSkills.innerHTML = '';
-        
+
+    function popolaPresenti(skills) {
+        skillsPresenti.innerHTML = '';
         skills.forEach(skill => {
             let card = document.createElement('div');
             card.className = 'skill';
             let nome  = document.createElement('span');
             nome.className = 'nome-skill';
-            let  livello = document.createElement('span');
-            livello.className = 'livello-skill';
-            nome.textContent = skill.nomeSkill;
-            livello.textContent = skill.livello;
+            nome.textContent = skill.nome;
             let rimozioneBtn = document.createElement('button');
             rimozioneBtn.textContent = ' - ';
             rimozioneBtn.className = 'elimina-btn';
             rimozioneBtn.addEventListener('click', event => {
-                rimuoviSkill(nome.textContent);
-                
+                rimuoviSkill(nome.textContent); 
             });
             card.appendChild(nome);
-            card.appendChild(livello);
             card.appendChild(rimozioneBtn);
-            contenitoreSkills.appendChild(card);
-        });
-    }
-
-    async function rimuoviSkill(nomeSkill){
-        try {
-            let risultato = await axios.delete(`/rimuovi-skill?nomeSkill=${encodeURIComponent(nomeSkill)}`);
-            getSkillDisponibili();
-            getMieSkills();
-        } catch(error) {
-            alert('Si è verificato un errore imprevisto');
-        }
-    }
-
-    function popolaDisponibili(skills) {
-        disponibili.innerHTML = '';
-        skills.forEach(skill => {
-            let option = document.createElement('option');
-            option.name = skill.nome;
-            option.textContent = skill.nome;
-
-            disponibili.appendChild(option);
+            skillsPresenti.appendChild(card);
         });
     }
     
