@@ -11,8 +11,9 @@ if(isset($_GET['nome'])){
     $nomeProgetto = urldecode($_GET['nome']);
     $progetto = $db->query("select P.nome, P.data_inserimento, P.data_limite, P.descr, P.stato, P.budget_avvio, P.tipoProgetto, P.emailCreatore, U.nome as nomeC, U.cognome as cognomeC
     from Progetto P join Utente U on P.emailCreatore = U.email where P.nome = :nome",[':nome' => $nomeProgetto]);
-    
-    echo json_encode($progetto);
+    $componenti = $db->query("SELECT C.nome, C.prezzo, C.descr, C.quantita from Componente C where C.nomeProgetto = :nomeProg", [':nomeProg' => $nomeProgetto]);
+
+    echo json_encode([$progetto,$componenti]);
 }else{
     echo 'Errore: Nessun progetto specificato.';
 }

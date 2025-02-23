@@ -785,6 +785,7 @@ CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per 
 
 CALL InserimentoComponenteHardware('CPU Intel', 'SmartWatch AI', 'Processore Intel i9', '350.00', '5', @esito);
 CALL InserimentoComponenteHardware('Scheda Madre', 'Robot AI', 'ASUS ROG STRIX', '200.00', '10', @esito);
+CALL InserimentoComponenteHardware('GPU', 'Robot AI', 'PowerColor Devil RX', '500.00', '1', @esito);
 CALL InserimentoComponenteHardware('SSD 1TB', 'Robot AI2', 'Unità SSD NVMe', '120.00', '15', @esito);
 
 CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI', 'giulia.bianchi@email.com');
