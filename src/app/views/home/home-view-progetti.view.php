@@ -74,7 +74,7 @@
                 <h3>Ecco i progetti disponibili</h3>
                 <div class="grid">
                     <?php foreach ($_SESSION['utente']['progetti'] as $project): ?>
-                        <a href="/home/info-progetto-controller">
+                        <a href="/home/info-progetto?nome=<?= urlencode($project['NomeProgetto']) ?>">
                             <div class="card">
                                 <div class="img">
                                     <img src="" alt="Foto del progetto">

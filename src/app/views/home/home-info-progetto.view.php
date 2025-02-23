@@ -8,7 +8,18 @@
     </style>
 </head>
 <body>
-    <?php require view('/home/home-nav.view.php'); ?>
+    <header>
+        <div>
+            <h2>BOSTARTER</h2>
+        </div>
+        <div id='info'>
+            <img src="/icona-profilo" alt='icona profilo'>
+            <p><?php echo($_SESSION['utente']['nickname']) ?></p>
+            <form action='/logout' method='POST'>
+                <input type="submit" value='Logout'>
+            </form>
+        </div>
+    </header>
     
     <div class="main">
         <?php require view('/home/home-sidebar.view.php'); ?>
@@ -20,4 +31,18 @@
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    getInfoProgetto();
+
+    async function getInfoProgetto(){
+        try{
+            const risposta = await axios.get("/home/info-progetto-controller")
+            let progetto = risposta.data;
+            console.log(progetto);
+        }catch(error){
+            console.log(error);
+        }
+    }
+</script>
 </html>
