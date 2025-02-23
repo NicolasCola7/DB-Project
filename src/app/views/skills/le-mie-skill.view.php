@@ -4,6 +4,10 @@
     <title>Le mie Skill</title>
     <style>
         
+        .contenutoMain {
+            margin: 20px 10%;
+        }
+        
         .contenutoMain > header {
             display: flex;
             flex-direction: row;
@@ -72,7 +76,7 @@
             border: none;
             cursor: pointer;
             display: flex;
-            align-items: center;
+            align-content: center;
             justify-content: center;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
             transition: background 0.3s, transform 0.2s;
@@ -101,10 +105,6 @@
             border: 1px solid  #0077cc
         }
 
-        #errori {
-            color: #d93025 !important;
-        }
-
         #aggiunta form select,
         #aggiunta form input[type="number"] {
             width: 20%;
@@ -128,6 +128,32 @@
             border-color: #0077cc;
             box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
         }
+
+        #aggiungi-skill {
+            width: 30px;
+            height: 30px;   
+            border-radius: 50%;
+            background-color: #007bff;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        #aggiungi-skill:hover {
+            background-color: #0056b3;
+        }
+
+        #aggiungi-skill:active {
+            transform: scale(0.9);
+        }
+
     </style>
 </head>
 <body>

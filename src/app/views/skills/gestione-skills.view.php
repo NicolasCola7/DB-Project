@@ -4,6 +4,10 @@
     <title>Gestione Skills</title>
     <style>
 
+        .contenutoMain {
+            margin: 20px 10%;
+        }
+        
         .contenutoMain > header {
             display: flex;
             flex-direction: row;
@@ -133,6 +137,7 @@
             <header>
                <h2> Gestione Skills </h2>
             </header>
+
             <section id='skills'>
 
             </section>

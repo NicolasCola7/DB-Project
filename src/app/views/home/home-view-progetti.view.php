@@ -3,6 +3,9 @@
 <head>
     <title>Home</title>
     <style>
+        .contenutoMain {
+            margin: 20px;
+        }
         .grid{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

@@ -3,8 +3,9 @@
 <head>
     <title>Home</title>
     <style>
-    
-        
+        .contenutoMain {
+            margin: 20px;
+        }
     </style>
 </head>
 <body>
