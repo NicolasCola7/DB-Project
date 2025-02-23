@@ -16,7 +16,7 @@ $email = $_POST['email'];
 $nickname = $_POST['nickname'];
 $password = $_POST['password'];
 $conferma_password = $_POST['conferma-password'];
-$codiceSicurezza = (int) $_POST['codiceDiSicurezza'];
+$codiceSicurezza = (int) $_POST['codiceSicurezza'];
 
 // Inizializza un array per raccogliere eventuali errori di validazione
 $errori = [];
@@ -52,7 +52,7 @@ if (!Validatore::isString($nickname, 1, 50)) {
 }
 
 // Controllo validità della password (lunghezza tra 8 e 50 caratteri)
-if (!Validatore::isString($password, 8, 50) || !Validatore::isString($conferma_password, 8, 50)) {
+if (!Validatore::isString($password, 8, 50)) {
     $errori["password"] = "La password deve essere almeno 8 caratteri e al massimo 50!";
 }
 
@@ -62,7 +62,7 @@ if($password != $conferma_password) {
 }
 
 // Controllo validità del codice di sicurezza
-if (!Validatore::isNumber($codiceSicurezza, 4, 4)) {
+if (!Validatore::isNumber($codiceSicurezza, 1000, 9999)) {
     $errori["codice"] = "Devi inserire un codice di 4 cifre!";
 }
 
@@ -93,7 +93,7 @@ $esito = $db->procedure("RegistrazioneAmministratore", $parametri);
 
 // Se l'esito è negativo, mostra un errore nella vista login
 if (!$esito) {
-    $errori['procedura'] =  "Email, password, codice errati o email/ickname già esistente!";
+    $errori['procedura'] =  "Email, password, codice errati o email/nickname già esistente!";
     require view("/autenticazione/registrazione-admin.view.php", [
         'errori' => $errori
     ]);

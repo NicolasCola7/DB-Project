@@ -26,6 +26,7 @@ $router->post('/admin/registrazione', 'app/controllers/autenticazione/registrazi
 $router->post('/logout', 'app/controllers/autenticazione/logout.controller.php')->soloSe('autenticato');
 $router->post('/home/le-mie-skill/aggiungi', 'app/controllers/skills/non-admin/aggiungi-skill.controller.php')->soloSe('autenticato');
 $router->post('/admin/home/gestione-skills/aggiungi', 'app/controllers/skills/admin/aggiungi-skill.controller.php')->soloSe('admin');
+
 //PUT
 
 

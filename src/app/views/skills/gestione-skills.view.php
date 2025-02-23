@@ -295,42 +295,11 @@
     </style>
 </head>
 <body>
-    <header>
-        <div>
-            <h2>BOSTARTER</h2>
-        </div>
-        <div id='info'>
-            <img src="/icona-profilo" alt='icona profilo'>
-            <p><?php echo($_SESSION['utente']['nickname']) ?></p>
-            <form action='/logout' method='POST'>
-                <input type="submit" value='Logout'>
-            </form>
-        </div>
-    </header>
+    <?php require view('/home/home-nav.view.php'); ?>
     
     <div class="main">
-        <div class="sidebar">
-            <ul>
-                <li><a href="/home/visualizza-progetti-controller">Visualizza progetti disponibili</a></li>
-                <li><a href="/home/le-mie-skill">Le mie skill</a></li>
-                <?php if ($_SESSION['utente']['creatore']) : ?>
-                    <li><a href="">Crea un nuovo progetto</a></li> 
-                <?php endif; ?>
-                <?php if ($_SESSION['utente']['admin']) : ?>
-                    <li><a href="/admin/home/gestione-skills">Gestisci skills</a></li> 
-                <?php endif; ?>
-                <?php if ($_SESSION['utente']['creatore']) : ?>
-                    <li><a href="">Inserisci le rewards</a></li> 
-                <?php endif; ?>
-                <?php if ($_SESSION['utente']['creatore']) : ?>
-                    <li><a href="">Visualizza i miei progetti</a></li>
-                <?php endif; ?>
-                <li><a href="">Visualizza statistiche</a></li>
-                <?php if ($_SESSION['utente']['creatore']) : ?>
-                    <li><a href="">Inserisci profilo</a></li>
-                <?php endif; ?>
-            </ul>
-        </div>
+        <?php require view('/home/home-sidebar.view.php'); ?>
+    
         
         <div class="contenutoMain">
             <header>
