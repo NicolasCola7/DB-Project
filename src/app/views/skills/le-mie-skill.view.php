@@ -175,8 +175,15 @@
                     <select id='skill-disponibili' name='nome' required >
 
                     </select>
-                        
-                    <input type='number' min='1' max='5' name='livello' required>
+                    
+                    <select>
+                        <option value="" disabled selected>Scegli un livello</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
                     
                     <button type='submit' id='aggiungi-skill'> + </button>
                 </form>
