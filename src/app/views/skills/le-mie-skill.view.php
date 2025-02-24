@@ -176,13 +176,13 @@
                     <option value="" disabled selected>Scegli una skill</option>
                     </select>
                     
-                    <select>
+                    <select required name='livello'>
                         <option value="" disabled selected>Scegli un livello</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
+                        <option value="1" name='livello'>1</option>
+                        <option value="2" name='livello'>2</option>
+                        <option value="3" name='livello'>3</option>
+                        <option value="4" name='livello'>4</option>
+                        <option value="5" name='livello'>5</option>
                     </select>
                     
                     <button type='submit' id='aggiungi-skill'> + </button>
