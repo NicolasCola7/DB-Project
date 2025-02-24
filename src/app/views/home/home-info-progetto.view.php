@@ -100,7 +100,7 @@
                 let componenti = risposta.data[1];
                 stampaCaratteristiche(progetto);
                 stampaComponenti(componenti);
-                creaComponenteProfili();
+                creaComponenteProfili(progetto.nome);
             }catch(error){
                 console.log(error);
             }
@@ -216,7 +216,7 @@
             componentiContainer.appendChild(tabella);
             main.appendChild(componentiContainer);
         }
-        async function creaComponenteProfili(){
+        async function creaComponenteProfili(nomeProg){
             let div = document.createElement("div");
             div.classList.add("contenitoreProfili");
 
@@ -225,7 +225,8 @@
 
             let a = document.createElement("a");
             a.textContent = "Visualizza i profili disponibili per questo progetto";
-            a.href="/home/info-progetto/profili";
+            let encodedNomeProgetto = encodeURIComponent(nomeProg);
+            a.href=`/home/info-progetto/profili?nomeProgetto=${encodedNomeProgetto}`;
             div.appendChild(h4);
             div.appendChild(a);
 
