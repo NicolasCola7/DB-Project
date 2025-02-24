@@ -17,6 +17,9 @@ $router->get('/ottieni-skills', 'app/controllers/skills/non-admin/ottieni-skill.
 $router->get('/icona-profilo', 'public/icone/icona-profilo.svg');
 $router->get('/admin/home/gestione-skills', 'app/views/skills/gestione-skills.view.php')->soloSe('admin');
 $router->get('/admin/ottieni-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('admin');
+$router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/hardware/componenti', 'app/controllers/creazione-progetto/hardware/progetto-hardware.controller.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/progetto-software.controller.php')->soloSe('creatore');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
@@ -26,7 +29,8 @@ $router->post('/admin/registrazione', 'app/controllers/autenticazione/registrazi
 $router->post('/logout', 'app/controllers/autenticazione/logout.controller.php')->soloSe('autenticato');
 $router->post('/home/le-mie-skill/aggiungi', 'app/controllers/skills/non-admin/aggiungi-skill.controller.php')->soloSe('autenticato');
 $router->post('/admin/home/gestione-skills/aggiungi', 'app/controllers/skills/admin/aggiungi-skill.controller.php')->soloSe('admin');
-
+$router->post('/home/crea-progetto/informazioni-base', 'app/controllers/creazione-progetto/info-base.controller.php')->soloSe('creatore');
+$router->post('/home/crea-progetto/hardware/componenti', 'app/controllers/creazione-progetto/hardware/aggiungi-componente.controller.php')->soloSe('creatore');
 //PUT
 
 

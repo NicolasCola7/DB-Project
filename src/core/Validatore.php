@@ -48,18 +48,25 @@ class Validatore {
     }
 
     /**
-     * Controlla se una data è valida nel formato "gg/mm/aaaa".
+     * Controlla se una data è valida nel formato "gg/mm/aaaa" e se rientra nel range specificato.
      *
      * @param string $data La data da verificare.
-     * @return bool True se la data è valida, False altrimenti.
+     * @param string $min La data minima accettata (formato "gg/mm/aaaa").
+     * @param string $max La data massima accettata (formato "gg/mm/aaaa").
+     * @return bool True se la data è valida ed è compresa tra $min e $max, False altrimenti.
      */
-    static function isDate($data) {
-        $data = trim($data);
-        $data = explode('/', $data);
+    static function isDate($data, $min='01/01/1900', $max='31/12/2100') {
+        $data = \DateTime::createFromFormat('Y-m-d', $data);
+        $data = $data->format('d/m/Y');
+
+        $data    = \DateTime::createFromFormat('d/m/Y', $data);
+        $minData = \DateTime::createFromFormat('d/m/Y', trim($min));
+        $maxData = \DateTime::createFromFormat('d/m/Y', trim($max));
         
-        if (count($data) == 3) 
-            return checkdate($data[1], $data[0], $data[2]);
+        if (!$data || !$minData || !$maxData) {
+            return false;
+        }
         
-        return false;
+        return ($data > $minData && $data < $maxData);
     }
 }

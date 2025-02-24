@@ -72,6 +72,12 @@
             header form input:hover {
                 background: #cc0000;
             }
+
+            #errori {
+                color: red;
+                text-align: center;
+                margin: 10px;
+            }
         </style>
     </head>
 
