@@ -173,7 +173,7 @@
             <section id='aggiunta'>
                 <form action='/home/le-mie-skill/aggiungi' method='POST'>
                     <select id='skill-disponibili' name='nome' required >
-
+                    <option value="" disabled selected>Scegli una skill</option>
                     </select>
                     
                     <select>
