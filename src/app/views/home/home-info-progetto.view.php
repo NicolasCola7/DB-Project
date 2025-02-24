@@ -43,7 +43,7 @@
             border-radius: 5px;
             color: #555;
         }
-        .infoContainer, .componentiContainer{
+        .infoContainer, .componentiContainer, .contenitoreProfili{
             padding: 10px;
             border: 1px solid #555;
             border-radius: 10px;
@@ -81,6 +81,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded",function(){
+        const main = document.getElementsByClassName("contenutoMain")[0];
         //recupero il nome del progetto dall'url
         const urlParam = new URLSearchParams(window.location.search);
         const nomeProgetto = urlParam.get('nome');
@@ -97,16 +98,15 @@
                 let progetto = risposta.data[0][0];
                 //il secondo contiene le componenti del progetto
                 let componenti = risposta.data[1];
-                console.log(risposta.data);
                 stampaCaratteristiche(progetto);
                 stampaComponenti(componenti);
+                creaComponenteProfili();
             }catch(error){
                 console.log(error);
             }
         }
         //stampo a video le caratteristiche del progetto
         function stampaCaratteristiche(p){
-            let main = document.getElementsByClassName("contenutoMain")[0];
             let titolo = document.querySelector("h3");
             titolo.textContent = titolo.textContent +" "+ p.nome;
 
@@ -150,6 +150,11 @@
             budget.textContent = "Budget d'avvio: "+p.budget_avvio+" EUR";
             infoContainer.appendChild(budget);
 
+            //somma finanziamenti ricevuti
+            let fin = document.createElement("p");
+            fin.textContent = "Somma finanziamenti ricevuti: "+p.sommaFinRicevuti+" EUR";
+            infoContainer.appendChild(fin);
+
             //creatore
             let creatore = document.createElement("p");
             creatore.textContent = "Utente creatore: "+p.nomeC +" "+p.cognomeC;
@@ -163,8 +168,6 @@
             main.appendChild(infoContainer);
         }
         function stampaComponenti(componenti){
-            let main = document.getElementsByClassName("contenutoMain")[0];
-            
             let componentiContainer = document.createElement("div");
             componentiContainer.classList.add("componentiContainer");
 
@@ -212,6 +215,21 @@
 
             componentiContainer.appendChild(tabella);
             main.appendChild(componentiContainer);
+        }
+        async function creaComponenteProfili(){
+            let div = document.createElement("div");
+            div.classList.add("contenitoreProfili");
+
+            let h4 = document.createElement("h4");
+            h4.textContent = "Profili disponibili";
+
+            let a = document.createElement("a");
+            a.textContent = "Visualizza i profili disponibili per questo progetto";
+            a.href="/home/info-progetto/profili";
+            div.appendChild(h4);
+            div.appendChild(a);
+
+            main.appendChild(div);
         }
     })
 </script>

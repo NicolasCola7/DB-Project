@@ -804,13 +804,20 @@ CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'SmartWatch AI');
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Full stack developement Javascript', @esito);
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Lavorare in team', @esito);
 
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Python', 5, @esito);
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Machine Learning', 4, @esito);
+CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Full stack developement ASP.NET', 4, @esito);
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', 2, @esito);
 CALL RimozioneSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 
 CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
+CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"skill":"Conoscenza lingua inglese", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
+CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"skill":"Lavorare in team", "livello": 5}]');
+
+
 
 CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 
