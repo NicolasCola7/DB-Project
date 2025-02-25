@@ -74,6 +74,10 @@
             box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
         }
 
+        #successo {
+            color: green;
+        }
+
     </style>
 </head>
 <body>
@@ -127,11 +131,17 @@
                             <p><?= $errori['prezzo'] ?></p>
                         <?php endif; ?>
 
+                        <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
+                            <?php if ($_SESSION['aggiunta-componente']) : ?>
+                                <p id='successo'> Componente aggiunta con successo </p>
+                            <?php endif; ?>
+                        <?php endif; ?>
+
                     </div>
 
                     <div class='container bottoni'>
                         <button id='aggiungi' type='submit'> Aggiungi </button>
-                        <button onclick="goto('')">Prosegui</button>
+                        <button onclick="prosegui()">Prosegui</button>
                     </div>
                 </form>
             </section>
@@ -141,5 +151,14 @@
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
 
+<script>
 
+    function prosegui() {
+        let nComponenti = <?= empty($_SESSION["creazione-progetto"]["compionenti"]) ?> ;
+        if(nComponenti > 0)
+            <?php header("location: /home/crea-progetto/foto") ?>
+        else
+            alert("Devi inserire almeno una componente!");
+    } 
+</script>
 </html>

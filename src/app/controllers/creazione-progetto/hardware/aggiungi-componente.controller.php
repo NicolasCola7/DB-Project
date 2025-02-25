@@ -33,6 +33,8 @@ if (!empty($errori)) {
     require view("/creazione-progetto/inserimento-componenti.view.php", [
         "errori" => $errori
     ]);
+    
+    $_SESSION['aggiunta-componenete'] = false;
     exit();
 }
 
@@ -46,5 +48,6 @@ $componente = [
 //inserisco la componente aggiunta nell'apposita variabile di sessione
 
 array_push($_SESSION['creazione-progetto']['componenti'], $componente);
+$_SESSION['aggiunta-componenete'] = true;
 
 exit();
