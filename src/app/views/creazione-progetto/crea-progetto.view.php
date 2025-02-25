@@ -113,7 +113,7 @@
                     </div>
                     
                     <div class="container">
-                        <label for="budget">Budget</label>
+                        <label for="budget">Budget (€)</label>
                         <input type="number" id="budget" name="budget" placeholder="budget" required>
                     </div>
                     

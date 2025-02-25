@@ -173,7 +173,6 @@
             <section id='aggiunta'>
                 <form action='/home/le-mie-skill/aggiungi' method='POST'>
                     <select id='skill-disponibili' name='nome' required >
-                    <option value="" disabled selected>Scegli una skill</option>
                     </select>
                     
                     <select required name='livello'>
@@ -280,12 +279,20 @@
 
     function popolaDisponibili(skills) {
         disponibili.innerHTML = '';
+        
+        //aggiungo la prima opzione disabilitata e selezionata
+        let defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        defaultOption.textContent = 'Scegli una skill';
+        disponibili.appendChild(defaultOption);
+        
         skills.forEach(skill => {
             
             let option = document.createElement('option');
             option.name = skill.nome;
             option.textContent = skill.nome;
-
             disponibili.appendChild(option);
         });
     }
