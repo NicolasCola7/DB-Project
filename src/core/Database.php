@@ -50,7 +50,7 @@ class Database {
         $stmt = $this->connessione->prepare($query);
         
         foreach ($parametri as $chiave => $valore) {
-            $stmt->bindParam($chiave, $valore, PDO::PARAM_STR);
+            $stmt->bindValue($chiave, $valore, PDO::PARAM_STR);
         }
 
         $stmt->execute();

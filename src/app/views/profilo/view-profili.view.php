@@ -113,6 +113,12 @@
 
                 let button = document.createElement("button");
                 button.textContent = "Vedi dettagli";
+                button.addEventListener("click",function(){
+                    let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
+                    let encodedNomeProfilo = encodeURIComponent(p.nome);
+                    window.location.href = `/home/info-progetto/profilo?nomeProgetto=${encodedNomeProgetto}&nomeProfilo=${encodedNomeProfilo}`;
+                })
+
 
                 div.appendChild(p1);
                 div.appendChild(p2);
