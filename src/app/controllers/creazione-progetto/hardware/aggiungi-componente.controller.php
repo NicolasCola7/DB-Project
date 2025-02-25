@@ -34,7 +34,7 @@ if (!empty($errori)) {
         "errori" => $errori
     ]);
     
-    $_SESSION['aggiunta-componenete'] = false;
+    $_SESSION['aggiunta-componente'] = false;
     exit();
 }
 
@@ -45,9 +45,21 @@ $componente = [
     'prezzo' => $prezzo
 ];
 
+//controllo che non sia stata già aggiunta una componente uguale
+foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
+    if($componente['nome'] === $nome){
+        $_SESSION['aggiunta-componente'] = false;
+        require view("/creazione-progetto/inserimento-componenti.view.php", [
+            "errori" => $errori
+        ]);
+        
+        exit();
+    }
+}
+
 //inserisco la componente aggiunta nell'apposita variabile di sessione
-
 array_push($_SESSION['creazione-progetto']['componenti'], $componente);
-$_SESSION['aggiunta-componenete'] = true;
+$_SESSION['aggiunta-componente'] = true;
 
+header('location: /home/crea-progetto/hardware/componenti');
 exit();

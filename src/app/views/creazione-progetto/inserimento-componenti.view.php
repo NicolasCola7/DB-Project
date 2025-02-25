@@ -105,7 +105,7 @@
                     </div>
                     
                     <div class="container">
-                        <label for="quantità">Prezzo</label>
+                        <label for="quantità">Quantità</label>
                         <input type="number" id="quantità" name="quantità" placeholder="quantità" min='1' required>
                     </div>
 
@@ -133,7 +133,9 @@
 
                         <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
                             <?php if ($_SESSION['aggiunta-componente']) : ?>
-                                <p id='successo'> Componente aggiunta con successo </p>
+                                <p id='successo'> Componente aggiunta con successo! </p>
+                            <?php else :?>
+                                <p> Componente già inserita!</p>
                             <?php endif; ?>
                         <?php endif; ?>
 
@@ -141,9 +143,13 @@
 
                     <div class='container bottoni'>
                         <button id='aggiungi' type='submit'> Aggiungi </button>
-                        <button onclick="prosegui()">Prosegui</button>
                     </div>
                 </form>
+
+                <div class='container bottoni'>
+                    <button onclick='prosegui()'>Prosegui</button>
+                </div>
+                
             </section>
         </div>
     </div>
@@ -152,13 +158,15 @@
 </body>
 
 <script>
-
     function prosegui() {
-        let nComponenti = <?= empty($_SESSION["creazione-progetto"]["compionenti"]) ?> ;
-        if(nComponenti > 0)
-            <?php header("location: /home/crea-progetto/foto") ?>
-        else
+        let nComponenti = <?php echo count($_SESSION["creazione-progetto"]["componenti"]); ?>;
+        if(nComponenti > 0) {
+            window.location.href = "/home/crea-progetto/foto";
+            <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
+        } else {
             alert("Devi inserire almeno una componente!");
+        }
     } 
 </script>
+
 </html>

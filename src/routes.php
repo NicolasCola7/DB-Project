@@ -22,6 +22,7 @@ $router->get('/home/info-progetto/profili-controller', 'app/controllers/profilo/
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/hardware/componenti', 'app/controllers/creazione-progetto/hardware/progetto-hardware.controller.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/progetto-software.controller.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto.view.php')->soloSe('creatore');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
