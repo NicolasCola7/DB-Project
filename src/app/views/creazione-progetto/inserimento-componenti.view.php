@@ -1,3 +1,12 @@
+<?php
+// se non si sono inserite le informazioni base lo redirigo alla pgina apposita
+if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
+    header('location: /home/crea-progetto/informazioni-base');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>

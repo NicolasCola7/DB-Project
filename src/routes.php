@@ -16,12 +16,12 @@ $router->get('/ottieni-mie-skills', 'app/controllers/skills/non-admin/ottieni-mi
 $router->get('/ottieni-skills', 'app/controllers/skills/non-admin/ottieni-skill.controller.php')->soloSe('autenticato');
 $router->get('/icona-profilo', 'public/icone/icona-profilo.svg');
 $router->get('/admin/home/gestione-skills', 'app/views/skills/gestione-skills.view.php')->soloSe('admin');
-$router->get('/admin/ottieni-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('admin');
+$router->get('/admin/ottieni-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('autenticato'); // ho tolto soloSe('admin') per utilizzarlo per la popolazione delle skill che un creatore può assegnare ad un profilo
 $router->get('/home/info-progetto/profili', 'app/views/profilo/view-profili.view.php')->soloSe('autenticato');
 $router->get('/home/info-progetto/profili-controller', 'app/controllers/profilo/view-profili.controller.php')->soloSe('autenticato');
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/hardware/componenti', 'app/controllers/creazione-progetto/hardware/progetto-hardware.controller.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/progetto-software.controller.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimentoc-componenti.view.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/software/profili', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto.view.php')->soloSe('creatore');
 
 //POST
