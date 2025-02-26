@@ -56,6 +56,7 @@ $_SESSION['creazione-progetto'] = [
     'tipo' => $tipo,
     'componenti' => [],
     'profili' => [],
+    'skills-richieste' => [],
     'step1' => true,
     'step2' => false,
     'step3' => false

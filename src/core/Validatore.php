@@ -30,7 +30,7 @@ class Validatore {
     static function isString($val, $min = 1, $max = INF) {
         $val = trim($val);
 
-        return strlen($val) >= $min && strlen($val) <= $max;
+        return is_string($val) && strlen($val) >= $min && strlen($val) <= $max;
     }
 
     /**

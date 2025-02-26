@@ -37,6 +37,8 @@ $router->post('/home/le-mie-skill/aggiungi', 'app/controllers/skills/non-admin/a
 $router->post('/admin/home/gestione-skills/aggiungi', 'app/controllers/skills/admin/aggiungi-skill.controller.php')->soloSe('admin');
 $router->post('/home/crea-progetto/informazioni-base', 'app/controllers/creazione-progetto/info-base.controller.php')->soloSe('creatore');
 $router->post('/home/crea-progetto/hardware/componenti', 'app/controllers/creazione-progetto/hardware/aggiungi-componente.controller.php')->soloSe('creatore');
+$router->post('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/aggiungi-profilo.controller.php')->soloSe('creatore');
+$router->post('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/aggiungi-skill-richieste.controller.php')->soloSe('creatore');
 
 //PUT
 
