@@ -145,6 +145,10 @@
             stato.textContent = "Stato: "+p.stato;
             infoContainer.appendChild(stato);
 
+            let tipo = document.createElement("p");
+            tipo.textContent = "Tipologia: "+p.tipoProgetto;
+            infoContainer.appendChild(tipo);
+
             //budget
             let budget = document.createElement("p");
             budget.textContent = "Budget d'avvio: "+p.budget_avvio+" EUR";
@@ -168,53 +172,58 @@
             main.appendChild(infoContainer);
         }
         function stampaComponenti(componenti){
-            let componentiContainer = document.createElement("div");
-            componentiContainer.classList.add("componentiContainer");
+            if(componenti.length !== 0){
+                let componentiContainer = document.createElement("div");
+                componentiContainer.classList.add("componentiContainer");
 
-            let titolo = document.createElement("h4");
-            titolo.textContent = "Componenti";
-            componentiContainer.appendChild(titolo);
+                let titolo = document.createElement("h4");
+                titolo.textContent = "Componenti";
+                componentiContainer.appendChild(titolo);
 
-            let tabella = document.createElement("table");
-            let tr = document.createElement("tr");
-
-            let th1 = document.createElement("th");
-            th1.textContent = "Nome"
-            let th2 = document.createElement("th");
-            th2.textContent = "Prezzo";
-            let th3 = document.createElement("th");
-            th3.textContent = "Descrizione";
-            let th4 = document.createElement("th");
-            th4.textContent = "Quantità";
-
-            tr.appendChild(th1);
-            tr.appendChild(th2);
-            tr.appendChild(th3);
-            tr.appendChild(th4);
-
-            tabella.appendChild(tr);
-            componenti.forEach(c => {
+                let tabella = document.createElement("table");
                 let tr = document.createElement("tr");
 
-                let td1 = document.createElement("td");
-                td1.textContent = c.nome;
-                let td2 = document.createElement("td");
-                td2.textContent = c.prezzo;
-                let td3 = document.createElement("td");
-                td3.textContent = c.descr;
-                let td4 = document.createElement("td");
-                td4.textContent = c.quantita;
+                let th1 = document.createElement("th");
+                th1.textContent = "Nome"
+                let th2 = document.createElement("th");
+                th2.textContent = "Prezzo";
+                let th3 = document.createElement("th");
+                th3.textContent = "Descrizione";
+                let th4 = document.createElement("th");
+                th4.textContent = "Quantità";
 
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                tr.appendChild(td4);
+                tr.appendChild(th1);
+                tr.appendChild(th2);
+                tr.appendChild(th3);
+                tr.appendChild(th4);
 
                 tabella.appendChild(tr);
-            })
+                componenti.forEach(c => {
+                    let tr = document.createElement("tr");
 
-            componentiContainer.appendChild(tabella);
-            main.appendChild(componentiContainer);
+                    let td1 = document.createElement("td");
+                    td1.textContent = c.nome;
+                    let td2 = document.createElement("td");
+                    td2.textContent = c.prezzo;
+                    let td3 = document.createElement("td");
+                    td3.textContent = c.descr;
+                    let td4 = document.createElement("td");
+                    td4.textContent = c.quantita;
+
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+                    tr.appendChild(td4);
+
+                    tabella.appendChild(tr);
+                })
+
+                componentiContainer.appendChild(tabella);
+                main.appendChild(componentiContainer);
+            }else{
+                let p = document.createElement("p");
+                p.textContent = "Non sono presenti componenti per questo profilo";
+            }
         }
         async function creaComponenteProfili(nomeProg){
             let div = document.createElement("div");

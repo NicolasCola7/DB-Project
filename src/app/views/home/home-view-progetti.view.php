@@ -6,6 +6,11 @@
         .contenutoMain {
             margin: 20px;
         }
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
         .grid{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
