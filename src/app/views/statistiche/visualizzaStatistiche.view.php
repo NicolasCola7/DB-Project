@@ -118,6 +118,7 @@
 
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
+<!-- client java script -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {

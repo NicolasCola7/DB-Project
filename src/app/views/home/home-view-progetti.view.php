@@ -85,7 +85,7 @@
                         <a href="/home/info-progetto?nome=<?= urlencode($project['NomeProgetto']) ?>">
                             <div class="card">
                                 <div class="img">
-                                    <img src="/immagini/default.png" alt="Foto del progetto">
+                                    <img src="/ottieniImmagine" alt="Foto del progetto">
                                 </div>
                                 <div class="info">
                                     <p><?= htmlspecialchars($project['NomeProgetto'])?>, 
