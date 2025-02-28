@@ -28,6 +28,9 @@ $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimen
 $router->get('/home/visualizzaStatistiche','app/views/statistiche/visualizzaStatistiche.view.php')->soloSe('autenticato');
 $router->get('/ottieni-statistiche', 'app/controllers/statistiche/visualizzaStatistiche.controller.php')->soloSe('autenticato');
 $router->get('/ottieniImmagine', 'app/immagini/default.png')->soloSe('autenticato');
+$router->get('/ottieniImmagine1', 'app/immagini/illumination.jpg')->soloSe('autenticato');
+$router->get('/ottieniImmagine2', 'app/immagini/project.jpg')->soloSe('autenticato');
+
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
 $router->post('/registrazione', 'app/controllers/autenticazione/registrazione.controller.php')->soloSe('non-autenticato');

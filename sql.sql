@@ -784,8 +784,8 @@ CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per
 CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 200000.00, 'Hardware', 'giulia.bianchi@email.com');
 CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 300000.00, 'Hardware', 'giulia.bianchi2@email.com');
 
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine) VALUES ('immagine grafica', 'Robot AI2', '/immagini/project.jpg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine)  VALUES ('immagine bella grafica', 'Robot AI2', '/immagini/illumination.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine) VALUES ('immagine grafica', 'Robot AI2', '/ottieniImmagine1');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine)  VALUES ('immagine bella grafica', 'Robot AI2', '/ottieniImmagine2');
 
 CALL InserimentoComponenteHardware('CPU Intel', 'SmartWatch AI', 'Processore Intel i9', '350.00', '5', @esito);
 CALL InserimentoComponenteHardware('Scheda Madre', 'Robot AI', 'ASUS ROG STRIX', '200.00', '10', @esito);
