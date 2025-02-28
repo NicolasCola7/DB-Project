@@ -78,62 +78,102 @@
 
             <div class="statistiche">
                 <h2>Classifica Creatori per Affidabilità</h2>
-                <?php if (!empty($classificaCreatori)) : ?>
-                    <table>
+                <table>
+                    <thead>
                         <tr>
                             <th>Nickname</th>
                             <th>Affidabilità</th>
                         </tr>
-                        <?php foreach ($classificaCreatori as $creatore) : ?>
-                            <tr>
-                                <td><?= htmlspecialchars($creatore['nickname']) ?></td>
-                                <td><?= htmlspecialchars($creatore['affidabilita']) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
-                <?php else : ?>
-                    <p class="errore">Nessun creatore disponibile.</p>
-                <?php endif; ?>
+                    </thead>
+                    <tbody id="tabellaCreatori"></tbody>
+                </table>
+                <p id="erroreCreatori" class="errore"></p>
 
                 <h2>Progetti Vicini al Completamento</h2>
-                <?php if (!empty($progettiVicini)) : ?>
-                    <table>
+                <table>
+                    <thead>
                         <tr>
                             <th>Nome Progetto</th>
                             <th>Budget Mancante (€)</th>
                         </tr>
-                        <?php foreach ($progettiVicini as $progetto) : ?>
-                            <tr>
-                                <td><?= htmlspecialchars($progetto['nome']) ?></td>
-                                <td><?= number_format($progetto['budget_mancante']) ?> €</td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
-                <?php else : ?>
-                    <p class="errore">Nessun progetto vicino al completamento.</p>
-                <?php endif; ?>
+                    </thead>
+                    <tbody id="tabellaProgetti"></tbody>
+                </table>
+                <p id="erroreProgetti" class="errore"></p>
 
                 <h2>Classifica Finanziatori</h2>
-                <?php if (!empty($classificaFinanziatori)) : ?>
-                    <table>
+                <table>
+                    <thead>
                         <tr>
                             <th>Nickname</th>
                             <th>Totale Finanziamenti (€)</th>
                         </tr>
-                        <?php foreach ($classificaFinanziatori as $finanziatore) : ?>
-                            <tr>
-                                <td><?= htmlspecialchars($finanziatore['nickname']) ?></td>
-                                <td><?= number_format($finanziatore['totale_finanziamento']) ?> €</td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </table>
-                <?php else : ?>
-                    <p class="errore">Nessun finanziatore registrato.</p>
-                <?php endif; ?>
+                    </thead>
+                    <tbody id="tabellaFinanziatori"></tbody>
+                </table>
+                <p id="erroreFinanziatori" class="errore"></p>
             </div>
         </div>
     </div>
 
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        getStatistiche();
+
+        async function getStatistiche() {
+            try {
+                const response = await axios.get("/ottieni-statistiche");
+                console.log("Dati ricevuti:", response.data);
+                const dati = response.data;
+                stampaStatistiche(dati);
+            } catch (error) {
+                console.error("Errore nel recupero delle statistiche:", error);
+            }
+        }
+
+        function stampaStatistiche(dati) {
+            if (dati.classificaCreatori && dati.classificaCreatori.length > 0) {
+                let tabellaCreatori = document.getElementById("tabellaCreatori");
+                dati.classificaCreatori.forEach(creatore => {
+                    let row = `<tr>
+                        <td>${creatore.nickname}</td>
+                        <td>${creatore.affidabilita}</td>
+                    </tr>`;
+                    tabellaCreatori.innerHTML += row;
+                });
+            } else {
+                document.getElementById("erroreCreatori").textContent = "Nessun creatore disponibile.";
+            }
+
+            if (dati.progettiVicini && dati.progettiVicini.length > 0) {
+                let tabellaProgetti = document.getElementById("tabellaProgetti");
+                dati.progettiVicini.forEach(progetto => {
+                    let row = `<tr>
+                        <td>${progetto.nome}</td>
+                        <td>${progetto.budget_mancante} €</td>
+                    </tr>`;
+                    tabellaProgetti.innerHTML += row;
+                });
+            } else {
+                document.getElementById("erroreProgetti").textContent = "Nessun progetto vicino al completamento.";
+            }
+
+            if (dati.classificaFinanziatori && dati.classificaFinanziatori.length > 0) {
+                let tabellaFinanziatori = document.getElementById("tabellaFinanziatori");
+                dati.classificaFinanziatori.forEach(f => {
+                    let row = `<tr>
+                        <td>${f.nickname}</td>
+                        <td>${f.totale_finanziamento} €</td>
+                    </tr>`;
+                    tabellaFinanziatori.innerHTML += row;
+                });
+            } else {
+                document.getElementById("erroreFinanziatori").textContent = "Nessun finanziatore registrato.";
+            }
+        }
+    });
+</script>
 </html>

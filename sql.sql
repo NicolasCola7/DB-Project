@@ -828,5 +828,3 @@ CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com'
 CALL CommentaProgetto('SmartWatch AI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
 
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
-
-SELECT * FROM ClassificaCreatoriAffidabilita;
