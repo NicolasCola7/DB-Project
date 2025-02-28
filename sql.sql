@@ -821,8 +821,6 @@ CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python"
 CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"skill":"Conoscenza lingua inglese", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
 CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"skill":"Lavorare in team", "livello": 5}]');
 
-
-
 CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
 
 CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', true);
@@ -830,3 +828,5 @@ CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com'
 CALL CommentaProgetto('SmartWatch AI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
 
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com');
+
+SELECT * FROM ClassificaCreatoriAffidabilita;

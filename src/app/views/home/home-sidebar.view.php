@@ -53,7 +53,7 @@
             <?php if ($_SESSION['utente']['creatore']) : ?>
                 <li><a href="">Visualizza i miei progetti</a></li>
             <?php endif; ?>
-            <li><a href="home/visualizzaStatistiche">Visualizza statistiche</a></li>
+            <li><a href="/home/visualizzaStatistiche">Visualizza statistiche</a></li>
             <?php if ($_SESSION['utente']['creatore']) : ?>
                 <li><a href="">Inserisci profilo</a></li>
             <?php endif; ?>
