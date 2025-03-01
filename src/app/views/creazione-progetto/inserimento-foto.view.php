@@ -110,15 +110,15 @@ if(!$_SESSION['creazione-progetto']['step2']) {
             </header>
 
             <section>
-                <form action="/" method="POST" enctype='multipart/form-data'>
-                     <div class='container'>
+                <form action="/home/crea-progetto/foto" method="POST" enctype='multipart/form-data'>
+                    <div class='container'>
                         <label for='foto'> Scegli una foto </label>
-                        <input type='file' name='foto' accept="image/png, image/jpeg" >
+                        <input type='file' name='foto' accept="image/png, image/jpeg, image/jpg" required>
                     </div>
                     
                     <div class='container'>
                         <label for='descrizione'> Descrizione </label>
-                        <textarea name='descrizione' row='4' required> </textarea>
+                        <textarea name='descrizione' rows='4' required> </textarea>
                     </div>
                     
                     <div class='container'>
@@ -127,10 +127,35 @@ if(!$_SESSION['creazione-progetto']['step2']) {
                 </form>
             </section>
 
+            <div id='errori'>
+                <?php if (isset($errori['estensione'])) : ?>
+                    <p><?= $errori['estensione'] ?></p>
+                <?php endif; ?>
+
+                <?php if (isset($errori['descrizione'])) : ?>
+                    <p><?= $errori['descrizione'] ?></p>
+                <?php endif; ?>
+
+                <?php if (isset($errori['dimensione'])) : ?>
+                    <p><?= $errori['dimensione'] ?></p>
+                <?php endif; ?>
+
+                <?php if (isset($errori['upload'])) : ?>
+                    <p><?= $errori['upload'] ?></p>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['aggiunta-foto'])) : ?>
+                    <?php if ($_SESSION['aggiunta-foto']) : ?>
+                        <p id='successo'> Foto aggiunta con successo! </p>
+                    <?php else :?>
+                        <p> Foto già inserita!</p>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+
             <div class='container'>
                 <button onclick="prosegui()">Prosegui</button>
             </div>
-            
         </div>
     </div>
     
@@ -138,5 +163,13 @@ if(!$_SESSION['creazione-progetto']['step2']) {
 </body>
 
 <script>
+    function prosegui() {
+        const foto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
+        if(foto < 1) {
+            alert("Devi inserire almeno una foto!");
+        } else {
+            window.location.href = '';
+        }
+    }
 </script>
 </html>

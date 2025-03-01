@@ -69,4 +69,10 @@ class Validatore {
         
         return ($data > $minData && $data < $maxData);
     }
+
+    static function estensioneValida($estensione) {
+        $ESTENSIONI_VALIDE = array('jpg', 'jpeg', 'png');
+
+        return in_array($estensione, $ESTENSIONI_VALIDE);
+    }
 }

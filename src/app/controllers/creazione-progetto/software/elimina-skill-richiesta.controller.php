@@ -1,8 +1,5 @@
 <?  
 
-use \core\App;
-use \core\Database;
-
 // Recupero in neme della skill passato nella query string dell'url
 $daEliminare = $_GET['nomeSkill'];
 
