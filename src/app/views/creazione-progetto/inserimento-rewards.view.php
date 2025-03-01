@@ -6,12 +6,9 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     exit();
 }
 
-//se l'utente, a seconda del tipo di progetto, non ha inserito componenti o profili lo redirigo alle pagine apposite 
-if(!$_SESSION['creazione-progetto']['step2']) {
-    if($_SESSION['creazione-progetto']['tipo'] === 'hardware')
-        header('location: /home/crea-progetto/hardware/componenti');
-    else
-        header('location: /home/crea-progetto/software/profili');
+//se l'utente, a seconda del tipo di progetto, non ha inserito le foto lo redirigo alle pagine apposite 
+if(!$_SESSION['creazione-progetto']['step3']) {
+    header('location: /home/crea-progetto/foto');
     exit();
 }
 ?>
@@ -106,11 +103,11 @@ if(!$_SESSION['creazione-progetto']['step2']) {
         
         <div class="contenutoMain">
             <header>
-                <h2> Inserimento foto </h2>
+                <h2> Inserimento reward </h2>
             </header>
 
             <section>
-                <form action="/home/crea-progetto/foto" method="POST" enctype='multipart/form-data'>
+                <form action="/home/crea-progetto/reward" method="POST" enctype='multipart/form-data'>
                     <div class='container'>
                         <label for='foto'> Scegli una foto </label>
                         <input type='file' name='foto' accept="image/png, image/jpeg, image/jpg" required>
@@ -144,11 +141,11 @@ if(!$_SESSION['creazione-progetto']['step2']) {
                     <p><?= $errori['upload'] ?></p>
                 <?php endif; ?>
 
-                <?php if (isset($_SESSION['aggiunta-foto'])) : ?>
-                    <?php if ($_SESSION['aggiunta-foto']) : ?>
-                        <p id='successo'> Foto aggiunta con successo! </p>
+                <?php if (isset($_SESSION['aggiunta-reward'])) : ?>
+                    <?php if ($_SESSION['aggiunta-reward']) : ?>
+                        <p id='successo'> Reward aggiunta con successo! </p>
                     <?php else :?>
-                        <p> Foto già inserita!</p>
+                        <p> Reward già inserita!</p>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>
@@ -164,11 +161,11 @@ if(!$_SESSION['creazione-progetto']['step2']) {
 
 <script>
     function prosegui() {
-        const foto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
-        if(foto < 1) {
-            alert("Devi inserire almeno una foto!");
+        const rewards =  <?= count($_SESSION['creazione-progetto']['rewards']); ?>;
+        if(rewards < 1) {
+            alert("Devi inserire almeno una reward!");
         } else {
-            window.location.href = '/home/crea-progetto/rewards';
+            window.location.href = '/home/crea-progetto/conferma-dati';
         }
     }
 </script>

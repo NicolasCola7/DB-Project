@@ -41,7 +41,7 @@ CREATE TABLE Progetto (
 
 CREATE TABLE Reward (
     codice INT PRIMARY KEY auto_increment,
-    foto BLOB,
+    urlFoto VARCHAR(100),
     descr TEXT,
     nomeProgetto VARCHAR(255),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)

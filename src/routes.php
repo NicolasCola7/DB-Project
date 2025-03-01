@@ -31,7 +31,8 @@ $router->get('/ottieni-statistiche', 'app/controllers/statistiche/visualizzaStat
 $router->get('/ottieniImmagine', 'public/immagini/default.png')->soloSe('autenticato');
 $router->get('/ottieniImmagine1', 'public/immagini/illumination.jpg')->soloSe('autenticato');
 $router->get('/ottieniImmagine2', 'public/immagini/project.jpg')->soloSe('autenticato');
-
+$router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-rewards.view.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
 $router->post('/registrazione', 'app/controllers/autenticazione/registrazione.controller.php')->soloSe('non-autenticato');
@@ -46,6 +47,9 @@ $router->post('/home/crea-progetto/software/profili', 'app/controllers/creazione
 $router->post('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/aggiungi-skill-richieste.controller.php')->soloSe('creatore');
 $router->post('/home/info-progetto/profilo-invio-candidatura', 'app/controllers/profilo/post-candidatura-prog.controller.php')->soloSe('autenticato');
 $router->post('/home/crea-progetto/foto', 'app/controllers/creazione-progetto/inserisci-foto.controller.php')->soloSe('creatore');
+$router->post('/home/crea-progetto/rewards', 'app/controllers/creazione-progetto/inserisci-reward.controller.php')->soloSe('creatore');
+$router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-progetto/conferma-dati.controller.php')->soloSe('creatore');
+
 //PUT
 
 

@@ -33,7 +33,7 @@ if($erroreFile !== 0) {
 }
 
 if (!empty($errori)) {
-    $_SESSION['aggiunta-foto'] = false;
+    $_SESSION['aggiunta-reward'] = false;
     require view("/creazione-progetto/inserimento-foto.view.php", [
         "errori" => $errori
     ]);
@@ -53,16 +53,16 @@ if (!file_exists($directory)) {
 
 $destinazione = $directory.'/'.$nomeFile;
 
-$fotoDaInserire = [
-    'percorso' => $destinazione,
-    'descrizione' => $descrizione
+$rewardDaInserire = [
+    'urlFoto' => $destinazione,
+    'descr' => $descrizione
 ];
 
 //controllo che non esista una foto identica
-foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
-    if($foto['percorso'] === $destinazione) {
-        $_SESSION['aggiunta-foto'] = false;
-        require view("/creazione-progetto/inserimento-foto.view.php", [
+foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
+    if($reward['urlFoto'] === $destinazione) {
+        $_SESSION['aggiunta-reward'] = false;
+        require view("/creazione-progetto/inserimento-rewards.view.php", [
             "errori" => $errori
         ]);
         
@@ -71,11 +71,11 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
 }
 
 //inserisco la foto nella sessione
-array_push($_SESSION['creazione-progetto']['foto'], $fotoDaInserire);
+array_push($_SESSION['creazione-progetto']['rewards'], $rewardDaInserire);
 
 // sposto la foto in una cartella temporanea in attesa per la conferma di creazione del progetto
 move_uploaded_file($nomeTemp, $destinazione);
-$_SESSION['aggiunta-foto'] = true;
+$_SESSION['aggiunta-reward'] = true;
 
-header('location: /home/crea-progetto/foto');
+header('location: /home/crea-progetto/rewards');
 exit();
