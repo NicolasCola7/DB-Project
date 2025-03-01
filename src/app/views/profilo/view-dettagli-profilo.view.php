@@ -4,7 +4,7 @@
     <title>Home</title>
 </head>
 <style>
-.contenutoMain {
+    .contenutoMain {
         background-color: #fff;
         padding: 20px;
         border-radius: 10px;
@@ -26,6 +26,23 @@
         display: flex;
         flex-direction: column;
     }
+    .contenitoreSkill{
+        display: flex;
+        flex-direction: column;
+        gap:20px;
+    }
+    .contenitoreSkill button{
+        width: 140px;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #0077cc;
+        border: none;
+        color: white;
+        font-size: medium;
+    }
+    .contenitoreSkill button:hover{
+        background-color: #1a355f;
+    }
     table {
         margin-top: 10px;
         border: 1px solid black;
@@ -42,6 +59,17 @@
         background-color: black;
         color: white;
     }
+    .swal2-popup .swal2-confirm {
+        background-color: #0077cc;
+        color: white;
+    }
+
+    .swal2-popup .swal2-cancel {
+        background-color: red;
+        color: white;
+    }
+
+    
 </style>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -58,15 +86,16 @@
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded",function(){
         const main = document.getElementsByClassName("contenutoMain")[0];
         const urlParam = new URLSearchParams(window.location.search);
         const nomeProgetto = urlParam.get('nomeProgetto');
         const nomeProfilo = urlParam.get('nomeProfilo');
-        getSkill();
-
-        async function getSkill() {
+        getSkillAndPostCandidatura();
+        
+        async function getSkillAndPostCandidatura() {
             try{
                 //eseguo una chiamata asincrona get all'url specificato inserendo un parametro in get (nome del progetto e nome profilo)
                 const risposta = await axios.get("/home/info-progetto/profilo-controller", {
@@ -115,7 +144,41 @@
             });
             div.appendChild(table);
 
+            let button = document.createElement("button");
+            button.textContent = "Inserisci candidatura";
+            button.addEventListener("click",function(){
+                let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
+                let encodedNomeProfilo = encodeURIComponent(nomeProfilo);
+                Swal.fire({
+                    title: "Sei sicuro?",
+                    text: "Vuoi inviare la tua candidatura come "+nomeProfilo+" per il progetto "+nomeProgetto+"?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sì, procedi!",
+                    cancelButtonText: "Annulla",
+                    customClass: {
+                    confirmButton: "my-confirm-button",
+                    cancelButton: "my-cancel-button"
+                }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        postCandidatura();
+                        Swal.fire("Confermato!", "L'azione è stata eseguita.", "success");
+                    }
+                });
+            })
+            div.appendChild(button);
             main.appendChild(div);
+        }
+        async function postCandidatura() {
+            try {
+                const risposta = await axios.post("/home/info-progetto/profilo-invio-candidatura", {
+                    nomeProgetto: nomeProgetto,
+                    nomeProfilo: nomeProfilo
+                });
+            } catch (error) {
+                console.log(error);
+            }
         }
     })
 </script>

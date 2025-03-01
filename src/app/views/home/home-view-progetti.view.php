@@ -69,6 +69,9 @@
         .card .azioni button:hover {
             background: #0056b3;
         }
+        a{
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>

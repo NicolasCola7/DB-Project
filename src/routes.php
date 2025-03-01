@@ -44,6 +44,7 @@ $router->post('/home/crea-progetto/informazioni-base', 'app/controllers/creazion
 $router->post('/home/crea-progetto/hardware/componenti', 'app/controllers/creazione-progetto/hardware/aggiungi-componente.controller.php')->soloSe('creatore');
 $router->post('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/aggiungi-profilo.controller.php')->soloSe('creatore');
 $router->post('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/aggiungi-skill-richieste.controller.php')->soloSe('creatore');
+$router->post('/home/info-progetto/profilo-invio-candidatura', 'app/controllers/profilo/post-candidatura-prog.controller.php')->soloSe('autenticato');
 
 //PUT
 
