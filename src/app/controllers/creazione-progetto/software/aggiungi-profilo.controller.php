@@ -23,32 +23,31 @@ if (!empty($errori)) {
     exit();
 }
 
-$profilo = [
+$profiloDaInserire = [
     'nome' => $nome,
     'numero_posizioni' => $posizioni,
 ];
 
-//controllo che non sia stata già aggiunta una skill uguale
+//controllo che non sia stato già inserito un profilo uguale uguale
 foreach($_SESSION['creazione-progetto']['profili'] as $profilo){
     if($profilo['nome'] === $nome){
         $_SESSION['aggiunta-profilo'] = false;
         require view("/creazione-progetto/inserimento-profili.view.php", [
             "errori" => $errori
         ]);
-        
         exit();
     }
 }
 
 //inserisco il profilo aggiunta nell'apposita variabile di sessione
-array_push($_SESSION['creazione-progetto']['profili'], $profilo);
+array_push($_SESSION['creazione-progetto']['profili'], $profiloDaInserire);
 $_SESSION['aggiunta-profilo'] = true;
 
 //sposto tutte le skill che avevo memorizzato all'interno dell'array per il profilo 
-foreach($_SESSION['creazione-progetto']['profili'] as $profilo) {
+foreach($_SESSION['creazione-progetto']['profili'] as $key=>$profilo) {
     if ($profilo['nome'] === $nome) {
-        $profilo['skills-richieste'] = $_SESSION['creazione-progetto']['skills-richieste'];
-        unset($_SESSION['creazione-progetto']['skills-richieste']); // pulisco le skill per inserirne altre per un altro profilo
+        $_SESSION['creazione-progetto']['profili'][$key]['skills-richieste'] = $_SESSION['creazione-progetto']['skills-richieste'];
+        $_SESSION['creazione-progetto']['skills-richieste'] = []; // pulisco le skill per inserirne altre per un altro profilo
     }
 }
 

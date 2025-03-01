@@ -122,8 +122,7 @@
             border-color: #0056b3;
         }
 
-        #aggiunta form select:focus,
-        #aggiunta form input[type="number"]:focus {
+        #aggiunta form select:focus{
             outline: none;
             border-color: #0077cc;
             box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);

@@ -46,5 +46,5 @@ foreach($_SESSION['creazione-progetto']['skills-richieste'] as $skill_richiesta)
 array_push($_SESSION['creazione-progetto']['skills-richieste'], $skill);
 $_SESSION['aggiunta-skill'] = true;
 
-header('location: /home/crea-progetto/software/profili');
+header('location: /home/crea-progetto/software/profili/skills');
 exit();

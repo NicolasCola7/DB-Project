@@ -22,14 +22,15 @@ $router->get('/home/info-progetto/profili-controller', 'app/controllers/profilo/
 $router->get('/home/info-progetto/profilo', 'app/views/profilo/view-dettagli-profilo.view.php')->soloSe('autenticato');
 $router->get('/home/info-progetto/profilo-controller', 'app/controllers/profilo/view-dettagli-profilo.controller.php')->soloSe('autenticato');
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimentoc-componenti.view.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/software/profili', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/software/profili/skills', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto.view.php')->soloSe('creatore');
 $router->get('/home/visualizzaStatistiche','app/views/statistiche/visualizzaStatistiche.view.php')->soloSe('autenticato');
 $router->get('/ottieni-statistiche', 'app/controllers/statistiche/visualizzaStatistiche.controller.php')->soloSe('autenticato');
-$router->get('/ottieniImmagine', 'app/immagini/default.png')->soloSe('autenticato');
-$router->get('/ottieniImmagine1', 'app/immagini/illumination.jpg')->soloSe('autenticato');
-$router->get('/ottieniImmagine2', 'app/immagini/project.jpg')->soloSe('autenticato');
+$router->get('/ottieniImmagine', 'public/immagini/default.png')->soloSe('autenticato');
+$router->get('/ottieniImmagine1', 'public/immagini/illumination.jpg')->soloSe('autenticato');
+$router->get('/ottieniImmagine2', 'public/immagini/project.jpg')->soloSe('autenticato');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
@@ -50,5 +51,6 @@ $router->post('/home/crea-progetto/software/profili/skills', 'app/controllers/cr
 //DELETE
 $router->delete('/rimuovi-skill', 'app/controllers/skills/non-admin/elimina-skill.controller.php')->soloSe('autenticato');
 $router->delete('/admin/rimuovi-skill',  'app/controllers/skills/admin/elimina-skill.controller.php')->soloSe('admin');
+$router->delete('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/elimina-skill-richiesta.controller.php')->soloSe('creatore');
 
 //PATCH

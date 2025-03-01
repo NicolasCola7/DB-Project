@@ -110,7 +110,7 @@ if(!$_SESSION['creazione-progetto']['step2']) {
             </header>
 
             <section>
-                <form action="/" method="POST">
+                <form action="/" method="POST" enctype='multipart/form-data'>
                      <div class='container'>
                         <label for='foto'> Scegli una foto </label>
                         <input type='file' name='foto' accept="image/png, image/jpeg" >
