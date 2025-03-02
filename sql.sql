@@ -450,7 +450,7 @@ END;
 $ DELIMITER ;
 		
 DELIMITER $ 
-CREATE PROCEDURE InserimentoCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255))
+CREATE PROCEDURE InserimentoCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), OUT esito INT)
 BEGIN
 	declare correttezzaNomeEProgetto boolean;
     declare correttezzaEmail boolean;
@@ -511,8 +511,11 @@ BEGIN
         -- se tutte le skill possedute hanno un livello minimo superiore a quello richiesto dalle skill del profilo la candidatura
         -- è accettabile e quindi la si inserisce
         if(skillsCorrette) then
+			SET esito = 1;
             INSERT INTO Candidatura (stato, nomeProfilo, nomeProgetto, emailUtente) 
                    values ('aperta', nomeProfiloI, nomeProgettoI, emailUtenteI);
+		else
+			SET esito = 0;
         end if;
     end if;
 END;
@@ -571,7 +574,7 @@ BEGIN
     
     if(correttezzaFoto and correttezzaNomeProg) then
         -- se descrI è vuoto o null imposto di default la descrizione
-		INSERT INTO Reward (foto, descr, nomeProgetto) values (FotoI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), nomeI);
+		INSERT INTO Reward (urlfoto, descr, nomeProgetto) values (FotoI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), nomeI);
 	end if;
 END
 $ DELIMITER ; 
@@ -821,7 +824,7 @@ CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python"
 CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"skill":"Conoscenza lingua inglese", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
 CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"skill":"Lavorare in team", "livello": 5}]');
 
-CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com');
+CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', @esito);
 
 CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', true);
 

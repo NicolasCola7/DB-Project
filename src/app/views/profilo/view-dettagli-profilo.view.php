@@ -108,6 +108,7 @@
             }
         }
         function stampaSkill(skills,profilo){
+            //stampo le skill ottenute dal database
             let h3 = document.querySelector(".contenutoMain h3");
             h3.textContent = h3.textContent + " - "+profilo;
 
@@ -130,6 +131,7 @@
             tr.appendChild(th2);
 
             table.appendChild(tr);
+            //stampo le caratteristiche delle skill in tabella
             skills.forEach(skill => {
                 let tr = document.createElement("tr");
 
@@ -144,41 +146,56 @@
             });
             div.appendChild(table);
 
+            //creo un form con un solo bottone che esegue una richiesta post e chiama un controller
+            //che eseguirà l'invio della candidatura
+            let form = document.createElement("form");
+            form.method = "post";
+            form.action = "/home/info-progetto/profilo-invio-candidatura";
+
             let button = document.createElement("button");
+            button.type = "submit";
             button.textContent = "Inserisci candidatura";
-            button.addEventListener("click",function(){
+
+            //campi da passare al controller
+            let inputNomeProgetto = document.createElement("input");
+            inputNomeProgetto.type = "hidden";
+            inputNomeProgetto.name = "nomeProgetto";
+
+            let inputNomeProfilo = document.createElement("input");
+            inputNomeProfilo.type = "hidden";
+            inputNomeProfilo.name = "nomeProfilo";
+
+            button.addEventListener("click", function (event) {
+                event.preventDefault(); 
                 let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
                 let encodedNomeProfilo = encodeURIComponent(nomeProfilo);
+                inputNomeProgetto.value = nomeProgetto;
+                inputNomeProfilo.value = nomeProfilo;
+                //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
                 Swal.fire({
                     title: "Sei sicuro?",
-                    text: "Vuoi inviare la tua candidatura come "+nomeProfilo+" per il progetto "+nomeProgetto+"?",
+                    text: "Vuoi inviare la tua candidatura come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Sì, procedi!",
                     cancelButtonText: "Annulla",
                     customClass: {
-                    confirmButton: "my-confirm-button",
-                    cancelButton: "my-cancel-button"
-                }
+                        confirmButton: "my-confirm-button",
+                        cancelButton: "my-cancel-button"
+                    }
                 }).then((result) => {
+                    //se l'utente conferma faccio submit
                     if (result.isConfirmed) {
-                        postCandidatura();
-                        Swal.fire("Confermato!", "L'azione è stata eseguita.", "success");
+                        form.submit();
                     }
                 });
             })
-            div.appendChild(button);
+            form.appendChild(button);
+            form.appendChild(inputNomeProgetto);
+            form.appendChild(inputNomeProfilo);
+            div.appendChild(form);
+
             main.appendChild(div);
-        }
-        async function postCandidatura() {
-            try {
-                const risposta = await axios.post("/home/info-progetto/profilo-invio-candidatura", {
-                    nomeProgetto: nomeProgetto,
-                    nomeProfilo: nomeProfilo
-                });
-            } catch (error) {
-                console.log(error);
-            }
         }
     })
 </script>
