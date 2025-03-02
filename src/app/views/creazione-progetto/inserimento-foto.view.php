@@ -168,6 +168,7 @@ if(!$_SESSION['creazione-progetto']['step2']) {
         if(foto < 1) {
             alert("Devi inserire almeno una foto!");
         } else {
+            <?php $_SESSION["creazione-progetto"]["step3"] = true; ?>
             window.location.href = '/home/crea-progetto/rewards';
         }
     }

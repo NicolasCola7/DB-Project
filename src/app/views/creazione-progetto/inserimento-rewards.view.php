@@ -107,7 +107,7 @@ if(!$_SESSION['creazione-progetto']['step3']) {
             </header>
 
             <section>
-                <form action="/home/crea-progetto/reward" method="POST" enctype='multipart/form-data'>
+                <form action="/home/crea-progetto/rewards" method="POST" enctype='multipart/form-data'>
                     <div class='container'>
                         <label for='foto'> Scegli una foto </label>
                         <input type='file' name='foto' accept="image/png, image/jpeg, image/jpg" required>
@@ -165,6 +165,7 @@ if(!$_SESSION['creazione-progetto']['step3']) {
         if(rewards < 1) {
             alert("Devi inserire almeno una reward!");
         } else {
+            <?php $_SESSION["creazione-progetto"]["step4"] = true; ?>
             window.location.href = '/home/crea-progetto/conferma-dati';
         }
     }
