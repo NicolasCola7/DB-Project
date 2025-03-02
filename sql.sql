@@ -34,7 +34,7 @@ CREATE TABLE Progetto (
     descr TEXT,
     stato ENUM('aperto', 'chiuso'),
     budget_avvio DECIMAL(10,2),
-    tipoProgetto ENUM('hardware', 'software'),
+    tipoProgetto ENUM('Hardware', 'Software'),
     emailCreatore VARCHAR(255),
     FOREIGN KEY (emailCreatore) REFERENCES Creatore(emailCreatore)
 ) ENGINE=INNODB;
@@ -552,7 +552,7 @@ BEGIN
     -- il creatore del progetto deve esistere
 	set correttezzaEmailCreatore = (SELECT COUNT(*) FROM Creatore WHERE emailCreatore = emailCreatoreI) > 0;
     -- il tipo deve essere o hardware o software
-    set correttezzaTipo = (tipoI IN ('hardware','software'));
+    set correttezzaTipo = (tipoI IN ('Hardware','Software'));
     
     if (correttezzaNome and correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo) then
 		INSERT IGNORE INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
@@ -561,20 +561,20 @@ END;
 $ DELIMITER ; 
 
 DELIMITER $
-CREATE PROCEDURE CreazioneReward(IN FotoI TEXT, IN descrI TEXT, IN nomeI VARCHAR(255), IN emailCreatoreI VARCHAR(255))
+CREATE PROCEDURE CreazioneReward(IN urlFotoI VARCHAR(50), IN descrI TEXT, IN nomeI VARCHAR(255), IN emailCreatoreI VARCHAR(255))
 BEGIN
     declare correttezzaFoto boolean;
     declare correttezzaNomeProg boolean;
 
     -- la foto deve avere una estensione valida
-    set correttezzaFoto = (FotoI REGEXP '\\.(jpg|jpeg|png)$');
+    set correttezzaFoto = (urlFotoI REGEXP '\\.(jpg|jpeg|png)$');
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome creato da quell'utente e quindi non è possibile
     -- creare la reward
     set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI and Progetto.emailCreatore = emailCreatoreI) > 0;
     
     if(correttezzaFoto and correttezzaNomeProg) then
         -- se descrI è vuoto o null imposto di default la descrizione
-		INSERT INTO Reward (urlfoto, descr, nomeProgetto) values (FotoI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), nomeI);
+		INSERT INTO Reward (urlFoto, descr, nomeProgetto) values (urlFotoI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), nomeI);
 	end if;
 END
 $ DELIMITER ; 
@@ -604,7 +604,7 @@ END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN skillsRichiestaI TeXT)
+CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255))
 BEGIN
     declare correttezzaProfilo boolean;
     declare correttezzaProgetto boolean;
