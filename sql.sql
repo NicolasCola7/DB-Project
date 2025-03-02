@@ -604,7 +604,7 @@ END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255))
+CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN skillsRichiestaI text)
 BEGIN
     declare correttezzaProfilo boolean;
     declare correttezzaProgetto boolean;

@@ -7,29 +7,29 @@ use \core\Validatore;
 $db = App::getContainer()->risolvi(Database::class);
 //controllo se il parametro è stato passato nell'url di una chiamata get
 if(isset($_POST['nomeProgetto']) && isset($_POST['nomeProfilo'])){
-    //inizializzo un array per raccogliere eventuali errori
-    $errori = [];
-
     // Definizione dei parametri per la procedura di autenticazione nel database
     $parametri = [
-        'nomeProfiloI' => $_POST['nomeProgetto'],
-        'nomeProgettoI' => $_POST['nomeProfilo'],
+        'nomeProfiloI' => $_POST['nomeProfilo'],
+        'nomeProgettoI' => $_POST['nomeProgetto'],
         'emailUtenteI' => $_SESSION['utente']['email'],
         '@esito' => '@esito' // Variabile di output dalla stored procedure
     ];
-
     $esito = $db->procedure("InserimentoCandidatura", $parametri);
-    echo $esito;
-    /*
+    
     //se l'esito è negativo, mostro un errore nella vista
-    if(!$esito){
-        $errori["procedura"] = "Inserimento fallito. Non disponi di tutti i livelli skill minimi richiesti dal profilo.";
-        require view("/profilo/view-profili.view.php", [
-            'errori' => $errori
-        ]);
-        exit();
-    }*/
-    header("location: /home/info-progetto/profili");
+    if($esito === 0){
+        $_SESSION["utente"]["errore_candidatura"] = "Non disponi di tutti i livelli skill minimi richiesti dal profilo.";
+        unset($_SESSION['utente']['esito_candidatura']); 
+    }else if ($esito === 1){
+        $_SESSION['utente']['esito_candidatura'] = "Candidatura inviata con successo!";
+        unset($_SESSION['utente']['errore_candidatura']);
+    }else{
+        $_SESSION["utente"]["errore_candidatura"] = "Hai già inviato una candidatura per questo profilo che non è stata ancora visionata.";
+        unset($_SESSION['utente']['esito_candidatura']); 
+    }
+
+    $nomeProgetto = urlencode($_POST['nomeProgetto']);
+    header("location: /home/info-progetto/profili?nomeProgetto=$nomeProgetto");
     exit();
 }else{
     echo 'Errore: Nessun progetto specificato.';
