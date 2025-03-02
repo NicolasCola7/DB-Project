@@ -34,7 +34,7 @@ CREATE TABLE Progetto (
     descr TEXT,
     stato ENUM('aperto', 'chiuso'),
     budget_avvio DECIMAL(10,2),
-    tipoProgetto ENUM('Hardware', 'Software'),
+    tipoProgetto ENUM('hardware', 'software'),
     emailCreatore VARCHAR(255),
     FOREIGN KEY (emailCreatore) REFERENCES Creatore(emailCreatore)
 ) ENGINE=INNODB;
@@ -552,7 +552,7 @@ BEGIN
     -- il creatore del progetto deve esistere
 	set correttezzaEmailCreatore = (SELECT COUNT(*) FROM Creatore WHERE emailCreatore = emailCreatoreI) > 0;
     -- il tipo deve essere o hardware o software
-    set correttezzaTipo = (tipoI IN ('Hardware','Software'));
+    set correttezzaTipo = (tipoI IN ('hardware','software'));
     
     if (correttezzaNome and correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo) then
 		INSERT IGNORE INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
@@ -567,7 +567,7 @@ BEGIN
     declare correttezzaNomeProg boolean;
 
     -- la foto deve avere una estensione valida
-    set correttezzaFoto = (FotoI REGEXP '\\.(jpg|jpeg|png|gif|bmp|webp)$');
+    set correttezzaFoto = (FotoI REGEXP '\\.(jpg|jpeg|png)$');
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome creato da quell'utente e quindi non è possibile
     -- creare la reward
     set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI and Progetto.emailCreatore = emailCreatoreI) > 0;
@@ -658,6 +658,8 @@ BEGIN
     end if;
 END
 $ DELIMITER ;
+
+
 
 DELIMITER $
 CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), IN sceltaCreatoreI VARCHAR(5))
