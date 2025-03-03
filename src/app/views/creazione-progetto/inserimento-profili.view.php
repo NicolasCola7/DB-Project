@@ -12,7 +12,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     <title>Insermento profili</title>
     <style>
         .contenutoMain {
-            margin: 20px 10%;
+            margin: 20px;
         }
 
         .contenutoMain > header {

@@ -5,7 +5,7 @@
     <style>
 
         .contenutoMain {
-            margin: 20px 10%;
+            margin: 20px;
         }
         
         .contenutoMain > header {
