@@ -95,6 +95,7 @@
                         <tr>
                             <th>Nome Progetto</th>
                             <th>Budget Mancante (€)</th>
+                            <th>Budget Avvio (€)</th>
                         </tr>
                     </thead>
                     <tbody id="tabellaProgetti"></tbody>
@@ -155,6 +156,7 @@
                     let row = `<tr>
                         <td>${progetto.nome}</td>
                         <td>${progetto.budget_mancante} €</td>
+                        <td>${progetto.budget_avvio} €</td>
                     </tr>`;
                     tabellaProgetti.innerHTML += row;
                 });

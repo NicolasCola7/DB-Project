@@ -674,8 +674,6 @@ BEGIN
 END
 $ DELIMITER ;
 
-
-
 DELIMITER $
 CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), IN sceltaCreatoreI VARCHAR(5))
 BEGIN
@@ -795,7 +793,7 @@ LIMIT 3;
 -- Vista che visualizza i progetti aperti che sono più vicini al completamento, minore differenza tra budget_avvio e somma totale dei finanziamenti ricevuti (mostra solo i primi 3 progetti)
 CREATE VIEW ProgettiApertiCompletamentoFinanziamento AS
  -- Calcolo la differenza tra budget e fondi ricevuti. COALESCE indica che se il progetto non ha ricevuto finanziamenti, la funzione non restituisce null ma 0
-SELECT Progetto.nome, (Progetto.budget_avvio - COALESCE(SUM(Finanziamento.importo), 0)) AS budget_mancante 
+SELECT Progetto.nome, (Progetto.budget_avvio - COALESCE(SUM(Finanziamento.importo), 0)) AS budget_mancante, Progetto.budget_avvio
 FROM Progetto 
 -- Utilizzo il LEFT JOIN per visualizzare anche eventuali progetti che non hanno ancora ricevuto un finanziamento (valore 0)
 LEFT JOIN Finanziamento ON Progetto.nome = Finanziamento.nomeProgetto
