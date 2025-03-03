@@ -118,6 +118,8 @@
         const main = document.getElementsByClassName("contenutoMain")[0];
         const urlParam = new URLSearchParams(window.location.search);
         const nomeProgetto = urlParam.get('nomeProgetto');
+        //mi salvo se l'utente è un creatore oppure no utilizzando la variabile di sessione
+        const isCreatore = <?php echo isset($_SESSION["utente"]["creatore"]) && $_SESSION["utente"]["creatore"] == true ? 'true' : 'false';?>;
         getProfili();
 
         async function getProfili() {
@@ -134,6 +136,8 @@
         }
         //metodo che crea le card per i profili disponibili
         function stampaProfili(profili){
+            let h3 = document.querySelector(".contenutoMain h3");
+            h3.textContent = h3.textContent + " - progetto "+nomeProgetto;
             if(profili.length !== 0){
                 profili.forEach(p => {
                     let div = document.createElement("div");
@@ -153,10 +157,23 @@
                         window.location.href = `/home/info-progetto/profilo?nomeProgetto=${encodedNomeProgetto}&nomeProfilo=${encodedNomeProfilo}`;
                     })
 
-
                     div.appendChild(p1);
                     div.appendChild(p2);
                     div.appendChild(button);
+                    
+                    //se l'utente è un creatore deve avere la possibilità di visualizzare le candidature 
+                    //ricevute al progetto per poi valutarle
+                    if(isCreatore){
+                        let buttonViewCandidature = document.createElement("button");
+                        buttonViewCandidature.textContent = "Visualizza candidature";
+                        buttonViewCandidature.addEventListener("click", function(){
+                            let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
+                            let encodedNomeProfilo = encodeURIComponent(p.nome);
+                            window.location.href = `/home/info-progetto/profilo/candidature?nomeProgetto=${encodedNomeProgetto}&nomeProfilo=${encodedNomeProfilo}`;
+                        })
+                        div.appendChild(buttonViewCandidature);
+                        div.style.width = "700px";
+                    }
 
                     main.appendChild(div);
                 });

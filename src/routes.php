@@ -21,6 +21,8 @@ $router->get('/home/info-progetto/profili', 'app/views/profilo/view-profili.view
 $router->get('/home/info-progetto/profili-controller', 'app/controllers/profilo/view-profili.controller.php')->soloSe('autenticato');
 $router->get('/home/info-progetto/profilo', 'app/views/profilo/view-dettagli-profilo.view.php')->soloSe('autenticato');
 $router->get('/home/info-progetto/profilo-controller', 'app/controllers/profilo/view-dettagli-profilo.controller.php')->soloSe('autenticato');
+$router->get('/home/info-progetto/profilo/candidature', 'app/views/profilo/view-candidature-profilo.view.php')->soloSe('autenticato');
+$router->get('/home/info-progetto/profilo/candidature-controller', 'app/controllers/profilo/view-candidature-profilo.controller.php')->soloSe('autenticato');
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/software/profili', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
