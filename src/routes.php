@@ -35,6 +35,7 @@ $router->get('/ottieniImmagine1', 'public/immagini/illumination.jpg')->soloSe('a
 $router->get('/ottieniImmagine2', 'public/immagini/project.jpg')->soloSe('autenticato');
 $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
+
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
 $router->post('/registrazione', 'app/controllers/autenticazione/registrazione.controller.php')->soloSe('non-autenticato');
@@ -50,8 +51,7 @@ $router->post('/home/crea-progetto/software/profili/skills', 'app/controllers/cr
 $router->post('/home/info-progetto/profilo-invio-candidatura', 'app/controllers/profilo/post-candidatura-prog.controller.php')->soloSe('autenticato');
 $router->post('/home/crea-progetto/foto', 'app/controllers/creazione-progetto/inserisci-foto.controller.php')->soloSe('creatore');
 $router->post('/home/crea-progetto/rewards', 'app/controllers/creazione-progetto/inserimento-reward.controller.php')->soloSe('creatore');
-$router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-progetto/conferma-dati.controller.php')->soloSe('creatore');
-
+$router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-progetto/creazione-progetto.controller.php')->soloSe('creatore');
 //PUT
 
 
@@ -59,5 +59,5 @@ $router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-pr
 $router->delete('/rimuovi-skill', 'app/controllers/skills/non-admin/elimina-skill.controller.php')->soloSe('autenticato');
 $router->delete('/admin/rimuovi-skill',  'app/controllers/skills/admin/elimina-skill.controller.php')->soloSe('admin');
 $router->delete('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/elimina-skill-richiesta.controller.php')->soloSe('creatore');
-
+$router->delete('/home/crea-progetto/annulla', 'app/controllers/creazione-progetto/elimina-dati.controller.php')->soloSe('creatore');
 //PATCH

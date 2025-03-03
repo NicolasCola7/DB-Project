@@ -58,3 +58,33 @@ function abort($codice = 404){
     //require percorso_base("app/views/{$codice}.php");
     die(); // Termina l'esecuzione dello script
 }
+
+/**
+ * Funzione per eliminare tutti i file di una directory e poi la directory stessa
+ * 
+ * @param string $dir Percorso della directory da eliminare
+ * @return bool Restituisce true in caso di successo, false in caso di errore
+ */
+function rimuoviDirectory($dir) {
+    // Verifica che la directory esista
+    if (!is_dir($dir)) {
+        return false;
+    }
+    
+    // Ottiene il contenuto della directory
+    $files = array_diff(scandir($dir), array('.', '..'));
+    
+    foreach ($files as $file) {
+        $path = $dir . '/' . $file;
+        
+        // Se è una directory, chiamata ricorsiva
+        if (is_dir($path)) {
+            rimuoviDirectory($path);
+        } else {
+            // Altrimenti elimina il file
+            unlink($path);
+        }
+    }
+
+    return rmdir($dir);
+}

@@ -555,8 +555,11 @@ BEGIN
     set correttezzaTipo = (tipoI IN ('Hardware','Software'));
     
     if (correttezzaNome and correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo) then
+		set esito = 1;
 		INSERT IGNORE INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
-	end if;
+	else
+		set esito = 0;
+    end if;
 END;
 $ DELIMITER ; 
 
@@ -729,6 +732,29 @@ BEGIN
 END;
 $ DELIMITER ;
 
+DELIMITER $
+CREATE PROCEDURE InserimentoFotoProgetto(IN urlFotoI VARCHAR(100), IN descrizioneI VARCHAR(100), IN nomeProgettoI VARCHAR(50), OUT esito INT)
+BEGIN
+    declare urlCorretto boolean;
+    declare progettoEsistente boolean;
+    declare fotoNuova boolean;
+
+     -- la foto deve avere una estensione valida
+    set urlCorretto = (urlFotoI REGEXP '\\.(jpg|jpeg|png)$');
+    -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
+    -- creare la reward
+    set progettoEsistente = (SELECT count(*) from Progetto where Progetto.nome = nomeI) > 0;
+    set fotoNuova = urlFotoI NOT IN (SELECT percorsoImmagine FROM Foto_Progetto WHERE nomeProgetto = nomeProgettoI);
+
+    if(urlCorretto AND progettoEsistente AND fotoNuova) then
+        set esito = 1;
+        INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine) VALUES (descrizioneI, nomeProgettoI, urlFotoI);
+    else
+        set esito = 0;
+    end if;
+END;
+$ DELIMITER ;
+
 -- Inserimento di una componente di tipo Hardware
 DELIMITER $ 
 CREATE PROCEDURE InserimentoComponenteHardware(IN nomeComponenteI VARCHAR(255), IN nomeProgettoI VARCHAR(255), IN descrI VARCHAR(255), IN prezzoI VARCHAR(255), IN quantitaI VARCHAR(255), OUT esito INT)
@@ -809,10 +835,10 @@ CALL InserimentoComponenteHardware('Scheda Madre', 'Robot AI', 'ASUS ROG STRIX',
 CALL InserimentoComponenteHardware('GPU', 'Robot AI', 'PowerColor Devil RX', '500.00', '1', @esito);
 CALL InserimentoComponenteHardware('SSD 1TB', 'Robot AI2', 'Unità SSD NVMe', '120.00', '15', @esito);
 
-CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI', @esito);
+CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI', @esito);
+CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI', @esito);
+CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI', @esito);
 
 CALL InserimentoFinanziamento('SmartWatch AI', 10000.00, 'mario.rossi@email.com', @esito);
 CALL SceltaReward(1, 'mario.rossi@email.com', 'SmartWatch AI');

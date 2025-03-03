@@ -7,25 +7,25 @@ $db = App::getContainer()->risolvi(Database::class);
 
 $errori = [];
 
-$email = $_SESSION['uetente']['email'];
+$email = $_SESSION['utente']['email'];
 $nomeProgetto = $_SESSION['creazione-progetto']['nome'];
 $dataLimite = $_SESSION['creazione-progetto']['data-limite'];
 $budget = $_SESSION['creazione-progetto']['budget'];
 $tipo = $_SESSION['creazione-progetto']['tipo'];
 $descrizione = $_SESSION['creazione-progetto']['descrizione'];
 
-$params_progetto = [
-    'nome' => $nomeprogetto,
+$paramsProgetto = [
+    'nome' => $nomeProgetto,
     'data-limite' => $dataLimite,
     'descrizione' => $descrizione,
     'budget' => $budget,
     'tipo' => $tipo,
     'emailCreatore' => $email,
-    '@esito' => 'esito'
+    '@esito' => '@esito'
 ];
 
 // inseriment o progetto
-$esito = $db->procedure('CreazioneProgetto', $params_progetto);
+$esito = $db->procedure('CreazioneProgetto', $paramsProgetto);
 
 if (!$esito) {
     $errori['procedura'] =  "Si è verificato un errore imprevisto nella creazione del progetto!";
@@ -47,7 +47,7 @@ if($tipo === 'software') {
             'nomeProgetto' => $nomeProgetto,
             'posizioni-disponibili' => $posizioniDisponibili,
             'skillrichieste' => $skills,
-            '@esito' => 'esito'
+            '@esito' => '@esito'
         ];
 
         // inserisco profilo
@@ -97,7 +97,7 @@ if($tipo === 'software') {
             'descrizione' => $descrizioneComponente,
             'prezzo' => $prezzoComponente,
             'quantità' => $quantitaComponente,
-            '@esito' => 'esito'
+            '@esito' => '@esito'
         ];
 
         $esito = $db->procedure('InserimentoComponenteHardware', $paramsComponente);
@@ -126,53 +126,74 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
     $urlTemporaneo = $foto['percorso'];
     $descrizioneFoto = $foto['descrizione'];
 
-    //TODO: ricava il nome della foto
-    $nuovoUrl = $directoryFotoProgetto.'/'.'nomefile';
-
-    // sposto la foto nella nuova cartella definitiva
-    move_uploaded_file($urlTemporaneo, $nuovoUrl);
+    //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
+    copy($urlTemporaneo, $directoryFotoProgetto);
+    unlink($urlTemporaneo);
 
     $paramsFoto = [
         'url' => $nuovoUrl,
         'descrizione' => $descrizioneFoto,
         'nomeProgetto' => $nomeProgetto,
-        '@esito' => 'esito'
+        '@esito' => '@esito'
     ];
-    //$esito = $db->procedure('InserimentoFotoProgetto', $paramsFoto);
 
+    $esito = $db->procedure('InserimentoFotoProgetto', $paramsFoto);
+
+    if(!$esito) {
+        $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento delle foto del progetto!";
+            require view("/creazione-progetto/conferma-dati.view.php", [
+                'errori' => $errori
+        ]);
+        exit();
+    }
 }
 
 
 //inserimento rewards
 
-// creo directory definitiva per reward di questo progetto
+/// creo directory definitiva per reward di questo progetto
 $directoryFotoRewards = 'public/immagini/progetti/'.$nomeProgetto.'/foto-rewards';
 
 if (!file_exists($directoryFotoRewards)) {
     mkdir($directoryFotoRewards, 0770, true);// 0750 è il codice per gestire accessi alla directory
 }
+
 foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
     $urlTemporaneo = $reward['url'];
     $descrizioneReward = $reward['dessc'];
 
-    //TODO: ricava il nome della foto
-    $nuovoUrl = $directoryFotoRewards.'/'.'nomefile';
-
-    // sposto la foto nella nuova cartella definitiva
-    move_uploaded_file($urlTemporaneo, $nuovoUrl);
+    //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
+    copy($urlTemporaneo, $directoryFotoRewards);
+    unlink($urlTemporaneo);
 
     $paramsReward = [
         'url' => $nuovoUrl,
         'descrizione' => $descrizioneFoto,
         'nomeProgetto' => $nomeProgetto,
-        '@esito' => 'esito'
+        '@esito' => '@esito'
     ];
 
-    //TODO: correggi procedura creazione reward, non ci va emailCreatore
-    
-    //$esito = $db->procedure('CreazioneReward', $paramsReward);
+    $esito = $db->procedure('CreazioneReward', $paramsReward);
 
+    if(!$esito) {
+        $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento delle rewards del progetto!";
+            require view("/creazione-progetto/conferma-dati.view.php", [
+                'errori' => $errori
+        ]);
+        exit();
+    }
 }
 
-//TODO: rimuovi la directory temporanea dopo aver inserito rewards
+//rimuovo la directory temporanea dopo aver inserito rewards
+rmdir('/public/immagini/temporanee'.$cartellaUtente);
 
+//eliminiamo tutte le variabili per la creazione del progetto
+unset($_SESSION['creazione-progetto']);
+unset($_SESSION['aggiunta-foto']);
+unset($_SESSION['aggiunta-reward']);
+unset($_SESSION['aggiunta-skill']);
+unset($_SESSION['aggiunta-componente']);
+
+// mando l'utente ad una pagina in cui viene comunicato che il progetto è stato creato correttamente
+require view('/creazione-progetto/successo-creazione.view.php'); 
+exit();

@@ -250,7 +250,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                 <?php endif; ?>
                 
                 <div id='<?= ($_SESSION['creazione-progetto']['tipo']=== 'software' ? 'profili' : 'componenti'); ?>'>
-                    <?php if($_SESSION['creazione-progetto']['tipo']=== 'hardware') :?>
+                    <?php if($_SESSION['creazione-progetto']['tipo'] === 'hardware') :?>
                         <table id='tabella-componenti'>
                             <thead>
                                 <tr>
@@ -350,8 +350,13 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                 </div>
                 
                 <div class='container-btn'>
-                    <button id='elimina' onckick="elimina()"> Annulla ed Elimina </button>
-                    <button id='crea' onclick="prosegui()"> Conferma e Crea </button>
+                    <form action='/home/crea-progetto/annulla' id='annulla' method='POST'>
+                        <input type='hidden' name='_metodo' value='DELETE'>
+                        <button type='submit' id='elimina'> Annulla ed Elimina </button>
+                    </form>
+                    <form action='/home/crea-progetto/conferma-dati' method='POST'>
+                        <button id='crea' type='submit'> Conferma e Crea </button>
+                    </form>
                 </div>
             </section>
         </div>
@@ -361,15 +366,17 @@ if(!$_SESSION['creazione-progetto']['step4']) {
 </body>
 
 <script>
-    function prosegui() {
-        const rewards = <?= count($_SESSION['creazione-progetto']['rewards']); ?>;
-        if(rewards < 1) {
-            alert("Devi inserire almeno una reward!");
-        } else {
-            window.location.href = '/home/crea-progetto/conferma-dati';
+    const annullaForm = document.getElementById('annulla');
+    annullaForm.addEventListener('submit', event => {
+        event.preventDefault();
+
+        const confermaAnnullamento = confirm('Continuando tutti i dati inseriti saranno eliminati e dovrai ricominciare da capo, sei sicuro di voler continuare?');
+  
+        if (confermaAnnullamento) {
+            annullaForm.submit();
         }
-    }
-    
+    });
+
     function toggleSkills(index) {
         const skillsContainer = document.getElementById('skills-container-' + index);
         const arrow = document.getElementById('arrow-' + index);

@@ -170,8 +170,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     function prosegui() {
         let nComponenti = <?php echo count($_SESSION["creazione-progetto"]["componenti"]); ?>;
         if(nComponenti > 0) {
-            window.location.href = "/home/crea-progetto/foto";
             <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
+            window.location.href = "/home/crea-progetto/foto";
         } else {
             alert("Devi inserire almeno una componente!");
         }

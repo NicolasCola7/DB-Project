@@ -51,7 +51,7 @@
                 <li><a href="">Inserisci le rewards</a></li> 
             <?php endif; ?>
             <?php if ($_SESSION['utente']['creatore']) : ?>
-                <li><a href="">Visualizza i miei progetti</a></li>
+                <li><a href="">I miei progetti</a></li>
             <?php endif; ?>
             <li><a href="/home/visualizzaStatistiche">Visualizza statistiche</a></li>
             <?php if ($_SESSION['utente']['creatore']) : ?>
