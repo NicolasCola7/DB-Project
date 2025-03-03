@@ -675,7 +675,7 @@ END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), IN sceltaCreatoreI VARCHAR(5))
+CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), IN sceltaCreatoreI tinyint(1))
 BEGIN
     declare correttezzaNomeEProgetto boolean;
     declare correttezzaEmail boolean;
@@ -692,10 +692,8 @@ BEGIN
                                     C.nomeProgetto = nomeProgettoI and
                                     C.emailUtente = emailUtenteI and
                                     C.stato = 'aperta') > 0;
-	if(CAST(sceltaCreatoreI AS decimal(1,0))) then
-		if(sceltaCreatoreI = 0 or sceltaCreatoreI = 1) then
-			set correttezzaSceltaCreatore = true;
-		end if;
+	if(sceltaCreatoreI in (0,1)) then
+        set correttezzaSceltaCreatore = true;
     end if;
 
     if(correttezzaNomeEProgetto and correttezzaEmail and correttezzaSceltaCreatore and candidaturaGiaPresente) then

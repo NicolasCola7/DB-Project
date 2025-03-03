@@ -60,6 +60,12 @@
         font-size: 14px;
         transition: background-color 0.3s ease;
     }
+    #filtroCandidature{
+        width: 130px;
+        height: 30px;
+        font-size: 14px;
+        border-radius: 4px;
+    }
 </style>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -77,38 +83,68 @@
 </html>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded",function(){
+    document.addEventListener("DOMContentLoaded", function () {
         const main = document.getElementsByClassName("contenutoMain")[0];
         const urlParam = new URLSearchParams(window.location.search);
         const nomeProgetto = urlParam.get('nomeProgetto');
         const nomeProfilo = urlParam.get('nomeProfilo');
 
+        let candidature = [];
         getCandidature();
 
         async function getCandidature() {
-            try{
-                //eseguo una chiamata asincrona get all'url specificato inserendo un parametro in get (nome del progetto e nome profilo)
+            try {
+                //eseguo una chiamata asincrona al controller passando due parametri
                 const risposta = await axios.get("/home/info-progetto/profilo/candidature-controller", {
-                    params: { nomeProgetto: nomeProgetto, nomeProfilo: nomeProfilo}
+                    params: { nomeProgetto: nomeProgetto, nomeProfilo: nomeProfilo }
                 });
-                let candidature = risposta.data;
-                console.log(candidature);
+                candidature = risposta.data;
                 stampaCandidature(candidature);
-            }catch(error){
+            } catch (error) {
                 console.log(error);
             }
         }
-        function stampaCandidature(candidature){
+
+        function stampaCandidature(candidature) {
+            main.innerHTML = "";
+            let h3 = document.createElement("h3");
+            h3.textContent = "Candidature";
             let p1 = document.createElement("p");
-            p1.textContent = "Profilo: "+nomeProfilo;
+            p1.textContent = "Profilo: " + nomeProfilo;
             let p2 = document.createElement("p");
-            p2.textContent = "Progetto: "+nomeProgetto;
+            p2.textContent = "Progetto: " + nomeProgetto;
+            main.appendChild(h3);
             main.appendChild(p1);
-            main.appendChild(p2)
-            if(candidature.length !== 0){
-                let divCandidature = document.createElement("div");
-                divCandidature.classList.add("divCandidature");
-                candidature.forEach(c => {
+            main.appendChild(p2);
+
+            // Aggiungo il menu a tendina per il filtro
+            let filtroDiv = document.createElement("div");
+            filtroDiv.innerHTML = `
+                <label for="filtroCandidature">Filtra per stato:</label>
+                <select id="filtroCandidature">
+                    <option value="tutte">Tutte</option>
+                    <option value="accettata">Accettata</option>
+                    <option value="rifiutata">Rifiutata</option>
+                    <option value="aperta">Aperta</option>
+                </select>
+            `;
+            main.appendChild(filtroDiv);
+
+            // Evento per filtrare le candidature
+            document.getElementById("filtroCandidature").addEventListener("change", function () {
+                filtraCandidature(this.value);
+            });
+
+            renderizzaCandidature(candidature);
+        }
+
+        //Crea dinamicamente l'interfaccia per visualizzare le candidature, mostrando quelle filtrate
+        function renderizzaCandidature(listaCandidature) {
+            let divCandidature = document.createElement("div");
+            divCandidature.classList.add("divCandidature");
+
+            if (listaCandidature.length !== 0) {
+                listaCandidature.forEach(c => {
                     let div = document.createElement("div");
                     div.classList.add("candidatura");
 
@@ -116,32 +152,61 @@
                     p.textContent = "Candidato: ";
 
                     let spanP = document.createElement("span");
-                    spanP.textContent = c.nome + " "+c.cognome;
+                    spanP.textContent = c.nome + " " + c.cognome;
                     p.appendChild(spanP);
 
                     let button = document.createElement("button");
                     button.textContent = "Vedi dettagli";
-                    button.addEventListener("click",function(){
-                    })
-                    
-                    if(c.stato === "chiusa" && c.risultato === 0){
-                        div.style.backgroundColor = "#FF4A4A";
+                    //evento del bottone che rimanda al controller
+                    button.addEventListener("click", function () {
+                        let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
+                        let encodedNomeProfilo = encodeURIComponent(nomeProfilo);
+                        let encodedEmail = encodeURIComponent(c.emailUtente)
+                        window.location.href = `/home/info-progetto/profilo/check-candidatura?nomeProgetto=${encodedNomeProgetto}&nomeProfilo=${encodedNomeProfilo}&email=${encodedEmail}`;
+                    });
+
+                    // imposto lo stile del card della candidatura
+                    if (c.stato === "chiusa" && c.risultato === 0) {
+                        div.style.backgroundColor = "#FF4A4A"; 
                         button.style.backgroundColor = "#B00000";
-                    }else if(c.stato === "chiusa" && c.risultato === 1){
+                    } else if (c.stato === "chiusa" && c.risultato === 1) {
                         div.style.backgroundColor = "#00CB44";
                         button.style.backgroundColor = "#008037";
-                    }else if(c.stato === "aperta" && c.risultato === 0){
+                    } else if (c.stato === "aperta" && c.risultato === 0) {
                         button.style.backgroundColor = "#0077cc";
                         p.style.color = "black";
                     }
+
                     div.appendChild(p);
                     div.appendChild(button);
-
                     divCandidature.appendChild(div);
                 });
-
-                main.appendChild(divCandidature);
+            } else {
+                let p = document.createElement("p");
+                p.textContent = "Nessuna candidatura corrisponde al filtro selezionato.";
+                divCandidature.appendChild(p);
             }
+
+            main.appendChild(divCandidature);
         }
-    })
+
+        //Filtra l'elenco delle candidature in base allo stato selezionato dal menu a tendina e aggiorna la visualizzazione
+        function filtraCandidature(filtro) {
+            let candidatureFiltrate = candidature.filter(c => {
+                if (filtro === "accettata") {
+                    return c.stato === "chiusa" && c.risultato === 1;
+                } else if (filtro === "rifiutata") {
+                    return c.stato === "chiusa" && c.risultato === 0;
+                } else if (filtro === "aperta") {
+                    return c.stato === "aperta" && c.risultato === 0;
+                } else {
+                    return true;
+                }
+            });
+
+            // Ricarico la lista delle candidature filtrate
+            document.querySelector(".divCandidature")?.remove();
+            renderizzaCandidature(candidatureFiltrate);
+        }
+    });
 </script>
