@@ -40,11 +40,13 @@ if($tipo === 'software') {
     foreach($_SESSION['creazione-progetto']['profili'] as $profilo) {
         $nomeProfilo = $profilo['nome'];
         $posizioniDisponibili = $profilo['numero_posizioni'];
+        $skills = $profilo['skills-richieste'];
 
         $paramsProfilo = [
             'nome' => $nomeProfilo,
             'nomeProgetto' => $nomeProgetto,
             'posizioni-disponibili' => $posizioniDisponibili,
+            'skillrichieste' => $skills,
             '@esito' => 'esito'
         ];
 
@@ -59,8 +61,8 @@ if($tipo === 'software') {
             exit();
         }
 
-        // inserisco skills richieste per il profilo
-        $skills = $profilo['skills-richieste'];
+        /* inserisco skills richieste per il profilo
+        
         foreach( $skills as $skill) {
             $paramsSkill = [
                 'nomeSkill' => $skill['nomeSkill'],
@@ -80,7 +82,7 @@ if($tipo === 'software') {
                 ]);
                 exit();
             }
-        }
+        }*/
     }
 } else {
     foreach($_SESSION['creazione-progetto']['componenti'] as $componente) {

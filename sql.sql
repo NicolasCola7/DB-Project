@@ -522,7 +522,7 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI VARCHAR(255), IN descrI TEXT, IN budgetI VARCHAR(255), IN TipoI VARCHAR(255), IN emailCreatoreI VARCHAR(255))
+CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI VARCHAR(255), IN descrI TEXT, IN budgetI VARCHAR(255), IN TipoI VARCHAR(255), IN emailCreatoreI VARCHAR(255), OUT esito INT)
 BEGIN
     declare correttezzaNome boolean;
 	declare correttezzaBudget boolean;
@@ -561,7 +561,7 @@ END;
 $ DELIMITER ; 
 
 DELIMITER $
-CREATE PROCEDURE CreazioneReward(IN urlFotoI VARCHAR(50), IN descrI TEXT, IN nomeI VARCHAR(255), IN emailCreatoreI VARCHAR(255))
+CREATE PROCEDURE CreazioneReward(IN urlFotoI VARCHAR(50), IN descrI TEXT, IN nomeI VARCHAR(255), IN emailCreatoreI VARCHAR(255), OUT esito INT)
 BEGIN
     declare correttezzaFoto boolean;
     declare correttezzaNomeProg boolean;
@@ -574,13 +574,16 @@ BEGIN
     
     if(correttezzaFoto and correttezzaNomeProg) then
         -- se descrI è vuoto o null imposto di default la descrizione
+        set esito = 1;
 		INSERT INTO Reward (urlFoto, descr, nomeProgetto) values (urlFotoI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), nomeI);
+    else
+        set esito = 0;
 	end if;
 END
 $ DELIMITER ; 
 
 DELIMITER $
-CREATE PROCEDURE rispondiACommento(IN idCommentoI VARCHAR(255), IN contenutoI TEXT, IN emailCreatoreI VARCHAR(255))
+CREATE PROCEDURE rispondiACommento(IN idCommentoI VARCHAR(255), IN contenutoI TEXT, IN emailCreatoreI VARCHAR(255), OUT esito INT)
 BEGIN
     declare correttezzaCommento boolean;
     declare correttezzaContenuto boolean;
@@ -598,13 +601,16 @@ BEGIN
     set correttezzaEmail = (SELECT count(*) from Progetto where Progetto.emailCreatore = emailCreatoreI) > 0;
 
     if(correttezzaCommento and correttezzaContenuto and correttezzaEmail) then
+        set esito = 1;
         INSERT IGNORE INTO Risposta values (idCommentoI, contenutoI, emailCreatoreI);
+    else
+        set esito = 0;
     end if;
 END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN skillsRichiestaI text)
+CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN skillsRichiestaI text, OUT esito INT)
 BEGIN
     declare correttezzaProfilo boolean;
     declare correttezzaProgetto boolean;
@@ -621,7 +627,7 @@ BEGIN
     -- il metodo json_table prende in input un oggetto json e ne ritorna una tabella
     declare skillCursore cursor for 
 		select skill, livello from json_table(skillsRichiestaI,'$[*]' 
-			columns (skill varchar(100) path '$.skill', livello varchar(1) path '$.livello')) as tabella;
+			columns (skill varchar(100) path '$.nomeSkill', livello varchar(1) path '$.livello')) as tabella;
 
     -- quanto il cursore non troverà righe da leggere imposterà la variabile booleana fineCursor a true
     declare continue handler for not found set fineCursor = true;
@@ -634,6 +640,7 @@ BEGIN
     set correttezzaNPosizioni = (numeroPosizioniI REGEXP '^[0-9]+$' and CAST(numeroPosizioniI AS UNSIGNED));
    
     if(correttezzaProfilo and correttezzaProgetto and correttezzaNPosizioni) then
+        
         INSERT IGNORE INTO Profilo VALUES (nomeProfiloI, nomeProgettoI, numeroPosizioniI);
 
         OPEN skillCursore;
@@ -651,10 +658,15 @@ BEGIN
 			set correttezzaLivello = (livelloSkill REGEXP '^[0-9]+$' and CAST(livelloSkill AS UNSIGNED) and livelloSkill < 6);
             
             if(correttezzaSkill and correttezzaLivello) then
+                set esito = 1;
                 INSERT INTO Skill_Requisito VALUES (skillNome, nomeProfiloI, nomeProgettoI, livelloSkill);
+            else 
+                set esito = 0;
             end if;
         end loop;
         CLOSE skillCursore;
+    else
+        set esito = 0;
     end if;
 END
 $ DELIMITER ;
@@ -822,9 +834,9 @@ CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Full stack developemen
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', 2, @esito);
 CALL RimozioneSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 
-CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"skill":"Python", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
-CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"skill":"Conoscenza lingua inglese", "livello": 4},{"skill":"Machine Learning", "livello": 3}]');
-CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"skill":"Lavorare in team", "livello": 5}]');
+CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"nomeSkill":"Python", "livello": 4},{"nomeSkill":"Machine Learning", "livello": 3}]');
+CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 4},{"nomeSkill":"Machine Learning", "livello": 3}]');
+CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 5}]');
 
 CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', @esito);
 
