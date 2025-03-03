@@ -561,16 +561,16 @@ END;
 $ DELIMITER ; 
 
 DELIMITER $
-CREATE PROCEDURE CreazioneReward(IN urlFotoI VARCHAR(50), IN descrI TEXT, IN nomeI VARCHAR(255), IN emailCreatoreI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE CreazioneReward(IN urlFotoI VARCHAR(50), IN descrI TEXT, IN nomeI VARCHAR(255), OUT esito INT)
 BEGIN
     declare correttezzaFoto boolean;
     declare correttezzaNomeProg boolean;
 
     -- la foto deve avere una estensione valida
     set correttezzaFoto = (urlFotoI REGEXP '\\.(jpg|jpeg|png)$');
-    -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome creato da quell'utente e quindi non è possibile
+    -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
     -- creare la reward
-    set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI and Progetto.emailCreatore = emailCreatoreI) > 0;
+    set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI) > 0;
     
     if(correttezzaFoto and correttezzaNomeProg) then
         -- se descrI è vuoto o null imposto di default la descrizione
