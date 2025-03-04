@@ -16,7 +16,7 @@ $descrizione = $_SESSION['creazione-progetto']['descrizione'];
 
 $paramsProgetto = [
     'nome' => $nomeProgetto,
-    'data-limite' => $dataLimite,
+    'data_limite' => $dataLimite,
     'descrizione' => $descrizione,
     'budget' => $budget,
     'tipo' => $tipo,
@@ -45,7 +45,7 @@ if($tipo === 'software') {
         $paramsProfilo = [
             'nome' => $nomeProfilo,
             'nomeProgetto' => $nomeProgetto,
-            'posizioni-disponibili' => $posizioniDisponibili,
+            'posizioni_disponibili' => $posizioniDisponibili,
             'skillrichieste' => $skills,
             '@esito' => '@esito'
         ];
@@ -96,7 +96,7 @@ if($tipo === 'software') {
             'nomeProgetto' => $nomeProgetto,
             'descrizione' => $descrizioneComponente,
             'prezzo' => $prezzoComponente,
-            'quantità' => $quantitaComponente,
+            'quantita' => $quantitaComponente,
             '@esito' => '@esito'
         ];
 
@@ -126,9 +126,13 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
     $urlTemporaneo = $foto['percorso'];
     $descrizioneFoto = $foto['descrizione'];
 
-    //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
-    copy($urlTemporaneo, $directoryFotoProgetto);
+    $nomeFile = basename($urlTemporaneo);
+    $destinazione = $directoryFotoProgetto . '/' . $nomeFile;
+    
+    copy($urlTemporaneo, $destinazione);
     unlink($urlTemporaneo);
+    
+    $nuovoUrl = $destinazione;
 
     $paramsFoto = [
         'url' => $nuovoUrl,
@@ -159,12 +163,17 @@ if (!file_exists($directoryFotoRewards)) {
 }
 
 foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
-    $urlTemporaneo = $reward['url'];
-    $descrizioneReward = $reward['dessc'];
+    $urlTemporaneo = $reward['urlFoto'];
+    $descrizioneReward = $reward['descr'];
 
     //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
-    copy($urlTemporaneo, $directoryFotoRewards);
+    $nomeFile = basename($urlTemporaneo);
+    $destinazione = $directoryFotoProgetto . '/' . $nomeFile;
+    
+    copy($urlTemporaneo, $destinazione);
     unlink($urlTemporaneo);
+    
+    $nuovoUrl = $destinazione;
 
     $paramsReward = [
         'url' => $nuovoUrl,

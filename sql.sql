@@ -522,7 +522,7 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI VARCHAR(255), IN descrI TEXT, IN budgetI VARCHAR(255), IN TipoI VARCHAR(255), IN emailCreatoreI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE CreazioneProgetto(IN nomeI VARCHAR(255), IN dataLimiteI VARCHAR(255), IN descrI VARCHAR(255), IN budgetI VARCHAR(255), IN TipoI VARCHAR(255), IN emailCreatoreI VARCHAR(255), OUT esito INT)
 BEGIN
     declare correttezzaNome boolean;
 	declare correttezzaBudget boolean;
@@ -739,7 +739,7 @@ BEGIN
     set urlCorretto = (urlFotoI REGEXP '\\.(jpg|jpeg|png)$');
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
     -- creare la reward
-    set progettoEsistente = (SELECT count(*) from Progetto where Progetto.nome = nomeI) > 0;
+    set progettoEsistente = (SELECT count(*) from Progetto where Progetto.nome = nomeProgettoI) > 0;
     set fotoNuova = urlFotoI NOT IN (SELECT percorsoImmagine FROM Foto_Progetto WHERE nomeProgetto = nomeProgettoI);
 
     if(urlCorretto AND progettoEsistente AND fotoNuova) then
