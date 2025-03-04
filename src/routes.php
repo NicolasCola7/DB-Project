@@ -32,9 +32,10 @@ $router->get('/home/crea-progetto/software/profili/skills', 'app/views/creazione
 $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto.view.php')->soloSe('creatore');
 $router->get('/home/visualizzaStatistiche','app/views/statistiche/visualizzaStatistiche.view.php')->soloSe('autenticato');
 $router->get('/ottieni-statistiche', 'app/controllers/statistiche/visualizzaStatistiche.controller.php')->soloSe('autenticato');
-$router->get('/ottieniImmagine', 'public/immagini/default.png')->soloSe('autenticato');
-$router->get('/ottieniImmagine1', 'public/immagini/illumination.jpg')->soloSe('autenticato');
-$router->get('/ottieniImmagine2', 'public/immagini/project.jpg')->soloSe('autenticato');
+$router->get('/ottieniImmagine', 'app/immagini/default.png')->soloSe('autenticato');
+//da mettere a posto percorso immagini che non è correttissimo. FARE RESTITUIRE SOLO LA PRIMA IMMAGINE
+$router->get('/ottieniImmagine1', 'app/immagini/illumination.jpg')->soloSe('autenticato');
+$router->get('/ottieniImmagine2', 'app/immagini/project.jpg')->soloSe('autenticato');
 $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
 
