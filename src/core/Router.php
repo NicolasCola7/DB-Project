@@ -108,4 +108,8 @@ class Router {
 
     return $this;
   }
+
+  public function routeStatic($uri) {
+    return include percorso_base($uri);
+  }
 }

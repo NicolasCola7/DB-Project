@@ -110,7 +110,7 @@ if(!$_SESSION['creazione-progetto']['step2']) {
             </header>
 
             <section>
-                <form action="/home/crea-progetto/foto" method="POST" enctype='multipart/form-data'>
+                <form id='submit-foto' action="/home/crea-progetto/foto" method="POST" enctype='multipart/form-data'>
                     <div class='container'>
                         <label for='foto'> Scegli una foto </label>
                         <input type='file' name='foto' accept="image/png, image/jpeg, image/jpg" required>
@@ -161,11 +161,11 @@ if(!$_SESSION['creazione-progetto']['step2']) {
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     function prosegui() {
-        const foto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
-        if(foto < 1) {
+        const nFoto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
+        if(nFoto < 1) {
             alert("Devi inserire almeno una foto!");
         } else {
             <?php $_SESSION["creazione-progetto"]["step3"] = true; ?>

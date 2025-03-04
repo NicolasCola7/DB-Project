@@ -28,9 +28,19 @@ $routes = require percorso_base('routes.php');
 // Ottiene l'URI della richiesta eliminando eventuali query string
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
-// Determina il metodo HTTP della richiesta (override possibile tramite input nascosto)
-$metodo = isset($_POST['_metodo']) ? $_POST['_metodo'] : $_SERVER['REQUEST_METHOD'];
-// Passa l'URI e il metodo HTTP al router per la gestione della richiesta
-$router->route($uri, $metodo);
+
+//controllo che nell'uri non sia contenuta un file dei public
+$public = explode('/', $uri)[1];
+
+// se lo è significa che sto richiedendo una route statica  e qundi uso un'altro metodo di routing
+if($public === 'public') {
+    $router->routeStatic($uri);
+} else {
+    // Determina il metodo HTTP della richiesta (override possibile tramite input nascosto)
+    $metodo = isset($_POST['_metodo']) ? $_POST['_metodo'] : $_SERVER['REQUEST_METHOD'];
+    // Passa l'URI e il metodo HTTP al router per la gestione della richiesta
+    $router->route($uri, $metodo);
+}
+
 
 
