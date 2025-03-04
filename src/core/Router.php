@@ -108,7 +108,12 @@ class Router {
 
     return $this;
   }
-
+  
+  /**
+   * Ritorna una risorsa statica
+   *  @param string $uri L'URI della risorsa richiesta.
+   * @return mixed Il risultato dell'inclusione del file, oppure false se l'inclusione fallisce.
+   */
   public function routeStatic($uri) {
     return include percorso_base($uri);
   }

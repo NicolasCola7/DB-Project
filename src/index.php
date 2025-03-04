@@ -28,12 +28,11 @@ $routes = require percorso_base('routes.php');
 // Ottiene l'URI della richiesta eliminando eventuali query string
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
+//controllose la richiesta sia relativa ad un file statico (css, js, png ...)
+$public = (explode('/', $uri)[1]) === 'public';
 
-//controllo che nell'uri non sia contenuta un file dei public
-$public = explode('/', $uri)[1];
-
-// se lo è significa che sto richiedendo una route statica  e qundi uso un'altro metodo di routing
-if($public === 'public') {
+// se lo è non uso il routing tradizionale che va a controllare le routes, ma ritorno direttamente la risorsa
+if($public) {
     $router->routeStatic($uri);
 } else {
     // Determina il metodo HTTP della richiesta (override possibile tramite input nascosto)
