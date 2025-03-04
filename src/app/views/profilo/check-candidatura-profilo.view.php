@@ -30,7 +30,7 @@
             try {
                 //eseguo una chiamata asincrona al controller passando due parametri
                 const risposta = await axios.get("/home/info-progetto/profilo/check-candidatura-controller", {
-                    params: { nomeProgetto: nomeProgetto, nomeProfilo: nomeProfilo , }
+                    params: { nomeProgetto: nomeProgetto, nomeProfilo: nomeProfilo , email: emailCandidato}
                 });
                 info = risposta.data;
                 console.log(info);

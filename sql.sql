@@ -467,7 +467,7 @@ BEGIN
 	-- cursore che scorre tutte le skill richieste dal profilo con il loro livello minimo richiesto
     declare cursore_skillRichiestaProfilo CURSOR FOR SELECT Sk_r.nomeSkill, Sk_r.livello
                                 from Skill_Requisito Sk_r join Profilo P
-                                    on Sk_r.nomeProfilo = P.nome and Sk_r.nomeProgetto = P.nomeProgetto;
+                                    on Sk_r.nomeProfilo = nomeProfiloI and Sk_r.nomeProgetto = nomeProgettoI;
 	
 	-- quando il cursore non trova più righe questa variabile viene impostata a true
 	declare continue handler for not found set fineCursor = true;
@@ -494,10 +494,10 @@ BEGIN
 				leave ciclo_skill;
 			end if;
             
-            -- leggo il livello posseduto dell'i-esima skill dell'utente
-            set livelloPosseduto = (SELECT Sk_p.livello from Skill_Possesso Sk_p 
+            -- leggo il livello posseduto dell'i-esima skill dell'utente (se non è posseduta assume 0)
+            set livelloPosseduto = COALESCE((SELECT Sk_p.livello from Skill_Possesso Sk_p 
                                     where Sk_p.emailUtente = emailUtenteI and
-                                          Sk_p.nomeSkill = nomeSkillRichiesta);
+                                          Sk_p.nomeSkill = nomeSkillRichiesta),0);
             
             -- se il livello non è almeno uguale a quello richiesto mi salvo questa info ed esco dal ciclo
             if(livelloPosseduto < livelloRichiesto) then
@@ -517,6 +517,8 @@ BEGIN
 		else
 			SET esito = 0;
         end if;
+	else
+		SET esito = 2;
     end if;
 END;
 $ DELIMITER ;
@@ -846,18 +848,26 @@ CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'SmartWatch AI');
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Programmazione in python', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Full stack developement Javascript', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Lavorare in team', @esito);
 
-CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Python', 5, @esito);
+CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Programmazione in python', 5, @esito);
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Machine Learning', 4, @esito);
-CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Full stack developement ASP.NET', 4, @esito);
+CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Full stack developement Javascript', 4, @esito);
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', 2, @esito);
 CALL RimozioneSkillCurriculum('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Programmazione in python', 3, @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Machine Learning', 5, @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Full stack developement Javascript', 5, @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Conoscenza lingua inglese', 5, @esito);
+CALL InserimentoSkillCurriculum('normal.user@email.com', 'Programmazione in python', 4, @esito);
+CALL InserimentoSkillCurriculum('normal.user@email.com', 'Machine Learning', 3, @esito);
+CALL InserimentoSkillCurriculum('normal.user@email.com', 'Lavorare in team', 5, @esito);
 
-CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"nomeSkill":"Python", "livello": 4},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 4},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 5}]', @esito);
+CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
 
 CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', @esito);
 CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'giulia.bianchi@email.com', @esito);
