@@ -116,10 +116,10 @@ if($tipo === 'software') {
 
 // creo una nuova cartella definitiva per questo progetto ed elimino quella temporanea
 $cartellaUtente = md5($_SESSION['utente']['nickname']);
-$directoryFotoProgetto = 'public/immagini/progetti/'.$nomeProgetto.'/foto';
+$directoryFotoProgetto = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/foto';
 
 if (!file_exists($directoryFotoProgetto)) {
-    mkdir($directoryFotoProgetto, 0770, true);// 0750 è il codice per gestire accessi alla directory
+    mkdir($directoryFotoProgetto, 0775, true);// 0750 è il codice per gestire accessi alla directory
 }
 
 foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
@@ -156,10 +156,10 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
 //inserimento rewards
 
 /// creo directory definitiva per reward di questo progetto
-$directoryFotoRewards = 'public/immagini/progetti/'.$nomeProgetto.'/foto-rewards';
+$directoryFotoRewards = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/foto-rewards';
 
 if (!file_exists($directoryFotoRewards)) {
-    mkdir($directoryFotoRewards, 0770, true);// 0750 è il codice per gestire accessi alla directory
+    mkdir($directoryFotoRewards, 0775, true);// 0750 è il codice per gestire accessi alla directory
 }
 
 foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
@@ -168,7 +168,7 @@ foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
 
     //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
     $nomeFile = basename($urlTemporaneo);
-    $destinazione = $directoryFotoProgetto . '/' . $nomeFile;
+    $destinazione = $directoryFotoRewards . '/' . $nomeFile;
     
     copy($urlTemporaneo, $destinazione);
     unlink($urlTemporaneo);
@@ -192,9 +192,6 @@ foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
         exit();
     }
 }
-
-//rimuovo la directory temporanea dopo aver inserito rewards
-rmdir('/public/immagini/temporanee'.$cartellaUtente);
 
 //eliminiamo tutte le variabili per la creazione del progetto
 unset($_SESSION['creazione-progetto']);
