@@ -2,7 +2,6 @@
 
 $errori = [];
 
-// creo una nuova cartella definitiva per questo progetto ed elimino quella temporanea
 $cartellaUtente = md5($_SESSION['utente']['nickname']);
 $directoryTemporanea = 'public/immagini/temporanee/'.$cartellaUtente;
 

@@ -45,13 +45,13 @@ if (!empty($errori)) {
 che non ci siano immagini uguali, non vada in conflitto con immagini inserite da altri utenti
 */
 $cartellaUtente = md5($_SESSION['utente']['nickname']);
-$directory = 'public/immagini/temporanee/'.$cartellaUtente;
+$directory = 'public/immagini/temporanee/'.$cartellaUtente.'/foto/';
 
 if (!file_exists($directory)) {
    mkdir($directory, 0770, true);// 0750 è il codice per gestire accessi alla directory
 }
 
-$destinazione = $directory.'/'.$nomeFile;
+$destinazione = $directory.$nomeFile;
 
 $fotoDaInserire = [
     'percorso' => $destinazione,

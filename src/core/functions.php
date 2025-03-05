@@ -88,3 +88,17 @@ function rimuoviDirectory($dir) {
 
     return rmdir($dir);
 }
+
+/**
+ * Pulisce il contenuto di una variabile di sesssione
+ * @param string $chiave La chiave della variabile di sessione
+ */
+function clear($chiave) {
+    if(isset($_SESSION[$chiave])) {
+        if(is_array($_SESSION[$chiave])) {
+            $_SESSION[$chiave] = [];
+        } else {
+            $_SESSION[$chiave] = '';
+        }
+    }
+}

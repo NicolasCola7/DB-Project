@@ -566,7 +566,7 @@ END;
 $ DELIMITER ; 
 
 DELIMITER $
-CREATE PROCEDURE CreazioneReward(IN urlFotoI VARCHAR(50), IN descrI TEXT, IN nomeI VARCHAR(255), OUT esito INT)
+CREATE PROCEDURE CreazioneReward(IN urlFotoI TEXT, IN descrI TEXT, IN nomeI VARCHAR(255), OUT esito INT)
 BEGIN
     declare correttezzaFoto boolean;
     declare correttezzaNomeProg boolean;

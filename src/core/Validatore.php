@@ -44,7 +44,7 @@ class Validatore {
     static function isNumber($num, $min = 1, $max = INF) {
         $num = trim($num);
 
-        return is_numeric($num) && $num >= $min && $num <= $max;
+        return preg_match('/^-?\d+([.,]\d+)?$/', $num) && $num >= $min && $num <= $max;
     }
 
     /**

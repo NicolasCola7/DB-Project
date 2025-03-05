@@ -46,7 +46,7 @@ if($tipo === 'software') {
             'nome' => $nomeProfilo,
             'nomeProgetto' => $nomeProgetto,
             'posizioni_disponibili' => $posizioniDisponibili,
-            'skillrichieste' => $skills,
+            'skillrichieste' => json_encode($skills),
             '@esito' => '@esito'
         ];
 
