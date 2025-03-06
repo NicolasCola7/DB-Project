@@ -32,7 +32,15 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             margin-top: 20px;
         }
 
+        section > div:first-child {
+            display: flex;
+            flex-direction: row;
+            gap: 2%;
+            justify-content: space-between;
+        }
+
         form {
+            flex: 2;
             max-width: 600px;
             margin: 0 auto; 
         }
@@ -87,6 +95,33 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             color: green;
         }
 
+        table {
+            flex: 1;
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background-color: #0077cc;
+            color: white;
+        }
+        tr {
+            padding: 5px 0px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
     </style>
 </head>
 <body>
@@ -101,64 +136,86 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             </header>
 
             <section>
-                <form action="/home/crea-progetto/hardware/componenti" method="POST">
-                    
-                    <div class="container">
-                        <label for="nome">Nome</label>
-                        <input type="text" id="nome" name="nome" placeholder="nome" required>
-                    </div>
-                    
-                    <div class="container">
-                        <label for="descrizione">Descrizione</label>
-                        <textarea id="descrizione" name="descrizione" rows="4" placeholder="descrizione" required></textarea>
-                    </div>
-                    
-                    <div class="container">
-                        <label for="quantità">Quantità</label>
-                        <input type="number" id="quantità" name="quantità" placeholder="quantità" min='1' required>
-                    </div>
+                <div>
+                    <form id='form-componenti' action="/home/crea-progetto/hardware/componenti" method="POST">
+                        <div class="container">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" name="nome" placeholder="nome" required>
+                        </div>
+                        <div class="container">
+                            <label for="descrizione">Descrizione</label>
+                            <textarea id="descrizione" name="descrizione" rows="4" placeholder="descrizione" required></textarea>
+                        </div>
+                        <div class="container">
+                            <label for="quantità">Quantità</label>
+                            <input type="number" id="quantità" name="quantità" placeholder="quantità" min='1' required>
+                         </div>
+                        <div class="container">
+                            <label for="prezzo">Prezzo</label>
+                            <input type="number" id="prezzo" name="prezzo" placeholder="prezzo" min='1' required>
+                        </div>
+                        <div class='container bottoni'>
+                            <button id='aggiungi' type='submit'> Aggiungi </button>
+                        </div>
+                    </form>
 
-                    <div class="container">
-                        <label for="prezzo">Prezzo</label>
-                        <input type="number" id="prezzo" name="prezzo" placeholder="prezzo" min='1' required>
-                    </div>
-
-                    <div id="errori">
-                        <?php if (isset($errori['nome'])) : ?>
-                            <p><?= $errori['nome'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($errori['descrizione'])) : ?>
-                            <p><?= $errori['descrizione'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($errori['quantità'])) : ?>
-                            <p><?= $errori['quantità'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($errori['prezzo'])) : ?>
-                            <p><?= $errori['prezzo'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
-                            <?php if ($_SESSION['aggiunta-componente']) : ?>
-                                <p id='successo'> Componente aggiunta con successo! </p>
-                            <?php else :?>
-                                <p> Componente già inserita!</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th> Nome </th>
+                                <th> Descrizione </th>
+                                <th> Quantità </th>
+                                <th> Prezzo </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if(count($_SESSION['creazione-progetto']['componenti']) > 0): ?>
+                                <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
+                                    <tr>
+                                        <td> <?= $componente['nome']; ?> </td>
+                                        <td> <?= $componente['descrizione']; ?> </td>
+                                        <td> <?= $componente['quantità']; ?> </td>
+                                        <td> <?= $componente['prezzo']; ?> </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?> 
+                                <tr> 
+                                    <td colspan='4'> Nessuna componente inserita </td>
+                                </tr>
                             <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="errori">
+                    <?php if (isset($errori['nome'])) : ?>
+                        <p><?= $errori['nome'] ?></p>
+                    <?php endif; ?>
+
+                    <?php if (isset($errori['descrizione'])) : ?>
+                        <p><?= $errori['descrizione'] ?></p>
+                    <?php endif; ?>
+
+                    <?php if (isset($errori['quantità'])) : ?>
+                        <p><?= $errori['quantità'] ?></p>
+                    <?php endif; ?>
+
+                    <?php if (isset($errori['prezzo'])) : ?>
+                        <p><?= $errori['prezzo'] ?></p>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
+                        <?php if ($_SESSION['aggiunta-componente']) : ?>
+                            <p id='successo'> Componente aggiunta con successo! </p>
+                        <?php else :?>
+                            <p> Componente già inserita!</p>
                         <?php endif; ?>
-
-                    </div>
-
-                    <div class='container bottoni'>
-                        <button id='aggiungi' type='submit'> Aggiungi </button>
-                    </div>
-                </form>
+                    <?php endif; ?>
+                </div>
 
                 <div class='container bottoni'>
                     <button onclick='prosegui()'>Prosegui</button>
                 </div>
-                
             </section>
         </div>
     </div>
@@ -167,6 +224,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
 </body>
 
 <script>
+
     function prosegui() {
         let nComponenti = <?php echo count($_SESSION["creazione-progetto"]["componenti"]); ?>;
         if(nComponenti > 0) {

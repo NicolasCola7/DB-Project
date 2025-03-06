@@ -38,7 +38,7 @@ if (!empty($errori)) {
     exit();
 }
 
-$componente = [
+$componenteDaInserire = [
     'nome' => $nome,
     'descrizione' => $descrizione,
     'quantità' => $quantita,
@@ -58,7 +58,7 @@ foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
 }
 
 //inserisco la componente aggiunta nell'apposita variabile di sessione
-array_push($_SESSION['creazione-progetto']['componenti'], $componente);
+array_push($_SESSION['creazione-progetto']['componenti'], $componenteDaInserire);
 $_SESSION['aggiunta-componente'] = true;
 
 header('location: /home/crea-progetto/hardware/componenti');
