@@ -123,7 +123,7 @@ CREATE TABLE Foto_Progetto (
     id INT PRIMARY KEY AUTO_INCREMENT,
     descrizione TEXT,
     nomeProgetto VARCHAR(255),
-    percorsoImmagine VARCHAR(255),
+    urlImmagine VARCHAR(100),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;
 
@@ -822,18 +822,21 @@ CALL RegistrazioneCreatore('giulia.bianchi2@email.com', 'securePass', 'Giulia', 
 CALL RegistrazioneNormale('normal.user@email.com', 'pass1234', 'User', 'Normal', 'Rimini', 2025, 'normalUser', @esito);
 
 CALL CreazioneProgetto('DriveSense AI', '25-9-2', 'Progetto software innovativo per auto con AI', 100000.00, 'Software', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('BrewMaster AI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('SmartCoffee AI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
 CALL CreazioneProgetto('PulseTech', '2025-05-10', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 300000.00, 'Hardware', 'giulia.bianchi2@email.com', @esito);
 
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine) VALUES ('immagine grafica', 'DriveSense AI', '/public/immagini/immagine1.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSense AI', 'DriveSense AI', '/public/immagini/immagine1.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSense AI', 'DriveSense AI', '/public/immagini/immagine2.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffee AI', '/public/immagini/immagine3.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine caffè smart', 'SmartCoffee AI', '/public/immagini/immagine4.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', '/public/immagini/immagine5.webp');
 
-CALL InserimentoComponenteHardware('CPU Intel', 'DriveSense AI', 'Processore Intel i9', '350.00', '5', @esito);
-CALL InserimentoComponenteHardware('Scheda Madre', 'BrewMaster AI', 'ASUS ROG STRIX', '200.00', '10', @esito);
-CALL InserimentoComponenteHardware('GPU', 'BrewMaster AI', 'PowerColor Devil RX', '500.00', '1', @esito);
-CALL InserimentoComponenteHardware('SSD 1TB', 'PulseTech', 'Unità SSD NVMe', '120.00', '15', @esito);
+CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffee AI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
+CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffee AI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);
+CALL InserimentoComponenteHardware('Sensore Salute Avanzato', 'PulseTech', 'Chip biometrico per monitoraggio fitness', '200.00', '15', @esito);
 
 CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'DriveSense AI', @esito);
-CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'DriveSense AI', @esito);
+CALL CreazioneReward('reward2.jpg', 'T-shirt esclusiva2', 'DriveSense AI', @esito);
 CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'DriveSense AI', @esito);
 CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'DriveSense AI', @esito);
 
@@ -866,14 +869,14 @@ CALL InserimentoSkillCurriculum('normal.user@email.com', 'Machine Learning', 3, 
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Lavorare in team', 5, @esito);
 
 CALL InserimentoProfilo('Data Scientist', 'DriveSense AI', 3,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Sviluppatore', 'DriveSense AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Analista', 'DriveSense AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
+CALL InserimentoProfilo('Software Engineer', 'DriveSense AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Business Analyst', 'DriveSense AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
 
 CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', @esito);
 CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
 CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', @esito);
-CALL InserimentoCandidatura('Sviluppatore', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
-CALL InserimentoCandidatura('Analista', 'DriveSense AI', 'normal.user@email.com', @esito);
+CALL InserimentoCandidatura('Software Engineer', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
+CALL InserimentoCandidatura('Business Analyst', 'DriveSense AI', 'normal.user@email.com', @esito);
 
 CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', true);
 CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', false);
