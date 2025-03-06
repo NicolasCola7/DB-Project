@@ -821,30 +821,30 @@ CALL RegistrazioneCreatore('giulia.bianchi@email.com', 'securePass', 'Giulia', '
 CALL RegistrazioneCreatore('giulia.bianchi2@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', @esito);
 CALL RegistrazioneNormale('normal.user@email.com', 'pass1234', 'User', 'Normal', 'Rimini', 2025, 'normalUser', @esito);
 
-CALL CreazioneProgetto('SmartWatch AI', '25-9-2', 'Progetto innovativo di AI per smartwatch', 100000.00, 'Software', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('Robot AI', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('Robot AI2', '2025-05-10', "Progetto all'avanguardia per creare un robot con intelligenza artificiale", 300000.00, 'Hardware', 'giulia.bianchi2@email.com', @esito);
+CALL CreazioneProgetto('DriveSense AI', '25-9-2', 'Progetto software innovativo per auto con AI', 100000.00, 'Software', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('BrewMaster AI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('PulseTech', '2025-05-10', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 300000.00, 'Hardware', 'giulia.bianchi2@email.com', @esito);
 
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine) VALUES ('immagine grafica', 'SmartWatch AI', '/public/immagini/immagine1.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine) VALUES ('immagine grafica', 'DriveSense AI', '/public/immagini/immagine1.png');
 
-CALL InserimentoComponenteHardware('CPU Intel', 'SmartWatch AI', 'Processore Intel i9', '350.00', '5', @esito);
-CALL InserimentoComponenteHardware('Scheda Madre', 'Robot AI', 'ASUS ROG STRIX', '200.00', '10', @esito);
-CALL InserimentoComponenteHardware('GPU', 'Robot AI', 'PowerColor Devil RX', '500.00', '1', @esito);
-CALL InserimentoComponenteHardware('SSD 1TB', 'Robot AI2', 'Unità SSD NVMe', '120.00', '15', @esito);
+CALL InserimentoComponenteHardware('CPU Intel', 'DriveSense AI', 'Processore Intel i9', '350.00', '5', @esito);
+CALL InserimentoComponenteHardware('Scheda Madre', 'BrewMaster AI', 'ASUS ROG STRIX', '200.00', '10', @esito);
+CALL InserimentoComponenteHardware('GPU', 'BrewMaster AI', 'PowerColor Devil RX', '500.00', '1', @esito);
+CALL InserimentoComponenteHardware('SSD 1TB', 'PulseTech', 'Unità SSD NVMe', '120.00', '15', @esito);
 
-CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'SmartWatch AI', @esito);
-CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'SmartWatch AI', @esito);
-CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'SmartWatch AI', @esito);
-CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'SmartWatch AI', @esito);
+CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'DriveSense AI', @esito);
+CALL CreazioneReward( 'reward2.jpg', 'T-shirt esclusiva2', 'DriveSense AI', @esito);
+CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'DriveSense AI', @esito);
+CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'DriveSense AI', @esito);
 
-CALL InserimentoFinanziamento('SmartWatch AI', 10000.00, 'mario.rossi@email.com', @esito);
-CALL SceltaReward(1, 'mario.rossi@email.com', 'SmartWatch AI');
+CALL InserimentoFinanziamento('DriveSense AI', 10000.00, 'mario.rossi@email.com', @esito);
+CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSense AI');
 -- questo secondo finanziamento non andrà a buon fine perchè lo stesso utente ne ha inviato uno per lo stesso progetto lo stesso giorno
-CALL InserimentoFinanziamento('SmartWatch AI', 5000.00, 'mario.rossi@email.com', @esito);
-CALL SceltaReward('1', 'mario.rossi@email.com', 'SmartWatch AI');
-CALL InserimentoFinanziamento('SmartWatch AI', 20000.00, 'giulia.bianchi2@email.com', @esito);
+CALL InserimentoFinanziamento('DriveSense AI', 5000.00, 'mario.rossi@email.com', @esito);
+CALL SceltaReward('1', 'mario.rossi@email.com', 'DriveSense AI');
+CALL InserimentoFinanziamento('DriveSense AI', 20000.00, 'giulia.bianchi2@email.com', @esito);
 
-CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'SmartWatch AI');
+CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'DriveSense AI');
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
@@ -865,19 +865,19 @@ CALL InserimentoSkillCurriculum('normal.user@email.com', 'Programmazione in pyth
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Machine Learning', 3, @esito);
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Lavorare in team', 5, @esito);
 
-CALL InserimentoProfilo('Data Scientist', 'SmartWatch AI', 3,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Sviluppatore', 'SmartWatch AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Analista', 'SmartWatch AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
+CALL InserimentoProfilo('Data Scientist', 'DriveSense AI', 3,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Sviluppatore', 'DriveSense AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Analista', 'DriveSense AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
 
-CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', @esito);
-CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'giulia.bianchi@email.com', @esito);
-CALL InserimentoCandidatura('Data Scientist', 'SmartWatch AI', 'normal.user@email.com', @esito);
-CALL InserimentoCandidatura('Sviluppatore', 'SmartWatch AI', 'giulia.bianchi@email.com', @esito);
-CALL InserimentoCandidatura('Analista', 'SmartWatch AI', 'normal.user@email.com', @esito);
+CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', @esito);
+CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
+CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', @esito);
+CALL InserimentoCandidatura('Sviluppatore', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
+CALL InserimentoCandidatura('Analista', 'DriveSense AI', 'normal.user@email.com', @esito);
 
-CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'mario.rossi@email.com', true);
-CALL checkCandidatura('Data Scientist', 'SmartWatch AI', 'normal.user@email.com', false);
+CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', true);
+CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', false);
 
-CALL CommentaProgetto('SmartWatch AI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
+CALL CommentaProgetto('DriveSense AI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
 
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com', @esito);
