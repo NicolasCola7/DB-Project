@@ -17,13 +17,11 @@
                 min-height: 100vh;
             }
 
-            /* Layout principale */
             .main {
                 display: flex;
                 flex: 1;
             }
 
-            /* Contenuto principale */
             .contenutoMain {
                 flex: 1;
                 padding: 20px;

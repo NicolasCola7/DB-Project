@@ -28,14 +28,34 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
 
         section {
             margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            gap: 5%;
+            margin-bottom: 5%;
         }
 
-        section > form {
-            max-width: 600px;
+        section > div:first-child > form {
+            width: 100%;
             margin: 0 auto; 
+            display: flex; 
+            flex-direction: column;
+        }
+
+        section > div:first-child {
+            flex: 1;
+        }
+
+        #container-profili {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            max-height: 50vh;
+            overflow: scroll;
         }
 
         .container {
+            width: 100%;
             margin-bottom: 15px;
             display: flex;
             flex-direction: column;
@@ -53,11 +73,12 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             font-weight: bold;
         }
 
-        .container > input, textarea {
+        .container > input {
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 14px;
+            width: 100%
         }
 
         button {
@@ -83,6 +104,14 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
 
         .successo {
             color: green;
+            text-align: center;
+            margin: 10px;
+        }
+
+        #errori-skill {
+            color: red;
+            text-align: center;
+            margin: 10px;
         }
 
         dialog {
@@ -159,10 +188,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             margin-bottom: 15px;
         }
 
-        #errori-skill {
-            color:red;
-        }
-
         #aggiunta > form {
             display: flex;
             flex-direction: row;
@@ -226,6 +251,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         }
 
         #elimina{
+            display: flex;
             width: 30px;
             height: 30px;   
             border-radius: 50%;
@@ -235,9 +261,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             font-weight: bold;
             border: none;
             cursor: pointer;
-            display: flex;
-            align-content: center;
             justify-content: center;
+            align-items: center;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
             transition: background 0.3s, transform 0.2s;
         }
@@ -268,6 +293,102 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         #chiudi:hover {
             color: red;
         }
+
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .profilo {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            padding: 15px;
+        }
+
+        .header-profilo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nome-profilo {
+            margin: 0;
+            color: #0077cc;
+        }
+
+        .posizioni-profilo {
+            background-color: #e6f3ff;
+            color: #0066cc;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 14px;
+        }
+
+        .skills-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px 0;
+            color: #0077cc;
+            font-weight: 500;
+        }
+
+        .arrow {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-right: 10px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #0077cc;
+            transition: transform 0.3s;
+        }
+
+        .arrow.up {
+            transform: rotate(180deg);
+        }
+
+        .skills-container {
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            max-height: 500px;
+        }
+
+        .skills-container.hidden {
+            max-height: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background-color: #0077cc;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        button:disabled {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -282,26 +403,84 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             </header>
 
             <section>
-                <form action='/home/crea-progetto/software/profili' method='POST' id='profilo'>
-                    <div class='container'>
-                        <label for='nome'> Nome Profilo </label>
-                        <input type='text' name='nome' required>
-                    </div>
+                <div>
+                    <form action='/home/crea-progetto/software/profili' method='POST' id='profilo'>
+                        <div class='container'>
+                            <label for='nome'> Nome Profilo </label>
+                            <input type='text' name='nome' required>
+                        </div>
 
-                    <div class='container'>
-                        <label for='posizioni'> Posizioni disponibili </label>
-                        <input type='number' name='posizioni' required>
-                    </div>
+                        <div class='container'>
+                            <label for='posizioni'> Posizioni disponibili </label>
+                            <input type='number' name='posizioni' required>
+                        </div>
+
+                        <div class='container bottoni'>
+                            <button id='aggiungi' type='submit'> Aggiungi </button>
+                        </div>
+                    </form>
 
                     <div class='container bottoni'>
-                        <button id='aggiungi' type='submit'> Aggiungi </button>
+                        <button onclick='apriDialog()'> Inserisci skills richieste </button>
                     </div>
-                </form>
+                </div>
+
+                <div id='container-profili'>
+                    <?php if(count($_SESSION['creazione-progetto']['profili']) > 0): ?>
+                        <?php foreach($_SESSION['creazione-progetto']['profili'] as $index => $profilo): ?>
+                            <div class='profilo'>
+                                <div class='header-profilo'>
+                                    <h2 class='nome-profilo'> <?= $profilo['nome']; ?> </h2>
+                                    <span class='posizioni-profilo'> <?= $profilo['numero_posizioni']; ?> posizioni </span>
+                                </div>
+                                <div class="skills-header" onclick="toggleSkills(<?= $index ?>)">
+                                    <span id="arrow-<?= $index ?>" class="arrow"></span>
+                                    <span>Skills</span>
+                                </div>
+                                <div id="skills-container-<?= $index ?>" class="skills-container hidden">
+                                    <table class='skills'>
+                                        <thead>
+                                            <tr>
+                                                <td> Skill </td>
+                                                <td> Livello </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach($profilo['skills-richieste'] as $skill): ?>
+                                                <tr>
+                                                    <td> <?= $skill['nomeSkill']; ?> </td>
+                                                    <td> <?= $skill['livello']; ?> </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
             </section>
+       
+            <div id="errori">
+                <?php if (isset($errori['nome'])) : ?>
+                    <p><?= $errori['nome'] ?></p>
+                <?php endif; ?>
+                
+                <?php if (isset($errori['posizioni'])) : ?>
+                    <p><?= $errori['posizioni'] ?></p>
+                <?php endif; ?>
+
+                <?php if (isset($_SESSION['aggiunta-profilo'])) : ?>
+                    <?php if ($_SESSION['aggiunta-profilo']) : ?>
+                        <p class='successo'> Profilo aggiunto con successo! </p>
+                    <?php else :?>
+                        <p> Profilo già inserito!</p>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
 
             <div class='container bottoni'>
                 <button onclick='prosegui()'> Prosegui </button>
-                <button onclick='apriDialog()'> Inserisci skills richieste </button>
             </div>
                 
             <dialog id='skill-requisito'>
@@ -338,32 +517,15 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                             <button type='submit' id='aggiungi-skill'> + </button>
                         </div>
                     </form>
-
-                    <?php if (isset($_SESSION['aggiunta-skill'])) : ?>
-                        <?php if (!$_SESSION['aggiunta-skill']) : ?>
-                            <p> Skill già inserita!</p>
+                    <div id='errori-skill'>
+                        <?php if (isset($_SESSION['aggiunta-skill'])) : ?>
+                            <?php if (!$_SESSION['aggiunta-skill']) : ?>
+                                <p> Skill già inserita!</p>
+                            <?php endif; ?>
                         <?php endif; ?>
-                    <?php endif; ?>
+                    </div>
                 </div>
             </dialog>
-
-            <div id="errori">
-                <?php if (isset($errori['nome'])) : ?>
-                    <p><?= $errori['nome'] ?></p>
-                <?php endif; ?>
-                
-                <?php if (isset($errori['posizioni'])) : ?>
-                    <p><?= $errori['posizioni'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($_SESSION['aggiunta-profilo'])) : ?>
-                    <?php if ($_SESSION['aggiunta-profilo']) : ?>
-                        <p class='successo'> Profilo aggiunto con successo! </p>
-                    <?php else :?>
-                        <p> Profilo già inserito!</p>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
         </div>
     </div>
     
@@ -452,6 +614,14 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
             window.location.href = '/home/crea-progetto/foto';
         }
+    }
+
+    function toggleSkills(index) {
+        const skillsContainer = document.getElementById('skills-container-' + index);
+        const arrow = document.getElementById('arrow-' + index);
+        
+        skillsContainer.classList.toggle('hidden');
+        arrow.classList.toggle('up');
     }
 </script>
 

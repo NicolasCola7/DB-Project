@@ -277,7 +277,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                             <div class='profilo'>
                                 <div class='header-profilo'>
                                     <h2 class='nome-profilo'> <?= $profilo['nome']; ?> </h2>
-                                    <span class='posizioni-profilo'> <?= $profilo['numero_posizioni']; ?> </span>
+                                    <span class='posizioni-profilo'> <?= $profilo['numero_posizioni']; ?> posizioni </span>
                                 </div>
                                 <div class="skills-header" onclick="toggleSkills(<?= $index ?>)">
                                     <span id="arrow-<?= $index ?>" class="arrow"></span>

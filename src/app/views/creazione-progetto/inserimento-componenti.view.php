@@ -35,7 +35,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         section > div:first-child {
             display: flex;
             flex-direction: row;
-            gap: 2%;
+            gap: 5%;
             justify-content: space-between;
         }
 
@@ -95,6 +95,11 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             color: green;
         }
 
+        #container-tabella {
+            max-height: 350px;
+            overflow-y: auto
+        }
+
         table {
             flex: 1;
             width: 100%;
@@ -107,9 +112,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         thead {
             background-color: #0077cc;
             color: white;
-        }
-        tr {
-            padding: 5px 0px;
         }
 
         th, td {
@@ -159,32 +161,30 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                         </div>
                     </form>
 
-                    <table>
-                        <thead>
-                            <tr>
-                                <th> Nome </th>
-                                <th> Descrizione </th>
-                                <th> Quantità </th>
-                                <th> Prezzo </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if(count($_SESSION['creazione-progetto']['componenti']) > 0): ?>
-                                <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
-                                    <tr>
-                                        <td> <?= $componente['nome']; ?> </td>
-                                        <td> <?= $componente['descrizione']; ?> </td>
-                                        <td> <?= $componente['quantità']; ?> </td>
-                                        <td> <?= $componente['prezzo']; ?> </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?> 
-                                <tr> 
-                                    <td colspan='4'> Nessuna componente inserita </td>
+                    <div id='container-tabella'>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> Nome </th>
+                                    <th> Descrizione </th>
+                                    <th> Quantità </th>
+                                    <th> Prezzo </th>
                                 </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php if(count($_SESSION['creazione-progetto']['componenti']) > 0): ?>
+                                    <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
+                                        <tr>
+                                            <td> <?= $componente['nome']; ?> </td>
+                                            <td> <?= $componente['descrizione']; ?> </td>
+                                            <td> <?= $componente['quantità']; ?> </td>
+                                            <td> <?= $componente['prezzo']; ?> </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 
                 <div id="errori">
