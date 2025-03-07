@@ -48,7 +48,7 @@ $cartellaUtente = md5($_SESSION['utente']['nickname']);
 $directory = 'public/immagini/temporanee/'.$cartellaUtente.'/foto/';
 
 if (!file_exists($directory)) {
-   mkdir($directory, 0770, true);// 0750 è il codice per gestire accessi alla directory
+   mkdir($directory, 0777, true);// 0750 è il codice per gestire accessi alla directory
 }
 
 $destinazione = $directory.$nomeFile;

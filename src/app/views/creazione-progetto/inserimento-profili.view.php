@@ -457,6 +457,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                                 </div>
                             </div>
                         <?php endforeach; ?>
+                    <?php else: ?>
+                        <p> Nessun profilo inserito </p>
                     <?php endif; ?>
                 </div>
             </section>

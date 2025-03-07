@@ -181,6 +181,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                                             <td> <?= $componente['prezzo']; ?> </td>
                                         </tr>
                                     <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr> <td colspan='4'> Nessuna componente inserita  </td> </tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>

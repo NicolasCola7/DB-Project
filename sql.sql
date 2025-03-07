@@ -742,7 +742,7 @@ BEGIN
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
     -- creare la reward
     set progettoEsistente = (SELECT count(*) from Progetto where Progetto.nome = nomeProgettoI) > 0;
-    set fotoNuova = urlFotoI NOT IN (SELECT urlmmagine FROM Foto_Progetto WHERE nomeProgetto = nomeProgettoI);
+    set fotoNuova = urlFotoI NOT IN (SELECT urlImmagine FROM Foto_Progetto WHERE nomeProgetto = nomeProgettoI);
 
     if(urlCorretto AND progettoEsistente AND fotoNuova) then
         set esito = 1;
@@ -825,11 +825,11 @@ CALL CreazioneProgetto('DriveSense AI', '25-9-2', 'Progetto software innovativo 
 CALL CreazioneProgetto('SmartCoffee AI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
 CALL CreazioneProgetto('PulseTech', '2025-05-10', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 300000.00, 'Hardware', 'giulia.bianchi2@email.com', @esito);
 
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSense AI', 'DriveSense AI', '/public/immagini/immagine1.webp');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSense AI', 'DriveSense AI', '/public/immagini/immagine2.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffee AI', '/public/immagini/immagine3.jpg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine caffè smart', 'SmartCoffee AI', '/public/immagini/immagine4.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', '/public/immagini/immagine5.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSense AI', 'DriveSense AI', '/public/immagini/progetti/DriveSense AI/foto/immagine1.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSense AI', 'DriveSense AI', '/public/immagini/progetti/DriveSense AI/foto/immagine2.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffee AI', '/public/immagini/progetti/SmartCoffee AI/foto/immagine3.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine caffè smart', 'SmartCoffee AI', '/public/immagini/progetti/SmartCoffee AI/foto/immagine4.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', '/public/immagini/progetti/PulseTech/foto/immagine5.webp');
 
 CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffee AI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
 CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffee AI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);

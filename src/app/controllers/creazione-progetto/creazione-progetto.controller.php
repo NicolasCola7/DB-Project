@@ -119,7 +119,7 @@ $cartellaUtente = md5($_SESSION['utente']['nickname']);
 $directoryFotoProgetto = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/foto';
 
 if (!file_exists($directoryFotoProgetto)) {
-    mkdir($directoryFotoProgetto, 0775, true);// 0750 è il codice per gestire accessi alla directory
+    mkdir($directoryFotoProgetto, 0777, true);// 0750 è il codice per gestire accessi alla directory
 }
 
 foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
@@ -159,7 +159,7 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
 $directoryFotoRewards = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/foto-rewards';
 
 if (!file_exists($directoryFotoRewards)) {
-    mkdir($directoryFotoRewards, 0775, true);// 0750 è il codice per gestire accessi alla directory
+    mkdir($directoryFotoRewards, 0777, true);// 0750 è il codice per gestire accessi alla directory
 }
 
 foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
