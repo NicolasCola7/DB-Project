@@ -20,6 +20,19 @@
         width: 50%;
         margin-bottom: 25px;
     }
+    .divBottoni{
+        display: flex;
+        flex-direction: column;
+        gap:10px;
+        margin-top: 10px;
+        width: 50%;
+        margin-bottom: 25px;
+    }
+    form{
+        width:100%;
+        display: flex;
+        gap:15px;
+    }
     .container input{
         width: 400px;
         height:30px;
@@ -47,6 +60,26 @@
         font-size: 24px;
         margin-bottom: 15px;
     }
+    .divBottoni button{
+        width: 140px;
+        height: 50px;
+        border-radius: 6px;
+        border: none;
+        color: white;
+        font-size: medium;
+    }
+    #accetta{
+        background-color: #008037;
+    }
+    #accetta:hover{
+        background-color:rgb(0, 66, 29);
+    }
+    #rifiuta{
+        background-color: red;
+    }
+    #rifiuta:hover{
+        background-color:rgb(128, 0, 0);
+    }
 </style>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -62,6 +95,7 @@
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const main = document.getElementsByClassName("contenutoMain")[0];
@@ -70,7 +104,6 @@
         const nomeProfilo = urlParam.get('nomeProfilo');
         const emailCandidato = urlParam.get('email');
         getInfo();
-
         async function getInfo() {
             try {
                 //eseguo una chiamata asincrona al controller passando due parametri
@@ -78,11 +111,13 @@
                     params: { nomeProgetto: nomeProgetto, nomeProfilo: nomeProfilo , email: emailCandidato}
                 });
                 let dati = risposta.data;
-                console.log(dati);
                 stampa(dati);
             } catch (error) {
                 console.log(error);
             }
+        }
+        async function postDecisione(nome, cognome){
+            stampaBottoni(nome, cognome);
         }
         function stampa(dati){
             let h3 = document.createElement("h3");
@@ -97,6 +132,7 @@
             stampaDatiCandidato(infoCandidato);
             stampaSkillProfilo(skillPossedute,skillRichieste);
             stampaSkillExtra(skillExtra);
+            postDecisione(infoCandidato.nome, infoCandidato.cognome);
         }
         function stampaDatiCandidato(infoCandidato){
             let divInfo = document.createElement("div");
@@ -131,6 +167,7 @@
             divInfo.appendChild(createInfoField("Luogo di nascita:", infoCandidato.luogo_nascita));
             divInfo.appendChild(createInfoField("Anno di nascita:", infoCandidato.anno_nascita));
         }
+        //metodo che stampa le skill
         function stampaSkillProfilo(skillPossedute,skillRichieste){
             let skillDiv = document.createElement("div");
             skillDiv.classList.add("divInfo");
@@ -158,6 +195,7 @@
             th3.textContent = "LIVELLO POSSEDUTO";
             tr.appendChild(th3);
             let i = 0;
+            //scorro le skill richieste dal profilo possedute dal candidato
             skillPossedute.forEach(sk_p => {
                 let tr = document.createElement("tr");
                 table.appendChild(tr);
@@ -165,6 +203,7 @@
                 let td1 = document.createElement("td");
                 td1.textContent = sk_p.nomeSkill;
 
+                //nella terza colonna stampo il livello minimo richiesto per quella skill dal profilo
                 let td2 = document.createElement("td");
                 td2.textContent = skillRichieste[i].livello;
 
@@ -177,6 +216,7 @@
                 i = i + 1;
             });
         }
+        //metodo che stampa ulteriori skill del candidato
         function stampaSkillExtra(skillExtra){
             let divSkill = document.createElement("div");
             divSkill.classList.add("divInfo");
@@ -185,6 +225,133 @@
             let h4 = document.createElement("h4");
             h4.textContent = "Ulteriori skill possedute dal candidato";
             divSkill.appendChild(h4);
+
+            if(skillExtra.length !== 0){
+                let table = document.createElement("table");
+                let tr = document.createElement("tr");
+                table.appendChild(tr);
+                divSkill.appendChild(table);
+
+                let th1 = document.createElement("th");
+                th1.textContent = "NOME";
+                tr.appendChild(th1);
+
+                let th2 = document.createElement("th");
+                th2.textContent = "LIVELLO";
+                tr.appendChild(th2);
+                skillExtra.forEach(sk_p => {
+                    let tr = document.createElement("tr");
+                    table.appendChild(tr);
+
+                    let td1 = document.createElement("td");
+                    td1.textContent = sk_p.nomeSkill;
+                    let td2 = document.createElement("td");
+                    td2.textContent = sk_p.livello;
+
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                });
+            }else{
+                //se non ci sono ulteriori skill informo l'utente
+                let p = document.createElement("p");
+                p.textContent = "Il candidato non possiede ulteriori skill al di fuori di quelle richieste dal profilo.";
+                divSkill.appendChild(p);
+            }
+        }
+        function stampaBottoni(nome, cognome){
+            let divBottoni = document.createElement("div");
+            divBottoni.classList.add("divBottoni");
+            main.appendChild(divBottoni);
+
+            //creo un form con un solo bottone che esegue una richiesta post e chiama un controller
+            //che eseguirà l'invio della candidatura
+            let form = document.createElement("form");
+            form.method = "post";
+            form.action = "TODO";
+
+            let btnAssunto = document.createElement("button");
+            btnAssunto.type = "submit";
+            btnAssunto.textContent = "Accetta";
+            btnAssunto.id = "accetta";
+
+            let btnRifiuta = document.createElement("button");
+            btnRifiuta.type = "submit";
+            btnRifiuta.textContent = "Rifiuta";
+            btnRifiuta.id = "rifiuta";
+
+            //campi da passare al controller TODO
+            let inputNomeProgetto = document.createElement("input");
+            inputNomeProgetto.type = "hidden";
+            inputNomeProgetto.name = "nomeProgetto";
+
+            let inputNomeProfilo = document.createElement("input");
+            inputNomeProfilo.type = "hidden";
+            inputNomeProfilo.name = "nomeProfilo";
+
+            let inputemailUtente = document.createElement("input");
+            inputemailUtente.type = "hidden";
+            inputemailUtente.name = "emailUtente";
+
+            btnAssunto.addEventListener("click", function (event) {
+                event.preventDefault(); 
+                let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
+                let encodedNomeProfilo = encodeURIComponent(nomeProfilo);
+                let encodedEmailUtente = encodeURIComponent(emailCandidato);
+                inputNomeProgetto.value = nomeProgetto;
+                inputNomeProfilo.value = nomeProfilo;
+                inputemailUtente.value = emailCandidato;
+                //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
+                Swal.fire({
+                    title: "Sei sicuro?",
+                    text: "Vuoi davvero accettare la candidatura di "+nome +" "+cognome+" come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sì, procedi!",
+                    cancelButtonText: "Annulla",
+                    customClass: {
+                        confirmButton: "my-confirm-button",
+                        cancelButton: "my-cancel-button"
+                    }
+                }).then((result) => {
+                    //se l'utente conferma faccio submit
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            })
+            btnRifiuta.addEventListener("click", function (event) {
+                event.preventDefault(); 
+                let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
+                let encodedNomeProfilo = encodeURIComponent(nomeProfilo);
+                let encodedEmailUtente = encodeURIComponent(emailCandidato);
+                inputNomeProgetto.value = nomeProgetto;
+                inputNomeProfilo.value = nomeProfilo;
+                inputemailUtente.value = emailCandidato;
+                console.log(inputemailUtente.value);
+                //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
+                Swal.fire({
+                    title: "Sei sicuro?",
+                    text: "Vuoi davvero rifiutare la candidatura di "+nome +" "+cognome+" come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Sì, procedi!",
+                    cancelButtonText: "Annulla",
+                    customClass: {
+                        confirmButton: "my-confirm-button",
+                        cancelButton: "my-cancel-button"
+                    }
+                }).then((result) => {
+                    //se l'utente conferma faccio submit
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            })
+            form.appendChild(btnAssunto);
+            form.appendChild(btnRifiuta);
+            form.appendChild(inputNomeProgetto);
+            form.appendChild(inputNomeProfilo);
+            divBottoni.appendChild(form);
         }
     });
 </script>

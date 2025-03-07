@@ -25,10 +25,17 @@ if(isset($_GET['nomeProgetto']) && isset($_GET['nomeProfilo']) && isset($_GET['e
         order by Sk_l.nomeSkill", 
         [":nomeProfilo" => $nomeProfilo, ":nomeProgetto" => $nomeProgetto, ":email" => $emailCandidato]);
     //query che restituisce le altre skill dell'utente che non sono richieste dal profilo
-    $sk_posseduteExtra = $db->query("SELECT Sk_l.nomeSkill, Sk_l.livello FROM Skill_Possesso Sk_l
-        LEFT JOIN Skill_Requisito Sk_r ON Sk_l.nomeSkill = Sk_r.nomeSkill AND Sk_r.nomeProfilo = 'Data Scientist' AND Sk_r.nomeProgetto = 'SmartWatch AI'
-        WHERE Sk_r.nomeProfilo = :nomeProfilo AND Sk_r.nomeProgetto = :nomeProgetto AND Sk_l.emailUtente = :email
-        ORDER BY Sk_l.nomeSkill", 
+    $sk_posseduteExtra = $db->query("SELECT Sk_l.nomeSkill, Sk_l.livello
+                                    FROM Skill_Possesso Sk_l
+                                    WHERE Sk_l.emailUtente = :email
+                                    AND NOT EXISTS (
+                                        SELECT 1 
+                                        FROM Skill_Requisito Sk_r
+                                        WHERE Sk_l.nomeSkill = Sk_r.nomeSkill 
+                                        AND Sk_r.nomeProfilo = :nomeProfilo
+                                        AND Sk_r.nomeProgetto = :nomeProgetto
+                                    )
+                                    ORDER BY Sk_l.nomeSkill;", 
         [":nomeProfilo" => $nomeProfilo, ":nomeProgetto" => $nomeProgetto, ":email" => $emailCandidato]);
     echo json_encode([$info_candidato,$sk_possedute,$sk_richieste, $sk_posseduteExtra]);
 }else{
