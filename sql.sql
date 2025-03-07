@@ -742,11 +742,11 @@ BEGIN
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
     -- creare la reward
     set progettoEsistente = (SELECT count(*) from Progetto where Progetto.nome = nomeProgettoI) > 0;
-    set fotoNuova = urlFotoI NOT IN (SELECT percorsoImmagine FROM Foto_Progetto WHERE nomeProgetto = nomeProgettoI);
+    set fotoNuova = urlFotoI NOT IN (SELECT urlmmagine FROM Foto_Progetto WHERE nomeProgetto = nomeProgettoI);
 
     if(urlCorretto AND progettoEsistente AND fotoNuova) then
         set esito = 1;
-        INSERT INTO Foto_Progetto(descrizione, nomeProgetto, percorsoImmagine) VALUES (descrizioneI, nomeProgettoI, urlFotoI);
+        INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES (descrizioneI, nomeProgettoI, urlFotoI);
     else
         set esito = 0;
     end if;
