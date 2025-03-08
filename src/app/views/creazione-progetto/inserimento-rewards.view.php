@@ -109,8 +109,8 @@ if(!$_SESSION['creazione-progetto']['step3']) {
             <section>
                 <form action="/home/crea-progetto/rewards" method="POST" enctype='multipart/form-data'>
                     <div class='container'>
-                        <label for='foto'> Scegli una foto </label>
-                        <input type='file' name='foto' accept="image/png, image/jpeg, image/jpg" required>
+                        <label for='foto'> Immagine </label>
+                        <?php require view('/creazione-progetto/upload.view.php'); ?>
                     </div>
                     
                     <div class='container'>
