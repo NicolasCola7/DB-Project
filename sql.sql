@@ -677,7 +677,7 @@ END
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), IN sceltaCreatoreI tinyint(1))
+CREATE PROCEDURE checkCandidatura(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN emailUtenteI VARCHAR(255), IN sceltaCreatoreI tinyint(1), OUT esito INT)
 BEGIN
     declare correttezzaNomeEProgetto boolean;
     declare correttezzaEmail boolean;
@@ -688,7 +688,7 @@ BEGIN
     set correttezzaNomeEProgetto = (SELECT count(*) from Profilo where Profilo.nome = nomeProfiloI and Profilo.nomeProgetto = nomeProgettoI) > 0;
     -- il campo email dell'utente deve esistere
     set correttezzaEmail = (SELECT count(*) from Utente where Utente.email = emailUtenteI) > 0;
-    -- non deve esistere già una candidatura identica ancora aperta nel db
+    -- deve esistere già una candidatura identica ancora aperta nel db
     set candidaturaGiaPresente = (SELECT count(*) from Candidatura C where
                                     C.nomeProfilo = nomeProfiloI and
                                     C.nomeProgetto = nomeProgettoI and
@@ -703,6 +703,9 @@ BEGIN
 																	 C.nomeProgetto = nomeProgettoI and 
                                                                      C.emailUtente = emailUtenteI and
                                                                      C.stato = 'aperta';
+		SET esito = 1;
+    else
+		SET esito = 0;
     end if;
 END
 $ DELIMITER ;
@@ -878,8 +881,8 @@ CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@emai
 CALL InserimentoCandidatura('Software Engineer', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
 CALL InserimentoCandidatura('Business Analyst', 'DriveSense AI', 'normal.user@email.com', @esito);
 
-CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', true);
-CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', false);
+CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', true, @esito);
+CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', false, @esito);
 
 CALL CommentaProgetto('DriveSense AI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
 

@@ -79,9 +79,35 @@
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
+    <?php if (isset($_SESSION["utente"]['errore_validazione'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: "Errore di inserimento!",
+                    text: "<?php echo $_SESSION["utente"]['errore_validazione']; ?>",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+        <?php unset($_SESSION["utente"]['errore_validazione']); // Elimina il messaggio di errore dopo averlo mostrato ?>
+    <?php elseif (isset($_SESSION["utente"]['esito_validazione'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: "Successo!",
+                    text: "<?php echo $_SESSION["utente"]['esito_validazione']; ?>",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+        <?php unset($_SESSION["utente"]['esito_validazione']); // Elimina il messaggio di successo dopo averlo mostrato ?>
+    <?php endif; ?>
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const main = document.getElementsByClassName("contenutoMain")[0];

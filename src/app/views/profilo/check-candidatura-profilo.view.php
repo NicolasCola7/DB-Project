@@ -264,10 +264,10 @@
             main.appendChild(divBottoni);
 
             //creo un form con un solo bottone che esegue una richiesta post e chiama un controller
-            //che eseguirà l'invio della candidatura
+            //che eseguirà la validazione della candidatura
             let form = document.createElement("form");
             form.method = "post";
-            form.action = "TODO";
+            form.action = "/home/info-progetto/profilo/check-candidatura/esito";
 
             let btnAssunto = document.createElement("button");
             btnAssunto.type = "submit";
@@ -279,7 +279,7 @@
             btnRifiuta.textContent = "Rifiuta";
             btnRifiuta.id = "rifiuta";
 
-            //campi da passare al controller TODO
+            //campi da passare al controller
             let inputNomeProgetto = document.createElement("input");
             inputNomeProgetto.type = "hidden";
             inputNomeProgetto.name = "nomeProgetto";
@@ -292,6 +292,10 @@
             inputemailUtente.type = "hidden";
             inputemailUtente.name = "emailUtente";
 
+            let inputSceltaCreatore = document.createElement("input");
+            inputSceltaCreatore.type = "hidden";
+            inputSceltaCreatore.name = "scelta";
+
             btnAssunto.addEventListener("click", function (event) {
                 event.preventDefault(); 
                 let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
@@ -300,6 +304,7 @@
                 inputNomeProgetto.value = nomeProgetto;
                 inputNomeProfilo.value = nomeProfilo;
                 inputemailUtente.value = emailCandidato;
+                inputSceltaCreatore.value = 1;
                 //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
                 Swal.fire({
                     title: "Sei sicuro?",
@@ -327,7 +332,7 @@
                 inputNomeProgetto.value = nomeProgetto;
                 inputNomeProfilo.value = nomeProfilo;
                 inputemailUtente.value = emailCandidato;
-                console.log(inputemailUtente.value);
+                inputSceltaCreatore.value = 0;
                 //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
                 Swal.fire({
                     title: "Sei sicuro?",
@@ -351,6 +356,8 @@
             form.appendChild(btnRifiuta);
             form.appendChild(inputNomeProgetto);
             form.appendChild(inputNomeProfilo);
+            form.appendChild(inputemailUtente);
+            form.appendChild(inputSceltaCreatore);
             divBottoni.appendChild(form);
         }
     });
