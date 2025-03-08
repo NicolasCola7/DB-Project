@@ -14,7 +14,6 @@ $router->get('/home/info-progetto-controller','app/controllers/home/home-info-pr
 $router->get('/home/le-mie-skill', 'app/views/skills/le-mie-skill.view.php')->soloSe('autenticato');
 $router->get('/ottieni-mie-skills', 'app/controllers/skills/non-admin/ottieni-mie-skill.controller.php')->soloSe('autenticato');
 $router->get('/ottieni-skills', 'app/controllers/skills/non-admin/ottieni-skill.controller.php')->soloSe('autenticato');
-$router->get('/icona-profilo', 'public/icone/icona-profilo.svg');
 $router->get('/admin/home/gestione-skills', 'app/views/skills/gestione-skills.view.php')->soloSe('admin');
 $router->get('/admin/ottieni-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('autenticato'); // ho tolto soloSe('admin') per utilizzarlo per la popolazione delle skill che un creatore può assegnare ad un profilo
 $router->get('/home/info-progetto/profili', 'app/views/profilo/view-profili.view.php')->soloSe('autenticato');
@@ -34,6 +33,7 @@ $router->get('/home/visualizzaStatistiche','app/views/statistiche/visualizzaStat
 $router->get('/ottieni-statistiche', 'app/controllers/statistiche/visualizzaStatistiche.controller.php')->soloSe('autenticato');
 $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti', 'app/controllers/i-miei-progetti/i-miei-progetti.controller.php')->soloSe('creatore');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');

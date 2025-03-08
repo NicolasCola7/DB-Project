@@ -22,6 +22,7 @@ $router = new core\Router();
 
 session_start();
 
+
 // Carica le rotte definite nel file 'routes.php'
 $routes = require percorso_base('routes.php');
 
