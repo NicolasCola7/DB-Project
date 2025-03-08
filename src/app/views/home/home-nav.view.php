@@ -76,6 +76,26 @@
                 text-align: center;
                 margin: 10px;
             }
+
+            .ruolo {
+                font-weight: bold;
+                padding: 2px 6px;
+                border-radius: 5px;
+                color: white;
+                margin-right: 20px;
+            }
+
+            .ruolo-C { 
+                background-color: green; 
+            }
+
+            .ruolo-A { 
+                background-color: red; 
+            }
+
+            .ruolo-N { 
+                background-color: gray; 
+            }
         </style>
     </head>
 
@@ -84,7 +104,12 @@
         <h2>BOSTARTER</h2>
     </div>
     <div id='info'>
-        <p><?php echo($_SESSION['utente']['nickname']) ?></p>
+        <p>
+            <?php
+                $ruolo = $_SESSION['utente']['admin'] ? 'A' : ($_SESSION['utente']['creatore'] ? 'C' : 'N');
+                echo " <span class='ruolo ruolo-$ruolo'>$ruolo</span>" . $_SESSION['utente']['nickname'] ;
+            ?>
+        </p>
         <form action='/logout' method='POST'>
             <input type="submit" value='Logout'>
         </form>
@@ -92,4 +117,3 @@
 </header>
 
 </html>
-

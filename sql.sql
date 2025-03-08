@@ -824,33 +824,33 @@ CALL RegistrazioneCreatore('giulia.bianchi@email.com', 'securePass', 'Giulia', '
 CALL RegistrazioneCreatore('giulia.bianchi2@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', @esito);
 CALL RegistrazioneNormale('normal.user@email.com', 'pass1234', 'User', 'Normal', 'Rimini', 2025, 'normalUser', @esito);
 
-CALL CreazioneProgetto('DriveSense AI', '25-9-2', 'Progetto software innovativo per auto con AI', 100000.00, 'Software', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('SmartCoffee AI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('DriveSenseAI', '25-9-2', 'Progetto software innovativo per auto con AI', 100000.00, 'Software', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('SmartCoffeeAI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
 CALL CreazioneProgetto('PulseTech', '2025-05-10', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 300000.00, 'Hardware', 'giulia.bianchi2@email.com', @esito);
 
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSense AI', 'DriveSense AI', '/public/immagini/progetti/DriveSense AI/foto/immagine1.webp');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSense AI', 'DriveSense AI', '/public/immagini/progetti/DriveSense AI/foto/immagine2.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffee AI', '/public/immagini/progetti/SmartCoffee AI/foto/immagine3.jpg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine caffè smart', 'SmartCoffee AI', '/public/immagini/progetti/SmartCoffee AI/foto/immagine4.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', '/public/immagini/progetti/PulseTech/foto/immagine5.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/foto/progetto1.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/foto/progetto2.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/foto/progetto3.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine caffè smart', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/foto/progetto4.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', 'public/immagini/progetti/PulseTech/foto/progetto5.webp');
 
-CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffee AI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
-CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffee AI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);
+CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffeeAI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
+CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffeeAI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);
 CALL InserimentoComponenteHardware('Sensore Salute Avanzato', 'PulseTech', 'Chip biometrico per monitoraggio fitness', '200.00', '15', @esito);
 
-CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'DriveSense AI', @esito);
-CALL CreazioneReward('reward2.jpg', 'T-shirt esclusiva2', 'DriveSense AI', @esito);
-CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'DriveSense AI', @esito);
-CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'DriveSense AI', @esito);
+CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'DriveSenseAI', @esito);
+CALL CreazioneReward('reward2.jpg', 'T-shirt esclusiva2', 'DriveSenseAI', @esito);
+CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'DriveSenseAI', @esito);
+CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'DriveSenseAI', @esito);
 
-CALL InserimentoFinanziamento('DriveSense AI', 10000.00, 'mario.rossi@email.com', @esito);
-CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSense AI');
+CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
+CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSenseAI');
 -- questo secondo finanziamento non andrà a buon fine perchè lo stesso utente ne ha inviato uno per lo stesso progetto lo stesso giorno
-CALL InserimentoFinanziamento('DriveSense AI', 5000.00, 'mario.rossi@email.com', @esito);
-CALL SceltaReward('1', 'mario.rossi@email.com', 'DriveSense AI');
-CALL InserimentoFinanziamento('DriveSense AI', 20000.00, 'giulia.bianchi2@email.com', @esito);
+CALL InserimentoFinanziamento('DriveSenseAI', 5000.00, 'mario.rossi@email.com', @esito);
+CALL SceltaReward('1', 'mario.rossi@email.com', 'DriveSenseAI');
+CALL InserimentoFinanziamento('DriveSenseAI', 20000.00, 'giulia.bianchi2@email.com', @esito);
 
-CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'DriveSense AI');
+CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'DriveSenseAI');
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
@@ -871,19 +871,19 @@ CALL InserimentoSkillCurriculum('normal.user@email.com', 'Programmazione in pyth
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Machine Learning', 3, @esito);
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Lavorare in team', 5, @esito);
 
-CALL InserimentoProfilo('Data Scientist', 'DriveSense AI', 3,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Software Engineer', 'DriveSense AI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Business Analyst', 'DriveSense AI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
+CALL InserimentoProfilo('Data Scientist', 'DriveSenseAI', 3,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Software Engineer', 'DriveSenseAI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Business Analyst', 'DriveSenseAI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
 
-CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', @esito);
-CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
-CALL InserimentoCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', @esito);
-CALL InserimentoCandidatura('Software Engineer', 'DriveSense AI', 'giulia.bianchi@email.com', @esito);
-CALL InserimentoCandidatura('Business Analyst', 'DriveSense AI', 'normal.user@email.com', @esito);
+CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', @esito);
+CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);
+CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'normal.user@email.com', @esito);
+CALL InserimentoCandidatura('Software Engineer', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);
+CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'normal.user@email.com', @esito);
 
-CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'mario.rossi@email.com', true, @esito);
-CALL checkCandidatura('Data Scientist', 'DriveSense AI', 'normal.user@email.com', false, @esito);
+CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', true, @esito);
+CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'normal.user@email.com', false, @esito);
 
-CALL CommentaProgetto('DriveSense AI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
+CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
 
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com', @esito);
