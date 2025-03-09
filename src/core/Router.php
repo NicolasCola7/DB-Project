@@ -75,7 +75,7 @@ class Router {
     return $this->aggiungi('PATCH', $uri, $controller);
   }
 
-   /**
+  /**
    * Cerca una route corrispondente all'URI e al metodo HTTP forniti e la esegue.
    * Se la route prevede un middleware, questo viene risolto ed eseguito.
    * Se la route non viene trovata, viene chiamata la funzione abort() per gestire l'errore (404).
@@ -84,17 +84,46 @@ class Router {
    * @param string $metodo Il metodo HTTP utilizzato (GET, POST, etc.).
    * @return mixed L'esecuzione del controller associato alla route, se presente.
    */
-  public function route($uri, $metodo){
+  public function route($uri, $metodo) {
     foreach ($this->routes as $route) {
-      if ($route['uri'] === $uri && $route['metodo'] === strtoupper($metodo)) {
-        Middleware::risolvi($route['middleware']);
+  
+        // Trasforma il pattern della route sostituendo i placeholder dinamici (es. {id})
+        // con una parte dell'espressione regolare che cattura il valore del parametro.
+        //
+        // Spiegazione dettagliata:
+        // - La regex di ricerca: '/\{([a-zA-Z0-9_]+)\}/'
+        //   • '\{' e '\}' corrispondono ai caratteri letterali '{' e '}'.
+        //   • '([a-zA-Z0-9_]+)' è un gruppo di cattura che individua uno o più caratteri
+        //     alfanumerici o underscore, corrispondenti al nome del parametro.
+        //
+        // - La stringa di sostituzione: '(?P<$1>[^/]+)'
+        //   • '(?P<$1>...)' definisce un gruppo di cattura denominato; il nome è preso dal gruppo catturato
+        //     nella regex di ricerca (ad esempio, 'id' per '{id}').
+        //   • '[^/]+', all'interno del gruppo, indica che si catturano uno o più caratteri qualsiasi
+        //     tranne il carattere '/', per evitare di includere separatori di directory.
+        //
+        // Esempio: se $route['uri'] è '/progetto/{NomePerogetto}', dopo preg_replace diventa:
+        // '/progetto/(?P<nomeProgetto>[^/]+)'
+        $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $route['uri']);
 
-        return require percorso_base($route['controller']);
-      }
+        // Aggiunge delimitatori e ancoraggi all'espressione regolare:
+        // - I delimitatori '#' racchiudono il pattern per la sintassi della regex in PHP.
+        // - '^' ancorato all'inizio e '$' alla fine garantiscono che l'intera stringa URI
+        //   debba corrispondere esattamente al pattern.
+        // Il risultato finale è, ad esempio: '#^/progetti/(?P<nomeProgetto>[^/]+)$#'
+        $pattern = '#^' . $pattern . '$#';
+        
+        if (preg_match($pattern, $uri) && $route['metodo'] === strtoupper($metodo)) {
+  
+          Middleware::risolvi($route['middleware']);
+  
+          return require percorso_base($route['controller']);
+        }
     }
     
-    abort(); // Se non viene trovata una route, genera un errore 404
+    abort(); 
   }
+
   
   /**
    * Associa un middleware all'ultima route aggiunta.

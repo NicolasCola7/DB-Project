@@ -34,6 +34,7 @@ $router->get('/ottieni-statistiche', 'app/controllers/statistiche/visualizzaStat
 $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti', 'app/controllers/i-miei-progetti/i-miei-progetti.controller.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/informazioni', 'app/controllers/i-miei-progetti/info-progetto.controller.php')->soloSe('creatore');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
