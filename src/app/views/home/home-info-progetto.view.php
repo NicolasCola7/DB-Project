@@ -43,7 +43,7 @@
             border-radius: 5px;
             color: #555;
         }
-        .infoContainer, .componentiContainer, .contenitoreProfili{
+        .infoContainer, .componentiContainer, .contenitoreProfili, .contenitoreCommenti{
             padding: 10px;
             border: 1px solid #555;
             border-radius: 10px;
@@ -62,6 +62,13 @@
         .componentiContainer table th{
             background-color: black;
             color: white;
+        }
+        a{
+            text-decoration: none;
+            color: #0077cc;
+        }
+        a:hover{
+            text-decoration:underline;
         }
     </style>
 </head>
@@ -101,6 +108,7 @@
                 stampaCaratteristiche(progetto);
                 stampaComponenti(componenti);
                 creaComponenteProfili(progetto.nome);
+                visualizzaCommenti(progetto.nome);
             }catch(error){
                 console.log(error);
             }
@@ -236,6 +244,23 @@
             a.textContent = "Visualizza i profili disponibili per questo progetto";
             let encodedNomeProgetto = encodeURIComponent(nomeProg);
             a.href=`/home/info-progetto/profili?nomeProgetto=${encodedNomeProgetto}`;
+            div.appendChild(h4);
+            div.appendChild(a);
+
+            main.appendChild(div);
+        }
+        function visualizzaCommenti(nomeProg){
+            console.log("aa");
+            let div = document.createElement("div");
+            div.classList.add("contenitoreCommenti");
+
+            let h4 = document.createElement("h4");
+            h4.textContent = "Commenti pubblicati";
+
+            let a = document.createElement("a");
+            a.textContent = "Visualizza i commenti pubblicati per questo progetto";
+            let encodedNomeProgetto = encodeURIComponent(nomeProg);
+            a.href=`/home/info-progetto/commenti?nomeProgetto=${encodedNomeProgetto}`;
             div.appendChild(h4);
             div.appendChild(a);
 
