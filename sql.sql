@@ -828,20 +828,26 @@ CALL CreazioneProgetto('DriveSenseAI', '25-9-2', 'Progetto software innovativo p
 CALL CreazioneProgetto('SmartCoffeeAI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
 CALL CreazioneProgetto('PulseTech', '2025-05-10', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 300000.00, 'Hardware', 'giulia.bianchi2@email.com', @esito);
 
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/foto/progetto1.webp');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/foto/progetto2.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/foto/progetto3.jpg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine caffè smart', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/foto/progetto4.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', 'public/immagini/progetti/PulseTech/foto/progetto5.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto1.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto2.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine drive sense', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto3.jpeg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/fotoProgetto/progetto4.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo SmartCoffeAI', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/fotoProgetto/progetto5.jpeg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto6.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine dispositivo pulsetech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto7.webp');
 
 CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffeeAI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
 CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffeeAI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);
 CALL InserimentoComponenteHardware('Sensore Salute Avanzato', 'PulseTech', 'Chip biometrico per monitoraggio fitness', '200.00', '15', @esito);
 
-CALL CreazioneReward('reward1.jpg', 'T-shirt esclusiva1', 'DriveSenseAI', @esito);
-CALL CreazioneReward('reward2.jpg', 'T-shirt esclusiva2', 'DriveSenseAI', @esito);
-CALL CreazioneReward('reward3.jpg', 'T-shirt esclusiva3', 'DriveSenseAI', @esito);
-CALL CreazioneReward('reward4.jpg', 'T-shirt esclusiva4', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward1.webp', 'buono sconto amazon', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward3.png', 'buono sconto unieuro', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward4.jpg', 'buono sconto conad', 'SmartCoffeeAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'SmartCoffeeAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'SmartCoffeeAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward1.webp', 'buono sconto amazon', 'PulseTech', @esito);
+CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward2.avif', 'buono sconto sephora', 'PulseTech', @esito);
+CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward5.jpg', 'buono sconto adidas', 'PulseTech', @esito);
 
 CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
 CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSenseAI');
