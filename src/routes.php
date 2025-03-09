@@ -35,6 +35,9 @@ $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inseri
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti', 'app/controllers/i-miei-progetti/i-miei-progetti.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/informazioni', 'app/controllers/i-miei-progetti/info-progetto.controller.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/i-miei-progetti/vedi-profili.controller.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/skills-richieste', 'app/controllers/i-miei-progetti/skills-profilo.controller.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/i-miei-progetti/candidature-profilo.controller.php')->soloSe('creatore');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');

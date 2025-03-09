@@ -113,7 +113,7 @@
             <?php else: ?>
                 <div class='contenitoreProfili'>
                     <h4> Profili richiesti </h4>
-                    <a href='/home/i-miei-progetti/<?= $progetto['nome'] ?>/profili'>
+                    <a href='/home/i-miei-progetti/<?= urlencode($progetto['nome']) ?>/profili'>
                         Profili richiesti per questo progetto
                     </a>
                 </div>
