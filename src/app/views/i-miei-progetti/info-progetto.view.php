@@ -72,175 +72,56 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <h3>Dettagli del progetto</h3>
+            <h3>Dettagli del progetto <?= $progetto['nome']; ?> </h3>
+            <div class='infoContainer'>
+                <h4> Informazioni </h4>
+                <p> Data di inserimento: <?= $progetto['data_inserimento']; ?> </p>
+                <p> Data di fine: <?= $progetto['data_limite']; ?> </p>
+                <div class='descrizione-container'>
+                    <p> Descrizione: </p>
+                    <textarea readonly> <?= $progetto['descrizione']; ?> </textarea>
+                </div>
+                <p> Stato: <?= $progetto['stato'] ?> </p>
+                <p> Tipo: <?= $progetto['tipo'] ?> </p>
+                <p> Budget d'avvio: <?= $progetto['budget'] ?> EUR </p>
+                <p> Finaziamenti ricevuti: <?= $progetto['finanziamenti'] ?> EUR </p>
+            </div>
+            <?php if($progetto['tipo'] === 'Hardware'): ?>
+                <div class='componentiContainer'>
+                    <h4> Componenti </h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th> Nome </th>
+                                <th> Prezzo </th>
+                                <th> Descrizione </th>
+                                <th> Quantità </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($progetto['componenti'] as $componente): ?>
+                                <tr>
+                                    <td> <?= $componente['nome']; ?> </td>
+                                    <td> <?= $componente['prezzo']; ?> </td>
+                                    <td> <?= $componente['descr']; ?> </td>
+                                    <td> <?= $componente['quantita']; ?> </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php else: ?>
+                <div class='contenitoreProfili'>
+                    <h4> Profili richiesti </h4>
+                    <a href='/home/i-miei-progetti/<?= $progetto['nome'] ?>/profili'>
+                        Profili richiesti per questo progetto
+                    </a>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded",function(){
-        const main = document.getElementsByClassName("contenutoMain")[0];
-        //recupero il nome del progetto dall'url
-        const urlParam = new URLSearchParams(window.location.search);
-        const nomeProgetto = urlParam.get('nome');
-        getInfoProgetto();
 
-        async function getInfoProgetto(){
-            try{
-                //eseguo una chiamata asincrona get all'url specificato inserendo un parametro in get (nome del progetto)
-                const risposta = await axios.get("/home/info-progetto-controller", {
-                    params: { nome: nomeProgetto }
-                });
-                //la risposta è un array di oggetti json che contengono le informazioni del progetto
-                //il primo oggetto contiene le caratteristiche del progetto
-                let progetto = risposta.data[0][0];
-                //il secondo contiene le componenti del progetto
-                let componenti = risposta.data[1];
-                stampaCaratteristiche(progetto);
-                stampaComponenti(componenti);
-                creaComponenteProfili(progetto.nome);
-            }catch(error){
-                console.log(error);
-            }
-        }
-        //stampo a video le caratteristiche del progetto
-        function stampaCaratteristiche(p){
-            let titolo = document.querySelector("h3");
-            titolo.textContent = titolo.textContent +" "+ p.nome;
-
-            //creo un contenitore che conterrà tutte le info appartenenti alle caratteristiche del progetto
-            let infoContainer = document.createElement("div");
-
-            let titolo2 = document.createElement("h4");
-            titolo2.textContent = "Informazioni";
-            infoContainer.appendChild(titolo2);
-            infoContainer.classList.add("infoContainer");
-
-            //data inserimento
-            let dataInserimento = document.createElement("p");
-            dataInserimento.textContent = "Data di inserimento: "+p.data_inserimento;
-            infoContainer.appendChild(dataInserimento);
-
-            //data limite
-            let dataFine = document.createElement("p");
-            dataFine.textContent = "Data di fine: "+p.data_limite;
-            infoContainer.appendChild(dataFine);
-
-            //descrizione
-            let descrContainer = document.createElement("div");
-            descrContainer.classList.add("descrizione-container");            
-            let descr = document.createElement("textarea");
-            let par = document.createElement("p");
-            descr.readOnly = true;
-            par.textContent = "Descrizione: ";
-            descr.textContent = p.descr;
-            descrContainer.appendChild(par);
-            descrContainer.appendChild(descr);
-            infoContainer.appendChild(descrContainer);
-            
-            //stato
-            let stato = document.createElement("p");
-            stato.textContent = "Stato: "+p.stato;
-            infoContainer.appendChild(stato);
-
-            let tipo = document.createElement("p");
-            tipo.textContent = "Tipologia: "+p.tipoProgetto;
-            infoContainer.appendChild(tipo);
-
-            //budget
-            let budget = document.createElement("p");
-            budget.textContent = "Budget d'avvio: "+p.budget_avvio+" EUR";
-            infoContainer.appendChild(budget);
-
-            //somma finanziamenti ricevuti
-            let fin = document.createElement("p");
-            fin.textContent = "Somma finanziamenti ricevuti: "+p.sommaFinRicevuti+" EUR";
-            infoContainer.appendChild(fin);
-
-            //creatore
-            let creatore = document.createElement("p");
-            creatore.textContent = "Utente creatore: "+p.nomeC +" "+p.cognomeC;
-            infoContainer.appendChild(creatore);
-
-            //email creatore
-            let emailC = document.createElement("p");
-            emailC.textContent = "Email: "+p.emailCreatore;
-            infoContainer.appendChild(emailC);
-
-            main.appendChild(infoContainer);
-        }
-        function stampaComponenti(componenti){
-            if(componenti.length !== 0){
-                let componentiContainer = document.createElement("div");
-                componentiContainer.classList.add("componentiContainer");
-
-                let titolo = document.createElement("h4");
-                titolo.textContent = "Componenti";
-                componentiContainer.appendChild(titolo);
-
-                let tabella = document.createElement("table");
-                let tr = document.createElement("tr");
-
-                let th1 = document.createElement("th");
-                th1.textContent = "Nome"
-                let th2 = document.createElement("th");
-                th2.textContent = "Prezzo";
-                let th3 = document.createElement("th");
-                th3.textContent = "Descrizione";
-                let th4 = document.createElement("th");
-                th4.textContent = "Quantità";
-
-                tr.appendChild(th1);
-                tr.appendChild(th2);
-                tr.appendChild(th3);
-                tr.appendChild(th4);
-
-                tabella.appendChild(tr);
-                componenti.forEach(c => {
-                    let tr = document.createElement("tr");
-
-                    let td1 = document.createElement("td");
-                    td1.textContent = c.nome;
-                    let td2 = document.createElement("td");
-                    td2.textContent = c.prezzo;
-                    let td3 = document.createElement("td");
-                    td3.textContent = c.descr;
-                    let td4 = document.createElement("td");
-                    td4.textContent = c.quantita;
-
-                    tr.appendChild(td1);
-                    tr.appendChild(td2);
-                    tr.appendChild(td3);
-                    tr.appendChild(td4);
-
-                    tabella.appendChild(tr);
-                })
-
-                componentiContainer.appendChild(tabella);
-                main.appendChild(componentiContainer);
-            }else{
-                let p = document.createElement("p");
-                p.textContent = "Non sono presenti componenti per questo profilo";
-            }
-        }
-        async function creaComponenteProfili(nomeProg){
-            let div = document.createElement("div");
-            div.classList.add("contenitoreProfili");
-
-            let h4 = document.createElement("h4");
-            h4.textContent = "Profili disponibili";
-
-            let a = document.createElement("a");
-            a.textContent = "Visualizza i profili disponibili per questo progetto";
-            let encodedNomeProgetto = encodeURIComponent(nomeProg);
-            a.href=`/home/info-progetto/profili?nomeProgetto=${encodedNomeProgetto}`;
-            div.appendChild(h4);
-            div.appendChild(a);
-
-            main.appendChild(div);
-        }
-    })
-</script>
 </html>
