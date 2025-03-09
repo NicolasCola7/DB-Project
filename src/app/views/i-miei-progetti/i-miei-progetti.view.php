@@ -82,7 +82,7 @@
         
         <div class="contenutoMain">
             <?php if(!empty($_SESSION['utente']['progetti']) && is_array($_SESSION['utente']['progetti'])): ?>
-                <h3>Ecco i progetti disponibili</h3>
+                <h3>Ecco i tuoi progetti </h3>
                 <div class="grid">
                     <?php foreach ($_SESSION['utente']['progetti'] as $project): ?>
                         <a href="/home/i-miei-progetti/<?= urlencode($project['NomeProgetto']) ?>/informazioni">

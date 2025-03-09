@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="info">
                                     <p><?= htmlspecialchars($project['NomeProgetto'])?>, 
-                                    <?= htmlspecialchars($project['NomeCreatore'])?> <?= htmlspecialchars($project['cognome'])?>, 
+                                    <?= htmlspecialchars($project['nickname'])?>, 
                                     <?= htmlspecialchars($project['stato'])?></p>
                                 </div>
                                 <div class="azioni">
