@@ -19,22 +19,28 @@
         }
         .card {
             width: 300px;
-            height: 250px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
+            height: 270px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
             display: flex;
             flex-direction: column;
             text-align: center;
             background: #fff;
             margin-top: 15px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
         }
 
         .card .img {
             width: 100%;
             height: 150px;
             background: #f0f0f0;
+            position: relative;
         }
 
         .card .img img {
@@ -43,32 +49,66 @@
             object-fit: cover;
         }
 
+        #stato {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: white;
+            font-size: 12px;
+        }
+
+        .stato-aperto {
+            background: #28a745; /* Verde */
+        }
+
+        .stato-chiuso {
+            background: #dc3545; /* Rosso */
+        }
+
         .card .info {
-            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
             font-size: 14px;
             font-weight: bold;
             color: #333;
+            border-top: 1px solid #ddd;
+        }
+
+        .card .info div {
+            flex: 1;
+            text-align: center;
         }
 
         .card .azioni {
             display: flex;
-            justify-content: space-around;
-            padding: 10px;
+            flex-direction: column;
+            border-top: 1px solid #ddd;
+            background: #f9f9f9;
         }
 
         .card .azioni button {
             background: #007bff;
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 0;
             cursor: pointer;
             transition: background 0.3s;
+            width: 100%;
         }
 
         .card .azioni button:hover {
             background: #0056b3;
         }
+
         a{
             text-decoration: none;
         }
@@ -91,9 +131,16 @@
                                     <img src="<?= !empty($project['urlImmagine']) ? '../'.htmlspecialchars($project['urlImmagine']) : '/public/immagini/default.avif' ?>" alt="Foto del progetto" >
                                 </div>
                                 <div class="info">
-                                    <p><?= htmlspecialchars($project['NomeProgetto'])?>, 
-                                    <?= htmlspecialchars($project['nickname'])?>, 
-                                    <?= htmlspecialchars($project['stato'])?></p>
+                                    <div id="nomeProgetto">
+                                        <p><?= htmlspecialchars($project['NomeProgetto'])?>
+                                    </div> 
+                                    <div id="nickname">
+                                        <p><?= htmlspecialchars($project['nickname'])?>
+                                    </div> 
+                                    <div id="stato" class="<?= $project['stato'] === 'aperto' ? 'stato-aperto' : 'stato-chiuso' ?>">
+                                        <p><?= htmlspecialchars($project['stato']) ?></p>
+                                    </div>
+
                                 </div>
                                 <div class="azioni">
                                     <form action='' method='POST'>

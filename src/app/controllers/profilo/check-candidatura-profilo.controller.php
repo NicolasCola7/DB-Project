@@ -37,7 +37,17 @@ if(isset($_GET['nomeProgetto']) && isset($_GET['nomeProfilo']) && isset($_GET['e
                                     )
                                     ORDER BY Sk_l.nomeSkill;", 
         [":nomeProfilo" => $nomeProfilo, ":nomeProgetto" => $nomeProgetto, ":email" => $emailCandidato]);
-    echo json_encode([$info_candidato,$sk_possedute,$sk_richieste, $sk_posseduteExtra]);
+    //query che mi restituisce true se non esiste alcuna candidatura aperta di un certo utente, per un certo profilo e per un certo progetto
+    $candidaturaGiaPresente = $db->query("SELECT NOT EXISTS (
+                                        SELECT 1 
+                                        FROM Candidatura C
+                                        WHERE C.stato = 'aperta' 
+                                        AND C.emailUtente = :email
+                                        AND C.nomeProfilo = :nomeProfilo
+                                        AND C.nomeProgetto = :nomeProgetto
+                                    ) AS risultato",
+        [":nomeProfilo" => $nomeProfilo, ":nomeProgetto" => $nomeProgetto, ":email" => $emailCandidato]);
+    echo json_encode([$info_candidato,$sk_possedute,$sk_richieste, $sk_posseduteExtra, $candidaturaGiaPresente]);
 }else{
     echo 'Errore: Nessun progetto specificato.';
 }

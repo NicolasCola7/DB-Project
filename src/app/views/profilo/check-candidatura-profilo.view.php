@@ -128,11 +128,20 @@
             const skillPossedute = dati[1];
             const skillRichieste = dati[2];
             const skillExtra = dati[3];
+            const noCandidatureGiaAperte = dati[4][0];
 
             stampaDatiCandidato(infoCandidato);
             stampaSkillProfilo(skillPossedute,skillRichieste);
             stampaSkillExtra(skillExtra);
-            postDecisione(infoCandidato.nome, infoCandidato.cognome);
+            console.log(noCandidatureGiaAperte);
+            //permetto di accettare una candidatura solo se ancora non lo è stato fatto
+            if(!noCandidatureGiaAperte.risultato){
+                postDecisione(infoCandidato.nome, infoCandidato.cognome);
+            }else{
+                let p = document.createElement("p");
+                p.textContent = "Questa candidatura è già stata esaminata.";
+                main.appendChild(p);
+            }
         }
         function stampaDatiCandidato(infoCandidato){
             let divInfo = document.createElement("div");
