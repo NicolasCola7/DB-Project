@@ -1,7 +1,7 @@
 <?  
 
-// Recupero in neme della skill passato nella query string dell'url
-$daEliminare = $_GET['nomeSkill'];
+// Recupero in neme della skill passato nell'url
+$daEliminare = urldecode(explode('/', $_SERVER['REQUEST_URI'])[6]);
 
 foreach ($_SESSION['creazione-progetto']['skills-richieste'] as $key => $skill) {
     if ($skill['nomeSkill'] === $daEliminare) {

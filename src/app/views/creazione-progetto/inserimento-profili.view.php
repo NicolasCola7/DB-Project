@@ -497,14 +497,24 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                             <div class='skills-aggiunte'>
                                 <span> <?= $skill['nomeSkill']; ?> </span>
                                 <span> <?= $skill['livello']; ?> </span>
-                                <button onclick="eliminaSkill('<?= $skill['nomeSkill']; ?>')" id='elimina'> - </button>
+                                <form action='/home/crea-progetto/software/profili/skills/<?= $skill['nomeSkill']; ?>' method='POST'>
+                                    <input type='hidden' name='_metodo' value='DELETE'>
+                                    <button type='submit' id='elimina'> - </button>
+                                </form>
                             </div>
                         <?php endforeach;  ?>
                      </div>
 
                     <form action='/home/crea-progetto/software/profili/skills' method='POST'>
                         <select id='skill-disponibili' name='nome-skill' required >
-                        
+                            <option value="" disabled selected>Scegli una skill</option>
+                            <?php if(count($skills) > 0): ?>
+                                <?php foreach($skills as $skill): ?>
+                                    <option name='<?= $skill['nome']; ?>'>
+                                        <?= $skill['nome']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </select>
                         
                         <select required name='livello'>
@@ -534,10 +544,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let dialog = document.getElementById('skill-requisito');
-    let disponibili = document.getElementById('skill-disponibili');
     let aggiungiProfiloBtn = document.getElementById('aggiungi');
     let formProfilo = document.getElementById('profilo');
     let nomeProfilo = document.getElementsByName('nome')[0];
@@ -551,7 +559,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         }
 
         if (window.location.pathname === `/home/crea-progetto/software/profili/skills`) {
-            getSkillDisponibili();
             dialog.showModal();
         }
     });
@@ -561,51 +568,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         window.location.href = '/home/crea-progetto/software/profili';
     }
 
-    function apriDialog() {
-        getSkillDisponibili();
+    window.apriDialog = function() {
         window.location.href = `/home/crea-progetto/software/profili/skills`;
-    }
-
-    async function getSkillDisponibili() {
-        try {
-            const risposta = await axios.get("/admin/ottieni-skills");
-            let skills = risposta.data;
-            
-            if(skills) {
-                popolaDisponibili(skills);
-            }
-        } catch(error) {
-            console.log(error);
-        }
-    }
-
-    function popolaDisponibili(skills) {
-        disponibili.innerHTML = '';
-        
-        //aggiungo la prima opzione disabilitata e selezionata
-        let defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.textContent = 'Scegli una skill';
-        disponibili.appendChild(defaultOption);
-        
-        skills.forEach(skill => {
-            
-            let option = document.createElement('option');
-            option.name = skill.nome;
-            option.textContent = skill.nome;
-            disponibili.appendChild(option);
-        });
-    }
-
-    async function eliminaSkill(nomeSkill) {
-        try {
-            let risultato = await axios.delete(`/home/crea-progetto/software/profili/skills?nomeSkill=${encodeURIComponent(nomeSkill)}`);
-            window.location.reload();
-        } catch(error) {
-            console.log(error);
-        }
     }
 
     function prosegui() {

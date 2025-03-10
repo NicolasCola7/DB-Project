@@ -24,9 +24,8 @@ $router->get('/home/info-progetto/profilo/check-candidatura', 'app/views/profilo
 $router->get('/home/info-progetto/profilo/check-candidatura-controller', 'app/controllers/profilo/check-candidatura-profilo.controller.php')->soloSe('autenticato');
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/software/profili', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/software/profili/skills', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
-//$router->get('/home/c', 'app/controllers/creazione-progetto/software/ottieni-skills.controller.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto.view.php')->soloSe('creatore');
 $router->get('/home/visualizzaStatistiche','app/views/statistiche/visualizzaStatistiche.view.php')->soloSe('autenticato');
 $router->get('/ottieni-statistiche', 'app/controllers/statistiche/visualizzaStatistiche.controller.php')->soloSe('autenticato');
@@ -62,6 +61,6 @@ $router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-pr
 //DELETE
 $router->delete('/home/le-mie-skill/{nomeSkill}', 'app/controllers/skills/non-admin/elimina-skill.controller.php')->soloSe('autenticato');
 $router->delete('/admin/home/gestione-skills/{nomeSkill}',  'app/controllers/skills/admin/elimina-skill.controller.php')->soloSe('admin');
-$router->delete('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/elimina-skill-richiesta.controller.php')->soloSe('creatore');
+$router->delete('/home/crea-progetto/software/profili/skills/{nomeSkill}', 'app/controllers/creazione-progetto/software/elimina-skill-richiesta.controller.php')->soloSe('creatore');
 $router->delete('/home/crea-progetto/annulla', 'app/controllers/creazione-progetto/elimina-dati.controller.php')->soloSe('creatore');
 //PATCH
