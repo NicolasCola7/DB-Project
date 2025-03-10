@@ -12,7 +12,6 @@ $router->get('/home/visualizza-progetti-controller','app/controllers/home/home-v
 $router->get('/home/info-progetto','app/views/home/home-info-progetto.view.php')->soloSe('autenticato');
 $router->get('/home/info-progetto-controller','app/controllers/home/home-info-progetto.controller.php')->soloSe('autenticato');
 $router->get('/home/le-mie-skill', 'app/controllers/skills/non-admin/ottieni-skill.controller.php')->soloSe('autenticato');
-
 $router->get('/admin/home/gestione-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('admin');
 $router->get('/home/info-progetto/profili', 'app/views/profilo/view-profili.view.php')->soloSe('autenticato');
 $router->get('/home/info-progetto/profili-controller', 'app/controllers/profilo/view-profili.controller.php')->soloSe('autenticato');

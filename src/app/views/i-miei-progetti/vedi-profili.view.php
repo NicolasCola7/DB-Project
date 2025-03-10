@@ -83,8 +83,8 @@
                     <div class='divProfilo'>
                         <p class='nome-profilo'> <?= $profilo['nome'] ?> </p>
                         <p> <?= $profilo['numero_posizioni'] ?> posizioni disponibili </p>
-                        <button class='dettagli' > Vedi Dettagli </button>
-                        <button class='candidature' > Visualizza Candidature </button>
+                        <button class='dettagli' onclick="vediDettagli('<?= $profilo['nome'] ?>')"> Vedi Dettagli </button>
+                        <button class='candidature' onclick="vediCandidature('<?= $profilo['nome'] ?>')"> Visualizza Candidature </button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -98,21 +98,15 @@
 
 <script>
     const nomeProgetto = document.getElementById('nomeProgetto').textContent;
-    const profili = document.getElementsByClassName('divProfilo');
     
-    for (var i = 0; i < profili.length; i++) {
-        const nomeProfilo = document.getElementsByClassName('nome-profilo')[i].textContent;
-        const dettagliBtn = document.getElementsByClassName('dettagli')[i];
-        const candidatureBtn = document.getElementsByClassName('candidature')[i];
-
-        dettagliBtn.addEventListener('click', event => {
-            window.location.href =  `/home/i-miei-progetti/${encodeURIComponent(nomeProgetto)}/profili/${encodeURIComponent(nomeProfilo)}/skills-richieste`;
-        });
-
-        candidatureBtn.addEventListener('click', event => {
-            window.location.href =`/home/i-miei-progetti/${encodeURIComponent(nomeProgetto)}/profili/${encodeURIComponent(nomeProfilo)}/candidature `;;
-        });
+    function vediDettagli(nomeProfilo){
+        window.location.href =  `/home/i-miei-progetti/${encodeURIComponent(nomeProgetto)}/profili/${encodeURIComponent(nomeProfilo)}/skills-richieste`;
     }
+
+    function vediCandidature(nemeProfilo) {
+        window.location.href =`/home/i-miei-progetti/${encodeURIComponent(nomeProgetto)}/profili/${encodeURIComponent(nomeProfilo)}/candidature `;;
+    }
+    
 </script>
 
 </html>
