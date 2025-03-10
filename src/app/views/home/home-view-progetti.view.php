@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Home</title>
-    <style>
+    <style>        
         .contenutoMain {
             margin: 20px;
         }
@@ -14,12 +14,12 @@
         .grid{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            gap: 10px;
             justify-content: center;
         }
         .card {
-            width: 300px;
-            height: 270px;
+            width: 270px;
+            height: 240px;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
@@ -38,7 +38,7 @@
 
         .card .img {
             width: 100%;
-            height: 150px;
+            height: 130px;
             background: #f0f0f0;
             position: relative;
         }
@@ -73,8 +73,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px;
-            font-size: 14px;
+            padding: 10px;
+            font-size: 13px;
             font-weight: bold;
             color: #333;
             border-top: 1px solid #ddd;
@@ -83,6 +83,27 @@
         .card .info div {
             flex: 1;
             text-align: center;
+            position: relative;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .card .info div:hover .tooltip {
+            opacity: 1;
         }
 
         .card .azioni {
@@ -96,8 +117,8 @@
             background: #007bff;
             color: white;
             border: none;
-            padding: 12px;
-            font-size: 16px;
+            padding: 10px;
+            font-size: 15px;
             font-weight: bold;
             border-radius: 0;
             cursor: pointer;
