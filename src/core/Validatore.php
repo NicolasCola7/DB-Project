@@ -71,7 +71,7 @@ class Validatore {
     }
 
     static function estensioneValida($estensione) {
-        $ESTENSIONI_VALIDE = array('jpg', 'jpeg', 'png');
+        $ESTENSIONI_VALIDE = array('jpg', 'jpeg', 'png', 'webp', 'avif');
 
         return in_array($estensione, $ESTENSIONI_VALIDE);
     }

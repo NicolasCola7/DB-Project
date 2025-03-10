@@ -62,7 +62,7 @@
         <div class="file-drop-area">
             <span class="fake-btn">Scegli un file</span>
             <span class="file-msg">o alternativamente trascinane uno qui</span>
-            <input class="file-input" name='foto' type="file" accept="image/png, image/jpeg, image/jpg" required>
+            <input class="file-input" name='foto' type="file" accept="image/png, image/jpeg, image/jpg, image/webp, image/avif" required>
         </div>
    
 
