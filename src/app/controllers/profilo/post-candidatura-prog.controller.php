@@ -23,8 +23,11 @@ if(isset($_POST['nomeProgetto']) && isset($_POST['nomeProfilo'])){
     }else if ($esito === 1){
         $_SESSION['utente']['esito_candidatura'] = "Candidatura inviata con successo!";
         unset($_SESSION['utente']['errore_candidatura']);
-    }else{
+    }else if ($esito === 2){
         $_SESSION["utente"]["errore_candidatura"] = "Hai già inviato una candidatura per questo profilo che non è stata ancora visionata.";
+        unset($_SESSION['utente']['esito_candidatura']); 
+    }else {
+        $_SESSION["utente"]["errore_candidatura"] = "Hai già inviato una candidatura per questo profilo che è già stata accettata.";
         unset($_SESSION['utente']['esito_candidatura']); 
     }
 

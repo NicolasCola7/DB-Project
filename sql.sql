@@ -201,6 +201,12 @@ BEGIN
 	UPDATE Creatore SET num_progetti = num_progetti + 1 WHERE emailCreatore = NEW.emailCreatore;
 END;
 $ DELIMITER ;
+DELIMITER $
+CREATE TRIGGER DecrementaNumeroPosizioni AFTER INSERT ON Candidatura FOR EACH ROW
+BEGIN
+	UPDATE Profilo SET numero_posizioni = numero_posizioni - 1 WHERE nome = NEW.nomeProfilo and nomeProgetto = NEW.nomeProgetto;
+END ;
+$ DELIMITER ;
 
 DELIMITER $
 CREATE EVENT CambiaStatoProgetto on schedule every 1 day starts date_format(curdate(), '%Y-%m-%d 00:00:00') do
@@ -455,6 +461,8 @@ BEGIN
 	declare correttezzaNomeEProgetto boolean;
     declare correttezzaEmail boolean;
     declare candidaturaGiaPresente boolean default false;
+    declare candidaturaGiaAccettata boolean default false;
+    declare postiDisponibili boolean default true;
 
     -- variabili da usare in fase di controllo della correttezza della candidatura
     declare livelloRichiesto int;
@@ -482,8 +490,28 @@ BEGIN
                                     C.nomeProgetto = nomeProgettoI and
                                     C.emailUtente = emailUtenteI and
                                     C.stato = 'aperta') > 0;
-
-    if(correttezzaNomeEProgetto and correttezzaEmail and not candidaturaGiaPresente) then
+	-- non deve esistere nel db una candidatura identica già accettata
+    set candidaturaGiaAccettata = (SELECT count(*) from Candidatura C where
+                                    C.nomeProfilo = nomeProfiloI and
+                                    C.nomeProgetto = nomeProgettoI and
+                                    C.emailUtente = emailUtenteI and
+                                    C.stato = 'chiusa' and C.accettata = 1) > 0;
+	-- per poter candidarsi a un profilo ci devono essere dei posti ancora disponibili
+    set postiDisponibili = (SELECT count(*) from Profilo P
+							where P.nome = nomeProfiloI and
+                            P.nomeProgetto = nomeProgettoI and
+                            P.numero_posizioni > 0) > 0;
+                            
+	-- se la candidatura è già presente ritorno dei codici di errori che mi serviranno per mostrare messaggi personalizzati all'utente
+	if(candidaturaGiaPresente) then
+		set esito = 2;
+	end if;
+	
+    if(candidaturaGiaAccettata) then
+		set esito =  3;
+	end if;
+    
+    if(correttezzaNomeEProgetto and correttezzaEmail and not candidaturaGiaPresente and not candidaturaGiaAccettata and postiDisponibili) then
         -- inizia il ciclo che scorre tutte le skill possedute 
         open cursore_skillRichiestaProfilo;
 
@@ -517,8 +545,6 @@ BEGIN
 		else
 			SET esito = 0;
         end if;
-	else
-		SET esito = 2;
     end if;
 END;
 $ DELIMITER ;

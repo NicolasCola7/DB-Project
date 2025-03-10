@@ -129,11 +129,11 @@
             const skillRichieste = dati[2];
             const skillExtra = dati[3];
             const noCandidatureGiaAperte = dati[4][0];
+            const noIdoneita = dati[5][0];
 
             stampaDatiCandidato(infoCandidato);
-            stampaSkillProfilo(skillPossedute,skillRichieste);
+            stampaSkillProfilo(skillPossedute,skillRichieste, noIdoneita);
             stampaSkillExtra(skillExtra);
-            console.log(noCandidatureGiaAperte);
             //permetto di accettare una candidatura solo se ancora non lo è stato fatto
             if(!noCandidatureGiaAperte.risultato){
                 postDecisione(infoCandidato.nome, infoCandidato.cognome);
@@ -177,7 +177,7 @@
             divInfo.appendChild(createInfoField("Anno di nascita:", infoCandidato.anno_nascita));
         }
         //metodo che stampa le skill
-        function stampaSkillProfilo(skillPossedute,skillRichieste){
+        function stampaSkillProfilo(skillPossedute,skillRichieste,noIdoneita){
             let skillDiv = document.createElement("div");
             skillDiv.classList.add("divInfo");
             main.appendChild(skillDiv);
@@ -185,7 +185,13 @@
             let h4 = document.createElement("h4");
             h4.textContent = "Skill richieste";
             skillDiv.appendChild(h4);
-
+            
+            //se l'utente non è più idoneo al profilo lo segnalo al creatore
+            if(noIdoneita.isQualified === 'FALSE'){
+                let p = document.createElement("p");
+                p.textContent = "Il candidato a seguito dell'invio della candidatura ha modificato le sue skill diventando non idoneo al profilo";
+                skillDiv.appendChild(p);
+            }
             
             let table = document.createElement("table");
             let tr = document.createElement("tr");

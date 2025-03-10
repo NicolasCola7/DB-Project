@@ -101,13 +101,15 @@
                 const risposta = await axios.get("/home/info-progetto/profilo-controller", {
                     params: { nomeProgetto: nomeProgetto, nomeProfilo: nomeProfilo}
                 });
-                let skill = risposta.data;
-                stampaSkill(skill, nomeProfilo);
+                console.log(risposta.data);
+                let skill = risposta.data[0];
+                let postiDisponibili = risposta.data[1]
+                stampaSkill(skill, postiDisponibili, nomeProfilo);
             }catch(error){
                 console.log(error);
             }
         }
-        function stampaSkill(skills,profilo){
+        function stampaSkill(skills, postiDisponibili, profilo){
             //stampo le skill ottenute dal database
             let h3 = document.querySelector(".contenutoMain h3");
             h3.textContent = h3.textContent + " - "+profilo;
@@ -148,52 +150,55 @@
 
             //creo un form con un solo bottone che esegue una richiesta post e chiama un controller
             //che eseguirà l'invio della candidatura
-            let form = document.createElement("form");
-            form.method = "post";
-            form.action = "/home/info-progetto/profilo-invio-candidatura";
+            console.log(postiDisponibili[0].result);
+            if(postiDisponibili[0].result == 1){
+                let form = document.createElement("form");
+                form.method = "post";
+                form.action = "/home/info-progetto/profilo-invio-candidatura";
 
-            let button = document.createElement("button");
-            button.type = "submit";
-            button.textContent = "Inserisci candidatura";
+                let button = document.createElement("button");
+                button.type = "submit";
+                button.textContent = "Inserisci candidatura";
 
-            //campi da passare al controller
-            let inputNomeProgetto = document.createElement("input");
-            inputNomeProgetto.type = "hidden";
-            inputNomeProgetto.name = "nomeProgetto";
+                //campi da passare al controller
+                let inputNomeProgetto = document.createElement("input");
+                inputNomeProgetto.type = "hidden";
+                inputNomeProgetto.name = "nomeProgetto";
 
-            let inputNomeProfilo = document.createElement("input");
-            inputNomeProfilo.type = "hidden";
-            inputNomeProfilo.name = "nomeProfilo";
+                let inputNomeProfilo = document.createElement("input");
+                inputNomeProfilo.type = "hidden";
+                inputNomeProfilo.name = "nomeProfilo";
 
-            button.addEventListener("click", function (event) {
-                event.preventDefault(); 
-                let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
-                let encodedNomeProfilo = encodeURIComponent(nomeProfilo);
-                inputNomeProgetto.value = nomeProgetto;
-                inputNomeProfilo.value = nomeProfilo;
-                //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
-                Swal.fire({
-                    title: "Sei sicuro?",
-                    text: "Vuoi inviare la tua candidatura come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "Sì, procedi!",
-                    cancelButtonText: "Annulla",
-                    customClass: {
-                        confirmButton: "my-confirm-button",
-                        cancelButton: "my-cancel-button"
-                    }
-                }).then((result) => {
-                    //se l'utente conferma faccio submit
-                    if (result.isConfirmed) {
-                        form.submit();
-                    }
-                });
-            })
-            form.appendChild(button);
-            form.appendChild(inputNomeProgetto);
-            form.appendChild(inputNomeProfilo);
-            div.appendChild(form);
+                button.addEventListener("click", function (event) {
+                    event.preventDefault(); 
+                    let encodedNomeProgetto = encodeURIComponent(nomeProgetto);
+                    let encodedNomeProfilo = encodeURIComponent(nomeProfilo);
+                    inputNomeProgetto.value = nomeProgetto;
+                    inputNomeProfilo.value = nomeProfilo;
+                    //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
+                    Swal.fire({
+                        title: "Sei sicuro?",
+                        text: "Vuoi inviare la tua candidatura come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Sì, procedi!",
+                        cancelButtonText: "Annulla",
+                        customClass: {
+                            confirmButton: "my-confirm-button",
+                            cancelButton: "my-cancel-button"
+                        }
+                    }).then((result) => {
+                        //se l'utente conferma faccio submit
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                })
+                form.appendChild(button);
+                form.appendChild(inputNomeProgetto);
+                form.appendChild(inputNomeProfilo);
+                div.appendChild(form);
+            }
 
             main.appendChild(div);
         }
