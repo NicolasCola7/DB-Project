@@ -7,8 +7,8 @@ $db = App::getContainer()->risolvi(Database::class);
 
 $email = $_SESSION['utente']['email'];
 
-// Recupero in neme della skill passato nella query string dell'url
-$daEliminare = $_GET['nomeSkill'];
+// Recupero in neme della skill passato nell'url
+$daEliminare = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 
 $parametri = [
     'email' => $email,
@@ -18,4 +18,5 @@ $parametri = [
 
 $db->procedure('RimozioneSkillCurriculum', $parametri);
 
+header('location: /home/le-mie-skill');
 exit();

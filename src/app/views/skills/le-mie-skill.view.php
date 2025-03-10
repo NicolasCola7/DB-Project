@@ -166,12 +166,31 @@
                <h2> Le mie Skill </h2>
             </header>
             <section id='skills'>
-
+                <?php if(count($skills['possedute']) > 0): ?>
+                    <?php foreach($skills['possedute'] as $posseduta): ?>
+                        <div class='skill'>
+                            <span class='nome-skill'> <?= $posseduta['nomeSkill']; ?> </span>
+                            <span class='livello-skill'> <?= $posseduta['livello']; ?> </span>
+                            <form action='/home/le-mie-skill/<?= urlencode($posseduta['nomeSkill']); ?>' method='POST'>
+                                <input type='hidden' name='_metodo' value='DELETE'>
+                                <button type='submit' class='elimina-btn'> - </button>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </section>
 
             <section id='aggiunta'>
-                <form action='/home/le-mie-skill/aggiungi' method='POST'>
+                <form action='/home/le-mie-skill' method='POST'>
                     <select id='skill-disponibili' name='nome' required >
+                        <?php if(count($skills['generali']) > 0): ?>
+                            <option value="" disabled selected>Scegli una skill</option>
+                            <?php foreach($skills['generali'] as $generale): ?>
+                                <option name='<?= $generale['nome']; ?>'>
+                                     <?= $generale['nome']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </select>
                     
                     <select required name='livello'>
@@ -207,94 +226,4 @@
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    let disponibili = document.getElementById('skill-disponibili');
-    let contenitoreSkills = document.getElementById('skills');
-    getSkillDisponibili();
-    getMieSkills();
-
-    async function getSkillDisponibili() {
-        try {
-            const risposta = await axios.get("/ottieni-skills");
-            let skills = risposta.data;
-            
-            if(skills) {
-                popolaDisponibili(skills);
-            }
-        } catch(error) {
-            console.log(error);
-        }
-    }
-
-    async function getMieSkills() {
-        try {
-            const risposta = await axios.get("/ottieni-mie-skills");
-            let skills = risposta.data;
-            
-            if(skills) {
-                popolaMie(skills);
-            }
-        } catch(error) {
-            console.log(error);
-        }
-    }
-    
-    function popolaMie(skills) {
-        contenitoreSkills.innerHTML = '';
-        
-        skills.forEach(skill => {
-            let card = document.createElement('div');
-            card.className = 'skill';
-            let nome  = document.createElement('span');
-            nome.className = 'nome-skill';
-            let  livello = document.createElement('span');
-            livello.className = 'livello-skill';
-            nome.textContent = skill.nomeSkill;
-            livello.textContent = skill.livello;
-            let rimozioneBtn = document.createElement('button');
-            rimozioneBtn.textContent = ' - ';
-            rimozioneBtn.className = 'elimina-btn';
-            rimozioneBtn.addEventListener('click', event => {
-                rimuoviSkill(nome.textContent);
-                
-            });
-            card.appendChild(nome);
-            card.appendChild(livello);
-            card.appendChild(rimozioneBtn);
-            contenitoreSkills.appendChild(card);
-        });
-    }
-
-    async function rimuoviSkill(nomeSkill){
-        try {
-            let risultato = await axios.delete(`/rimuovi-skill?nomeSkill=${encodeURIComponent(nomeSkill)}`);
-            getSkillDisponibili();
-            getMieSkills();
-        } catch(error) {
-            console.log(error);
-        }
-    }
-
-    function popolaDisponibili(skills) {
-        disponibili.innerHTML = '';
-        
-        //aggiungo la prima opzione disabilitata e selezionata
-        let defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        defaultOption.textContent = 'Scegli una skill';
-        disponibili.appendChild(defaultOption);
-        
-        skills.forEach(skill => {
-            
-            let option = document.createElement('option');
-            option.name = skill.nome;
-            option.textContent = skill.nome;
-            disponibili.appendChild(option);
-        });
-    }
-    
-</script>
 </html>

@@ -5,8 +5,8 @@ use \core\Database;
 
 $db = App::getContainer()->risolvi(Database::class);
 
-// Recupero in neme della skill passato nella query string dell'url
-$daEliminare = $_GET['nome'];
+// Recupero in neme della skill passato nell'url
+$daEliminare = urldecode(explode('/', $_SERVER['REQUEST_URI'])[4]);
 
 $parametri = [
     ':nome' => $daEliminare,
@@ -14,4 +14,4 @@ $parametri = [
 
 $db->query('DELETE FROM Skill WHERE nome = :nome', $parametri);
 
-exit();
+header('location: /admin/home/gestione-skills');

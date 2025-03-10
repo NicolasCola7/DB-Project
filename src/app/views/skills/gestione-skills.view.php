@@ -139,11 +139,21 @@
             </header>
 
             <section id='skills'>
-
+                <?php if(count($skills) > 0): ?>
+                    <?php foreach($skills as $skill): ?>
+                        <div class='skill'>
+                            <span class='nome-skill'> <?= $skill['nome']; ?> </span>
+                            <form action='/admin/home/gestione-skills/<?= urlencode($skill['nome']); ?>' method='POST'>
+                                <input type='hidden' name='_metodo' value='DELETE'>
+                                <button type='submit' class='elimina-btn'> - </button>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </section>
 
             <section id='aggiunta'>
-                <form action='/admin/home/gestione-skills/aggiungi' method='POST'>
+                <form action='/admin/home/gestione-skills' method='POST'>
                     <input type="text" name='nome' id='aggiunta' required>
                     <button type='submit' id='aggiungi-skill'> + </button>
                 </form>
@@ -164,54 +174,4 @@
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    let skillsPresenti = document.getElementById('skills');
-   
-    getSkillsPresenti();
-
-    async function getSkillsPresenti() {
-        try {
-            const risposta = await axios.get("/admin/ottieni-skills");
-            let skills = risposta.data;
-           
-            if(skills) {
-                popolaPresenti(skills);
-            }
-        } catch(error) {
-            alert('Si è verificato un errore imprevisto');
-        }
-    }
-
-    async function rimuoviSkill(nomeSkill){
-        try {
-            let risultato = await axios.delete(`/admin/rimuovi-skill?nome=${encodeURIComponent(nomeSkill)}`);
-            getSkillsPresenti();
-        } catch(error) {
-            
-            alert('Si è verificato un errore imprevisto');
-        }
-    }
-
-    function popolaPresenti(skills) {
-        skillsPresenti.innerHTML = '';
-        skills.forEach(skill => {
-            let card = document.createElement('div');
-            card.className = 'skill';
-            let nome  = document.createElement('span');
-            nome.className = 'nome-skill';
-            nome.textContent = skill.nome;
-            let rimozioneBtn = document.createElement('button');
-            rimozioneBtn.textContent = ' - ';
-            rimozioneBtn.className = 'elimina-btn';
-            rimozioneBtn.addEventListener('click', event => {
-                rimuoviSkill(nome.textContent); 
-            });
-            card.appendChild(nome);
-            card.appendChild(rimozioneBtn);
-            skillsPresenti.appendChild(card);
-        });
-    }
-    
-</script>
 </html>

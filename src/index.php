@@ -29,6 +29,9 @@ $routes = require percorso_base('routes.php');
 // Ottiene l'URI della richiesta eliminando eventuali query string
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
+//decodifico l'uri
+$uri = urldecode($uri);
+
 //controllose la richiesta sia relativa ad un file statico (css, js, png ...)
 $public = (explode('/', $uri)[1]) === 'public';
 
