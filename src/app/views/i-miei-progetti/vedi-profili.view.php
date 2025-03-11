@@ -83,8 +83,8 @@
                     <div class='divProfilo'>
                         <p class='nome-profilo'> <?= $profilo['nome'] ?> </p>
                         <p> <?= $profilo['numero_posizioni'] ?> posizioni disponibili </p>
-                        <button class='dettagli' onclick="vediDettagli('<?= $profilo['nome'] ?>')"> Vedi Dettagli </button>
-                        <button class='candidature' onclick="vediCandidature('<?= $profilo['nome'] ?>')"> Visualizza Candidature </button>
+                        <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')"> Vedi Dettagli </button>
+                    <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')"> Visualizza Candidature </button>
                     </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -97,14 +97,14 @@
 </body>
 
 <script>
-    const nomeProgetto = document.getElementById('nomeProgetto').textContent;
+    const nomeProgetto = '<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>';
     
     function vediDettagli(nomeProfilo){
-        window.location.href =  `/home/i-miei-progetti/${encodeURIComponent(nomeProgetto)}/profili/${encodeURIComponent(nomeProfilo)}/skills-richieste`;
+        window.location.href =  `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/skills-richieste`;
     }
 
-    function vediCandidature(nemeProfilo) {
-        window.location.href =`/home/i-miei-progetti/${encodeURIComponent(nomeProgetto)}/profili/${encodeURIComponent(nomeProfilo)}/candidature `;;
+    function vediCandidature(nomeProfilo) {
+        window.location.href =`/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature `;
     }
     
 </script>
