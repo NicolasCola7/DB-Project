@@ -19,7 +19,7 @@ if(isset($_POST['nomeProgetto']) && isset($_POST['nomeProfilo']) && isset($_POST
 
     //se l'esito è negativo, mostro un errore nella vista
     if($esito === 0){
-        $_SESSION["utente"]["errore_validazione"] = "Si è verificato un errore.";
+        $_SESSION["utente"]["errore_validazione"] = "L'operazione di approvazione non è andata a buon fine.";
         unset($_SESSION['utente']['esito_validazione']); 
     }else if ($esito === 1){
         $azione = '';

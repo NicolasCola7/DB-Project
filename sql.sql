@@ -202,9 +202,12 @@ BEGIN
 END;
 $ DELIMITER ;
 DELIMITER $
-CREATE TRIGGER DecrementaNumeroPosizioni AFTER INSERT ON Candidatura FOR EACH ROW
+CREATE TRIGGER DecrementaNumeroPosizioni AFTER UPDATE ON Candidatura FOR EACH ROW
 BEGIN
-	UPDATE Profilo SET numero_posizioni = numero_posizioni - 1 WHERE nome = NEW.nomeProfilo and nomeProgetto = NEW.nomeProgetto;
+	UPDATE Profilo SET numero_posizioni = numero_posizioni - 1 WHERE 
+    nome = NEW.nomeProfilo and 
+    nomeProgetto = NEW.nomeProgetto and
+    NEW.accettata = 1;
 END ;
 $ DELIMITER ;
 
@@ -709,6 +712,7 @@ BEGIN
     declare correttezzaEmail boolean;
     declare candidaturaGiaPresente boolean default false;
 	declare correttezzaSceltaCreatore boolean default false;
+    declare postiDisponibili boolean default true;
     
     -- il campo profilo deve coincidere un profilo esistente nel sistema
     set correttezzaNomeEProgetto = (SELECT count(*) from Profilo where Profilo.nome = nomeProfiloI and Profilo.nomeProgetto = nomeProgettoI) > 0;
@@ -720,20 +724,33 @@ BEGIN
                                     C.nomeProgetto = nomeProgettoI and
                                     C.emailUtente = emailUtenteI and
                                     C.stato = 'aperta') > 0;
+	-- per poter candidarsi a un profilo ci devono essere dei posti ancora disponibili
+    set postiDisponibili = (SELECT count(*) from Profilo P
+							where P.nome = nomeProfiloI and
+                            P.nomeProgetto = nomeProgettoI and
+                            P.numero_posizioni > 0) > 0;
+
 	if(sceltaCreatoreI in (0,1)) then
         set correttezzaSceltaCreatore = true;
     end if;
 
-    if(correttezzaNomeEProgetto and correttezzaEmail and correttezzaSceltaCreatore and candidaturaGiaPresente) then
-        UPDATE Candidatura C SET C.accettata = sceltaCreatoreI, C.stato = 'chiusa' where C.nomeProfilo = nomeProfiloI and 
-																	 C.nomeProgetto = nomeProgettoI and 
-                                                                     C.emailUtente = emailUtenteI and
-                                                                     C.stato = 'aperta';
-		SET esito = 1;
-    else
-		SET esito = 0;
-    end if;
-END
+    if (correttezzaNomeEProgetto and correttezzaEmail and correttezzaSceltaCreatore and candidaturaGiaPresente) then
+		IF (sceltaCreatoreI = 1 and postiDisponibili) or (sceltaCreatoreI <> 1) then
+			update Candidatura C 
+			set C.accettata = sceltaCreatoreI, C.stato = 'chiusa' 
+			where C.nomeProfilo = nomeProfiloI 
+			  and C.nomeProgetto = nomeProgettoI 
+			  and C.emailUtente = emailUtenteI 
+			  and C.stato = 'aperta';
+			  
+			set esito = 1;
+		else
+			set esito = 0;
+		end if;
+	else
+		set esito = 0;
+	end if;
+end
 $ DELIMITER ;
 
 -- Inserimento di una competenza da parte di un utente amministratore
@@ -903,9 +920,9 @@ CALL InserimentoSkillCurriculum('normal.user@email.com', 'Programmazione in pyth
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Machine Learning', 3, @esito);
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Lavorare in team', 5, @esito);
 
-CALL InserimentoProfilo('Data Scientist', 'DriveSenseAI', 3,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Software Engineer', 'DriveSenseAI', 2,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
-CALL InserimentoProfilo('Business Analyst', 'DriveSenseAI', 2,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
+CALL InserimentoProfilo('Data Scientist', 'DriveSenseAI', 1,'[{"nomeSkill":"Programmazione in python", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Software Engineer', 'DriveSenseAI', 1,'[{"nomeSkill":"Conoscenza lingua inglese", "livello": 2},{"nomeSkill":"Machine Learning", "livello": 3}]', @esito);
+CALL InserimentoProfilo('Business Analyst', 'DriveSenseAI', 1,'[{"nomeSkill":"Lavorare in team", "livello": 4}]', @esito);
 
 CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', @esito);
 CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);

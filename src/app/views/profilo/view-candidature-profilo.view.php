@@ -83,7 +83,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 Swal.fire({
-                    title: "Errore di inserimento!",
+                    title: "Posti esauriti!",
                     text: "<?php echo $_SESSION["utente"]['errore_validazione']; ?>",
                     icon: "error",
                     confirmButtonText: "OK"
