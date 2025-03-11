@@ -2,10 +2,29 @@
 <html>
 <head>
     <title>Home</title>
-    <style>        
+    <style>
+        html, body {
+            height: 100vh; /* Assicura che il body occupi tutta l'altezza dello schermo */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Evita lo scrolling dell'intera pagina */
+        }    
+        .main {
+            display: flex;
+            flex-grow: 1; /* Occupa tutto lo spazio disponibile */
+            overflow: hidden; /* Evita scrolling non necessario */
+        }
+
         .contenutoMain {
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto; /* Abilita lo scroll solo su questo contenitore */
+            padding: 20px;
             margin: 20px;
         }
+
         .contenutoMain h3 {
             color: #333;
             font-size: 24px;
@@ -19,7 +38,7 @@
         }
         .card {
             width: 270px;
-            height: 240px;
+            height: 165px; /* Altezza ridotta senza bottoni */
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
@@ -29,10 +48,11 @@
             background: #fff;
             margin-top: 15px;
             position: relative;
-            transition: transform 0.3s ease;
+            transition: height 0.3s ease, transform 0.3s ease;
         }
 
         .card:hover {
+            height: 200px;
             transform: scale(1.05);
         }
 
@@ -77,6 +97,7 @@
             font-size: 13px;
             font-weight: bold;
             color: #333;
+            background-color: #f1f1f1;
             border-top: 1px solid #ddd;
         }
 
@@ -108,26 +129,39 @@
 
         .card .azioni {
             display: flex;
-            flex-direction: column;
-            border-top: 1px solid #ddd;
-            background: #f9f9f9;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .card:hover .azioni {
+            opacity: 1;
+            visibility: visible;
+        }
+
+
+        .card .azioni form {
+            flex: 1; /* Permette ai form di occupare tutto lo spazio disponibile */
+            display: flex;
         }
 
         .card .azioni button {
+            flex: 1; /* Assicura che i bottoni si espandano equamente */
             background: #007bff;
             color: white;
             border: none;
             padding: 10px;
-            font-size: 15px;
+            font-size: 13px;
             font-weight: bold;
-            border-radius: 0;
             cursor: pointer;
             transition: background 0.3s;
-            width: 100%;
+            text-align: center;
         }
 
         .card .azioni button:hover {
             background: #0056b3;
+            color: white;
         }
 
         a{
