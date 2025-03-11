@@ -198,7 +198,7 @@
 
                                 </div>
                                 <div class="azioni">
-                                    <form action='' method='POST'>
+                                    <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/commenti' method='GET'>
                                         <button type="submit">Commenta</button>
                                     </form>
                                     <form action='' method='POST'>
