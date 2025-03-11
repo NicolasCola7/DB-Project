@@ -201,7 +201,7 @@
                                     <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/commenti' method='GET'>
                                         <button type="submit">Commenta</button>
                                     </form>
-                                    <form action='' method='POST'>
+                                    <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/finanziamenti' method='GET'>
                                         <button type="submit">Finanzia</button>
                                     </form>
                                 </div>

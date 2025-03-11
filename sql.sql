@@ -418,23 +418,18 @@ END;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE PROCEDURE MostraRewardDisponibili (IN nomeProgettoI VARCHAR(255))
-BEGIN
-	SELECT codice, foto, descr 
-    FROM Reward LEFT JOIN Finanziamento ON codice = codiceReward AND Finanziamento.nomeProgetto = nomeProgettoI
-    WHERE Reward.nomeProgetto = nomeProgettoI AND codiceReward IS NULL;
-END;
-$ DELIMITER ;
-
-DELIMITER $
-CREATE PROCEDURE SceltaReward (IN codiceRewardI VARCHAR(50), IN emailUtenteI VARCHAR(255), IN nomeProgettoI VARCHAR(255))
+CREATE PROCEDURE SceltaReward (IN codiceRewardI VARCHAR(50), IN emailUtenteI VARCHAR(255), IN nomeProgettoI VARCHAR(255), OUT esito INT)
 BEGIN
 	declare rewardCorretta boolean;
     
-	-- set rewardCorretta = codiceRewardI IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = nomeProgettoI));
-	if (codiceRewardI REGEXP '^[0-9]+$') then
-		UPDATE Finanziamento SET codiceReward = codiceRewardI WHERE emailUtente = emailUtenteI AND nomeProgetto = nomeProgettoI AND data = current_date();
-	end if;
+    set rewardCorretta = CAST(codiceRewardI AS UNSIGNED) IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = nomeProgettoI AND codiceReward IS NOT NULL));
+	
+    if (codiceRewardI REGEXP '^[0-9]+$' and rewardCorretta) then
+        set esito = 1;
+		UPDATE Finanziamento SET codiceReward = CAST(codiceRewardI AS UNSIGNED) WHERE emailUtente = emailUtenteI AND nomeProgetto = nomeProgettoI AND data = current_date();
+    else
+        set esito = 0;
+    end if;
 END;
 $ DELIMITER ;
 
@@ -893,13 +888,13 @@ CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward2.avif
 CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward5.jpg', 'buono sconto adidas', 'PulseTech', @esito);
 
 CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
-CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSenseAI');
+CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSenseAI', @esito);
 -- questo secondo finanziamento non andrà a buon fine perchè lo stesso utente ne ha inviato uno per lo stesso progetto lo stesso giorno
 CALL InserimentoFinanziamento('DriveSenseAI', 5000.00, 'mario.rossi@email.com', @esito);
-CALL SceltaReward('1', 'mario.rossi@email.com', 'DriveSenseAI');
+CALL SceltaReward('1', 'mario.rossi@email.com', 'DriveSenseAI', @esito);
 CALL InserimentoFinanziamento('DriveSenseAI', 20000.00, 'giulia.bianchi2@email.com', @esito);
 
-CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'DriveSenseAI');
+CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'DriveSenseAI', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);

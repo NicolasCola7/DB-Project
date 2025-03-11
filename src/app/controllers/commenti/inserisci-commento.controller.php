@@ -11,8 +11,8 @@ $email = $_SESSION['utente']['email'];
 // ottengo il nome del progetto
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 
-// controllo che il progetto esista e sia software
-$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome AND emailCreatore = :email AND tipoProgetto = 'Software' ", [':nome' => $nomeProgetto, ':email' => $email]);
+// controllo che il progetto esista 
+$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto]);
 
 if(!$progettoEsistente) {
     abort();
