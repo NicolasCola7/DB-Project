@@ -60,29 +60,6 @@ if($tipo === 'software') {
             ]);
             exit();
         }
-
-        /* inserisco skills richieste per il profilo
-        
-        foreach( $skills as $skill) {
-            $paramsSkill = [
-                'nomeSkill' => $skill['nomeSkill'],
-                'livello' => $skill['livello'],
-                'nomeProfilo' => $nomeProfilo,
-                'nomeProgetto' => $nomeProgetto,
-                '@esito' => 'esito'
-            ];
-
-            //TODO: implementa procedura inserimento skill richiesta e correggi quella di ins profilo
-            //$esito = $db->procedure('InserimentoSkillRichiesta, $paramsSkill);
-
-            if (!$esito) {
-                $errori['procedura'] =  "Si è verificato un errore imprevisto nella creazione delle skill richieste!";
-                require view("/creazione-progetto/conferma-dati.view.php", [
-                    'errori' => $errori
-                ]);
-                exit();
-            }
-        }*/
     }
 } else {
     foreach($_SESSION['creazione-progetto']['componenti'] as $componente) {
@@ -116,7 +93,7 @@ if($tipo === 'software') {
 
 // creo una nuova cartella definitiva per questo progetto ed elimino quella temporanea
 $cartellaUtente = md5($_SESSION['utente']['nickname']);
-$directoryFotoProgetto = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/foto';
+$directoryFotoProgetto = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/fotoProgetto';
 
 if (!file_exists($directoryFotoProgetto)) {
     mkdir($directoryFotoProgetto, 0777, true);// 0750 è il codice per gestire accessi alla directory
@@ -156,7 +133,7 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
 //inserimento rewards
 
 /// creo directory definitiva per reward di questo progetto
-$directoryFotoRewards = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/foto-rewards';
+$directoryFotoRewards = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/fotoRewards';
 
 if (!file_exists($directoryFotoRewards)) {
     mkdir($directoryFotoRewards, 0777, true);// 0750 è il codice per gestire accessi alla directory

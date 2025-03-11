@@ -28,10 +28,6 @@ if (!Validatore::isString($descrizione, 1, 100)) {
     $errori["descrizione"] = "Descrizione non valida!";
 }
 
-if($erroreFile !== 0) {
-    $errori["upload"] = "Si è verificato un errore nel caricamento dell'immagine, riprova!";
-}
-
 if (!empty($errori)) {
     $_SESSION['aggiunta-reward'] = false;
     require view("/creazione-progetto/inserimento-foto.view.php", [
@@ -45,7 +41,7 @@ if (!empty($errori)) {
 che non ci siano immagini uguali, non vada in conflitto con immagini inserite da altri utenti
 */
 $cartellaUtente = md5($_SESSION['utente']['nickname']);
-$directory = 'public/immagini/temporanee/'.$cartellaUtente.'/foto-rewards/';
+$directory = 'public/immagini/temporanee/'.$cartellaUtente.'/fotoRewards/';
 
 if (!file_exists($directory)) {
    mkdir($directory, 0777, true);// 0750 è il codice per gestire accessi alla directory
@@ -62,6 +58,7 @@ $rewardDaInserire = [
 foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
     if($reward['urlFoto'] === $destinazione) {
         $_SESSION['aggiunta-reward'] = false;
+        $errori['già-inserita'] = 'Foto già inserita';
         require view("/creazione-progetto/inserimento-rewards.view.php", [
             "errori" => $errori
         ]);

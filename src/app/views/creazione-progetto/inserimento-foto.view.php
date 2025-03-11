@@ -140,15 +140,13 @@ if(!$_SESSION['creazione-progetto']['step2']) {
                     <p><?= $errori['dimensione'] ?></p>
                 <?php endif; ?>
 
-                <?php if (isset($errori['upload'])) : ?>
-                    <p><?= $errori['upload'] ?></p>
+                <?php if (isset($errori['già-inserita'])) : ?>
+                    <p><?= $errori['già-inserita'] ?></p>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['aggiunta-foto'])) : ?>
                     <?php if ($_SESSION['aggiunta-foto']) : ?>
                         <p id='successo'> Foto aggiunta con successo! </p>
-                    <?php else :?>
-                        <p> Foto già inserita!</p>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>

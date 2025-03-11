@@ -137,15 +137,13 @@ if(!$_SESSION['creazione-progetto']['step3']) {
                     <p><?= $errori['dimensione'] ?></p>
                 <?php endif; ?>
 
-                <?php if (isset($errori['upload'])) : ?>
-                    <p><?= $errori['upload'] ?></p>
+                <?php if (isset($errori['già-inserita'])) : ?>
+                    <p><?= $errori['già-inserita'] ?></p>
                 <?php endif; ?>
 
                 <?php if (isset($_SESSION['aggiunta-reward'])) : ?>
                     <?php if ($_SESSION['aggiunta-reward']) : ?>
                         <p id='successo'> Reward aggiunta con successo! </p>
-                    <?php else :?>
-                        <p> Reward già inserita!</p>
                     <?php endif; ?>
                 <?php endif; ?>
             </div>
