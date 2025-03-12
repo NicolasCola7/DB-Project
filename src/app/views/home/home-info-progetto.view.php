@@ -95,34 +95,30 @@
             text-decoration:underline;
         }
 
-        .immaginiContainer {
-            padding: 10px;
-            border: 1px solid #555;
+        .immaginiContainer, .rewardsContainer {
+            padding: 20px;
+            border: 1px solid black;
             border-radius: 10px;
             width: 70%;
             margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .immaginiContainer img {
-            max-width: 200px;
-            max-height: 200px;
+        .immaginiContainer img, .rewardsContainer img {
+            display: block;
+            margin: 0 auto 15px;
+            max-width: 250px;
+            height: auto;
             object-fit: contain;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .rewardsContainer {
-            padding: 10px;
-            border: 1px solid #555;
-            border-radius: 10px;
-            width: 70%;
-            margin-bottom: 25px;
-        }
-
-        .rewardsContainer img {
-            max-width: 200px;
-            max-height: 200px;
-            object-fit: contain;
-            margin-bottom: 10px;
+        .immaginiContainer p, .rewardsContainer p {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: #333;
         }
     </style>
 </head>
@@ -165,8 +161,8 @@
                 let rewards = risposta.data[3];
                 stampaCaratteristiche(progetto);
                 stampaComponenti(componenti);
-                stampaImmagini(immagini);
-                stampaRewards(rewards);
+                stampaImmagini(immagini, "immagini");
+                stampaImmagini(rewards, "rewards");
                 creaComponenteProfili(progetto.nome);
                 visualizzaCommenti(progetto.nome);
             }catch(error){
@@ -306,51 +302,28 @@
             }
         }
 
-        function stampaImmagini(immagini) {
-            if (immagini.length !== 0) 
-            {
-                let immaginiContainer = document.createElement("div");
-                immaginiContainer.classList.add("immaginiContainer");
+        function stampaImmagini(immagini, tipo) 
+        {
+            if (immagini.length !== 0) {
+                let container = document.createElement("div");
+                container.classList.add(tipo + "Container"); // Usa il tipo per la classe
 
                 let titolo = document.createElement("h4");
-                titolo.textContent = "Immagini del progetto";
-                immaginiContainer.appendChild(titolo);
+                titolo.textContent = tipo === "immagini" ? "Immagini del progetto" : "Rewards del progetto";
+                container.appendChild(titolo);
 
                 immagini.forEach(img => {
-                    let imgDiv = document.createElement("div");
+                    let div = document.createElement("div");
                     let image = document.createElement("img");
-                    image.src = img.urlImmagine;
+                    //rimuovo nell'url la route "/home" tramite un percorso relativo
+                    image.src = '../' + (tipo === "immagini" ? img.urlImmagine : img.urlFoto);
                     let descr = document.createElement("p");
                     descr.textContent = img.descrizione;
-                    imgDiv.appendChild(image);
-                    imgDiv.appendChild(descr);
-                    immaginiContainer.appendChild(imgDiv);
+                    div.appendChild(image);
+                    div.appendChild(descr);
+                    container.appendChild(div);
                 });
-                main.appendChild(immaginiContainer);
-            }
-        }
-
-        function stampaRewards(rewards) {
-            if (rewards.length !== 0) {
-                let rewardsContainer = document.createElement("div");
-                rewardsContainer.classList.add("rewardsContainer");
-
-                let titolo = document.createElement("h4");
-                titolo.textContent = "Rewards del progetto";
-                rewardsContainer.appendChild(titolo);
-
-                rewards.forEach(reward => {
-                    let rewardDiv = document.createElement("div");
-                    let image = document.createElement("img");
-                    image.src = reward.urlFoto;
-                    let descr = document.createElement("p");
-                    descr.textContent = reward.descr;
-                    rewardDiv.appendChild(image);
-                    rewardDiv.appendChild(descr);
-                    rewardsContainer.appendChild(rewardDiv);
-                });
-
-                main.appendChild(rewardsContainer);
+                main.appendChild(container);
             }
         }
 
@@ -373,7 +346,6 @@
 
         function visualizzaCommenti(nomeProg)
         {
-            console.log("aa");
             let div = document.createElement("div");
             div.classList.add("contenitoreCommenti");
 
