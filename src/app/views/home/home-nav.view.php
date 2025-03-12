@@ -1,7 +1,6 @@
 <html>
     <head>
         <style>
-             /* Stile generale */
             * {
                 margin: 0;
                 padding: 0;

@@ -3,9 +3,27 @@
 <head>
     <title>Finanzia Progetto</title>
     <style>
-        
+        html, body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }    
+
+        .main {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
         .contenutoMain {
-            margin: 20px;
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            margin: 10px;
         }
         
         .contenutoMain > header {
@@ -83,17 +101,17 @@
         
         <div class="contenutoMain">
             <header>
-               <h2> Finanzia </h2>
+               <h2>Finanzia il progetto ...</h2>
             </header>
 
             <section>
                 <form action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/finanziamenti' method='POST'>
                     <div class='container'>
-                        <label for='importo'> Importo </label>
+                        <label for='importo'>Importo (€)</label>
                         <input type='number' name='importo' id='importo' required min='1'>
                     </div>
                     <div class='container'>
-                        <button type='submit'> Invia </button>
+                        <button type='submit'>Invia Finanziamento</button>
                     </div>
                 </form>
             </section>

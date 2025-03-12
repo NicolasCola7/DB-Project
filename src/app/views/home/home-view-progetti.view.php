@@ -4,25 +4,31 @@
     <title>Home</title>
     <style>
         html, body {
-            height: 100vh; /* Assicura che il body occupi tutta l'altezza dello schermo */
+            /* Assicura che il body occupi tutta l'altezza dello schermo */
+            height: 100vh; 
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Evita lo scrolling dell'intera pagina */
-        }    
+            /* Evita lo scrolling dell'intera pagina */
+            overflow: hidden; 
+        }  
+
         .main {
             display: flex;
-            flex-grow: 1; /* Occupa tutto lo spazio disponibile */
-            overflow: hidden; /* Evita scrolling non necessario */
+            /* Occupa tutto lo spazio disponibile */
+            flex-grow: 1; 
+            /* Evita scrolling non necessario */
+            overflow: hidden; 
         }
 
         .contenutoMain {
             flex-grow: 1;
             max-height: 100%;
-            overflow-y: auto; /* Abilita lo scroll solo su questo contenitore */
+            /* Abilita lo scroll solo su questo contenitore */
+            overflow-y: auto; 
             padding: 20px;
-            margin: 20px;
+            margin: 10px;
         }
 
         .contenutoMain h3 {

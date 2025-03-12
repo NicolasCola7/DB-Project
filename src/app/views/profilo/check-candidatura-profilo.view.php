@@ -4,12 +4,36 @@
     <title>Home</title>
 </head>
 <style>
-    .container{
+    html, body {
+        height: 100vh; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; 
+    }    
+        
+    .main {
+        display: flex;
+        flex-grow: 1; 
+        overflow: hidden; 
+    }
+
+    .contenutoMain {
+        flex-grow: 1;
+        max-height: 100%;
+        overflow-y: auto; 
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .container {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .divInfo{
+
+    .divInfo {
         display: flex;
         flex-direction: column;
         gap:10px;
@@ -20,7 +44,8 @@
         width: 50%;
         margin-bottom: 25px;
     }
-    .divBottoni{
+
+    .divBottoni {
         display: flex;
         flex-direction: column;
         gap:10px;
@@ -28,39 +53,47 @@
         width: 50%;
         margin-bottom: 25px;
     }
-    form{
+
+    form {
         width:100%;
         display: flex;
         gap:15px;
     }
-    .container input{
+
+    .container input {
         width: 400px;
         height:30px;
         font-size: 14px;
     }
+
     table {
         margin-top: 10px;
         border: 1px solid black;
         width: 100%;
         text-align: center;
     }
-    table tr th, table tr td{
+
+    table tr th, table tr td {
         border: 1px solid black;
         padding: 5px;
     }
-    table th{
+
+    table th {
         background-color: black;
         color: white;
     }
+
     .contenutoMain {
         margin: 20px;
     }
+
     .contenutoMain h3 {
         color: #333;
         font-size: 24px;
         margin-bottom: 15px;
     }
-    .divBottoni button{
+
+    .divBottoni button {
         width: 140px;
         height: 50px;
         border-radius: 6px;
@@ -68,16 +101,20 @@
         color: white;
         font-size: medium;
     }
-    #accetta{
+
+    #accetta {
         background-color: #008037;
     }
-    #accetta:hover{
+
+    #accetta:hover {
         background-color:rgb(0, 66, 29);
     }
-    #rifiuta{
+
+    #rifiuta {
         background-color: red;
     }
-    #rifiuta:hover{
+
+    #rifiuta:hover {
         background-color:rgb(128, 0, 0);
     }
 </style>

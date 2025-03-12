@@ -3,9 +3,27 @@
 <head>
     <title>Le mie Skill</title>
     <style>
+        html, body {
+            height: 100vh; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }    
         
+        .main {
+            display: flex;
+            flex-grow: 1; 
+            overflow: hidden; 
+        }
+
         .contenutoMain {
-            margin: 20px;
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto; 
+            padding: 20px;
+            margin: 10px;
         }
         
         .contenutoMain > header {
@@ -57,7 +75,6 @@
             border-bottom: 1px solid #0077cc;
             color: #0077cc;
         }
-
       
         #skills > .skill > span:first-child {
             white-space: nowrap;
@@ -90,7 +107,6 @@
             transform: scale(0.9);
         }
 
-
         #aggiunta > form {
             display: flex;
             flex-direction: row;
@@ -105,8 +121,7 @@
             border: 1px solid  #0077cc
         }
 
-        #aggiunta form select,
-        #aggiunta form input[type="number"] {
+        #aggiunta form select, #aggiunta form input[type="number"] {
             width: 20%;
             padding: 8px 12px;
             border: 2px solid #0077cc;
@@ -117,8 +132,7 @@
             transition: all 0.3s ease-in-out;
         }
 
-        #aggiunta form select:hover,
-        #aggiunta form input[type="number"]:hover {
+        #aggiunta form select:hover, #aggiunta form input[type="number"]:hover {
             border-color: #0056b3;
         }
 
@@ -152,7 +166,6 @@
         #aggiungi-skill:active {
             transform: scale(0.9);
         }
-
     </style>
 </head>
 <body>

@@ -4,25 +4,45 @@
     <title>Home</title>
 </head>
 <style>
+    html, body {
+        height: 100vh; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; 
+    }    
+        
+    .main {
+        display: flex;
+        flex-grow: 1; 
+        overflow: hidden; 
+    }
+
     .contenutoMain {
+        flex-grow: 1;
+        max-height: 100%;
+        overflow-y: auto; 
+        padding: 20px;
+        margin: 10px;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
         justify-content: flex-start;
         gap: 20px;
-        padding: 20px;
-        margin:20px;
     }
+
     .contenutoMain h3 {
         color: #333;
         font-size: 24px;
     }
 
-    .divCandidature{
+    .divCandidature {
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
+
     .candidatura {
         border: 1px solid #ddd;
         border-radius: 10px;
@@ -48,9 +68,11 @@
         font-size: 14px;
         color: white;
     }
-    .candidatura span{
+
+    .candidatura span {
         font-weight: bold;
     }
+
     .candidatura button {
         color: white;
         border: none;
@@ -60,7 +82,8 @@
         font-size: 14px;
         transition: background-color 0.3s ease;
     }
-    #filtroCandidature{
+
+    #filtroCandidature {
         width: 130px;
         height: 30px;
         font-size: 14px;

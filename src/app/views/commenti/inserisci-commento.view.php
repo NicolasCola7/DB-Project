@@ -3,9 +3,27 @@
 <head>
     <title>Commenta Progetto</title>
     <style>
-        
+        html, body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }    
+
+        .main {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
         .contenutoMain {
-            margin: 20px;
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            margin: 10px;
         }
         
         .contenutoMain > header {
@@ -85,17 +103,17 @@
         
         <div class="contenutoMain">
             <header>
-               <h2> Commenta </h2>
+               <h2>Commenta il progetto ...</h2>
             </header>
 
             <section>
                 <form action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/commenti' method='POST'>
                     <div class='container'>
-                        <label for='testo'> Testo </label>
+                        <label for='testo'>Testo del commento</label>
                         <textarea name='testo' id='testo' required placeholder='Inserisci il testo del commento...'></textarea>
                     </div>
                     <div class='container'>
-                        <button type='submit'> Invia </button>
+                        <button type='submit'>Invia Commento</button>
                     </div>
                 </form>
             </section>

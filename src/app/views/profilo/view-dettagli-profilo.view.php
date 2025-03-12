@@ -4,12 +4,30 @@
     <title>Home</title>
 </head>
 <style>
+    html, body {
+        height: 100vh; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; 
+    }    
+        
+    .main {
+        display: flex;
+        flex-grow: 1; 
+        overflow: hidden; 
+    }
+
     .contenutoMain {
-        background-color: #fff;
+        flex-grow: 1;
+        max-height: 100%;
+        overflow-y: auto; 
         padding: 20px;
+        margin: 10px;
+        background-color: #fff;
         border-radius: 10px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        margin: 20px;
         font-family: Arial, sans-serif;
     }
 
@@ -26,12 +44,14 @@
         display: flex;
         flex-direction: column;
     }
-    .contenitoreSkill{
+
+    .contenitoreSkill {
         display: flex;
         flex-direction: column;
         gap:20px;
     }
-    .contenitoreSkill button{
+
+    .contenitoreSkill button {
         width: 140px;
         height: 50px;
         border-radius: 6px;
@@ -40,25 +60,31 @@
         color: white;
         font-size: medium;
     }
-    .contenitoreSkill button:hover{
+
+    .contenitoreSkill button:hover {
         background-color: #1a355f;
     }
+
     table {
         margin-top: 10px;
         border: 1px solid black;
         width: 40%;
     }
-    table tr th, table tr td{
+
+    table tr th, table tr td {
         border: 1px solid black;
         padding: 5px;
     }
-    table tr td:last-child{
+
+    table tr td:last-child {
         width: 100px;
     }
-    table th{
+
+    table th {
         background-color: black;
         color: white;
     }
+
     .swal2-popup .swal2-confirm {
         background-color: #0077cc;
         color: white;
@@ -68,8 +94,6 @@
         background-color: red;
         color: white;
     }
-
-    
 </style>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>

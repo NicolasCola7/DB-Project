@@ -4,15 +4,34 @@
     <title>Profili</title>
 </head>
 <style>
+    html, body {
+        height: 100vh; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; 
+    }    
+        
+    .main {
+        display: flex;
+        flex-grow: 1; 
+        overflow: hidden; 
+    }
+
     .contenutoMain {
+        flex-grow: 1;
+        max-height: 100%;
+        overflow-y: auto; 
+        padding: 20px;
+        margin: 10px;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
         justify-content: flex-start;
         gap: 20px;
-        padding: 20px;
-        margin:20px;
     }
+
     .contenutoMain h3 {
         color: #333;
         font-size: 24px;
@@ -66,8 +85,6 @@
         font-size: 14px;
         transition: background-color 0.3s ease;
     }
-
-
 </style>
 
 <body>

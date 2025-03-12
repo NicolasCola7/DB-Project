@@ -18,23 +18,35 @@ if(!$_SESSION['creazione-progetto']['step4']) {
 <head>
     <title>Insermento componenti</title>
     <style>
-        /* General styles */
+        html, body {
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }    
+
+        .main {
+            display: flex;
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .contenutoMain {
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            margin: 10px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f5f5f5;
             color: #333;
-        }
-
-        .main {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        .contenutoMain {
-            margin: 20px 10%;
-            flex: 1;
         }
 
         .contenutoMain > header {

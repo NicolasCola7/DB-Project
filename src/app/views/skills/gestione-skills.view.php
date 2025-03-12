@@ -3,9 +3,27 @@
 <head>
     <title>Gestione Skills</title>
     <style>
+        html, body {
+            height: 100vh; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }    
+            
+        .main {
+            display: flex;
+            flex-grow: 1; 
+            overflow: hidden; 
+        }
 
         .contenutoMain {
-            margin: 20px;
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto; 
+            padding: 20px;
+            margin: 10px;
         }
         
         .contenutoMain > header {
@@ -58,7 +76,6 @@
             color: #0077cc;
         }
 
-      
         #skills > .skill > span:first-child {
             white-space: nowrap;
             overflow: hidden;

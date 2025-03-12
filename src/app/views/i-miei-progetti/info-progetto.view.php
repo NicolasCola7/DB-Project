@@ -3,12 +3,30 @@
 <head>
     <title>Home</title>
     <style>
+        html, body {
+            height: 100vh; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }
+          
+        .main {
+            display: flex;
+            flex-grow: 1; 
+            overflow: hidden; 
+        }
+
         .contenutoMain {
-            background-color: #fff;
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto; 
             padding: 20px;
+            margin: 10px;
+            background-color: #fff;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-            margin: 20px;
             font-family: Arial, sans-serif;
         }
 
