@@ -105,6 +105,14 @@
                     <p> <?= $errori['procedura'] ?> </p>
                 <?php endif; ?>
             </div>
+
+            <div id='successo'>
+                <?php if (isset($successo)) : ?>
+                    <script>
+                        alert("Progetto commentato con successo");
+                    </script>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     

@@ -230,6 +230,14 @@
                     <p> <?= $errori['procedura'] ?> </p>
                 <?php endif; ?>
             </div>
+
+            <div id='successo'>
+                <?php if (isset($successo)) : ?>
+                    <script>
+                        alert("Progetto finanziato con successo");
+                     </script>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
     
@@ -239,11 +247,10 @@
 
 
 <script>
-  
     const rewards = document.querySelectorAll('.reward');
     const codiceReward = document.getElementById('codice-reward');
     const form = document.getElementById('form-finanziamento');
-    
+
     rewards.forEach(reward => {
         reward.addEventListener('click', function() {
             // Elimino il valore del codice reward selezionata
@@ -261,10 +268,10 @@
     });
 
     form.addEventListener('submit', event => {
-        if( codiceReward.value === "") {
+        if(codiceReward.value === "") {
             event.preventDefault();
             alert('Per finanziare il progetto devi selezionare una reward!');
-        }
+        } 
     });
 </script>
 </html>

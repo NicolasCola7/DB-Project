@@ -44,5 +44,5 @@ if(!$esito) {
     exit();
 }
 
-header('Location: /home/info-progetto/commenti?nomeProgetto=' . urlencode($nomeProgetto));
+require view('/commenti/inserisci-commento.view.php', ['successo' => $successo = true]);
 exit();

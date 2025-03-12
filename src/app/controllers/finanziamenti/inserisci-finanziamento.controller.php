@@ -72,5 +72,5 @@ if(!$esito) {
     exit();
 }
 
-header('location: /home/progetti/'.urlencode($nomeProgetto).'/finanziamenti');
+require view('/finanziamenti/inserisci-finanziamento.view.php', ['successo' => $successo = true, 'rewards' => $rewards]);
 exit();
