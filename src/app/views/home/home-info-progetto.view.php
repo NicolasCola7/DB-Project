@@ -61,6 +61,7 @@
             border-radius: 5px;
             color: #555;
         }
+
         .infoContainer, .componentiContainer, .contenitoreProfili, .contenitoreCommenti{
             padding: 10px;
             border: 1px solid #555;
@@ -68,25 +69,60 @@
             width: 70%;
             margin-bottom: 25px;
         }
+
         .componentiContainer table {
             margin-top: 10px;
             border: 1px solid black;
             width: 100%;
         }
+
         .componentiContainer table tr th, .componentiContainer table tr td{
             border: 1px solid black;
             padding: 5px;
         }
+
         .componentiContainer table th{
             background-color: black;
             color: white;
         }
+
         a{
             text-decoration: none;
             color: #0077cc;
         }
+
         a:hover{
             text-decoration:underline;
+        }
+
+        .immaginiContainer {
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 10px;
+            width: 70%;
+            margin-bottom: 25px;
+        }
+
+        .immaginiContainer img {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .rewardsContainer {
+            padding: 10px;
+            border: 1px solid #555;
+            border-radius: 10px;
+            width: 70%;
+            margin-bottom: 25px;
+        }
+
+        .rewardsContainer img {
+            max-width: 200px;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -123,8 +159,14 @@
                 let progetto = risposta.data[0][0];
                 //il secondo contiene le componenti del progetto
                 let componenti = risposta.data[1];
+                //il terzo contiene le immagini del progetto
+                let immagini = risposta.data[2];
+                //il quarto contiene le reward del progetto
+                let rewards = risposta.data[3];
                 stampaCaratteristiche(progetto);
                 stampaComponenti(componenti);
+                stampaImmagini(immagini);
+                stampaRewards(rewards);
                 creaComponenteProfili(progetto.nome);
                 visualizzaCommenti(progetto.nome);
             }catch(error){
@@ -166,11 +208,20 @@
             descrContainer.appendChild(descr);
             infoContainer.appendChild(descrContainer);
             
-            //stato
             let stato = document.createElement("p");
             stato.textContent = "Stato: "+p.stato;
+            //stato, verde se il progetto è aperto ai finanziamenti, rosso se è chiuso
+            if (p.stato === "aperto") 
+            {
+                stato.style.color = "green"; 
+            } 
+            else if (p.stato === "chiuso") 
+            {
+                stato.style.color = "red";
+            }
             infoContainer.appendChild(stato);
 
+            //tipo del progetto
             let tipo = document.createElement("p");
             tipo.textContent = "Tipologia: "+p.tipoProgetto;
             infoContainer.appendChild(tipo);
@@ -197,6 +248,7 @@
 
             main.appendChild(infoContainer);
         }
+
         function stampaComponenti(componenti){
             if(componenti.length !== 0){
                 let componentiContainer = document.createElement("div");
@@ -246,11 +298,62 @@
 
                 componentiContainer.appendChild(tabella);
                 main.appendChild(componentiContainer);
-            }else{
+            }
+            else
+            {
                 let p = document.createElement("p");
                 p.textContent = "Non sono presenti componenti per questo profilo";
             }
         }
+
+        function stampaImmagini(immagini) {
+            if (immagini.length !== 0) 
+            {
+                let immaginiContainer = document.createElement("div");
+                immaginiContainer.classList.add("immaginiContainer");
+
+                let titolo = document.createElement("h4");
+                titolo.textContent = "Immagini del progetto";
+                immaginiContainer.appendChild(titolo);
+
+                immagini.forEach(img => {
+                    let imgDiv = document.createElement("div");
+                    let image = document.createElement("img");
+                    image.src = img.urlImmagine;
+                    let descr = document.createElement("p");
+                    descr.textContent = img.descrizione;
+                    imgDiv.appendChild(image);
+                    imgDiv.appendChild(descr);
+                    immaginiContainer.appendChild(imgDiv);
+                });
+                main.appendChild(immaginiContainer);
+            }
+        }
+
+        function stampaRewards(rewards) {
+            if (rewards.length !== 0) {
+                let rewardsContainer = document.createElement("div");
+                rewardsContainer.classList.add("rewardsContainer");
+
+                let titolo = document.createElement("h4");
+                titolo.textContent = "Rewards del progetto";
+                rewardsContainer.appendChild(titolo);
+
+                rewards.forEach(reward => {
+                    let rewardDiv = document.createElement("div");
+                    let image = document.createElement("img");
+                    image.src = reward.urlFoto;
+                    let descr = document.createElement("p");
+                    descr.textContent = reward.descr;
+                    rewardDiv.appendChild(image);
+                    rewardDiv.appendChild(descr);
+                    rewardsContainer.appendChild(rewardDiv);
+                });
+
+                main.appendChild(rewardsContainer);
+            }
+        }
+
         async function creaComponenteProfili(nomeProg){
             let div = document.createElement("div");
             div.classList.add("contenitoreProfili");
@@ -267,7 +370,9 @@
 
             main.appendChild(div);
         }
-        function visualizzaCommenti(nomeProg){
+
+        function visualizzaCommenti(nomeProg)
+        {
             console.log("aa");
             let div = document.createElement("div");
             div.classList.add("contenitoreCommenti");

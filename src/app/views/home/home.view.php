@@ -11,6 +11,7 @@
             flex-direction: column;
             overflow: hidden; 
         }    
+        
         .main {
             display: flex;
             flex-grow: 1; 
