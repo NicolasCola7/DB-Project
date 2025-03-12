@@ -6,7 +6,6 @@ use \core\Database;
 $db = App::getContainer()->risolvi(Database::class);
 
 $email = $_SESSION['utente']['email'];
-
 //cotrollo che nell'url sia presente come parametro il nome del progetto
 if(isset($_GET['nomeProgetto'])){
     $nomeProgetto = urldecode($_GET['nomeProgetto']);

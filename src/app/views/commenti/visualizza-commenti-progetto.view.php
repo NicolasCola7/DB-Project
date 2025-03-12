@@ -143,9 +143,9 @@
                         <div class="risposta">
                             <p><?= $commento['risposta']; ?></p>
                         </div>
-                        <?php else: ?>
+                        <?php elseif($_SESSION['utente']['creatore']): ?>
                         <div class="bottone">
-                            <button type="submit">Rispondi</button>
+                            <button type="submit" onclick="rispondi('<?= urlencode($commento['id']), $nomeProgetto ?>')">Rispondi</button>
                         </div>
                     <?php endif; ?>
                 </div>
