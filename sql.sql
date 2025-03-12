@@ -925,5 +925,10 @@ CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com',
 CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'normal.user@email.com', false, @esito);
 
 CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
+CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Che progetto di m****', @esito);
+CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged", @esito);
+CALL CommentaProgetto('DriveSenseAI', 'giulia.bianchi@email.com', "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged", @esito);
+
 
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com', @esito);
+CALL rispondiACommento(3, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged", 'giulia.bianchi@email.com', @esito);

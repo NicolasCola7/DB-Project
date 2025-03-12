@@ -44,5 +44,5 @@ if(!$esito) {
     exit();
 }
 
-header('location: /home/progetti/'.urlencode($nomeProgetto).'/commenti');
+header('Location: /home/info-progetto/commenti?nomeProgetto=' . urlencode($nomeProgetto));
 exit();

@@ -21,6 +21,7 @@ $router->get('/home/info-progetto/profilo/candidature', 'app/views/profilo/view-
 $router->get('/home/info-progetto/profilo/candidature-controller', 'app/controllers/profilo/view-candidature-profilo.controller.php')->soloSe('autenticato');
 $router->get('/home/info-progetto/profilo/check-candidatura', 'app/views/profilo/check-candidatura-profilo.view.php')->soloSe('autenticato');
 $router->get('/home/info-progetto/profilo/check-candidatura-controller', 'app/controllers/profilo/check-candidatura-profilo.controller.php')->soloSe('autenticato');
+$router->get('/home/info-progetto/commenti', 'app/controllers/commenti/visualizza-commenti-progetto.controller.php')->soloSe('autenticato');
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
