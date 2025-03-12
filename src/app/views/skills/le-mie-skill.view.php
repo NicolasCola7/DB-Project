@@ -176,23 +176,8 @@
         
         <div class="contenutoMain">
             <header>
-               <h2> Le mie Skill </h2>
+               <h2>Le mie Skill</h2>
             </header>
-            <section id='skills'>
-                <?php if(count($skills['possedute']) > 0): ?>
-                    <?php foreach($skills['possedute'] as $posseduta): ?>
-                        <div class='skill'>
-                            <span class='nome-skill'> <?= $posseduta['nomeSkill']; ?> </span>
-                            <span class='livello-skill'> <?= $posseduta['livello']; ?> </span>
-                            <form action='/home/le-mie-skill/<?= urlencode($posseduta['nomeSkill']); ?>' method='POST'>
-                                <input type='hidden' name='_metodo' value='DELETE'>
-                                <button type='submit' class='elimina-btn'> - </button>
-                            </form>
-                        </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </section>
-
             <section id='aggiunta'>
                 <form action='/home/le-mie-skill' method='POST'>
                     <select id='skill-disponibili' name='nome' required >
@@ -217,6 +202,25 @@
                     
                     <button type='submit' id='aggiungi-skill'> + </button>
                 </form>
+            </section>
+
+            <section id='skills'>
+                <h3>Le tue competenze attuali:</h3>
+                <p>Queste sono le skill che hai aggiunto. Puoi rimuoverle o aggiungerne di nuove.</p>
+                <?php if(count($skills['possedute']) > 0): ?>
+                    <?php foreach($skills['possedute'] as $posseduta): ?>
+                        <div class='skill'>
+                            <span class='nome-skill'> <?= $posseduta['nomeSkill']; ?> </span>
+                            <span class='livello-skill'> <?= $posseduta['livello']; ?> </span>
+                            <form action='/home/le-mie-skill/<?= urlencode($posseduta['nomeSkill']); ?>' method='POST'>
+                                <input type='hidden' name='_metodo' value='DELETE'>
+                                <button type='submit' class='elimina-btn'> - </button>
+                            </form>
+                        </div>
+                    <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Non hai ancora aggiunto alcuna skill.</p>
+                <?php endif; ?>
             </section>
 
             <div id="errori">
