@@ -20,14 +20,7 @@ if(!$progettoEsistente || !$finaziamentoEsistente) {
 }
 
 //recupero tutte le rewards disponibili per quel progetto
-$rewards = $db->query(
-    "SELECT codice, urlFoto, descr FROM Reward 
-    WHERE nomeProgetto = :nomeProgetto AND codice NOT IN (
-        SELECT codiceReward FROM Finanziamento
-        WHERE nomeProgetto = :nomeProgetto AND codiceReward IS NOT NULL
-    )",
-    [':nomeProgetto' => $nomeProgetto]
-);
+$rewards = $db->query("SELECT codice, urlFoto, descr FROM Reward WHERE nomeProgetto = :nomeProgetto", [':nomeProgetto' => $nomeProgetto]);
 
 require view('/finanziamenti/scelta-reward.view.php', $rewards);
 exit();

@@ -12,8 +12,8 @@ $email = $_SESSION['utente']['email'];
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 
 // controllo che il progetto esista e che sia stato inserito appena un finanziamento ad esso
-$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto, ':email' => $email]);
-$finaziamentoEsistente = $db->query("SELECT * FROM Finanziamento WHERE nomeprogetto = :nomeProgetto AND emailUtente = .email AND data = current_date()", [':nomeProgetto' => $nomeProgetto, ':email' => $email]);
+$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto]);
+$finaziamentoEsistente = $db->query("SELECT * FROM Finanziamento WHERE nomeprogetto = :nomeProgetto AND emailUtente = :email AND data = current_date()", [':nomeProgetto' => $nomeProgetto, ':email' => $email]);
 
 if(!$progettoEsistente || !$finaziamentoEsistente) {
     abort();
@@ -31,7 +31,7 @@ if(!Validatore::isNumber($codice)) {
 }
 
 $parametri = [
-    'codice-reward' => $codice,
+    'codiceReward' => $codice,
     'emailUtente' => $email,
     'nomeProgetto' => $nomeProgetto,
     '@esito' => '@esito'
@@ -40,7 +40,7 @@ $parametri = [
 $esito = $db->procedure('SceltaReward', $parametri);
 
 if(!$esito) {
-    $errori['procedura'] = "Reward già scelta da un altro utente, scegline un'altra.";
+    $errori['procedura'] = "Si è verificato un'errore nella scelta della reward, riprova.";
     require view('/finanziamenti/inserisci-finanziamento.view.php', $errori);
     exit();
 }

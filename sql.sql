@@ -596,7 +596,7 @@ BEGIN
     declare correttezzaNomeProg boolean;
 
     -- la foto deve avere una estensione valida
-    set correttezzaFoto = (urlFotoI REGEXP '\\.(jpg|jpeg|png)$');
+    set correttezzaFoto = (urlFotoI REGEXP '\\.(jpg|jpeg|png|webp|avif)$');
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
     -- creare la reward
     set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI) > 0;
@@ -655,7 +655,7 @@ BEGIN
     -- definisco un cursore che scorrerà una tabella con n righe e una colonna contenente le skills passate come parametro
     -- il metodo json_table prende in input un oggetto json e ne ritorna una tabella
     declare skillCursore cursor for 
-		select skill, livello from json_table(skillsRichiestaI,'$[*]' 
+		select skill, livello from json_table(skillsRichiestaI,'$[*]'
 			columns (skill varchar(100) path '$.nomeSkill', livello varchar(1) path '$.livello')) as tabella;
 
     -- quanto il cursore non troverà righe da leggere imposterà la variabile booleana fineCursor a true
@@ -779,7 +779,7 @@ BEGIN
     declare fotoNuova boolean;
 
      -- la foto deve avere una estensione valida
-    set urlCorretto = (urlFotoI REGEXP '\\.(jpg|jpeg|png)$');
+    set urlCorretto = (urlFotoI REGEXP '\\.(jpg|jpeg|png|webp|avif)$');
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
     -- creare la reward
     set progettoEsistente = (SELECT count(*) from Progetto where Progetto.nome = nomeProgettoI) > 0;

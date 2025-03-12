@@ -162,7 +162,7 @@
                                     <td class='codice-reward'> <?= $reward['codice']; ?> </td>
                                     <td class='descrizione-reward'> <?= $reward['descr']; ?> </td>
                                     <td class='immagine-reward'> 
-                                        <img src='../../../<?= $reward['urlFoto']; ?>' alt='immagine reward'>
+                                        <img src='../../../../<?= $reward['urlFoto']; ?>' alt='immagine reward'>
                                      </td>
                                 </tr>
                             <?php endforeach; ?>
