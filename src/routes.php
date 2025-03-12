@@ -36,8 +36,7 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/i-
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/skills-richieste', 'app/controllers/i-miei-progetti/skills-profilo.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/i-miei-progetti/candidature-profilo.controller.php')->soloSe('creatore');
 $router->get('/home/progetti/{nomeProgetto}/commenti', 'app/views/commenti/inserisci-commento.view.php')->soloSe('autenticato');
-$router->get('/home/progetti/{nomeProgetto}/finanziamenti', 'app/views/finanziamenti/inserisci-finanziamento.view.php')->soloSe('autenticato');
-$router->get('/home/progetti/{nomeProgetto}/finanziamenti/scelta-reward', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
+$router->get('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
@@ -58,7 +57,7 @@ $router->post('/home/crea-progetto/rewards', 'app/controllers/creazione-progetto
 $router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-progetto/creazione-progetto.controller.php')->soloSe('creatore');
 $router->post('/home/progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/inserisci-commento.controller.php')->soloSe('autenticato');
 $router->post('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/inserisci-finanziamento.controller.php')->soloSe('autenticato');
-$router->post('/home/progetti/{nomeProgetto}/finanziamenti/scelta-reward', 'app/controllers/finanziamenti/scelta-reward.controller.php')->soloSe('autenticato');
+
 //PUT
 
 

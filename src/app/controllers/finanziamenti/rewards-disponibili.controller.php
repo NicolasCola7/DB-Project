@@ -2,7 +2,6 @@
 
 use \core\App;
 use \core\Database;
-use \core\Validatore;
 
 $db = App::getContainer()->risolvi(Database::class);
 
@@ -13,14 +12,13 @@ $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 
 // controllo che il progetto esista e che sia stato inserito appena un finanziamento ad esso
 $progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto]);
-$finaziamentoEsistente = $db->query("SELECT * FROM Finanziamento WHERE nomeProgetto = :nomeProgetto AND emailUtente = :email AND data = current_date()", [':nomeProgetto' => $nomeProgetto, ':email' => $email]);
 
-if(!$progettoEsistente || !$finaziamentoEsistente) {
+if(!$progettoEsistente) {
     abort();
 }
 
 //recupero tutte le rewards disponibili per quel progetto
 $rewards = $db->query("SELECT codice, urlFoto, descr FROM Reward WHERE nomeProgetto = :nomeProgetto", [':nomeProgetto' => $nomeProgetto]);
 
-require view('/finanziamenti/scelta-reward.view.php', $rewards);
+require view('/finanziamenti/inserisci-finanziamento.view.php', ['rewards' => $rewards]);
 exit();

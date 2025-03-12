@@ -91,6 +91,74 @@
             background-color: #005fa3;
         }
 
+        #container-rewards {
+            padding: 20px 30px;
+        }
+
+        #container-rewards header {
+            margin-bottom: 15px;
+            background-color: white;
+        }
+
+        #container-rewards h4 {
+            color: black;
+            font-size: 18px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background-color: #0077cc;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:hover {
+            background-color: #f0f7fc;
+        }
+
+        .codice-reward {
+            font-weight: 600;
+            color: #0077cc;
+        }
+
+        .descrizione-reward {
+            max-width: 400px;
+        }
+
+        .immagine-reward img {
+            max-width: 120px;
+            max-height: 80px;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .reward-selezionata {
+            background-color: #e1f0fa !important;
+            border-left: 4px solid #0077cc;
+        }
+        
+        .buttoni {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -101,16 +169,49 @@
         
         <div class="contenutoMain">
             <header>
-               <h2>Finanzia il progetto ...</h2>
+               <h2>Finanzia il progetto <span> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span></h2>
             </header>
 
             <section>
-                <form action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/finanziamenti' method='POST'>
+                <form id='form-finanziamento' action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/finanziamenti' method='POST'>
                     <div class='container'>
                         <label for='importo'>Importo (€)</label>
                         <input type='number' name='importo' id='importo' required min='1'>
                     </div>
+
                     <div class='container'>
+                        <label for='tabella-rewards'> Seleziona una reward cliccando sulla riga corrispondente </label>
+                        <table name="tabella-rewards">
+                            <thead>
+                                <tr>
+                                    <th> Codice </th>
+                                    <th> Descrizione </th>
+                                    <th> Foto </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if(count($rewards) > 0): ?>
+                                    <?php foreach($rewards as $reward): ?>
+                                        <tr class="reward" data-code="<?= $reward['codice']; ?>">
+                                            <td class='codice-reward'> <?= $reward['codice']; ?> </td>
+                                            <td class='descrizione-reward'> <?= $reward['descr']; ?> </td>
+                                            <td class='immagine-reward'> 
+                                                <img src='../../../../<?= $reward['urlFoto']; ?>' alt='immagine reward'>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan='3'> Non sono presenti rewards per questo progetto </td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <input type="hidden" id="codice-reward" name="codice-reward" value="" required>
+                    
+                    <div class='container bottoni'>
                         <button type='submit'>Invia Finanziamento</button>
                     </div>
                 </form>
@@ -119,6 +220,10 @@
             <div id="errori">
                 <?php if (isset($errori['importo'])) : ?>
                     <p> <?= $errori['importo'] ?> </p>
+                <?php endif; ?>
+
+                <?php if (isset($errori['codice-reward'])) : ?>
+                    <p> <?= $errori['codice'] ?> </p>
                 <?php endif; ?>
 
                 <?php if (isset($errori['procedura'])) : ?>
@@ -132,4 +237,34 @@
 
 </body>
 
+
+<script>
+  
+    const rewards = document.querySelectorAll('.reward');
+    const codiceReward = document.getElementById('codice-reward');
+    const form = document.getElementById('form-finanziamento');
+    
+    rewards.forEach(reward => {
+        reward.addEventListener('click', function() {
+            // Elimino il valore del codice reward selezionata
+            codiceReward.value= "";
+
+            // Rimuovo la marcatura di reward selezionata da tutte le righe dell atabella
+            rewards.forEach(r => r.classList.remove('reward-selezionata'));
+            
+            // Marco come selezionata la reward 
+            this.classList.add('reward-selezionata');
+            
+            // Imposta il valore dell'input nascosto
+            codiceReward.value = this.getAttribute('data-code');
+        });
+    });
+
+    form.addEventListener('submit', event => {
+        if( codiceReward.value === "") {
+            event.preventDefault();
+            alert('Per finanziare il progetto devi selezionare una reward!');
+        }
+    });
+</script>
 </html>

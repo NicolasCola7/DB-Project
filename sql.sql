@@ -404,15 +404,11 @@ BEGIN
 		set importoValido = (importoI + budgetCorrente) <=  budgetAvvio; 
     end if;
 	
-    if(NOT(progettoValido AND emailCorretta AND utenteValido)) then
-		set esito = 0; -- errore: progetto o utente non trovati o utente ha gia eseguito finanziamento
+    if(NOT(progettoValido AND emailCorretta AND utenteValido AND importoValido)) then
+		set esito = 0; -- errore: progetto o utente non trovati o utente ha gia eseguito finanziamento o importo eccedente al budget di avvio 
 	else
-		if(importoValido) then
-			set esito = 2; -- finanziamento eseguito correttamente
-			INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, nomeProgettoI, importoI);
-		else
-			set esito = 1; -- importo eccedente al budget di avvio
-		end if;
+		set esito = 1;
+		INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, nomeProgettoI, CAST(importoI AS DECIMAL(10,2)));
 	end if;
 END;
 $ DELIMITER ;
@@ -422,7 +418,7 @@ CREATE PROCEDURE SceltaReward (IN codiceRewardI VARCHAR(50), IN emailUtenteI VAR
 BEGIN
 	declare rewardCorretta boolean;
     
-    set rewardCorretta = CAST(codiceRewardI AS UNSIGNED) IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI AND codice NOT IN (SELECT codiceReward FROM Finanziamento WHERE nomeProgetto = nomeProgettoI AND codiceReward IS NOT NULL));
+    set rewardCorretta = CAST(codiceRewardI AS UNSIGNED) IN (SELECT codice FROM Reward WHERE nomeProgetto = nomeProgettoI);
 	
     if (codiceRewardI REGEXP '^[0-9]+$' and rewardCorretta) then
         set esito = 1;

@@ -3,29 +3,7 @@
 <head>
     <title>Commenta Progetto</title>
     <style>
-        html, body {
-            height: 100vh;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }    
-
-        .main {
-            display: flex;
-            flex-grow: 1;
-            overflow: hidden;
-        }
-
-        .contenutoMain {
-            flex-grow: 1;
-            max-height: 100%;
-            overflow-y: auto;
-            padding: 20px;
-            margin: 10px;
-        }
-        
+       
         .contenutoMain > header {
             display: flex;
             flex-direction: row;
@@ -103,7 +81,7 @@
         
         <div class="contenutoMain">
             <header>
-               <h2>Commenta il progetto ...</h2>
+               <h2>Commenta il progetto <span> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span></h2>
             </header>
 
             <section>
