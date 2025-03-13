@@ -4,21 +4,6 @@
     <title>Profili</title>
 </head>
 <style>
-    html, body {
-        height: 100vh; 
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden; 
-    }    
-        
-    .main {
-        display: flex;
-        flex-grow: 1; 
-        overflow: hidden; 
-    }
-
     .contenutoMain {
         flex-grow: 1;
         max-height: 100%;
@@ -29,7 +14,7 @@
         flex-direction: column;
         flex-wrap: wrap;
         justify-content: flex-start;
-        gap: 5%;
+        gap: 20px;
     }
 
     .contenutoMain h3 {
@@ -41,7 +26,8 @@
     #profili {
         display: flex;
         flex-direction: column;
-        gap: 5%;
+        width: 100%;
+        gap: 20px;
     }
 
     .divProfilo {
@@ -49,13 +35,12 @@
         border: 1px solid #ddd;
         border-radius: 10px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        width: 80%; 
+        width: 700px; 
         padding: 15px;
         display: flex;
-        flex-direction: row;
         gap:15px;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -82,7 +67,7 @@
         color: #666;
     }
 
-    #bottoni > button {
+    .divProfilo button {
         background-color: #0077cc;
         color: white;
         border: none;
@@ -92,20 +77,16 @@
         font-size: 14px;
         transition: background-color 0.3s ease;
     }
-
-    #bottoni {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        gap: 5%;
+    .divProfilo button:hover {
+        background: #0056b3;
+        color: white;
     }
 
-    /* Stile per il pulsante di aggiunta nuovo profilo */
     .aggiungi-profilo {
         background-color: #ffffff;
         border: 2px dashed #ddd;
         border-radius: 10px;
-        width: 500px;
+        width: 700px;
         padding: 15px;
         display: flex;
         align-items: center;
@@ -159,10 +140,8 @@
                         <div class='divProfilo'>
                             <p class='nome-profilo'> <?= $profilo['nome'] ?> </p>
                             <p> <?= $profilo['numero_posizioni'] ?> posizioni disponibili </p>
-                            <div id='bottoni'>
-                                <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')"> Vedi Dettagli </button>
-                                <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')"> Visualizza Candidature </button>
-                            </div>
+                            <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')"> Vedi Dettagli </button>
+                            <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')"> Visualizza Candidature </button>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -189,11 +168,11 @@
     }
 
     function vediCandidature(nomeProfilo) {
-        window.location.href =`/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature `;
+        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature `;
     }
     
     function aggiungiProfilo() {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-profilo`;
+        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-profilo?modifica=true`;
     }
 </script>
 
