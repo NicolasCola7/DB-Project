@@ -3,20 +3,6 @@
 <head>
     <title>Le mie Skill</title>
     <style>
-        html, body {
-            height: 100vh; 
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; 
-        }    
-        
-        .main {
-            display: flex;
-            flex-grow: 1; 
-            overflow: hidden; 
-        }
 
         .contenutoMain {
             flex-grow: 1;
@@ -34,6 +20,10 @@
             justify-content: center;
             padding-bottom: 2%;
             border-bottom: 2px solid   #0077cc;
+        }
+
+        section {
+            margin: 0% 10%;
         }
 
         #aggiungi-skill {

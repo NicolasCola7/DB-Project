@@ -207,9 +207,11 @@
                                     <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/commenti' method='GET'>
                                         <button type="submit">Commenta</button>
                                     </form>
-                                    <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/finanziamenti' method='GET'>
-                                        <button type="submit">Finanzia</button>
-                                    </form>
+                                    <?php if($project['stato'] === 'aperto'): ?>
+                                        <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/finanziamenti' method='GET'>
+                                            <button type="submit">Finanzia</button>
+                                        </form>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </a>

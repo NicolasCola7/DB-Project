@@ -19,24 +19,30 @@ if(!$progettoEsistente) {
 
 $progetto = [];
 
-$tipo = $db->query("SELECT tipoProgetto FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto])[0]['tipoProgetto'];
-$data_limite = $db->query("SELECT data_limite FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto])[0]['data_limite'];
-$budget = $db->query("SELECT budget_avvio FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto])[0]['budget_avvio'];
-$data_inserimento = $db->query("SELECT data_inserimento FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto])[0]['data_inserimento'];
-$descrizione = $db->query("SELECT descr FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto])[0]['descr'];
-$stato = $db->query("SELECT stato FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto])[0]['stato'];
+$datiProgetto = $db->query("SELECT 
+    nome,
+    tipoProgetto,
+    data_limite,
+    budget_avvio,
+    data_inserimento,
+    descr,
+    stato
+FROM Progetto 
+WHERE nome = :nome", 
+[':nome' => $nomeProgetto]);
+
 $finanziamenti = $db->query("SELECT SUM(importo) AS somma FROM Finanziamento WHERE nomeProgetto = :nome GROUP BY nomeProgetto", [':nome' => $nomeProgetto]);
 
-$progetto['nome'] = $nomeProgetto;
-$progetto['tipo'] = $tipo;
-$progetto['data_limite'] = $data_limite;
-$progetto['budget'] = $budget;
-$progetto['data_inserimento'] = $data_inserimento;
-$progetto['descrizione'] = $descrizione;
-$progetto['stato'] = $stato;
+$progetto['nome'] = $datiProgetto[0]['nome'];
+$progetto['tipo'] = $datiProgetto[0]['tipoProgetto'];
+$progetto['data_limite'] = $datiProgetto[0]['data_limite'];
+$progetto['budget'] = $datiProgetto[0]['budget_avvio'];
+$progetto['data_inserimento'] = $datiProgetto[0]['data_inserimento'];
+$progetto['descrizione'] = $datiProgetto[0]['descr'];
+$progetto['stato'] = $datiProgetto[0]['stato'];
 $progetto['finanziamenti'] = isset($finanziamenti[0]['somma']) ? $finanziamenti[0]['somma']: '0.00';
 
-if($tipo === 'Hardware') {
+if($progetto['tipo'] === 'Hardware') {
     $componenti = $db->query("SELECT nome, prezzo, descr, quantita FROM Componente WHERE nomeProgetto = :nome", [':nome' => $nomeProgetto]);
     $progetto['componenti'] = [];
 

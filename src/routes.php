@@ -39,6 +39,8 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/skills-
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/i-miei-progetti/candidature-profilo.controller.php')->soloSe('creatore');
 $router->get('/home/progetti/{nomeProgetto}/commenti', 'app/views/commenti/inserisci-commento.view.php')->soloSe('autenticato');
 $router->get('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/views/commenti/inserisci-commento.view.php')->soloSe('autenticato');
+$router->get('/home/e-miei-progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
