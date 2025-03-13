@@ -70,21 +70,33 @@
             margin-bottom: 25px;
         }
 
-        .componentiContainer table {
+        table {
             margin-top: 10px;
-            border: 1px solid black;
+            margin-bottom: 20px;
             width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #aaa;
         }
 
-        .componentiContainer table tr th, .componentiContainer table tr td{
-            border: 1px solid black;
-            padding: 5px;
+        th, td {
+            padding: 10px;
+            border: 1px solid #aaa;
+            text-align: left;
         }
 
-        .componentiContainer table th{
-            background-color: black;
+        th {
+            background-color: #0077cc;
             color: white;
         }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #d8eaff;
+        }
+
 
         a{
             text-decoration: none;

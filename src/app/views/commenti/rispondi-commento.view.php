@@ -142,4 +142,26 @@
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.querySelector(".risposta form");
+        const textarea = form.querySelector("textarea");
+
+        form.addEventListener("submit", function(event) {
+            if (!textarea.value.trim()) {
+                event.preventDefault(); 
+                Swal.fire({
+                    title: "Attenzione",
+                    text: "Non puoi inviare un messaggio vuoto.",
+                    icon: "warning",
+                    confirmButtonText: "OK",
+                    customClass: {
+                        confirmButton: "my-confirm-button",
+                    }
+                })
+            }
+        });
+    });
+</script>
 </html>

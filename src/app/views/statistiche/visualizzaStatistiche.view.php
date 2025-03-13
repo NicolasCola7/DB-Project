@@ -61,21 +61,32 @@
         }
 
         table {
+            margin-top: 10px;
+            margin-bottom: 20px;
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            border: 1px solid #aaa;
         }
 
         th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            border: 1px solid #aaa;
             text-align: left;
         }
 
         th {
-            background: #0077cc;
+            background-color: #0077cc;
             color: white;
         }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #d8eaff;
+        }
+
 
         .errore {
             text-align: center;
