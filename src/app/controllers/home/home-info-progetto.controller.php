@@ -24,7 +24,7 @@ if(isset($_GET['nome']))
     $immaginiProgetto = $db->query("SELECT F.descrizione, F.urlImmagine FROM Foto_Progetto F WHERE F.nomeProgetto = :nomeProg", [':nomeProg' => $nomeProgetto]);
    
     //query per ricevere tutte le immagini delle reward del progetto
-    $rewardProgetto = $db->query("SELECT R.descr AS descrizione, R.urlFoto FROM Reward R WHERE R.nomeProgetto = :nomeProg", [':nomeProg' => $nomeProgetto]);
+    $rewardProgetto = $db->query("SELECT R.descr AS descrizione, R.urlFoto AS urlImmagine FROM Reward R WHERE R.nomeProgetto = :nomeProg", [':nomeProg' => $nomeProgetto]);
     echo json_encode([$progetto, $componenti, $immaginiProgetto, $rewardProgetto]);
 }
 else

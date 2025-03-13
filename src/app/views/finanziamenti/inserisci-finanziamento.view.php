@@ -202,7 +202,7 @@
                                     <?php endforeach; ?>
                                 <?php else: ?>
                                     <tr>
-                                        <td colspan='3'> Non sono presenti rewards per questo progetto </td>
+                                        <td colspan='3'>Non sono presenti rewards per questo progetto</td>
                                     </tr>
                                 <?php endif; ?>
                             </tbody>

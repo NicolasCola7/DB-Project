@@ -95,7 +95,7 @@
             text-decoration:underline;
         }
 
-        .immaginiContainer, .rewardsContainer {
+        .immaginiContainerWrapper, .rewardsContainerWrapper {
             padding: 20px;
             border: 1px solid black;
             border-radius: 10px;
@@ -104,14 +104,23 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
+        .immaginiContainer, .rewardsContainer {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
         .immaginiContainer img, .rewardsContainer img {
-            display: block;
-            margin: 0 auto 15px;
-            max-width: 250px;
+            max-width: 100%;
+            max-height: 200px;
             height: auto;
-            object-fit: contain;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            object-fit: cover;
+        }
+
+        .immaginiContainer div, .rewardsContainer div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .immaginiContainer p, .rewardsContainer p {
@@ -302,28 +311,31 @@
             }
         }
 
-        function stampaImmagini(immagini, tipo) 
-        {
+        function stampaImmagini(immagini, tipo) {
             if (immagini.length !== 0) {
-                let container = document.createElement("div");
-                container.classList.add(tipo + "Container"); // Usa il tipo per la classe
+                let containerWrapper = document.createElement("div");
+                containerWrapper.classList.add(tipo + "ContainerWrapper");
 
                 let titolo = document.createElement("h4");
                 titolo.textContent = tipo === "immagini" ? "Immagini del progetto" : "Rewards del progetto";
-                container.appendChild(titolo);
+                containerWrapper.appendChild(titolo);
+
+                let container = document.createElement("div");
+                container.classList.add(tipo + "Container");
+                containerWrapper.appendChild(container);
 
                 immagini.forEach(img => {
-                    let div = document.createElement("div");
                     let image = document.createElement("img");
                     //rimuovo nell'url la route "/home" tramite un percorso relativo
-                    image.src = '../' + (tipo === "immagini" ? img.urlImmagine : img.urlFoto);
+                    image.src = '../' + img.urlImmagine;
                     let descr = document.createElement("p");
                     descr.textContent = img.descrizione;
+                    let div = document.createElement("div");
                     div.appendChild(image);
                     div.appendChild(descr);
                     container.appendChild(div);
                 });
-                main.appendChild(container);
+                main.appendChild(containerWrapper);
             }
         }
 
