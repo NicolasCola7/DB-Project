@@ -148,32 +148,35 @@
     
     <div class="main">
         <?php require view('/home/home-sidebar.view.php'); ?>
-    
         
         <div class="contenutoMain">
             <header>
-               <h2> Gestione Skills </h2>
+               <h2>Gestione Skills</h2>
             </header>
 
+            <section id='aggiunta'>
+                <form action='/admin/home/gestione-skills' method='POST'>
+                    <input type="text" name='nome' id='aggiunta' placeholder="Nome della Skill">
+                    <button type='submit' id='aggiungi-skill'>+</button>
+                </form>
+            </section>
+
             <section id='skills'>
+            <h3>Le skill attualmente presenti:</h3>
+            <p>Queste sono le skill. Puoi rimuoverle o aggiungerne di nuove.</p>
                 <?php if(count($skills) > 0): ?>
                     <?php foreach($skills as $skill): ?>
                         <div class='skill'>
                             <span class='nome-skill'> <?= $skill['nome']; ?> </span>
                             <form action='/admin/home/gestione-skills/<?= urlencode($skill['nome']); ?>' method='POST'>
                                 <input type='hidden' name='_metodo' value='DELETE'>
-                                <button type='submit' class='elimina-btn'> - </button>
+                                <button type='submit' class='elimina-btn'>-</button>
                             </form>
                         </div>
                     <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Non hai ancora aggiunto alcuna skill.</p>
                 <?php endif; ?>
-            </section>
-
-            <section id='aggiunta'>
-                <form action='/admin/home/gestione-skills' method='POST'>
-                    <input type="text" name='nome' id='aggiunta' required>
-                    <button type='submit' id='aggiungi-skill'> + </button>
-                </form>
             </section>
 
             <div id="errori">
