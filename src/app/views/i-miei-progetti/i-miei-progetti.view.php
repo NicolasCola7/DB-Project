@@ -20,7 +20,7 @@
         .grid{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 10px;
+            gap: 3%;
             justify-content: center;
         }
         .card {

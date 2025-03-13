@@ -56,6 +56,7 @@ $router->post('/home/crea-progetto/software/profili', 'app/controllers/creazione
 $router->post('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/aggiungi-skill-richieste.controller.php')->soloSe('creatore');
 $router->post('/home/info-progetto/profilo-invio-candidatura', 'app/controllers/profilo/post-candidatura-prog.controller.php')->soloSe('autenticato');
 $router->post('/home/info-progetto/profilo/check-candidatura/esito', 'app/controllers/profilo/validate-candidatura-profilo.controller.php')->soloSe('autenticato');
+$router->post('/home/info-progetto/invia-risposta', '/app/controllers/commenti/invia-risposta.controller.php')->soloSe('creatore');
 $router->post('/home/crea-progetto/foto', 'app/controllers/creazione-progetto/inserisci-foto.controller.php')->soloSe('creatore');
 $router->post('/home/crea-progetto/rewards', 'app/controllers/creazione-progetto/inserimento-reward.controller.php')->soloSe('creatore');
 $router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-progetto/creazione-progetto.controller.php')->soloSe('creatore');

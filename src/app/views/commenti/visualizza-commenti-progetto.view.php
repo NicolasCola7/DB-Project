@@ -131,28 +131,38 @@
         
         <div class="contenutoMain">
             <h3>Commenti - <?= $nomeProgetto; ?></h3>
-            <?php foreach ($commenti as $commento): ?>
-                <div class="commento">
-                    <div class="intestazione">
-                        <p><?= $commento['nickname']; ?> - <?= $commento['data']; ?></p>
-                    </div>
-                    <div class="corpo">
-                        <p><?= $commento['commento']; ?></p>
-                    </div>
-                    <?php if($commento['risposta'] != null): ?>
-                        <div class="risposta">
-                            <p><?= $commento['risposta']; ?></p>
+            <?php if(count($commenti) != 0): ?>
+                <?php foreach ($commenti as $commento): ?>
+                    <div class="commento">
+                        <div class="intestazione">
+                            <p><?= $commento['nickname']; ?> - <?= $commento['data']; ?></p>
                         </div>
-                        <?php elseif($_SESSION['utente']['creatore']): ?>
-                        <div class="bottone">
-                            <button type="submit" onclick="rispondi('<?= urlencode($commento['id']), $nomeProgetto ?>')">Rispondi</button>
+                        <div class="corpo">
+                            <p><?= $commento['commento']; ?></p>
                         </div>
-                    <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
+                        <?php if($commento['risposta'] != null): ?>
+                            <div class="risposta">
+                                <p><?= $commento['risposta']; ?></p>
+                            </div>
+                            <?php elseif($_SESSION['utente']['creatore']): ?>
+                            <div class="bottone">
+                            <button type="submit" onclick="rispondi('<?= urlencode($commento['id']) ?>', '<?= $nomeProgetto ?>')">Rispondi</button>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p>Non sono presenti commenti per questo</p>
+            <?php endif; ?>  
         </div>
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
+<script> 
+    function rispondi(id, nomeProgetto){
+        window.location.href =  `/home/info-progetto/rispondi-a-commento?nomeProgetto=${nomeProgetto}&idCommento=${id}`;
+    }
+            
+</script>
 </html>
