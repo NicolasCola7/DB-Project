@@ -136,7 +136,9 @@
                              ($candidatura['risultato'] == 1 ? 'accettata' : 'rifiutata') : 
                              ''); ?>'>
                             <p> Candidato:  <span> <?= $candidatura['nickname']; ?> </span></p>
-                            <button> Vedi dettagli </button>
+                            <button onclick="dettagliCandidatura(<?= urlencode($candidatura['id']); ?>)">
+                                 Vedi dettagli
+                            </button>
                         </div>
                     <?php endforeach; ?>
                     <?php else: ?>
@@ -170,6 +172,10 @@
             default:
                 break;
         }
+    }
+
+    function dettagliCandidatura(id) {
+        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature/${id}`;
     }
 
 </script>

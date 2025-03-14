@@ -30,33 +30,33 @@ $candidature = [];
 
 if($filtro === 'rifiutata') {
     $candidature = $db->query(
-        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato 
+        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato, C.id 
         from Candidatura C join Utente U on C.emailUtente = U.email 
         where C.nomeProfilo = :nomeProfilo and C.nomeProgetto = :nomeProgetto AND accettata = false AND stato = 'chiusa'", 
         [':nomeProfilo' => $nomeProfilo, ':nomeProgetto' => $nomeProgetto]
     );
 } elseif ($filtro === 'accettata') {
     $candidature = $db->query(
-        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato 
+        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato, C.id 
         from Candidatura C join Utente U on C.emailUtente = U.email 
         where C.nomeProfilo = :nomeProfilo and C.nomeProgetto = :nomeProgetto AND accettata = true AND stato = 'chiusa'", 
         [':nomeProfilo' => $nomeProfilo, ':nomeProgetto' => $nomeProgetto]
     );
 } elseif($filtro === 'aperta') {
     $candidature = $db->query(
-        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato 
+        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato, C.id 
         from Candidatura C join Utente U on C.emailUtente = U.email 
         where C.nomeProfilo = :nomeProfilo and C.nomeProgetto = :nomeProgetto AND stato = 'aperta'", 
         [':nomeProfilo' => $nomeProfilo, ':nomeProgetto' => $nomeProgetto]
     );
 } else {
     $candidature = $db->query(
-        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato 
+        "SELECT U.nickname, C.emailUtente, C.stato, C.accettata as risultato, C.id 
         from Candidatura C join Utente U on C.emailUtente = U.email 
         where C.nomeProfilo = :nomeProfilo and C.nomeProgetto = :nomeProgetto", 
         [':nomeProfilo' => $nomeProfilo, ':nomeProgetto' => $nomeProgetto]
     );
 }
 
-require view('/i-miei-progetti/vedi-candidature.view.php', ['candidature' => $candidature]);
+require view('/profilo/vedi-candidature.view.php', ['candidature' => $candidature]);
 exit();
