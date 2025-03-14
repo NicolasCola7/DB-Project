@@ -164,11 +164,11 @@
     const nomeProgetto = '<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>';
     
     function vediDettagli(nomeProfilo){
-        window.location.href =  `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/skills-richieste`;
+        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/skills-richieste`;
     }
 
     function vediCandidature(nomeProfilo) {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature `;
+        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature`;
     }
     
     function aggiungiProfilo() {

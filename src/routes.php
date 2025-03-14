@@ -36,12 +36,12 @@ $router->get('/home/i-miei-progetti', 'app/controllers/i-miei-progetti/i-miei-pr
 $router->get('/home/i-miei-progetti/{nomeProgetto}/informazioni', 'app/controllers/i-miei-progetti/info-progetto.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/i-miei-progetti/vedi-profili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/skills-richieste', 'app/controllers/i-miei-progetti/skills-profilo.controller.php')->soloSe('creatore');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/i-miei-progetti/candidature-profilo.controller.php')->soloSe('creatore');
 $router->get('/home/progetti/{nomeProgetto}/commenti', 'app/views/commenti/inserisci-commento.view.php')->soloSe('autenticato');
 $router->get('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/views/commenti/inserisci-commento.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-profilo', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/ottieni-candidature.controller.php')->soloSe('creatore');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
