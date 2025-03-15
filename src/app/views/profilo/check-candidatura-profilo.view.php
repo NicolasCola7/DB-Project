@@ -370,7 +370,7 @@ table {
                 //chiedo conferma all'utente se desiderà veramente inoltrare la candidatura
                 Swal.fire({
                     title: "Sei sicuro?",
-                    text: "Vuoi davvero accettare la candidatura di "+nome +" "+cognome+" come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
+                    text: "Vuoi davvero accettare la candidatura di "+ nome +" "+cognome+" come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
                     icon: "warning",
                     showCancelButton: true,
                     confirmButtonText: "Sì, procedi!",

@@ -191,11 +191,11 @@
             </div>
             <?php if(!$presente[0]['risultato']): ?>
                 <div class='divBottoni'>
-                    <form id='accettaForm' action="/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>/profili/<?= explode('/', $_SERVER['REQUEST_URI'])[5]; ?>/candidature/<?= explode('/', $_SERVER['REQUEST_URI'])[7]; ?>?tipo=accetta" method='POST'>
+                    <form id='accettaForm' action="/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>/profili/<?= explode('/', $_SERVER['REQUEST_URI'])[5]; ?>/candidature/<?= explode('/', $_SERVER['REQUEST_URI'])[7]; ?>?scelta=accetta" method='POST'>
                         <input type='hidden' name='_metodo' value='PATCH'>
                         <button type='submit' id='accetta'> Accetta </button>
                     </form>
-                    <form id='rifiutaForm' action="/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>/profili/<?= explode('/', $_SERVER['REQUEST_URI'])[5]; ?>/candidature/<?= explode('/', $_SERVER['REQUEST_URI'])[7]; ?>?tipo=rifiuta" method='POST'>
+                    <form id='rifiutaForm' action="/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>/profili/<?= explode('/', $_SERVER['REQUEST_URI'])[5]; ?>/candidature/<?= explode('/', $_SERVER['REQUEST_URI'])[7]; ?>?scelta=rifiuta" method='POST'>
                         <input type='hidden' name='_metodo' value='PATCH'>
                         <button type='submit' id='rifiuta'> Rifiuta </button>
                     </form>
@@ -208,18 +208,20 @@
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
-</html>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-   
 <script>
     const nomeCandidato = document.getElementById('nome').value;
-    const nomeProgetto = <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>;
-    const nomeProfilo = <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]); ?>;
+    const nomeProgetto = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) ?>';
+    const nomeProfilo = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]) ?>';
 
     const rifiuta = document.getElementById('rifiutaForm');
     const accetta = document.getElementById('accettaForm');
 
-    rifiuta.addEventListener('submit', event => {
+    const rifiutaBtn = document.getElementById('rifiuta');
+    const accettaBtn = document.getElementById('accetta');
+
+    rifiutaBtn.addEventListener('click', event => {
         event.preventDefault();
 
         Swal.fire({
@@ -236,12 +238,12 @@
          }).then((result) => {
             //se l'utente conferma faccio submit
             if (result.isConfirmed) {
-                form.submit();
+                rifiuta.submit();
             }
         });
     });
 
-    accetta.addEventListener('submit', event => {
+    accettaBtn.addEventListener('click', event => {
         event.preventDefault();
 
         Swal.fire({
@@ -258,8 +260,9 @@
          }).then((result) => {
             //se l'utente conferma faccio submit
             if (result.isConfirmed) {
-                form.submit();
+                accetta.submit();
             }
         });
     });
 </script>
+</html>

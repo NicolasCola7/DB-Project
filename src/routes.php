@@ -37,12 +37,13 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/informazioni', 'app/controlle
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/i-miei-progetti/vedi-profili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/skills-richieste', 'app/controllers/i-miei-progetti/skills-profilo.controller.php')->soloSe('creatore');
 $router->get('/home/progetti/{nomeProgetto}/commenti', 'app/views/commenti/inserisci-commento.view.php')->soloSe('autenticato');
-$router->get('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/views/commenti/inserisci-commento.view.php')->soloSe('creatore');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('creatore');
+$router->get('/home/progetti/{nomeProgetto}/finanzia', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/commenta', 'app/views/commenti/inserisci-commento.view.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/finanzia', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-profilo', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/ottieni-candidature.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature/{idCandidatura}', 'app/controllers/profilo/ottieni-candidatura.controller.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/ottieni-commenti.controller.php')->soloSe('autenticato');
 
 //POST
 $router->post('/login', 'app/controllers/autenticazione/login.controller.php')->soloSe('non-autenticato');
@@ -73,4 +74,6 @@ $router->delete('/home/le-mie-skill/{nomeSkill}', 'app/controllers/skills/non-ad
 $router->delete('/admin/home/gestione-skills/{nomeSkill}',  'app/controllers/skills/admin/elimina-skill.controller.php')->soloSe('admin');
 $router->delete('/home/crea-progetto/software/profili/skills/{nomeSkill}', 'app/controllers/creazione-progetto/software/elimina-skill-richiesta.controller.php')->soloSe('creatore');
 $router->delete('/home/crea-progetto/annulla', 'app/controllers/creazione-progetto/elimina-dati.controller.php')->soloSe('creatore');
+
 //PATCH
+$router->patch('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature/{idCandidatura}', 'app/controllers/profilo/gestione-candidatura.controller.php')->soloSe('creatore');

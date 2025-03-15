@@ -3,6 +3,7 @@
 <head>
     <title> Candidature </title>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
 
     .contenutoMain {
@@ -148,6 +149,31 @@
         </div>
     </div>
     <?php require view('/home/home-footer.view.php'); ?>
+    <?php if (isset($_SESSION["utente"]['errore_validazione'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: "Posti esauriti!",
+                    text: "<?php echo $_SESSION["utente"]['errore_validazione']; ?>",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+        <?php unset($_SESSION["utente"]['errore_validazione']); // Elimina il messaggio di errore dopo averlo mostrato ?>
+    <?php elseif (isset($_SESSION["utente"]['esito_validazione'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: "Successo!",
+                    text: "<?php echo $_SESSION["utente"]['esito_validazione']; ?>",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+        <?php unset($_SESSION["utente"]['esito_validazione']); // Elimina il messaggio di successo dopo averlo mostrato ?>
+    <?php endif; ?>
 </body>
 
 <script>

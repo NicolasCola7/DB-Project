@@ -181,11 +181,11 @@
                                     </div>  
                                 </div>
                                 <div class="azioni">
-                                    <form action='/home/i-miei-progetti/<?= urlencode($progetto['NomeProgetto']); ?>/commenti' method='GET'>
+                                    <form action='/home/i-miei-progetti/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
                                         <button type="submit">Commenta</button>
                                     </form>
                                     <?php if($progetto['stato'] === 'aperto'): ?>
-                                        <form action='/home/i-miei-progetti/<?= urlencode($progetto['NomeProgetto']); ?>/finanziamenti' method='GET'>
+                                        <form action='/home/i-miei-progetti/<?= urlencode($progetto['NomeProgetto']); ?>/finanzia' method='GET'>
                                             <button type="submit">Finanzia</button>
                                         </form>
                                     <?php endif; ?>

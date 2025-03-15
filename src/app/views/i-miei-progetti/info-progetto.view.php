@@ -61,7 +61,7 @@
             border-radius: 5px;
             color: #555;
         }
-        .infoContainer, .componentiContainer, .contenitoreProfili{
+        .infoContainer, .componentiContainer, .contenitoreProfili, .contenitoreCommenti{
             padding: 10px;
             border: 1px solid #555;
             border-radius: 10px;
@@ -94,6 +94,41 @@
         tr:hover {
             background-color: #d8eaff;
         }
+        .immaginiContainerWrapper, .rewardsContainerWrapper {
+            padding: 20px;
+            border: 1px solid black;
+            border-radius: 10px;
+            width: 70%;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .immaginiContainer, .rewardsContainer {
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .immaginiContainer img, .rewardsContainer img {
+            max-width: 100%;
+            max-height: 200px;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .immaginiContainer div, .rewardsContainer div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .immaginiContainer p, .rewardsContainer p {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1em;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -116,6 +151,28 @@
                 <p> Tipo: <?= $progetto['tipo'] ?> </p>
                 <p> Budget d'avvio: <?= $progetto['budget'] ?> EUR </p>
                 <p> Finaziamenti ricevuti: <?= $progetto['finanziamenti'] ?> EUR </p>
+            </div>
+            <div class='immaginiContainerWrapper'>
+                <h4> Immagini del progetto </h4>
+                <div class='immaginiContainer'>
+                    <?php foreach($progetto['foto'] as $foto): ?>
+                        <div>
+                            <img src="../../../<?= $foto['urlImmagine']; ?>">
+                            <p> <?= $foto['descrizione']; ?> </p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <div class='rewardsContainerWrapper'>
+                <h4> Rewards del progetto </h4>ù
+                <div class='rewardsContainer'>
+                    <?php foreach($progetto['rewards'] as $reward): ?>
+                        <div>
+                            <img src="../../../<?= $reward['urlFoto']; ?>">
+                            <p> <?= $reward['descr']; ?> </p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
             </div>
             <?php if($progetto['tipo'] === 'Hardware'): ?>
                 <div class='componentiContainer'>
@@ -149,6 +206,12 @@
                     </a>
                 </div>
             <?php endif; ?>
+            <div class='contenitoreCommenti'>
+                <h4> Commenti pubblicati </h4>
+                <a href='/home/i-miei-progetti/<?= urlencode($progetto['nome']) ?>/commenti'>
+                    Visualizza i commenti pubblicati per questo progetto
+                </a>
+            </div>
         </div>
     </div>
     

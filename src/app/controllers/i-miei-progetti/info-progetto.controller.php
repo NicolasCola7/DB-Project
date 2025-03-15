@@ -31,7 +31,19 @@ FROM Progetto
 WHERE nome = :nome", 
 [':nome' => $nomeProgetto]);
 
-$finanziamenti = $db->query("SELECT SUM(importo) AS somma FROM Finanziamento WHERE nomeProgetto = :nome GROUP BY nomeProgetto", [':nome' => $nomeProgetto]);
+$finanziamenti = $db->query(
+    "SELECT SUM(importo) AS somma FROM Finanziamento WHERE nomeProgetto = :nome GROUP BY nomeProgetto",
+     [':nome' => $nomeProgetto]
+);
+
+$progetto['rewards'] = $db->query(
+    "SELECT urlFoto, descr FROM Reward WHERE nomeProgetto = :nomeProgetto",
+    [':nomeProgetto' => $nomeProgetto]
+);
+$progetto['foto'] = $db->query(
+    "SELECT urlImmagine, descrizione FROM Foto_Progetto WHERE nomeProgetto = :nomeProgetto",
+    [':nomeProgetto' => $nomeProgetto]
+);
 
 $progetto['nome'] = $datiProgetto[0]['nome'];
 $progetto['tipo'] = $datiProgetto[0]['tipoProgetto'];
@@ -51,6 +63,9 @@ if($progetto['tipo'] === 'Hardware') {
     }
 }
 
-require view('/i-miei-progetti/info-progetto.view.php', $progetto);
+require view(
+    '/i-miei-progetti/info-progetto.view.php',
+    ['progetto' => $progetto]
+);
 
 exit();

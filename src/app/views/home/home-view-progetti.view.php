@@ -204,11 +204,11 @@
 
                                 </div>
                                 <div class="azioni">
-                                    <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/commenti' method='GET'>
+                                    <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/commenta' method='GET'>
                                         <button type="submit">Commenta</button>
                                     </form>
                                     <?php if($project['stato'] === 'aperto'): ?>
-                                        <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/finanziamenti' method='GET'>
+                                        <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/finanzia' method='GET'>
                                             <button type="submit">Finanzia</button>
                                         </form>
                                     <?php endif; ?>
