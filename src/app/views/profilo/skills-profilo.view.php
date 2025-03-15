@@ -128,10 +128,46 @@ table {
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
+                    <form id='candidatiForm' action="/home/progetti/<?= (explode('/', $_SERVER['REQUEST_URI'])[3]) ?>/profili/<?= (explode('/', $_SERVER['REQUEST_URI'])[5]) ?>/candidature" method='POST'>
+                        <button id='candidati' type='submit'> Invia candidatura </button>
+                    </form>
+                <?php endif; ?>
             </div>
         </div>
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    let candidati = document.getElementById('candidati');
+    let form = document.getElementById('candidatiForm');
+
+    const nomeProgetto = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) ?>';
+    const nomeProfilo = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]) ?>';
+
+    candidati.addEventListener('click', event => {
+        event.preventDefault();
+
+        Swal.fire({
+            title: "Sei sicuro?",
+            text: "Vuoi inviare la tua candidatura come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sì, procedi!",
+            cancelButtonText: "Annulla",
+            customClass: {
+                confirmButton: "my-confirm-button",
+                cancelButton: "my-cancel-button"
+            }
+        }).then((result) => {
+            //se l'utente conferma faccio submit
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+</script>
 </html>

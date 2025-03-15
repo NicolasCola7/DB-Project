@@ -10,8 +10,19 @@ $email = $_SESSION['utente']['email'];
 // ottengo il nome del progetto
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 
-// controllo che il progetto esista
-$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome AND emailCreatore = :email", [':nome' => $nomeProgetto, ':email' => $email]);
+// a seconda della sezione in cui ci si trova controllo che il progettoo esista:
+$progettoEsistente = [];
+if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') { // sezione progetti
+    $progettoEsistente = $db->query(
+        "SELECT nome FROM Progetto WHERE nome = :nomeProgetto",
+        [':nomeProgetto' => $nomeProgetto]
+    );
+} else { // sezione i-miei-progetti
+    $progettoEsistente = $db->query(
+        "SELECT nome FROM Progetto WHERE nome = :nomeProgetto AND emailCreatore = :email",
+        [':nomeProgetto' => $nomeProgetto, ':email' => $email]
+    );
+}
 
 if(!$progettoEsistente) {
     abort();
@@ -19,7 +30,8 @@ if(!$progettoEsistente) {
 
 $progetto = [];
 
-$datiProgetto = $db->query("SELECT 
+$datiProgetto = $db->query(
+    "SELECT 
     nome,
     tipoProgetto,
     data_limite,
@@ -27,9 +39,10 @@ $datiProgetto = $db->query("SELECT
     data_inserimento,
     descr,
     stato
-FROM Progetto 
-WHERE nome = :nome", 
-[':nome' => $nomeProgetto]);
+    FROM Progetto 
+    WHERE nome = :nome", 
+    [':nome' => $nomeProgetto]
+);
 
 $finanziamenti = $db->query(
     "SELECT SUM(importo) AS somma FROM Finanziamento WHERE nomeProgetto = :nome GROUP BY nomeProgetto",
@@ -64,7 +77,7 @@ if($progetto['tipo'] === 'Hardware') {
 }
 
 require view(
-    '/i-miei-progetti/info-progetto.view.php',
+    '/progetti/info-progetto.view.php',
     ['progetto' => $progetto]
 );
 

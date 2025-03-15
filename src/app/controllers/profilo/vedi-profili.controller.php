@@ -11,7 +11,10 @@ $email = $_SESSION['utente']['email'];
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 
 // controllo che il progetto esista e sia software
-$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome AND emailCreatore = :email AND tipoProgetto = 'Software' ", [':nome' => $nomeProgetto, ':email' => $email]);
+$progettoEsistente = $db->query(
+    "SELECT nome FROM Progetto WHERE nome = :nome AND tipoProgetto = 'Software' ",
+     [':nome' => $nomeProgetto]
+);
 
 if(!$progettoEsistente) {
     abort();
@@ -24,5 +27,5 @@ foreach($query as $profilo) {
     array_push($profili, $profilo);
 }
 
-require view('/i-miei-progetti/vedi-profili.view.php', $profili);
+require view('/profilo/vedi-profili.view.php', $profili);
 exit();

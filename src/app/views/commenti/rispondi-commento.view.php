@@ -129,9 +129,7 @@
                         <p><?= $commento['commento']; ?></p>
                     </div>
                     <div class="risposta">
-                        <form action="/home/info-progetto/invia-risposta?nomeProgetto=<?= urldecode($_GET['nomeProgetto'])?>" method="post">
-                            <input type="hidden" name="idCommento" value="<?= $commento['id']; ?>">
-                            <input type="hidden" name="emailCreatore" value="<?= $_SESSION['utente']['email']; ?>">
+                        <form action="/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>/commenti/<?= explode('/', $_SERVER['REQUEST_URI'])[5] ?>/rispondi" method="post">
                             <textarea name="contenuto" placeholder="Scrivi la tua risposta" required></textarea>
                             <button type="submit">Invia messaggio</button>
                         </form>

@@ -39,7 +39,7 @@
 
     <div class="sidebar">
         <ul>
-            <li><a href="/home/visualizza-progetti-controller">Progetti disponibili</a></li>
+            <li><a href="/home/progetti">Progetti disponibili</a></li>
             <?php if ($_SESSION['utente']['creatore']) : ?>
                 <li><a href="/home/crea-progetto/informazioni-base">Crea un nuovo progetto</a></li> 
             <?php endif; ?>
@@ -50,7 +50,7 @@
             <?php if ($_SESSION['utente']['admin']) : ?>
                 <li><a href="/admin/home/gestione-skills">Gestione skills</a></li> 
             <?php endif; ?>
-            <li><a href="/home/visualizzaStatistiche">Visualizza statistiche</a></li>
+            <li><a href="/home/statistiche">Visualizza statistiche</a></li>
         </ul>
     </div>
 </html>

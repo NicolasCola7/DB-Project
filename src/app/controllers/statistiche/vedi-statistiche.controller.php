@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: application/json');
 
 use \core\App;
 use \core\Database;
@@ -15,11 +14,12 @@ $progettiVicini = $db->query("SELECT * FROM ProgettiApertiCompletamentoFinanziam
 // Query per la classifica finanziatori
 $classificaFinanziatori = $db->query("SELECT * FROM ClassificaUtentiFinanziatori");
 
-// Creazione di un array JSON
-$response = [
-    'classificaCreatori' => $classificaCreatori,
-    'progettiVicini' => $progettiVicini,
-    'classificaFinanziatori' => $classificaFinanziatori
-];
-
-echo json_encode($response);
+require view(
+    '/statistiche/vedi-statistiche.view.php',
+    [
+        'classificaCreatori' => $classificaCreatori,
+        'progettiVicini' => $progettiVicini,
+        'classificaFinanziatori' => $classificaFinanziatori
+    ]
+);
+exit();

@@ -201,14 +201,14 @@
             <?php else: ?>
                 <div class='contenitoreProfili'>
                     <h4> Profili richiesti </h4>
-                    <a href='/home/i-miei-progetti/<?= urlencode($progetto['nome']) ?>/profili'>
+                    <a href='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['nome']) ?>/profili'>
                         Profili richiesti per questo progetto
                     </a>
                 </div>
             <?php endif; ?>
             <div class='contenitoreCommenti'>
                 <h4> Commenti pubblicati </h4>
-                <a href='/home/i-miei-progetti/<?= urlencode($progetto['nome']) ?>/commenti'>
+                <a href='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['nome']) ?>/commenti'>
                     Visualizza i commenti pubblicati per questo progetto
                 </a>
             </div>

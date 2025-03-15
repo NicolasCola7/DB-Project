@@ -187,7 +187,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script> 
     function rispondi(id, nomeProgetto){
-        window.location.href =  `/home/info-progetto/rispondi-a-commento?nomeProgetto=${nomeProgetto}&idCommento=${id}`;
+        window.location.href =  `/home/i-miei-progetti/${nomeProgetto}/commenti/${id}/rispondi`;
     }
 </script>
 </html>

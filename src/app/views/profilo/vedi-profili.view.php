@@ -2,8 +2,8 @@
 <html>
 <head>
     <title>Profili</title>
-</head>
-<style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
     .contenutoMain {
         flex-grow: 1;
         max-height: 100%;
@@ -125,6 +125,7 @@
         color: #4CAF50;
     }
 </style>
+</head>
 
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -141,7 +142,11 @@
                             <p class='nome-profilo'> <?= $profilo['nome'] ?> </p>
                             <p> <?= $profilo['numero_posizioni'] ?> posizioni disponibili </p>
                             <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')"> Vedi Dettagli </button>
-                            <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')"> Visualizza Candidature </button>
+                            <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
+                                <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')">
+                                     Visualizza Candidature
+                                </button>
+                            <?php endif; ?>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -150,21 +155,48 @@
             </div>
     
             <!-- Pulsante per aggiungere un nuovo profilo -->
-            <div class="aggiungi-profilo" onclick="aggiungiProfilo()">
-                <div class="plus-icon">+</div>
-                <p>Aggiungi Nuovo Profilo</p>
-            </div>
+            <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
+                <div class="aggiungi-profilo" onclick="aggiungiProfilo()">
+                    <div class="plus-icon">+</div>
+                    <p>Aggiungi Nuovo Profilo</p>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
+    <?php if (isset($_SESSION["utente"]['errore_candidatura'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: "Errore di inserimento!",
+                    text: "<?php echo $_SESSION["utente"]['errore_candidatura']; ?>",
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+        <?php unset($_SESSION["utente"]['errore_candidatura']); // Elimina il messaggio di errore dopo averlo mostrato ?>
+    <?php elseif (isset($_SESSION["utente"]['esito_candidatura'])): ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    title: "Successo!",
+                    text: "<?php echo $_SESSION["utente"]['esito_candidatura']; ?>",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+        <?php unset($_SESSION["utente"]['esito_candidatura']); // Elimina il messaggio di successo dopo averlo mostrato ?>
+    <?php endif; ?>
 </body>
 
 <script>
     const nomeProgetto = '<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>';
     
     function vediDettagli(nomeProfilo){
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/skills-richieste`;
+        window.location.href = `/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/${nomeProgetto}/profili/${nomeProfilo}/skills-richieste`;
     }
 
     function vediCandidature(nomeProfilo) {

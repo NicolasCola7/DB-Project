@@ -3,26 +3,7 @@
 <head>
     <title>Home</title>
     <style>
-        html, body {
-            /* Assicura che il body occupi tutta l'altezza dello schermo */
-            height: 100vh; 
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            /* Evita lo scrolling dell'intera pagina */
-            overflow: hidden; 
-        }  
-
-        .main {
-            display: flex;
-            /* Occupa tutto lo spazio disponibile */
-            flex-grow: 1; 
-            /* Evita scrolling non necessario */
-            overflow: hidden; 
-        }
-
-        .contenutoMain {
+                .contenutoMain {
             flex-grow: 1;
             max-height: 100%;
             /* Abilita lo scroll solo su questo contenitore */
@@ -39,7 +20,7 @@
         .grid{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2%;
+            gap: 3%;
             justify-content: center;
         }
         .card {
@@ -182,38 +163,47 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <?php if(!empty($_SESSION['utente']['progetti']) && is_array($_SESSION['utente']['progetti'])): ?>
-                <h3>Ecco i progetti disponibili</h3>
+            <?php if(!empty($progetti) && is_array($progetti)): ?>
+                <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
+                    <h3>Ecco i progetti disponibili </h3>
+                <?php else: ?>
+                    <h3> Ecco i tuoi progetti </h3>
+                <?php endif; ?>
                 <div class="grid">
-                    <?php foreach ($_SESSION['utente']['progetti'] as $project): ?>
-                        <a href="/home/info-progetto?nome=<?= urlencode($project['NomeProgetto']) ?>">
+                    <?php foreach ($progetti as $progetto): ?>
+                        <?php if($progetto['nickname'] === $_SESSION['utente']['nickname']): ?>
+                            <a href="/home/i-miei-progetti/<?= urlencode($progetto['NomeProgetto']) ?>">
+                        <? else: ?>
+                            <a href="/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']) ?>">
+                        <?php endif; ?>
                             <div class="card">
                                 <div class="img">
-                                    <img src="<?= '../'.htmlspecialchars($project['urlImmagine'])?>" alt="Foto del progetto" >
+                                    <img src="<?= '../'.htmlspecialchars($progetto['urlImmagine'])?>" alt="Foto del progetto" >
                                 </div>
                                 <div class="info">
                                     <div id="nomeProgetto">
-                                        <p><?= htmlspecialchars($project['NomeProgetto'])?>
+                                        <p><?= htmlspecialchars($progetto['NomeProgetto'])?>
                                     </div> 
-                                    <div id="nickname">
-                                        <p><?= htmlspecialchars($project['nickname'])?>
-                                    </div> 
-                                    <div id="stato" class="<?= $project['stato'] === 'aperto' ? 'stato-aperto' : 'stato-chiuso' ?>">
-                                        <p><?= htmlspecialchars($project['stato']) ?></p>
-                                    </div>
-
+                                    <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
+                                        <div id='nomeUtente'>
+                                            <p><?= htmlspecialchars($progetto['nickname'])?>
+                                        </div>
+                                    <?php endif; ?>
+                                    <div id="stato" class="<?= $progetto['stato'] === 'aperto' ? 'stato-aperto' : 'stato-chiuso' ?>">
+                                        <p><?= htmlspecialchars($progetto['stato']) ?></p>
+                                    </div>  
                                 </div>
                                 <div class="azioni">
-                                    <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/commenta' method='GET'>
+                                    <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
                                         <button type="submit">Commenta</button>
                                     </form>
-                                    <?php if($project['stato'] === 'aperto'): ?>
-                                        <form action='/home/progetti/<?= urlencode($project['NomeProgetto']); ?>/finanzia' method='GET'>
+                                    <?php if($progetto['stato'] === 'aperto'): ?>
+                                        <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/finanzia' method='GET'>
                                             <button type="submit">Finanzia</button>
                                         </form>
                                     <?php endif; ?>
                                 </div>
-                            </div>
+                             </div>
                         </a>
                     <?php endforeach; ?>
                 <?php else: ?>

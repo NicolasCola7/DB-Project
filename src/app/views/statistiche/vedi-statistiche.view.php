@@ -95,7 +95,6 @@
     </style>
 </head>
 <body>
-
     <?php require view('/home/home-nav.view.php'); ?>
 
     <div class="main">
@@ -115,10 +114,22 @@
                             <th>Affidabilità</th>
                         </tr>
                     </thead>
-                    <tbody id="tabellaCreatori"></tbody>
+                    <tbody>
+                        <?php if(!empty($classificaCreatori)): ?>
+                            <?php foreach($classificaCreatori as $creatore): ?>
+                                <tr>
+                                    <td> <?= $creatore['nickname']; ?> </td>
+                                    <td> <?= $creatore['affidabilita']; ?> </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr colspan='2'>
+                                <td> Non sono presenti sufficienti dati per la seguente classifica </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
                 </table>
-                <p id="erroreCreatori" class="errore"></p>
-
+            
                 <h2>Progetti Vicini al Completamento</h2>
                 <table>
                     <thead>
@@ -128,10 +139,22 @@
                             <th>Budget Avvio (€)</th>
                         </tr>
                     </thead>
-                    <tbody id="tabellaProgetti"></tbody>
+                    <tbody>
+                        <?php if(!empty($progettiVicini)): ?>
+                            <?php foreach($progettiVicini as $progetto): ?>
+                                <tr>
+                                    <td> <?= $progetto['nome']; ?> </td>
+                                    <td> <?= $progetto['budget_mancante']; ?> </td>
+                                    <td> <?= $progetto['budget_avvio']; ?> </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr colspan='3'>
+                                <td> Non sono presenti sufficienti dati per la seguente classifica </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
                 </table>
-                <p id="erroreProgetti" class="errore"></p>
-
                 <h2>Classifica Finanziatori</h2>
                 <table>
                     <thead>
@@ -140,73 +163,25 @@
                             <th>Totale Finanziamenti (€)</th>
                         </tr>
                     </thead>
-                    <tbody id="tabellaFinanziatori"></tbody>
+                    <tbody>
+                        <?php if(!empty($classificaFinanziatori)): ?>
+                            <?php foreach($classificaFinanziatori as $finanziatore): ?>
+                                <tr>
+                                    <td> <?= $finanziatore['nickname']; ?> </td>
+                                    <td> <?= $finanziatore['totale_finanziamento']; ?> </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr colspan='2'>
+                                <td> Non sono presenti sufficienti dati per la seguente classifica </td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
                 </table>
-                <p id="erroreFinanziatori" class="errore"></p>
             </div>
         </div>
     </div>
 
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
-<!-- client java script -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        getStatistiche();
-
-        async function getStatistiche() {
-            try {
-                const response = await axios.get("/ottieni-statistiche");
-                console.log("Dati ricevuti:", response.data);
-                const dati = response.data;
-                stampaStatistiche(dati);
-            } catch (error) {
-                console.error("Errore nel recupero delle statistiche:", error);
-            }
-        }
-
-        function stampaStatistiche(dati) {
-            if (dati.classificaCreatori && dati.classificaCreatori.length > 0) {
-                let tabellaCreatori = document.getElementById("tabellaCreatori");
-                dati.classificaCreatori.forEach(creatore => {
-                    let row = `<tr>
-                        <td>${creatore.nickname}</td>
-                        <td>${creatore.affidabilita}</td>
-                    </tr>`;
-                    tabellaCreatori.innerHTML += row;
-                });
-            } else {
-                document.getElementById("erroreCreatori").textContent = "Nessun creatore disponibile.";
-            }
-
-            if (dati.progettiVicini && dati.progettiVicini.length > 0) {
-                let tabellaProgetti = document.getElementById("tabellaProgetti");
-                dati.progettiVicini.forEach(progetto => {
-                    let row = `<tr>
-                        <td>${progetto.nome}</td>
-                        <td>${progetto.budget_mancante} €</td>
-                        <td>${progetto.budget_avvio} €</td>
-                    </tr>`;
-                    tabellaProgetti.innerHTML += row;
-                });
-            } else {
-                document.getElementById("erroreProgetti").textContent = "Nessun progetto vicino al completamento.";
-            }
-
-            if (dati.classificaFinanziatori && dati.classificaFinanziatori.length > 0) {
-                let tabellaFinanziatori = document.getElementById("tabellaFinanziatori");
-                dati.classificaFinanziatori.forEach(f => {
-                    let row = `<tr>
-                        <td>${f.nickname}</td>
-                        <td>${f.totale_finanziamento} €</td>
-                    </tr>`;
-                    tabellaFinanziatori.innerHTML += row;
-                });
-            } else {
-                document.getElementById("erroreFinanziatori").textContent = "Nessun finanziatore registrato.";
-            }
-        }
-    });
-</script>
 </html>
