@@ -4,6 +4,21 @@
     <title>Home</title>
 </head>
 <style>
+    html, body {
+        height: 100vh; 
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden; 
+    }    
+        
+    .main {
+        display: flex;
+        flex-grow: 1; 
+        overflow: hidden; 
+    }
+
     .contenutoMain {
         flex-grow: 1;
         max-height: 100%;

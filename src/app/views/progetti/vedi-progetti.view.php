@@ -3,10 +3,24 @@
 <head>
     <title>Home</title>
     <style>
-                .contenutoMain {
+        html, body {
+            height: 100vh; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }    
+            
+        .main {
+            display: flex;
+            flex-grow: 1; 
+            overflow: hidden; 
+        }
+
+        .contenutoMain {
             flex-grow: 1;
             max-height: 100%;
-            /* Abilita lo scroll solo su questo contenitore */
             overflow-y: auto; 
             padding: 20px;
             margin: 10px;
@@ -165,9 +179,9 @@
         <div class="contenutoMain">
             <?php if(!empty($progetti) && is_array($progetti)): ?>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
-                    <h3>Ecco i progetti disponibili </h3>
+                    <h3>Progetti disponibili </h3>
                 <?php else: ?>
-                    <h3> Ecco i tuoi progetti </h3>
+                    <h3> I miei progetti </h3>
                 <?php endif; ?>
                 <div class="grid">
                     <?php foreach ($progetti as $progetto): ?>

@@ -164,7 +164,7 @@
                 </div>
             </div>
             <div class='rewardsContainerWrapper'>
-                <h4> Rewards del progetto </h4>ù
+                <h4> Rewards del progetto </h4>
                 <div class='rewardsContainer'>
                     <?php foreach($progetto['rewards'] as $reward): ?>
                         <div>

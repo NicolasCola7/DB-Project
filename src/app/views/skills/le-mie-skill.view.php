@@ -3,6 +3,20 @@
 <head>
     <title>Le mie Skill</title>
     <style>
+        html, body {
+            height: 100vh; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+        }    
+            
+        .main {
+            display: flex;
+            flex-grow: 1; 
+            overflow: hidden; 
+        }
 
         .contenutoMain {
             flex-grow: 1;
@@ -11,134 +25,58 @@
             padding: 20px;
             margin: 10px;
         }
-        
-        .contenutoMain > header {
-            display: flex;
-            flex-direction: row;
-            background: white;
-            color:  #0077cc;
-            justify-content: center;
-            padding-bottom: 2%;
-            border-bottom: 2px solid   #0077cc;
-        }
 
-        section {
-            margin: 0% 10%;
-        }
-
-        #aggiungi-skill {
-            width: 30px;
-            height: 30px;   
-            border-radius: 50%;
-            background-color: #007bff;
-            color: white;
+        .contenutoMain h3, #aggiunta h3 {
+            color: #333;
             font-size: 24px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        /* Sezione di aggiunta skill */
+        #aggiunta {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 25px 0;
+        }
+
+        #aggiunta form {
             display: flex;
+            gap: 10px;
             align-items: center;
-            justify-content: center;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s, transform 0.2s;
         }
 
-        #aggiungi-skill:hover {
-            background-color: #0056b3;
-        }
-
-        #aggiungi-skill:active {
-            transform: scale(0.9);
-        }
-
-        #skills {
-            width: 100%;
-            max-width: 800px; 
-        }
-
-        #skills > .skill {
-            display: grid;
-            grid-template-columns: minmax(120px, 1fr) 1fr auto;
-            gap: 15px; 
-            align-items: center;
-            padding: 5%;
-            border-bottom: 1px solid #0077cc;
-            color: #0077cc;
-        }
-      
-        #skills > .skill > span:first-child {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .elimina-btn{
-            width: 30px;
-            height: 30px;   
-            border-radius: 50%;
-            background-color:rgb(255, 0, 0);
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-content: center;
-            justify-content: center;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-            transition: background 0.3s, transform 0.2s;
-        }
-
-        .elimina-btn:hover {
-            background-color:rgb(141, 9, 9);
-        }
-
-        .elimina-btn:active {
-            transform: scale(0.9);
-        }
-
-        #aggiunta > form {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            padding: 3% 5%;
-            cursor: pointer;
-        }
-
-        #aggiunta > form > select, input {
-            width: 20%;
-            border: 1px solid  #0077cc
-        }
-
-        #aggiunta form select, #aggiunta form input[type="number"] {
-            width: 20%;
+        #aggiunta form select, 
+        #aggiunta form input[type="number"] {
             padding: 8px 12px;
             border: 2px solid #0077cc;
             border-radius: 5px;
             font-size: 14px;
             color: #333;
             background-color: #fff;
-            transition: all 0.3s ease-in-out;
+            transition: border-color 0.3s ease-in-out;
         }
 
-        #aggiunta form select:hover, #aggiunta form input[type="number"]:hover {
+        #aggiunta form select:hover, 
+        #aggiunta form input[type="number"]:hover {
             border-color: #0056b3;
         }
 
-        #aggiunta form select:focus{
+        #aggiunta form select:focus {
             outline: none;
             border-color: #0077cc;
             box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
         }
 
-        #aggiungi-skill {
+        /* Bottone aggiunta skill */
+        #aggiungi-skill, .elimina-btn {
             width: 30px;
-            height: 30px;   
+            height: 30px;
             border-radius: 50%;
-            background-color: #007bff;
             color: white;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             border: none;
             cursor: pointer;
@@ -149,12 +87,73 @@
             transition: background 0.3s, transform 0.2s;
         }
 
+        #aggiungi-skill {
+            background-color: #0077cc;
+        }
+
         #aggiungi-skill:hover {
             background-color: #0056b3;
         }
 
-        #aggiungi-skill:active {
+        #aggiungi-skill:active, .elimina-btn:active {
             transform: scale(0.9);
+        }
+
+        /* Lista delle skill */
+        #skills {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        #skills h4, #aggiunta h4 {
+            text-align: left;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .skill {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #0077cc;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            transition: background 0.3s;
+        }
+
+        .skill:hover {
+            background-color: #e0f0ff;
+        }
+
+        .skill .nome-skill {
+            font-weight: bold;
+            color: #0077cc;
+        }
+
+        .skill .livello-skill {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            background: #d1ecf1;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        /* Bottone elimina */
+        .elimina-btn {
+            background-color: rgb(255, 0, 0);
+        }
+
+        .elimina-btn:hover {
+            background-color: rgb(141, 9, 9);
         }
     </style>
 </head>
@@ -165,10 +164,9 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <header>
-               <h2>Le mie Skill</h2>
-            </header>
+            <h3>Le mie skill</h3>
             <section id='aggiunta'>
+                <h4>Aggiungi</h4>
                 <form action='/home/le-mie-skill' method='POST'>
                     <select id='skill-disponibili' name='nome' required >
                         <?php if(count($skills['generali']) > 0): ?>
@@ -195,13 +193,15 @@
             </section>
 
             <section id='skills'>
-                <h3>Le tue competenze attuali:</h3>
-                <p>Queste sono le skill che hai aggiunto. Puoi rimuoverle o aggiungerne di nuove.</p>
+                <h4>Modifica</h4>
+                <p>Queste sono le skill, con rispettivo livello, che hai aggiunto. Puoi rimuoverle o aggiungerne di nuove.</p>
                 <?php if(count($skills['possedute']) > 0): ?>
                     <?php foreach($skills['possedute'] as $posseduta): ?>
                         <div class='skill'>
+                            <div>
                             <span class='nome-skill'> <?= $posseduta['nomeSkill']; ?> </span>
                             <span class='livello-skill'> <?= $posseduta['livello']; ?> </span>
+                            </div>
                             <form action='/home/le-mie-skill/<?= urlencode($posseduta['nomeSkill']); ?>' method='POST'>
                                 <input type='hidden' name='_metodo' value='DELETE'>
                                 <button type='submit' class='elimina-btn'> - </button>
