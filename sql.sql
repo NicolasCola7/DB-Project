@@ -22,7 +22,6 @@ CREATE TABLE Amministratore (
 
 CREATE TABLE Creatore (
     emailCreatore VARCHAR(255) PRIMARY KEY,
-    num_progetti INT DEFAULT 0,
     affidabilita INT DEFAULT 0,
     FOREIGN KEY (emailCreatore) REFERENCES Utente(email)
 ) ENGINE=INNODB;
@@ -194,13 +193,6 @@ BEGIN
 END;
 $ DELIMITER ;
 
--- Il trigger per aggiornare il numero di progetti dell'utente creatore
-DELIMITER $
-CREATE TRIGGER AggiornaNumProgetti AFTER INSERT ON Progetto FOR EACH ROW
-BEGIN
-	UPDATE Creatore SET num_progetti = num_progetti + 1 WHERE emailCreatore = NEW.emailCreatore;
-END;
-$ DELIMITER ;
 DELIMITER $
 CREATE TRIGGER DecrementaNumeroPosizioni AFTER UPDATE ON Candidatura FOR EACH ROW
 BEGIN
@@ -885,12 +877,9 @@ CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward5.jpg'
 
 CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
 CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSenseAI', @esito);
--- questo secondo finanziamento non andrà a buon fine perchè lo stesso utente ne ha inviato uno per lo stesso progetto lo stesso giorno
-CALL InserimentoFinanziamento('DriveSenseAI', 5000.00, 'mario.rossi@email.com', @esito);
-CALL SceltaReward('1', 'mario.rossi@email.com', 'DriveSenseAI', @esito);
 CALL InserimentoFinanziamento('DriveSenseAI', 20000.00, 'giulia.bianchi2@email.com', @esito);
-
 CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'DriveSenseAI', @esito);
+
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Cybersecurity', @esito);
@@ -924,11 +913,9 @@ CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'normal.user@ema
 CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', true, @esito);
 CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'normal.user@email.com', false, @esito);
 
-CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Sembra un progetto interessante', @esito);
-CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Che progetto di m****', @esito);
-CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged", @esito);
-CALL CommentaProgetto('DriveSenseAI', 'giulia.bianchi@email.com', "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged", @esito);
-
+CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Sembra un progetto interessante!', @esito);
+CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', "Veramente un bel progetto, io l'ho finanziato e consiglio di farlo!", @esito);
+CALL CommentaProgetto('DriveSenseAI', 'giulia.bianchi@email.com', "Progetto che spero vada al termine!", @esito);
 
 CALL rispondiACommento(1, 'Grazie per il supporto!', 'giulia.bianchi@email.com', @esito);
-CALL rispondiACommento(3, "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged", 'giulia.bianchi@email.com', @esito);
+CALL rispondiACommento(3, "Speriamo bene!", 'giulia.bianchi@email.com', @esito);
