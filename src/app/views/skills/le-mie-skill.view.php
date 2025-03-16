@@ -32,7 +32,6 @@
             margin-bottom: 15px;
         }
 
-        /* Sezione di aggiunta skill */
         #aggiunta {
             background-color: #f8f9fa;
             padding: 20px;
@@ -48,8 +47,7 @@
             align-items: center;
         }
 
-        #aggiunta form select, 
-        #aggiunta form input[type="number"] {
+        #aggiunta form select, #aggiunta form input[type="number"] {
             padding: 8px 12px;
             border: 2px solid #0077cc;
             border-radius: 5px;
@@ -59,8 +57,7 @@
             transition: border-color 0.3s ease-in-out;
         }
 
-        #aggiunta form select:hover, 
-        #aggiunta form input[type="number"]:hover {
+        #aggiunta form select:hover, #aggiunta form input[type="number"]:hover {
             border-color: #0056b3;
         }
 
@@ -70,7 +67,6 @@
             box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
         }
 
-        /* Bottone aggiunta skill */
         #aggiungi-skill, .elimina-btn {
             width: 30px;
             height: 30px;
@@ -99,7 +95,6 @@
             transform: scale(0.9);
         }
 
-        /* Lista delle skill */
         #skills {
             background: white;
             padding: 20px;
@@ -147,7 +142,6 @@
             border-radius: 5px;
         }
 
-        /* Bottone elimina */
         .elimina-btn {
             background-color: rgb(255, 0, 0);
         }
@@ -188,7 +182,7 @@
                         <option value="5" name='livello'>5</option>
                     </select>
                     
-                    <button type='submit' id='aggiungi-skill'> + </button>
+                    <button type='submit' id='aggiungi-skill'>+</button>
                 </form>
             </section>
 
@@ -197,6 +191,7 @@
                 <p>Queste sono le skill, con rispettivo livello, che hai aggiunto. Puoi rimuoverle o aggiungerne di nuove.</p>
                 <?php if(count($skills['possedute']) > 0): ?>
                     <?php foreach($skills['possedute'] as $posseduta): ?>
+
                         <div class='skill'>
                             <div>
                             <span class='nome-skill'> <?= $posseduta['nomeSkill']; ?> </span>
