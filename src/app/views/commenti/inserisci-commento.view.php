@@ -3,27 +3,46 @@
 <head>
     <title>Commenta Progetto</title>
     <style>
-       
-        .contenutoMain > header {
-            display: flex;
-            flex-direction: row;
-            background: white;
-            color:  #0077cc;
-            justify-content: center;
-            padding-bottom: 2%;
-            border-bottom: 2px solid   #0077cc;
-        }
-
-        section {
+        html, body {
+            height: 100vh; 
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            padding: 30px;
+            overflow: hidden; 
+        }
+          
+        .main {
+            display: flex;
+            flex-grow: 1; 
+            overflow: hidden; 
+        }
+
+        .contenutoMain {
+            flex-grow: 1;
+            max-height: 100%;
+            overflow-y: auto; 
+            padding: 20px;
+            margin: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            font-family: Arial, sans-serif;
         }
         
-        form {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        section form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 25px 0;
         }
         
         .container {
@@ -70,7 +89,6 @@
         button:hover {
             background-color: #005fa3;
         }
-
     </style>
 </head>
 <body>
@@ -80,9 +98,7 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <header>
-               <h2>Commenta il progetto <span> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span></h2>
-            </header>
+            <h3>Commenta il progetto <span> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span></h3>
 
             <section>
                 <form action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/commenti' method='POST'>

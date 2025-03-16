@@ -25,27 +25,22 @@
             padding: 20px;
             margin: 10px;
         }
-        
-        .contenutoMain > header {
-            display: flex;
-            flex-direction: row;
-            background: white;
-            color:  #0077cc;
-            justify-content: center;
-            padding-bottom: 2%;
-            border-bottom: 2px solid   #0077cc;
-        }
-
-        section {
-            display: flex;
-            flex-direction: column;
-            padding: 30px;
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
         
-        form {
+        section form {
             width: 100%;
             max-width: 600px;
-            margin: 0 auto;
+            padding: 10px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 25px 0;
         }
         
         .container {
@@ -168,9 +163,7 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <header>
-               <h2>Finanzia il progetto <span> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span></h2>
-            </header>
+            <h3>Finanzia il progetto <span> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span></h3>
 
             <section>
                 <form id='form-finanziamento' action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/finanziamenti' method='POST'>

@@ -26,6 +26,12 @@
             margin: 10px;
         }
 
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
         #aggiunta {
             background-color: #f8f9fa;
             padding: 20px;

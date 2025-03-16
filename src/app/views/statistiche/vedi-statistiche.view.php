@@ -28,20 +28,15 @@
             margin: 10px;
         }
 
-        .contenutoMain > header {
-            display: flex;
-            flex-direction: row;
-            background: white;
-            color: #0077cc;
-            justify-content: center;
-            padding-bottom: 2%;
-            border-bottom: 2px solid #0077cc;
+        .contenutoMain > h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
 
         .statistiche {
             width: 100%;
             max-width: 800px;
-            margin: auto;
         }
 
         .statistica {
@@ -54,9 +49,8 @@
             color: #0077cc;
         }
 
-        .statistiche > h2 {
+        .statistiche > h3 {
             text-align: center;
-            color: #0077cc;
             margin-top: 20px;
         }
 
@@ -101,12 +95,10 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
 
         <div class="contenutoMain">
-            <header>
-                <h2>Statistiche</h2>
-            </header>
+            <h3>Statistiche</h3>
 
             <div class="statistiche">
-                <h2>Classifica Creatori per Affidabilità</h2>
+                <h3>Classifica Creatori per Affidabilità</h3>
                 <table>
                     <thead>
                         <tr>
@@ -130,7 +122,7 @@
                     </tbody>
                 </table>
             
-                <h2>Progetti Vicini al Completamento</h2>
+                <h3>Progetti Vicini al Completamento</h3>
                 <table>
                     <thead>
                         <tr>
@@ -155,7 +147,7 @@
                         <?php endif; ?>
                     </tbody>
                 </table>
-                <h2>Classifica Finanziatori</h2>
+                <h3>Classifica Finanziatori</h3>
                 <table>
                     <thead>
                         <tr>
