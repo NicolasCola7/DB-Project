@@ -39,7 +39,7 @@
         }
         .card {
             width: 270px;
-            height: 165px; /* Altezza ridotta senza bottoni */
+            height: 185px; /* Altezza ridotta senza bottoni */
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.15);
@@ -53,7 +53,7 @@
         }
 
         .card:hover {
-            height: 200px;
+            height: 220px;
             transform: scale(1.05);
         }
 
@@ -80,6 +80,27 @@
             border-radius: 5px;
             color: white;
             font-size: 12px;
+        }
+
+        .progress{
+            background-color: #f1f1f1;
+        }
+
+        progress {
+            width: 80%;
+            height: 10px;
+            border-radius: 10px;
+            margin: 5px 0;
+        }
+        
+        progress::-webkit-progress-bar {
+            background-color: #ddd;
+            border-radius: 10px;
+        }
+        
+        progress::-webkit-progress-value {
+            background-color: #4caf50;
+            border-radius: 10px;
         }
 
         .stato-aperto {
@@ -206,6 +227,9 @@
                                     <div id="stato" class="<?= $progetto['stato'] === 'aperto' ? 'stato-aperto' : 'stato-chiuso' ?>">
                                         <p><?= htmlspecialchars($progetto['stato']) ?></p>
                                     </div>  
+                                </div>
+                                <div class="progress">
+                                    <progress id="myProgress" value="50" max="100"></progress>
                                 </div>
                                 <div class="azioni">
                                     <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
