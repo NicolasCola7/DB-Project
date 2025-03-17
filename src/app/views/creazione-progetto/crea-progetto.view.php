@@ -27,24 +27,22 @@
             margin: 10px;
         }
 
-        .contenutoMain > header {
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        section form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 25px 0;
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            color: #0077cc;
-            border-bottom: 2px solid #0077cc;
-            padding-bottom: 1em;
-            margin-bottom: 1em;
-            background: #fff;
-        }
-
-        section {
-            margin-top: 20px;
-        }
-
-        form {
-            max-width: 600px;
-            margin: 0 auto; 
+            flex-direction: column;
+            gap: 15px;
         }
 
         .container {
@@ -78,7 +76,7 @@
         }
 
         button {
-            width: 100%;
+            width: 135px;
             padding: 12px;
             background-color: #0077cc;
             color: white;
@@ -108,9 +106,7 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
 
         <div class="contenutoMain">
-            <header>
-                <h2>Crea un nuovo progetto</h2>
-            </header>
+            <h3>Crea un nuovo progetto</h3>
 
             <section>
                 <form action="/home/crea-progetto/informazioni-base" method="POST">

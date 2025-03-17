@@ -1,5 +1,5 @@
 <?php
-// se non si sono inserite le informazioni base lo redirigo alla pgina apposita
+// se non si sono inserite le informazioni base lo redirigo alla pagina apposita
 if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
     header('location: /home/crea-progetto/informazioni-base');
     exit();
@@ -35,19 +35,10 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             margin: 10px;
         }
 
-        .contenutoMain > header {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            color: #0077cc;
-            border-bottom: 2px solid #0077cc;
-            padding-bottom: 1em;
-            margin-bottom: 1em;
-            background: #fff;
-        }
-
-        section {
-            margin-top: 20px;
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
 
         section > div:first-child {
@@ -57,10 +48,17 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             justify-content: space-between;
         }
 
-        form {
+        section form {
             flex: 2;
-            max-width: 600px;
-            margin: 0 auto; 
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .container {
@@ -99,6 +97,17 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             border-radius: 4px;
         }
 
+        .container-bottoni{
+            text-align: left;
+        }
+        .container-bottoni2{
+            text-align: center;
+        }
+
+        .container-bottoni button{
+            width: 180px;
+        }
+
         button:hover {
             background-color: #0056b3;
         }
@@ -109,37 +118,44 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
         }
 
+        #btnProsegui{
+            width: 135px;
+        }
+
         #successo {
             color: green;
         }
 
         #container-tabella {
-            max-height: 350px;
-            overflow-y: auto
+            max-width: 800px;
         }
 
         table {
             flex: 1;
+            margin-top: 10px;
+            margin-bottom: 20px;
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #aaa;
         }
 
-        thead {
+        th, td {
+            padding: 10px;
+            border: 1px solid #aaa;
+            text-align: left;
+        }
+
+        th {
             background-color: #0077cc;
             color: white;
         }
 
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
-        tbody tr:hover {
-            background-color: #f9f9f9;
+        tr:hover {
+            background-color: #d8eaff;
         }
 
     </style>
@@ -151,9 +167,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <header>
-                <h2> Inserimento componenti </h2>
-            </header>
+            <h3>Inserimento componenti</h3>
 
             <section>
                 <div>
@@ -174,8 +188,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                             <label for="prezzo">Prezzo</label>
                             <input type="number" id="prezzo" name="prezzo" placeholder="prezzo" min='1' required>
                         </div>
-                        <div class='container bottoni'>
-                            <button id='aggiungi' type='submit'> Aggiungi </button>
+                        <div class='container-bottoni'>
+                            <button id='aggiungi' type='submit'>Aggiungi componente</button>
                         </div>
                     </form>
 
@@ -233,8 +247,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                     <?php endif; ?>
                 </div>
 
-                <div class='container bottoni'>
-                    <button onclick='prosegui()'>Prosegui</button>
+                <div class='container-bottoni2'>
+                    <button id="btnProsegui" onclick='prosegui()'>Prosegui</button>
                 </div>
             </section>
         </div>

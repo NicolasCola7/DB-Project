@@ -13,22 +13,23 @@ $progetti = [];
 // se il controller è richiesto dalla sezione i-miei-progetti mostro solo quelli creati dall'utente creatore
 if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') {
     $progetti = $db->query(
-        "SELECT P.nome AS NomeProgetto, U.nickname AS nickname, P.stato, MIN(FP.urlImmagine) AS urlImmagine
+        "SELECT P.nome AS NomeProgetto, U.nickname, P.stato, MIN(FP.urlImmagine) AS urlImmagine, COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento
         FROM Progetto AS P
         JOIN Utente AS U ON P.emailCreatore = U.email
         LEFT JOIN Foto_Progetto AS FP ON P.nome = FP.nomeProgetto
-        GROUP BY P.nome, U.nickname, P.stato;",
+        LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto
+        GROUP BY P.nome, U.nickname, P.stato, P.budget_avvio;"
     );
 } else {
     $progetti = $db->query(
-        "SELECT P.nome AS NomeProgetto, U.nickname AS nickname, P.stato, MIN(FP.urlImmagine) AS urlImmagine
+        "SELECT P.nome AS NomeProgetto, U.nickname, P.stato, MIN(FP.urlImmagine) AS urlImmagine, COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento
         FROM Progetto AS P
         JOIN Utente AS U ON P.emailCreatore = U.email
         LEFT JOIN Foto_Progetto AS FP ON P.nome = FP.nomeProgetto
+        LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto
         WHERE emailCreatore = :email
-        GROUP BY P.nome, U.nome, U.cognome, P.stato;",
+        GROUP BY P.nome, U.nickname, P.stato, P.budget_avvio;",
         [':email' => $email]);
 }
-
 require view('/progetti/vedi-progetti.view.php', ['progetti' => $progetti]);
 exit;

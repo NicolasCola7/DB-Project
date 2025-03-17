@@ -41,6 +41,12 @@ if(!$_SESSION['creazione-progetto']['step4']) {
             margin: 10px;
         }
 
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -49,58 +55,42 @@ if(!$_SESSION['creazione-progetto']['step4']) {
             color: #333;
         }
 
-        .contenutoMain > header {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            color: #0077cc;
-            border-bottom: 2px solid #0077cc;
-            padding-bottom: 1em;
-            margin-bottom: 1em;
-            background: #fff;
-        }
-
         /* Section headers */
         .section-header {
-            background-color: #f0f8ff;
-            color: #0077cc;
+            background-color:rgb(243, 243, 243);
+            color: black;
             padding: 10px 15px;
-            border-left: 4px solid #0077cc;
-            margin: 20px 0 10px 0;
+            margin: 20px 0 0px 0;
             font-size: 16px;
             font-weight: bold;
+            width:80%;
         }
 
         /* Table styles */
         table {
-            width: 100%;
-            border-collapse: collapse;
             margin-bottom: 20px;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            width: 80%;
+            border-collapse: collapse;
+            border: 1px solid #aaa;
         }
 
-        thead {
+        th, td {
+            padding: 10px;
+            border: 1px solid #aaa;
+            text-align: left;
+        }
+
+        th {
             background-color: #0077cc;
             color: white;
         }
 
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
 
-        tbody tr:hover {
-            background-color: #f9f9f9;
-        }
-
-        /* Sections */
-        section {
-            padding: 20px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        tr:hover {
+            background-color: #d8eaff;
         }
 
         section > div {
@@ -184,6 +174,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
         .container-btn {
             display:flex;
             justify-content: space-between;
+            width: 80%;
         }
 
         /* Button styles (for prosegui function) */
@@ -225,9 +216,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <header>
-                <h2> Conferma dati </h2>
-            </header>
+            <h3>Conferma dati</h3>
 
             <section>
                 <div class="section-header">Informazioni Base del Progetto</div>

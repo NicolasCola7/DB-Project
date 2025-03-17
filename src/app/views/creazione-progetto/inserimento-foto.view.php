@@ -44,24 +44,22 @@ if(!$_SESSION['creazione-progetto']['step2']) {
             margin: 10px;
         }
 
-        .contenutoMain > header {
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        section form {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 25px 0;
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            color: #0077cc;
-            border-bottom: 2px solid #0077cc;
-            padding-bottom: 1em;
-            margin-bottom: 1em;
-            background: #fff;
-        }
-
-        section {
-            margin-top: 20px;
-        }
-
-        form {
-            max-width: 600px;
-            margin: 0 auto; 
+            flex-direction: column;
+            gap: 15px;
         }
 
         .container {
@@ -76,7 +74,9 @@ if(!$_SESSION['creazione-progetto']['step2']) {
             gap: 10px;
             flex-direction: column;
         }
-
+        .contenutoMain > .container{
+            align-items: center;
+        }
         label {
             margin-bottom: 5px;
             font-weight: bold;
@@ -90,7 +90,7 @@ if(!$_SESSION['creazione-progetto']['step2']) {
         }
 
         button {
-            width: 100%;
+            width: 135px;
             padding: 12px;
             background-color: #0077cc;
             color: white;
@@ -123,9 +123,7 @@ if(!$_SESSION['creazione-progetto']['step2']) {
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <header>
-                <h2> Inserimento foto </h2>
-            </header>
+            <h3>Inserimento foto</h3>
 
             <section>
                 <form id='submit-foto' action="/home/crea-progetto/foto" method="POST" enctype='multipart/form-data'>
@@ -140,7 +138,7 @@ if(!$_SESSION['creazione-progetto']['step2']) {
                     </div>
                     
                     <div class='container'>
-                        <button id='aggiungi' type='submit'> Aggiungi </button>
+                        <button id='aggiungi' type='submit'>Aggiungi</button>
                     </div>
                 </form>
             </section>

@@ -31,6 +31,7 @@
             font-size: 24px;
             margin-bottom: 15px;
         }
+        
         .grid{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -92,14 +93,18 @@
             border-radius: 10px;
             margin: 5px 0;
         }
+
+        progress::-webkit-progress-value {
+            background-color: var(--progress-color);
+            border-radius: 10px;
+        }
+
+        progress::-moz-progress-bar {
+            background-color: var(--progress-color);
+        }
         
         progress::-webkit-progress-bar {
             background-color: #ddd;
-            border-radius: 10px;
-        }
-        
-        progress::-webkit-progress-value {
-            background-color: #4caf50;
             border-radius: 10px;
         }
 
@@ -144,6 +149,21 @@
             transition: opacity 0.3s;
             pointer-events: none;
         }
+
+        .tooltip-progress {
+            position: absolute;
+            background: rgba(241, 241, 241, 0.9); /* Grigio chiaro */
+            color: black; /* Testo nero per contrasto */
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            display: none;
+            pointer-events: none;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Leggera ombra */
+            z-index: 1000;
+        }
+
 
         .card .info div:hover .tooltip {
             opacity: 1;
@@ -192,6 +212,8 @@
     </style>
 </head>
 <body>
+<div id="tooltip-progress" class="tooltip-progress">Avanzamento finanziamenti</div>
+
     <?php require view('/home/home-nav.view.php'); ?>
     
     <div class="main">
@@ -229,7 +251,7 @@
                                     </div>  
                                 </div>
                                 <div class="progress">
-                                    <progress id="myProgress" value="50" max="100"></progress>
+                                    <progress id="myProgress" value="<?= htmlspecialchars(floatval($progetto['avanzamento']) * 100) ?>" max="100"></progress>
                                 </div>
                                 <div class="azioni">
                                     <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
@@ -253,4 +275,38 @@
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tooltip = document.getElementById("tooltip-progress");
+
+        document.querySelectorAll("progress").forEach(progress => {
+            // Cambia colore della barra in base al valore
+            let value = parseFloat(progress.value);
+
+            if (value <= 70) {
+                progress.style.setProperty("--progress-color", "#4caf50"); // Verde
+            } else if (value > 70 && value < 100) {
+                progress.style.setProperty("--progress-color", "#ff9800"); // Arancione
+            } else {
+                progress.style.setProperty("--progress-color", "#f44336"); // Rosso
+            }
+
+            // Mostra il tooltip quando il mouse passa sopra
+            progress.addEventListener("mouseenter", (event) => {
+                tooltip.style.display = "block";
+            });
+
+            // Sposta il tooltip mentre il mouse si muove
+            progress.addEventListener("mousemove", (event) => {
+                tooltip.style.top = (event.pageY + 10) + "px"; 
+                tooltip.style.left = (event.pageX + 10) + "px";
+            });
+
+            // Nasconde il tooltip quando il mouse esce
+            progress.addEventListener("mouseleave", () => {
+                tooltip.style.display = "none";
+            });
+        });
+    });
+</script>
 </html>
