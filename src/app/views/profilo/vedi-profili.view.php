@@ -151,7 +151,9 @@
                         <div class='divProfilo'>
                             <p class='nome-profilo'> <?= $profilo['nome'] ?> </p>
                             <p> <?= $profilo['numero_posizioni'] ?> posizioni disponibili </p>
-                            <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')"> Vedi Dettagli </button>
+                            <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')">
+                                 Vedi Dettagli
+                            </button>
                             <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
                                 <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')">
                                      Visualizza Candidature
