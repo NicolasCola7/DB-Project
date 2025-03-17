@@ -844,15 +844,18 @@ GROUP BY Utente.nickname
 ORDER BY totale_finanziamento DESC  
 LIMIT 3;
 
--- Popolamento delle tabelle con dati di esempio
-CALL RegistrazioneAmministratore('mario.rossi@email.com', 'pass1234', 'Mario', 'Rossi', 'Roma', 1985, 'marior85', 1001, @esito);
-CALL RegistrazioneCreatore('giulia.bianchi@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly90', @esito);
-CALL RegistrazioneCreatore('giulia.bianchi2@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giuly9015', @esito);
-CALL RegistrazioneNormale('normal.user@email.com', 'pass1234', 'User', 'Normal', 'Rimini', 2025, 'normalUser', @esito);
+-- Popolamento delle tabelle con dei dati predefiniti
+CALL RegistrazioneAmministratore('mario.rossi@email.com', 'pass1234', 'Mario', 'Rossi', 'Roma', 1980, 'mario1980', 1001, @esito);
+CALL RegistrazioneNormale('normal.user@email.com', 'password1', 'User', 'Normal', 'Bologna', 2000, 'normalUser', @esito);
+CALL RegistrazioneCreatore('giulia.bianchi@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giulietta90', @esito);
+CALL RegistrazioneCreatore('federica.verdi@email.com', 'securePass', 'Federica', 'Verdi', 'Napoli', 2000, 'fede00', @esito);
+CALL RegistrazioneCreatore('lucia.gialli@email.com', 'securePass', 'Lucia', 'Gialli', 'Torino', 1998, 'luci98', @esito);
 
-CALL CreazioneProgetto('DriveSenseAI', '25-9-2', 'Progetto software innovativo per auto con AI', 100000.00, 'Software', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('SmartCoffeeAI', '2025-05-10', 'Progetto per creare una macchina del caffè smart con AI', 200000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('PulseTech', '2025-05-10', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 300000.00, 'Hardware', 'giulia.bianchi2@email.com', @esito);
+CALL CreazioneProgetto('DriveSenseAI', '2025-10-10', 'Progetto software innovativo per auto con AI', 400000.00, 'Software', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('SmartCoffeeAI', '2025-09-09', 'Progetto per creare una macchina del caffè smart con AI', 10000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('PulseTech', '2025-08-08', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 250000.00, 'Hardware', 'federica.verdi@email.com', @esito);
+CALL CreazioneProgetto('CompanyTagline', '2026-01-01', 'Progetto software per creare delle fotografie avanzate', 100000.00, 'Software', 'lucia.gialli@email.com', @esito);
+CALL CreazioneProgetto('ProgettoNatura', '2026-11-11', 'Progetto nato per salvaguardare gli animali tramite AI', 200000.00, 'Hardware', 'lucia.gialli@email.com', @esito);
 
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto1.webp');
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto2.png');
@@ -861,6 +864,12 @@ INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macch
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo SmartCoffeAI', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/fotoProgetto/progetto5.jpeg');
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto6.webp');
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine dispositivo pulsetech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto7.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo CompanyTagline', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto8.avif');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine fotocamera con AI', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto9.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine ragazza che scatta una foto', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto10.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo ProgettoNatura', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto11.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine natura', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto12.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine animali', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto13.jpeg');
 
 CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffeeAI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
 CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffeeAI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);
@@ -877,8 +886,8 @@ CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward5.jpg'
 
 CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
 CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSenseAI', @esito);
-CALL InserimentoFinanziamento('DriveSenseAI', 20000.00, 'giulia.bianchi2@email.com', @esito);
-CALL SceltaReward('2', 'giulia.bianchi2@email.com', 'DriveSenseAI', @esito);
+CALL InserimentoFinanziamento('DriveSenseAI', 20000.00, 'federica.verdi@email.com', @esito);
+CALL SceltaReward('2', 'federica.verdi@email.com', 'DriveSenseAI', @esito);
 
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza lingua inglese', @esito);
