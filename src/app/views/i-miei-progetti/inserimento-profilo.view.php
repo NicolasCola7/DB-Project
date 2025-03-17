@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Insermento profili</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         .contenutoMain {
             flex-grow: 1;
@@ -274,7 +275,7 @@
 
             <main>
                 <div>
-                    <form action='' method='POST' id='profilo'>
+                    <form action='/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>/profili' method='POST' id='profilo'>
                         <section id='info-profilo'>
                             <div class='container'>
                                 <label for='nome'> Nome Profilo </label>
@@ -288,13 +289,14 @@
                         </section>
 
                         <label for='skills-richieste'> Skills richieste </label>
+
                         <section id='skills-richieste' name='skills-richieste'>
-                            <label>
+                        
                             <div id='skills-container' >
 
                             </div>
                             <div id='aggiunta'>
-                                <select id='skills-disponibili' name='nome-skill' required >
+                                <select id='skills-disponibili' name='nome-skill'>
                                     <option value="" disabled selected>Scegli una skill</option>
                                     <?php if(count($skills) > 0): ?>
                                         <?php foreach($skills as $skill): ?>
@@ -304,7 +306,7 @@
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </select>
-                                <select required name='livello' id='livello'>
+                                <select  name='livello' id='livello'>
                                     <option value="" disabled selected>Scegli un livello</option>
                                     <option value="1" name='livello'>1</option>
                                     <option value="2" name='livello'>2</option>
@@ -315,16 +317,49 @@
 
                                 <button type="button" id="aggiungi-skill">+</button>
                             </div>
-
-                            <div id="errori-skills" class="errore" style="display: none;">
-                                È necessario inserire almeno una skill
-                            </div>
                         </section>
                         
                         <div class='container bottoni'>
                             <button id='aggiungi' type='submit'> Aggiungi Profilo </button>
                         </div>
                     </form>
+                </div>
+
+                <div id='errori'>
+                    <?php if(isset($errori['nome'])): ?>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                Swal.fire({
+                                    title: "Errore di inserimento!",
+                                    text: "<?php echo $errori['nome']; ?>",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            });
+                        </script>
+                    <?php elseif(isset($errori['posizioni'])): ?>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                Swal.fire({
+                                    title: "Errore di inserimento!",
+                                    text: "<?php echo $errori['posizioni']; ?>",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            });
+                        </script>
+                    <?php else: ?>
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                Swal.fire({
+                                    title: "Errore di inserimento!",
+                                    text: "<?php echo $errori['procedura']; ?>",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            });
+                        </script>
+                    <?php endif; ?>
                 </div>
             </main>
         </div>
@@ -337,7 +372,6 @@
     const disponibili = document.getElementById('skills-disponibili');
     const livello = document.getElementById('livello');
     const aggiungiSkillBtn = document.getElementById('aggiungi-skill');
-    const erroriSkills = document.getElementById('errori-skills');
     const form = document.getElementById('profilo');
     let contatoreSkills = 0;
     
@@ -369,9 +403,6 @@
             skillsContainer.appendChild(skill);
             contatoreSkills++;
             
-            // Nascondi il messaggio di errore se almeno una skill è stata aggiunta
-            erroriSkills.style.display = 'none';
-            
             // Reset della selezione
             disponibili.selectedIndex = 0;
             livello.selectedIndex = 0;
@@ -385,22 +416,14 @@
         
         if (skills.length === 0) {
             e.preventDefault();
-            erroriSkills.style.display = 'block';
-            window.scrollTo(0, erroriSkills.offsetTop);
+            Swal.fire({
+                title: "Errore!",
+                text: "Devi inserire almeno una skill richiesta",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
         }
     });
-
-    function eliminaSkill(nomeSkill) {
-        let skills = document.querySelectorAll('.skill');
-        for(let i=0; i<skills.length; i++) {
-            const nome = skills[i].querySelector('.nome-skill');
-
-            if(nomeSkill && nome.value === nomeSkill) {
-                skills[i].remove();
-                break;
-            }
-        }
-    }
 </script>
 
 </html>

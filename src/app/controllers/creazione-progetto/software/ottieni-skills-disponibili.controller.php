@@ -7,8 +7,8 @@ $db = App::getContainer()->risolvi(Database::class);
 
 $skills = $db->query('SELECT nome FROM Skill');
 
-//controllo se l'url è stato richiesto con query string per differenziarlo dalla sezione crea-progetto
-$iMieiProgetti= $_GET['modifica'] ?? '';
+//controllo da quale url è stato chiamato
+$iMieiProgetti= urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti';
 
 if(!$iMieiProgetti)
     require view('/creazione-progetto/inserimento-profili.view.php', $skills);

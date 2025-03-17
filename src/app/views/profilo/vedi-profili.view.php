@@ -214,7 +214,7 @@
     }
     
     function aggiungiProfilo() {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-profilo?modifica=true`;
+        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-profilo`;
     }
 </script>
 

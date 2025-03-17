@@ -66,12 +66,12 @@ $router->post('/home/crea-progetto/rewards', 'app/controllers/creazione-progetto
 $router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-progetto/creazione-progetto.controller.php')->soloSe('creatore');
 //profili
 $router->post('/home/progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/invio-candidatura.controller.php')->soloSe('autenticato');
+$router->post('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/i-miei-progetti/inserimento-profilo.controller.php')->soloSe('creatore');
 //commenti
 $router->post('/home/i-miei-progetti/{nomeProgetto}/commenti/{idCommento}/rispondi', '/app/controllers/commenti/invia-risposta.controller.php')->soloSe('creatore');
 $router->post('/home/progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/inserisci-commento.controller.php')->soloSe('autenticato');
 //finanziamenti
 $router->post('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/inserisci-finanziamento.controller.php')->soloSe('autenticato');
-
 //PUT
 
 
