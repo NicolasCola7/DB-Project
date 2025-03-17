@@ -878,13 +878,19 @@ CALL InserimentoComponenteHardware('Sensore Salute Avanzato', 'PulseTech', 'Chip
 
 CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward1.webp', 'buono sconto amazon', 'DriveSenseAI', @esito);
 CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward3.png', 'buono sconto unieuro', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward4.jpg', 'buono sconto conad', 'DriveSenseAI', @esito);
 CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward4.jpg', 'buono sconto conad', 'SmartCoffeeAI', @esito);
 CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'SmartCoffeeAI', @esito);
 CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'SmartCoffeeAI', @esito);
 CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward1.webp', 'buono sconto amazon', 'PulseTech', @esito);
 CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward2.avif', 'buono sconto sephora', 'PulseTech', @esito);
 CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward5.jpg', 'buono sconto adidas', 'PulseTech', @esito);
--- DA AGGIUNGERE
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward1.webp', 'buono sconto amazon', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward2.avif', 'buono sconto sephora', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward4.jpg', 'buono sconto conad', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward4.jpg', 'buono sconto conad', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'ProgettoNatura', @esito);
 
 CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
 CALL SceltaReward(1, 'mario.rossi@email.com', 'DriveSenseAI', @esito);
