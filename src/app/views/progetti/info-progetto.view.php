@@ -11,7 +11,7 @@
             flex-direction: column;
             overflow: hidden; 
         }
-          
+
         .main {
             display: flex;
             flex-grow: 1; 
@@ -61,13 +61,18 @@
             border-radius: 5px;
             color: #555;
         }
-        .infoContainer, .componentiContainer, .contenitoreProfili, .contenitoreCommenti{
-            padding: 10px;
-            border: 1px solid #555;
-            border-radius: 10px;
-            width: 70%;
-            margin-bottom: 25px;
-        }
+
+        .infoContainer, .immaginiContainerWrapper, .rewardsContainerWrapper,
+.contenitoreProfili, .contenitoreCommenti, .componentiContainer {
+    padding: 20px;
+    border-radius: 10px;
+    width: 70%;
+    margin-bottom: 25px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+        /* Tabelle */
         table {
             margin-top: 10px;
             margin-bottom: 20px;
@@ -94,40 +99,75 @@
         tr:hover {
             background-color: #d8eaff;
         }
+
+        /* Card container per immagini e rewards */
         .immaginiContainerWrapper, .rewardsContainerWrapper {
             padding: 20px;
-            border: 1px solid black;
             border-radius: 10px;
             width: 70%;
             margin-bottom: 25px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+            background-color: #fff;
         }
 
+        .immaginiContainerWrapper h4, .rewardsContainerWrapper h4 , .infoContainer h4,
+        .contenitoreCommenti h4, .contenitoreProfili h4{
+            text-align: left;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* Grid per immagini e rewards */
         .immaginiContainer, .rewardsContainer {
-            padding: 10px;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        .immaginiContainer img, .rewardsContainer img {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            justify-content: left;
             max-width: 100%;
-            max-height: 200px;
-            height: auto;
-            object-fit: cover;
         }
 
-        .immaginiContainer div, .rewardsContainer div {
+        /* Imposta un massimo di 3 colonne */
+        @media (min-width: 900px) {
+            .immaginiContainer, .rewardsContainer {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* Stile delle card delle immagini */
+        .immaginiContainer div, .rewardsContainer div{
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: left;
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            min-width: 200px; /* Impedisce che diventino troppo piccole */
         }
 
-        .immaginiContainer p, .rewardsContainer p {
+        /* Stile per le immagini */
+        .immaginiContainer img, .rewardsContainer img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        /* Stile per la descrizione sotto le immagini */
+        .immaginiContainer p, .rewardsContainer p{
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 1em;
-            color: #333;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        a{
+            text-decoration: none;
+        }
+        a:hover{
+            text-decoration: underline;
         }
 
         .form-container {
@@ -254,12 +294,13 @@
                     </div>  
                 <?php endif; ?>
             </div>
+
             <div class='rewardsContainerWrapper'>
                 <h4> Rewards del progetto </h4>
                 <div class='rewardsContainer'>
                     <?php foreach($progetto['rewards'] as $reward): ?>
                         <div>
-                            <img src="../../../<?= $reward['urlFoto']; ?>">
+                            <img src="../../../<?= $reward['urlFoto']; ?>" alt="Reward">
                             <p> <?= $reward['descr']; ?> </p>
                         </div>
                     <?php endforeach; ?>
@@ -271,6 +312,7 @@
                         </div>  
                 <?php endif; ?>
             </div>
+
             <?php if($progetto['tipo'] === 'Hardware'): ?>
                 <div class='componentiContainer'>
                     <h4> Componenti </h4>
