@@ -156,7 +156,6 @@
 
             <div class="links">
                 <a href='/admin/registrazione'>Non hai un account? Registrati</a>
-                <a href="/recupero-password">Password dimenticata?</a>
                 <a href="/login" class="user-link">Accedi come utente</a>
             </div>
         </form>

@@ -143,7 +143,6 @@
 
             <div class="links">
                 <a href="/registrazione">Non hai un account? Registrati</a>
-                <a href="/recupero-password">Password dimenticata?</a>
                 <a href="/admin/login" class="admin-link">Accesso amministratore</a>
             </div>
         </form>
