@@ -44,6 +44,9 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-profilo', 'app/contr
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/ottieni-candidature.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature/{idCandidatura}', 'app/controllers/profilo/ottieni-candidatura.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/ottieni-commenti.controller.php')->soloSe('autenticato');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-componente', 'app/views/i-miei-progetti/inserimento-componente.view.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-reward', 'app/views/i-miei-progetti/inserimento-reward.view.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-foto', 'app/views/i-miei-progetti/inserimento-foto.view.php')->soloSe('creatore');
 
 //POST
 
@@ -67,6 +70,9 @@ $router->post('/home/crea-progetto/conferma-dati', 'app/controllers/creazione-pr
 //profili
 $router->post('/home/progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/invio-candidatura.controller.php')->soloSe('autenticato');
 $router->post('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/i-miei-progetti/inserimento-profilo.controller.php')->soloSe('creatore');
+$router->post('/home/i-miei-progetti/{nomeProgetto}/componenti', 'app/controllers/i-miei-progetti/inserimento-componente.controller.php')->soloSe('creatore');
+$router->post('/home/i-miei-progetti/{nomeProgetto}/rewards', 'app/controllers/i-miei-progetti/inserimento-reward.controller.php')->soloSe('creatore');
+$router->post('/home/i-miei-progetti/{nomeProgetto}/foto', 'app/controllers/i-miei-progetti/inserimento-foto.controller.php')->soloSe('creatore');
 //commenti
 $router->post('/home/i-miei-progetti/{nomeProgetto}/commenti/{idCommento}/rispondi', '/app/controllers/commenti/invia-risposta.controller.php')->soloSe('creatore');
 $router->post('/home/progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/inserisci-commento.controller.php')->soloSe('autenticato');
