@@ -857,7 +857,6 @@ CALL CreazioneProgetto('DriveSenseAI', '2025-10-10', 'Progetto software innovati
 CALL CreazioneProgetto('SmartCoffeeAI', '2025-09-09', 'Progetto per creare una macchina del caffè smart con AI', 10000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
 CALL CreazioneProgetto('PulseTech', '2025-08-08', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 250000.00, 'Hardware', 'federica.verdi@email.com', @esito);
 CALL CreazioneProgetto('CompanyTagline', '2026-01-01', 'Progetto software per creare delle fotografie avanzate', 100000.00, 'Software', 'lucia.gialli@email.com', @esito);
-CALL CreazioneProgetto('ProgettoNatura', '2026-11-11', 'Progetto nato per salvaguardare gli animali tramite AI', 200000.00, 'Hardware', 'lucia.gialli@email.com', @esito);
 
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto1.webp');
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto2.png');
@@ -868,18 +867,10 @@ INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine dispositivo pulsetech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto7.webp');
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo CompanyTagline', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto8.avif');
 INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine fotocamera con AI', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto9.jpg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo ProgettoNatura', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto10.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine della natura con un albero', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto11.jpg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine animale carino', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto12.jpeg');
 
 CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffeeAI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
 CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffeeAI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);
-CALL InserimentoComponenteHardware('Sensore Salute Avanzato', 'PulseTech', 'Chip biometrico per monitoraggio fitness', '200.00', '15', @esito);
 CALL InserimentoComponenteHardware('Sensore di Integrità dei Cavi', 'PulseTech', 'Dispositivo per il monitoraggio della funzionalità dei cavi', '100.00', '100', @esito);
-CALL InserimentoComponenteHardware('Drone di Monitoraggio Fauna', 'ProgettoNatura', 'Drone con telecamere AI per il monitoraggio degli animali', '5000.00', '3', @esito);  
-CALL InserimentoComponenteHardware('Collare GPS Intelligente', 'ProgettoNatura', 'Dispositivo per tracciare il movimento degli animali selvatici', '500.00', '20', @esito);  
-CALL InserimentoComponenteHardware('Sensore Acustico per Bracconaggio', 'ProgettoNatura', 'Microfono AI per rilevare spari e movimenti sospetti', '1000.00', '5', @esito);  
-CALL InserimentoComponenteHardware('Stazione Meteo Intelligente', 'ProgettoNatura', 'Sensore per monitorare le condizioni climatiche nelle riserve naturali', '800.00', '4', @esito);
 
 CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward1.webp', 'buono sconto amazon', 'DriveSenseAI', @esito);
 CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward3.png', 'buono sconto unieuro', 'DriveSenseAI', @esito);
@@ -894,8 +885,6 @@ CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward1
 CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward2.avif', 'buono sconto sephora', 'CompanyTagline', @esito);
 CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward4.jpg', 'buono sconto conad', 'CompanyTagline', @esito);
 CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'CompanyTagline', @esito);
-CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward4.jpg', 'buono sconto conad', 'ProgettoNatura', @esito);
-CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'ProgettoNatura', @esito);
 
 -- CREARE ALTRO POPOLAMENTO DA QUI
 CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
