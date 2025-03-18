@@ -65,9 +65,11 @@
 
         .radio-group {
             display: flex;
-            flex-direction: row;
-            align-items: center;
             gap: 10px;
+        }
+
+        .radio label{
+            font-weight: normal;
         }
 
         input[type="radio"] {
@@ -132,37 +134,16 @@
                     </div>
                     
                     <div class="container radio-group">
-                        <input type="radio" id="hardware" name="tipo" value="hardware" checked>
-                        <label for="hardware">Hardware</label>
-                        
-                        <input type="radio" id="software" name="tipo" value="software">
-                        <label for="software">Software</label>
+                    <label>Tipologia</label>
+                        <div class="radio">
+                            <input type="radio" id="hardware" name="tipo" value="hardware" checked>
+                            <label for="hardware">Hardware</label>
+                        </div>
+                        <div class="radio">
+                            <input type="radio" id="software" name="tipo" value="software">
+                            <label for="software">Software</label>
+                        </div>
                     </div>
-
-                    <div id="errori">
-                        <?php if (isset($errori['nome'])) : ?>
-                            <p><?= $errori['nome'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($errori['data-limite'])) : ?>
-                            <p><?= $errori['data-limite'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($errori['descrizione'])) : ?>
-                            <p><?= $errori['descrizione'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($errori['budget'])) : ?>
-                            <p><?= $errori['budget'] ?></p>
-                        <?php endif; ?>
-
-                        <?php if (isset($errori['procedura'])) : ?>
-                            <p><?= $errori['procedura'] ?></p>
-                        <?php endif; ?>
-
-                    </div>
-
-
                     <button type="submit">Prosegui</button>
                 </form>
             </section>
@@ -171,5 +152,25 @@
 
     <?php require view('/home/home-footer.view.php'); ?>
 
+<?php if (isset($errori) && !empty($errori)) : ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const errori = <?php echo json_encode($errori); ?>;
+            let messaggi = "";
+            for (const key in errori) {
+                if (errori.hasOwnProperty(key)) {
+                    messaggi += `${errori[key]}\n`;
+                }
+            }
+            Swal.fire({
+                title: "Attenzione!",
+                text: messaggi.trim(),
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        });
+    </script>
+<?php endif; ?>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

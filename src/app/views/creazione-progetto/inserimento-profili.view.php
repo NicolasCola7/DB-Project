@@ -34,15 +34,11 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             margin: 10px;
         }
 
-        .contenutoMain > header {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            color: #0077cc;
-            border-bottom: 2px solid #0077cc;
-            padding-bottom: 1em;
-            margin-bottom: 1em;
-            background: #fff;
+        
+        .contenutoMain h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 15px;
         }
 
         section {
@@ -54,14 +50,23 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         }
 
         section > div:first-child > form {
-            width: 100%;
-            margin: 0 auto; 
+            width: 50%;
             display: flex; 
             flex-direction: column;
         }
 
-        section > div:first-child {
+        section > div{
             flex: 1;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 25px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            height: 45vh;
         }
 
         #container-profili {
@@ -69,8 +74,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             width: 100%;
             display: flex;
             flex-direction: column;
-            max-height: 50vh;
-            overflow: scroll;
+            overflow-y: scroll;
         }
 
         .container {
@@ -78,6 +82,16 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             margin-bottom: 15px;
             display: flex;
             flex-direction: column;
+        }
+
+        .container button{
+            background-color:#333;
+            border-radius: 100%;
+            width: 40px;
+            height: 40px;
+        }
+        .container button:hover{
+            background-color:black;
         }
 
         .bottoni {
@@ -99,9 +113,12 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             font-size: 14px;
             width: 100%
         }
+        .contenutoMain > .container-bottoni{
+            text-align: center;
+        }
 
         button {
-            width: 100%;
+            width: 150px;
             padding: 12px;
             background-color: #0077cc;
             color: white;
@@ -144,7 +161,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 1000;
             height: 70vh;
-            width: 50vw;
+            width: 40vw;
         }
 
         dialog form {
@@ -157,10 +174,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
-        }
-
-        dialog button {
-            margin-top: 10px;
         }
 
         .bottoni {
@@ -177,13 +190,21 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         }
 
         #skills-aggiunte > div {
-            display: grid;
-            grid-template-columns: minmax(120px, 1fr) 1fr auto;
-            gap: 15px; 
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
             align-items: center;
             padding: 2%;
             border-bottom: 1px solid #0077cc;
             color: #0077cc;
+        }
+        .skills-aggiunte span:last-child{
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            background: #d1ecf1;
+            padding: 5px 10px;
+            border-radius: 5px;
         }
 
       
@@ -197,7 +218,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             position: relative;
             padding: 20px;
             border-radius: 8px;
-            max-width: 500px;
         }
 
         dialog > header {
@@ -209,7 +229,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
 
         #aggiunta > form {
             display: flex;
-            flex-direction: row;
             justify-content: space-between;
             align-items: center;
             padding: 3% 5%;
@@ -223,7 +242,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
 
         #aggiunta form select,
         #aggiunta form input[type="number"] {
-            width: 20%;
+            width: 70%;
             padding: 8px 12px;
             border: 2px solid #0077cc;
             border-radius: 5px;
@@ -245,12 +264,8 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         }
 
         #aggiungi-skill {
-            width: 30px;
-            height: 30px;   
-            border-radius: 50%;
             background-color: #007bff;
             color: white;
-            font-size: 24px;
             font-weight: bold;
             border: none;
             cursor: pointer;
@@ -336,12 +351,11 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
 
         .nome-profilo {
             margin: 0;
-            color: #0077cc;
         }
 
         .posizioni-profilo {
-            background-color: #e6f3ff;
-            color: #0066cc;
+            background-color:rgb(238, 238, 238);
+            color: black;
             padding: 3px 10px;
             border-radius: 15px;
             font-size: 14px;
@@ -417,9 +431,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <header>
-                <h2> Inserimento profili </h2>
-            </header>
+            <h3> Inserimento profili </h3>
 
             <section>
                 <div>
@@ -434,14 +446,15 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                             <input type='number' name='posizioni' required>
                         </div>
 
-                        <div class='container bottoni'>
+                        <div class='container'>
+                            <label for='btnSkill'>Skill richieste</label>
+                            <button onclick='apriDialog()' type="button" id="btnSkill">+</button>
+                        </div>
+
+                        <div class='container-bottoni'>
                             <button id='aggiungi' type='submit'> Aggiungi </button>
                         </div>
                     </form>
-
-                    <div class='container bottoni'>
-                        <button onclick='apriDialog()'> Inserisci skills richieste </button>
-                    </div>
                 </div>
 
                 <div id='container-profili'>
@@ -500,7 +513,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                 <?php endif; ?>
             </div>
 
-            <div class='container bottoni'>
+            <div class='container-bottoni'>
                 <button onclick='prosegui()'> Prosegui </button>
             </div>
                 
@@ -514,8 +527,10 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                     <div id='skills-aggiunte'>
                         <?php foreach($_SESSION['creazione-progetto']['skills-richieste'] as $skill) :?>
                             <div class='skills-aggiunte'>
-                                <span> <?= $skill['nomeSkill']; ?> </span>
-                                <span> <?= $skill['livello']; ?> </span>
+                                <div>
+                                    <span> <?= $skill['nomeSkill']; ?> </span>
+                                    <span> <?= $skill['livello']; ?> </span>
+                                </div>
                                 <form action='/home/crea-progetto/software/profili/skills/<?= $skill['nomeSkill']; ?>' method='POST'>
                                     <input type='hidden' name='_metodo' value='DELETE'>
                                     <button type='submit' id='elimina'> - </button>
@@ -545,7 +560,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                             <option value="5" name='livello'>5</option>
                         </select>
                         <div class='bottoni'>
-                            <button type='submit' id='aggiungi-skill'> + </button>
+                            <button type='submit' id='aggiungi-skill'> Aggiungi </button>
                         </div>
                     </form>
                     <div id='errori-skill'>

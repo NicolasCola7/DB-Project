@@ -371,12 +371,6 @@
                             <p> <?= $foto['descrizione']; ?> </p>
                         </div>
                     <?php endforeach; ?>
-                    <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
-                        <div class="aggiungi" onclick="aggiungiFoto()">
-                            <div class="plus-icon">+</div>
-                            <p>Aggiungi Nuova Foto</p>
-                        </div>  
-                    <?php endif; ?>
                 </div>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
                     <div class="aggiungi" onclick="aggiungiFoto()">
@@ -395,12 +389,6 @@
                             <p> <?= $reward['descr']; ?> </p>
                         </div>
                     <?php endforeach; ?>
-                    <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
-                        <div class="aggiungi" onclick="aggiungiReward()">
-                            <div class="plus-icon">+</div>
-                            <p>Aggiungi Nuova Reward</p>
-                        </div>  
-                    <?php endif; ?>
                 </div>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
                         <div class="aggiungi" onclick="aggiungiReward()">

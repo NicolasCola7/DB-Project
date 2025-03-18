@@ -65,10 +65,10 @@
         background-color: #1a355f;
     }
 
-table {
+    table {
         margin-top: 10px;
         margin-bottom: 20px;
-        width: 100%;
+        width: 70%;
         border-collapse: collapse;
         border: 1px solid #aaa;
     }
