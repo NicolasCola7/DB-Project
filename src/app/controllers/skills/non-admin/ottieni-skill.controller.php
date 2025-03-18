@@ -1,9 +1,9 @@
 <? 
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 

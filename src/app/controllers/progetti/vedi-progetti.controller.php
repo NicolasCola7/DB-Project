@@ -1,10 +1,10 @@
 <?php
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 
-// Ottiene un'istanza della classe Database dal container dell'applicazione
-$db = App::getContainer()->risolvi(Database::class);
+// Ottiene un'istanza della classe MySqlDatabase dal container dell'applicazione
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 // Recupera i dati inviati dal form tramite il metodo POST
 $email = $_SESSION['utente']['email'];

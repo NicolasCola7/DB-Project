@@ -5,7 +5,7 @@ namespace core;
 use PDO;
 use PDOException;
 
-class Database {
+class MySqlDatabase {
 
     // Proprietà per la connessione PDO e per i parametri di configurazione
     protected $connessione;

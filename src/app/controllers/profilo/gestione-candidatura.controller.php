@@ -1,10 +1,10 @@
 <?php
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 use \core\Validatore;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 $emailCreatore = $_SESSION['utente']['email'];
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);

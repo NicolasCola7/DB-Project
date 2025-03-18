@@ -1,10 +1,10 @@
 <? 
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 use \core\Validatore;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 $nomeProgetto = $_POST['nome'];
 $dataLimite = $_POST['data-limite'];

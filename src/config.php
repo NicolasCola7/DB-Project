@@ -10,7 +10,10 @@ return [
             'charset'  => 'utf8'
         ],
         'mongo' => [
-
+            'host'     => 'db-project-mongodb-1',
+            'nome_db'  => 'BOSTARTER_LOG',
+            'username' => 'username',
+            'password' => 'MatAleNic'
         ]
     ]
 ];

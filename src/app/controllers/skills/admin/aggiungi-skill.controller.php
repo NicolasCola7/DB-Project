@@ -1,10 +1,10 @@
 <? 
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 use \core\Validatore;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 $nomeSkill = $_POST['nome'];

@@ -1,9 +1,9 @@
 <?  
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 // Recupero in neme della skill passato nell'url
 $daEliminare = urldecode(explode('/', $_SERVER['REQUEST_URI'])[4]);

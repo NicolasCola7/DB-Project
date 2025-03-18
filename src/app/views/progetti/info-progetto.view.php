@@ -254,6 +254,91 @@
             font-weight: bold;
             color: #4CAF50;
         }
+
+        .form-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .form-group label {
+            width: 120px;
+            display: inline-block;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            flex: 1;
+            min-width: 250px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group textarea {
+            height: 80px;
+        }
+        .btn-container {
+            text-align: right;
+            margin-top: 20px;
+        }
+        .btn-aggiungi {
+            background-color: #0078d4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn-aggiungi:hover {
+            background-color: #005a9e;
+        }
+        .aggiungi {
+            background-color: #ffffff;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .aggiungi:hover {
+            background-color: #f9f9f9;
+            border-color: #4CAF50;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .aggiungi .plus-icon {
+            background-color: #4CAF50;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .aggiungi p {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            font-size: 16px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
     </style>
 </head>
 <body>
@@ -286,6 +371,12 @@
                             <p> <?= $foto['descrizione']; ?> </p>
                         </div>
                     <?php endforeach; ?>
+                    <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
+                        <div class="aggiungi" onclick="aggiungiFoto()">
+                            <div class="plus-icon">+</div>
+                            <p>Aggiungi Nuova Foto</p>
+                        </div>  
+                    <?php endif; ?>
                 </div>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
                     <div class="aggiungi" onclick="aggiungiFoto()">
@@ -304,6 +395,12 @@
                             <p> <?= $reward['descr']; ?> </p>
                         </div>
                     <?php endforeach; ?>
+                    <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
+                        <div class="aggiungi" onclick="aggiungiReward()">
+                            <div class="plus-icon">+</div>
+                            <p>Aggiungi Nuova Reward</p>
+                        </div>  
+                    <?php endif; ?>
                 </div>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
                         <div class="aggiungi" onclick="aggiungiReward()">

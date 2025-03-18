@@ -1,9 +1,9 @@
 <?php
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 // Query per la classifica creatori
 $classificaCreatori = $db->query("SELECT * FROM ClassificaCreatoriAffidabilita");

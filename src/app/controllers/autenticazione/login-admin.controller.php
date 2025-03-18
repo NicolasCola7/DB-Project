@@ -1,11 +1,11 @@
 <?php
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 use \core\Validatore;
 
-// Ottiene un'istanza della classe Database dal container dell'applicazione
-$db = App::getContainer()->risolvi(Database::class);
+// Ottiene un'istanza della classe MySqlDatabase dal container dell'applicazione
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 // Recupera i dati inviati dal form tramite il metodo POST
 $email = $_POST['email'];
@@ -38,7 +38,7 @@ if (!empty($errori)) {
     exit();
 }
 
-// Definizione dei parametri per la procedura di autenticazione nel database
+// Definizione dei parametri per la procedura di autenticazione nel MySqlDatabase
 $parametri = [
     'email' => $email,
     'password' => $password,
@@ -46,7 +46,7 @@ $parametri = [
     '@esito' => '@esito' // Variabile di output dalla stored procedure
 ];
 
-// Esegue la stored procedure "AutenticazioneAmministratore" nel database
+// Esegue la stored procedure "AutenticazioneAmministratore" nel MySqlDatabase
 $esito = $db->procedure("AutenticazioneAmministratore", $parametri);
 
 // Se l'esito è negativo, mostra un errore nella vista login

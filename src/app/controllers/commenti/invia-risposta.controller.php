@@ -1,8 +1,8 @@
 <?php
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 // ottengo il nome del progetto
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
@@ -23,7 +23,7 @@ if(!$progettoEsistente || !$commentoEsistente) {
     abort();
 }
 
-// Definizione dei parametri per la procedura di autenticazione nel database
+// Definizione dei parametri per la procedura di autenticazione nel MySqlDatabase
 $parametri = [
     'idCommentoI' => $idCommento,
     'contenutoI' => $_POST['contenuto'],
