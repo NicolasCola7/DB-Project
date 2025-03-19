@@ -846,45 +846,63 @@ GROUP BY Utente.nickname
 ORDER BY totale_finanziamento DESC  
 LIMIT 3;
 
--- Popolamento delle tabelle con dei dati predefiniti
+-- Popolamento degli utenti che possono accedere al sistema: utente normale, utente creatore e utente amministratore
 CALL RegistrazioneAmministratore('mario.rossi@email.com', 'pass1234', 'Mario', 'Rossi', 'Roma', 1980, 'mario1980', 1001, @esito);
 CALL RegistrazioneNormale('normal.user@email.com', 'password1', 'User', 'Normal', 'Bologna', 2000, 'normalUser', @esito);
 CALL RegistrazioneCreatore('giulia.bianchi@email.com', 'securePass', 'Giulia', 'Bianchi', 'Milano', 1990, 'giulietta90', @esito);
 CALL RegistrazioneCreatore('federica.verdi@email.com', 'securePass', 'Federica', 'Verdi', 'Napoli', 2000, 'fede00', @esito);
 CALL RegistrazioneCreatore('lucia.gialli@email.com', 'securePass', 'Lucia', 'Gialli', 'Torino', 1998, 'luci98', @esito);
 
+-- Popolamento dei progetti di tipo Hardware e Software -- DA FINIRE
 CALL CreazioneProgetto('DriveSenseAI', '2025-10-10', 'Progetto software innovativo per auto con AI', 400000.00, 'Software', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('SmartCoffeeAI', '2025-09-09', 'Progetto per creare una macchina del caffè smart con AI', 10000.00, 'Hardware', 'giulia.bianchi@email.com', @esito);
-CALL CreazioneProgetto('PulseTech', '2025-08-08', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 250000.00, 'Hardware', 'federica.verdi@email.com', @esito);
 CALL CreazioneProgetto('CompanyTagline', '2026-01-01', 'Progetto software per creare delle fotografie avanzate', 100000.00, 'Software', 'lucia.gialli@email.com', @esito);
+CALL CreazioneProgetto('ProgettoNatura', '2027-02-02', 'Progetto per la salvaguardia della natura', 50000.00, 'Hardware', 'lucia.gialli@email.com', @esito);
+CALL CreazioneProgetto('PulseTech', '2025-08-08', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', 250000.00, 'Hardware', 'federica.verdi@email.com', @esito);
+CALL CreazioneProgetto('EcoSmartHome', '2025-07-07', 'Progetto per costruire una casa smart ecosostenibile', 1500000.00, 'Hardware', 'federica.verdi@email.com', @esito);
+CALL CreazioneProgetto('VisaAI', '2026-03-03', 'Progetto per migliorare la sicurezza dei pagamenti con AI', 200000.00, 'Software', 'giulia.bianchi@email.com', @esito);
 
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 1 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto1.webp');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo 2 DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto2.png');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine drive sense', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto3.jpeg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('macchinetta del caffè smart', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/fotoProgetto/progetto4.jpg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo SmartCoffeAI', 'SmartCoffeeAI', 'public/immagini/progetti/SmartCoffeeAI/fotoProgetto/progetto5.jpeg');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo PulseTech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto6.webp');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine dispositivo pulsetech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto7.webp');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo CompanyTagline', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto8.avif');
-INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine fotocamera con AI', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto9.jpg');
+-- Popolamento delle immagini dei progetti creati
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('primo logo progetto DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto1.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('secondo logo progetto DriveSenseAI', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto2.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine telecamera per drive sense', 'DriveSenseAI', 'public/immagini/progetti/DriveSenseAI/fotoProgetto/progetto3.jpeg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo progetto CompanyTagline', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto4.avif');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine fotocamera con AI', 'CompanyTagline', 'public/immagini/progetti/CompanyTagline/fotoProgetto/progetto5.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo progetto ProgettoNatura', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto6.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine natura da salvaguardare', 'ProgettoNatura', 'public/immagini/progetti/ProgettoNatura/fotoProgetto/progetto7.jpg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo progetto PulseTech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto8.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine di un dispositivo pulsetech', 'PulseTech', 'public/immagini/progetti/PulseTech/fotoProgetto/progetto9.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('logo progetto EcoSmartHome', 'EcoSmartHome', 'public/immagini/progetti/EcoSmartHome/fotoProgetto/progetto10.png');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine funzionamento della nuova EcoSmartHome', 'EcoSmartHome', 'public/immagini/progetti/EcoSmartHome/fotoProgetto/progetto11.jpeg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('immagine di una casa di tipo EcoSmartHome', 'EcoSmartHome', 'public/immagini/progetti/EcoSmartHome/fotoProgetto/progetto12.jpeg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('primo logo progetto VisaAI', 'VisaAI', 'public/immagini/progetti/VisaAI/fotoProgetto/progetto13.webp');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('secondo logo progetto VisaAI', 'VisaAI', 'public/immagini/progetti/VisaAI/fotoProgetto/progetto14.jpeg');
+INSERT INTO Foto_Progetto(descrizione, nomeProgetto, urlImmagine) VALUES ('funzionalità contactless carta Visa con AI', 'VisaAI', 'public/immagini/progetti/VisaAI/fotoProgetto/progetto15.jpeg');
 
+-- Popolamento componenti Hardware dei progetti di tipo Hardware
 CALL InserimentoComponenteHardware('Sistema di Controllo Termico', 'SmartCoffeeAI', 'Regolatore di temperatura per erogazione', '150.00', '10', @esito);
 CALL InserimentoComponenteHardware('Modulo AI per Caffè', 'SmartCoffeeAI', 'Microcontrollore per ottimizzazione del gusto', '300.00', '1', @esito);
 CALL InserimentoComponenteHardware('Sensore di Integrità dei Cavi', 'PulseTech', 'Dispositivo per il monitoraggio della funzionalità dei cavi', '100.00', '100', @esito);
 
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward1.webp', 'buono sconto amazon', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward3.png', 'buono sconto unieuro', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward4.jpg', 'buono sconto conad', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward4.jpg', 'buono sconto conad', 'SmartCoffeeAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'SmartCoffeeAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/SmartCoffeeAI/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'SmartCoffeeAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward1.webp', 'buono sconto amazon', 'PulseTech', @esito);
-CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward2.avif', 'buono sconto sephora', 'PulseTech', @esito);
-CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward5.jpg', 'buono sconto adidas', 'PulseTech', @esito);
-CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward1.webp', 'buono sconto amazon', 'CompanyTagline', @esito);
-CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward2.avif', 'buono sconto sephora', 'CompanyTagline', @esito);
-CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward4.jpg', 'buono sconto conad', 'CompanyTagline', @esito);
-CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward6.jpg', 'personalizzazione gratuita', 'CompanyTagline', @esito);
+-- Popolamento delle reward dei progetti creati
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward1.webp', 'buono sconto amazon di 15€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward2.avif', 'buono sconto sephora da 20€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward3.png', 'buono sconto unieuro da 10€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward4.jpg', 'buono sconto conad di 5€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward5.jpg', 'buono sconto adidas di 25€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward6.jpg', 'smartbox gratuita "Adrenalina Pace"', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward8.jpg', 'personalizzazione gratuita di un prodotto', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward9.jpg', 'penna del progetto ProgettoNatura', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward9.jpg', 'penna del progetto ProgettoNatura', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward10.jpg', 'portachiavi del progetto ProgettoNatura', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward10.jpg', 'portachiavi del progetto PulseTech', 'PulseTech', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward1.webp', 'buono sconto amazon di 15€', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward2.avif', 'buono sconto sephora da 20€', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward5.jpg', 'buono sconto adidas di 25€', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward6.jpg', 'smartbox gratuita "Adrenalina Pace"', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward3.png', 'buono sconto unieuro da 10€', 'VisaAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward5.jpg', 'buono sconto adidas di 25€', 'VisaAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'VisaAI', @esito);
 
 -- CREARE ALTRO POPOLAMENTO DA QUI
 CALL InserimentoFinanziamento('DriveSenseAI', 10000.00, 'mario.rossi@email.com', @esito);
