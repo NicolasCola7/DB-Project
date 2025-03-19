@@ -5,6 +5,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     header('location: /home/crea-progetto/informazioni-base');
     exit();
 }
+use core\AlertManager;
 
 //se l'utente, a seconda del tipo di progetto, non ha inserito le foto lo redirigo alle pagine apposite 
 if(!$_SESSION['creazione-progetto']['step3']) {
@@ -141,31 +142,6 @@ if(!$_SESSION['creazione-progetto']['step3']) {
                     </div>
                 </form>
             </section>
-
-            <div id='errori'>
-                <?php if (isset($errori['estensione'])) : ?>
-                    <p><?= $errori['estensione'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['descrizione'])) : ?>
-                    <p><?= $errori['descrizione'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['dimensione'])) : ?>
-                    <p><?= $errori['dimensione'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['già-inserita'])) : ?>
-                    <p><?= $errori['già-inserita'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($_SESSION['aggiunta-reward'])) : ?>
-                    <?php if ($_SESSION['aggiunta-reward']) : ?>
-                        <p id='successo'> Reward aggiunta con successo! </p>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
-
             <div class='container'>
                 <button onclick="prosegui()">Prosegui</button>
             </div>
@@ -173,13 +149,41 @@ if(!$_SESSION['creazione-progetto']['step3']) {
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
+    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
+    <?php if (isset($_SESSION['aggiunta-reward'])) : ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                <?php if ($_SESSION['aggiunta-reward']) : ?>
+                    Swal.fire({
+                        title: "Successo!",
+                        text: "Reward aggiunta con successo!",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                <?php else : ?>
+                    Swal.fire({
+                        title: "Attenzione!",
+                        text: "Reward già inserita!",
+                        icon: "warning",
+                        confirmButtonText: "OK"
+                    });
+                <?php endif; ?>
+            });
+        </script>
+        <?php unset($_SESSION['aggiunta-reward']); ?>
+    <?php endif; ?>
 </body>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function prosegui() {
         const rewards =  <?= count($_SESSION['creazione-progetto']['rewards']); ?>;
         if(rewards < 1) {
-            alert("Devi inserire almeno una reward!");
+            Swal.fire({
+                title: "Errore",
+                text: "Devi inserire almeno una reward!",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
         } else {
             <?php $_SESSION["creazione-progetto"]["step4"] = true; ?>
             window.location.href = '/home/crea-progetto/conferma-dati';

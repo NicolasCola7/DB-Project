@@ -4,7 +4,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     header('location: /home/crea-progetto/informazioni-base');
     exit();
 }
-
+use core\AlertManager;
 ?>
 
 <!DOCTYPE html>
@@ -229,25 +229,7 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-    <?php if (isset($errori) && !empty($errori)) : ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const errori = <?php echo json_encode($errori); ?>;
-            let messaggi = "";
-            for (const key in errori) {
-                if (errori.hasOwnProperty(key)) {
-                    messaggi += `${errori[key]}\n`;
-                }
-            }
-            Swal.fire({
-                title: "Attenzione!",
-                text: messaggi.trim(),
-                icon: "error",
-                confirmButtonText: "OK"
-            });
-        });
-    </script>
-    <?php endif; ?>
+    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
 
     <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
         <script>

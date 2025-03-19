@@ -366,16 +366,29 @@ if(!$_SESSION['creazione-progetto']['step4']) {
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     const annullaForm = document.getElementById('annulla');
     annullaForm.addEventListener('submit', event => {
         event.preventDefault();
 
-        const confermaAnnullamento = confirm('Continuando tutti i dati inseriti saranno eliminati e dovrai ricominciare da capo, sei sicuro di voler continuare?');
-  
-        if (confermaAnnullamento) {
-            annullaForm.submit();
-        }
+        Swal.fire({
+            title: "Sei sicuro?",
+            text: "Vuoi davvero eliminare tutti i dati inseriti fino a d'ora?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sì, procedi!",
+            cancelButtonText: "Annulla",
+            customClass: {
+                confirmButton: "my-confirm-button",
+                cancelButton: "my-cancel-button"
+            }
+         }).then((result) => {
+            //se l'utente conferma faccio submit
+            if (result.isConfirmed) {
+                annullaForm.submit();
+            }
+        });
     });
 
     function toggleSkills(index) {

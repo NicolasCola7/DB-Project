@@ -14,6 +14,8 @@ if(!$_SESSION['creazione-progetto']['step2']) {
         header('location: /home/crea-progetto/software/profili');
     exit();
 }
+
+use core\AlertManager;
 ?>
 
 <!DOCTYPE html>
@@ -148,25 +150,7 @@ if(!$_SESSION['creazione-progetto']['step2']) {
         </div>
     </div>
     <?php require view('/home/home-footer.view.php'); ?>
-    <?php if (isset($errori) && !empty($errori)) : ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const errori = <?php echo json_encode($errori); ?>;
-            let messaggi = "";
-            for (const key in errori) {
-                if (errori.hasOwnProperty(key)) {
-                    messaggi += `${errori[key]}\n`;
-                }
-            }
-            Swal.fire({
-                title: "Attenzione!",
-                text: messaggi.trim(),
-                icon: "error",
-                confirmButtonText: "OK"
-            });
-        });
-    </script>
-    <?php endif; ?>
+    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
 
     <?php if (isset($_SESSION['aggiunta-foto'])) : ?>
         <script>

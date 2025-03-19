@@ -1,3 +1,6 @@
+<?php
+use core\AlertManager;
+?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -151,26 +154,7 @@
     </div>
 
     <?php require view('/home/home-footer.view.php'); ?>
-
-<?php if (isset($errori) && !empty($errori)) : ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const errori = <?php echo json_encode($errori); ?>;
-            let messaggi = "";
-            for (const key in errori) {
-                if (errori.hasOwnProperty(key)) {
-                    messaggi += `${errori[key]}\n`;
-                }
-            }
-            Swal.fire({
-                title: "Attenzione!",
-                text: messaggi.trim(),
-                icon: "error",
-                confirmButtonText: "OK"
-            });
-        });
-    </script>
-<?php endif; ?>
+    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>
