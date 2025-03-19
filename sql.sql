@@ -893,7 +893,6 @@ CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward6
 CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'CompanyTagline', @esito);
 CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward8.jpg', 'personalizzazione gratuita di un prodotto', 'ProgettoNatura', @esito);
 CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward9.jpg', 'penna del progetto ProgettoNatura', 'ProgettoNatura', @esito);
-CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward9.jpg', 'penna del progetto ProgettoNatura', 'ProgettoNatura', @esito);
 CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward10.jpg', 'portachiavi del progetto ProgettoNatura', 'ProgettoNatura', @esito);
 CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward10.jpg', 'portachiavi del progetto PulseTech', 'PulseTech', @esito);
 CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward1.webp', 'buono sconto amazon di 15€', 'EcoSmartHome', @esito);
