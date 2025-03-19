@@ -220,32 +220,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                         </table>
                     </div>
                 </div>
-                
-                <div id="errori">
-                    <?php if (isset($errori['nome'])) : ?>
-                        <p><?= $errori['nome'] ?></p>
-                    <?php endif; ?>
-
-                    <?php if (isset($errori['descrizione'])) : ?>
-                        <p><?= $errori['descrizione'] ?></p>
-                    <?php endif; ?>
-
-                    <?php if (isset($errori['quantità'])) : ?>
-                        <p><?= $errori['quantità'] ?></p>
-                    <?php endif; ?>
-
-                    <?php if (isset($errori['prezzo'])) : ?>
-                        <p><?= $errori['prezzo'] ?></p>
-                    <?php endif; ?>
-
-                    <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
-                        <?php if ($_SESSION['aggiunta-componente']) : ?>
-                            <p id='successo'> Componente aggiunta con successo! </p>
-                        <?php else :?>
-                            <p> Componente già inserita!</p>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </div>
 
                 <div class='container-bottoni2'>
                     <button id="btnProsegui" onclick='prosegui()'>Prosegui</button>
@@ -255,8 +229,51 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-</body>
+    <?php if (isset($errori) && !empty($errori)) : ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const errori = <?php echo json_encode($errori); ?>;
+            let messaggi = "";
+            for (const key in errori) {
+                if (errori.hasOwnProperty(key)) {
+                    messaggi += `${errori[key]}\n`;
+                }
+            }
+            Swal.fire({
+                title: "Attenzione!",
+                text: messaggi.trim(),
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        });
+    </script>
+    <?php endif; ?>
 
+    <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                <?php if ($_SESSION['aggiunta-componente']) : ?>
+                    Swal.fire({
+                        title: "Successo!",
+                        text: "Componente aggiunta con successo!",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                <?php else : ?>
+                    Swal.fire({
+                        title: "Attenzione!",
+                        text: "Componente già inserita!",
+                        icon: "warning",
+                        confirmButtonText: "OK"
+                    });
+                <?php endif; ?>
+            });
+        </script>
+        <?php unset($_SESSION['aggiunta-componente']); ?>
+    <?php endif; ?>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
 <script>
 
     function prosegui() {
@@ -265,9 +282,13 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
             <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
             window.location.href = "/home/crea-progetto/foto";
         } else {
-            alert("Devi inserire almeno una componente!");
+            Swal.fire({
+                title: "Attenzione!",
+                text: "Devi inserire almeno una componente.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
         }
     } 
 </script>
-
 </html>

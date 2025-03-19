@@ -494,24 +494,6 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                     <?php endif; ?>
                 </div>
             </section>
-       
-            <div id="errori">
-                <?php if (isset($errori['nome'])) : ?>
-                    <p><?= $errori['nome'] ?></p>
-                <?php endif; ?>
-                
-                <?php if (isset($errori['posizioni'])) : ?>
-                    <p><?= $errori['posizioni'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($_SESSION['aggiunta-profilo'])) : ?>
-                    <?php if ($_SESSION['aggiunta-profilo']) : ?>
-                        <p class='successo'> Profilo aggiunto con successo! </p>
-                    <?php else :?>
-                        <p> Profilo già inserito!</p>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
 
             <div class='container-bottoni'>
                 <button onclick='prosegui()'> Prosegui </button>
@@ -563,21 +545,72 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
                             <button type='submit' id='aggiungi-skill'> Aggiungi </button>
                         </div>
                     </form>
-                    <div id='errori-skill'>
-                        <?php if (isset($_SESSION['aggiunta-skill'])) : ?>
-                            <?php if (!$_SESSION['aggiunta-skill']) : ?>
-                                <p> Skill già inserita!</p>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    </div>
                 </div>
             </dialog>
         </div>
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-</body>
+    <?php if (isset($errori) && !empty($errori)) : ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const errori = <?php echo json_encode($errori); ?>;
+                let messaggi = "";
+                for (const key in errori) {
+                    if (errori.hasOwnProperty(key)) {
+                        messaggi += `${errori[key]}\n`;
+                    }
+                }
+                Swal.fire({
+                    title: "Errore!",
+                    text: messaggi.trim(),
+                    icon: "error",
+                    confirmButtonText: "OK"
+                });
+            });
+        </script>
+    <?php endif; ?>
 
+    <?php if (isset($_SESSION['aggiunta-profilo'])) : ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                <?php if ($_SESSION['aggiunta-profilo']) : ?>
+                    Swal.fire({
+                        title: "Successo!",
+                        text: "Profilo aggiunto con successo!",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                <?php else : ?>
+                    Swal.fire({
+                        title: "Attenzione",
+                        text: "Profilo già inserito!",
+                        icon: "warning",
+                        confirmButtonText: "OK"
+                    });
+                <?php endif; ?>
+            });
+        </script>
+        <?php unset($_SESSION['aggiunta-profilo']); ?>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['aggiunta-skill'])) : ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                <?php if (!$_SESSION['aggiunta-skill']) : ?>
+                    Swal.fire({
+                        title: "Attenzione",
+                        text: "Skill già inserita!",
+                        icon: "warning",
+                        confirmButtonText: "OK"
+                    });
+                <?php endif; ?>
+            });
+        </script>
+        <?php unset($_SESSION['aggiunta-skill']); ?>
+    <?php endif; ?>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let dialog = document.getElementById('skill-requisito');
     let aggiungiProfiloBtn = document.getElementById('aggiungi');
@@ -609,7 +642,12 @@ if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['
     function prosegui() {
         const profili = <?= count($_SESSION['creazione-progetto']['profili']); ?>;
         if(profili < 1) {
-            alert('Devi inserire almeno 1 profilo prima di proseguire!');
+            Swal.fire({
+                title: "Attenzione!",
+                text: 'Devi inserire almeno 1 profilo prima di proseguire!',
+                icon: "error",
+                confirmButtonText: "OK"
+            });
         } else {
             <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
             window.location.href = '/home/crea-progetto/foto';

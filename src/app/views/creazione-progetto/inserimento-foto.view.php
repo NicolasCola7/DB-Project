@@ -142,45 +142,67 @@ if(!$_SESSION['creazione-progetto']['step2']) {
                     </div>
                 </form>
             </section>
-
-            <div id='errori'>
-                <?php if (isset($errori['estensione'])) : ?>
-                    <p><?= $errori['estensione'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['descrizione'])) : ?>
-                    <p><?= $errori['descrizione'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['dimensione'])) : ?>
-                    <p><?= $errori['dimensione'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['già-inserita'])) : ?>
-                    <p><?= $errori['già-inserita'] ?></p>
-                <?php endif; ?>
-
-                <?php if (isset($_SESSION['aggiunta-foto'])) : ?>
-                    <?php if ($_SESSION['aggiunta-foto']) : ?>
-                        <p id='successo'> Foto aggiunta con successo! </p>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </div>
-
             <div class='container'>
                 <button onclick="prosegui()">Prosegui</button>
             </div>
         </div>
     </div>
-    
     <?php require view('/home/home-footer.view.php'); ?>
+    <?php if (isset($errori) && !empty($errori)) : ?>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const errori = <?php echo json_encode($errori); ?>;
+            let messaggi = "";
+            for (const key in errori) {
+                if (errori.hasOwnProperty(key)) {
+                    messaggi += `${errori[key]}\n`;
+                }
+            }
+            Swal.fire({
+                title: "Attenzione!",
+                text: messaggi.trim(),
+                icon: "error",
+                confirmButtonText: "OK"
+            });
+        });
+    </script>
+    <?php endif; ?>
+
+    <?php if (isset($_SESSION['aggiunta-foto'])) : ?>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                <?php if ($_SESSION['aggiunta-foto']) : ?>
+                    Swal.fire({
+                        title: "Successo!",
+                        text: "Foto aggiunta con successo!",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                <?php else : ?>
+                    Swal.fire({
+                        title: "Attenzione!",
+                        text: "Foto già inserita!",
+                        icon: "warning",
+                        confirmButtonText: "OK"
+                    });
+                <?php endif; ?>
+            });
+        </script>
+        <?php unset($_SESSION['aggiunta-foto']); ?>
+    <?php endif; ?>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     function prosegui() {
         const nFoto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
         if(nFoto < 1) {
-            alert("Devi inserire almeno una foto!");
+            Swal.fire({
+                title: "Attenzione!",
+                text: "Devi inserire almeno una foto.",
+                icon: "error",
+                confirmButtonText: "OK"
+            });
         } else {
             <?php $_SESSION["creazione-progetto"]["step3"] = true; ?>
             window.location.href = '/home/crea-progetto/rewards';
