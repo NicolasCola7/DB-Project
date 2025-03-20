@@ -31,7 +31,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
+                <?php if($profiloEsistente[0]['numero_posizioni'] > 0): ?>
                     <form id='candidatiForm' action="/home/progetti/<?= (explode('/', $_SERVER['REQUEST_URI'])[3]) ?>/profili/<?= (explode('/', $_SERVER['REQUEST_URI'])[5]) ?>/candidature" method='POST'>
                         <button id='candidati' type='submit'> Invia candidatura </button>
                     </form>

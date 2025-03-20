@@ -3,6 +3,7 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -34,19 +35,15 @@ $parametri = [
 $esito = $db->procedure("InserimentoCandidatura", $parametri);
     
     //se l'esito è negativo, mostro un errore nella vista
-    if($esito === 0){
-        $_SESSION["utente"]["errore_candidatura"] = "Non disponi di tutti i livelli skill minimi richiesti dal profilo.";
-        unset($_SESSION['utente']['esito_candidatura']); 
-    }else if ($esito === 1){
-        $_SESSION['utente']['esito_candidatura'] = "Candidatura inviata con successo!";
+    if ($esito === 0) {
+        AlertManager::setError("Non disponi di tutti i livelli skill minimi richiesti dal profilo.");
+    } elseif ($esito === 1) {
+        AlertManager::setSuccess("Candidatura inviata con successo!");
         $db_mongo->inserisciLog("Nuova candidatura effettuata da ".$email." per il profilo ".$nomeProfilo." del progetto ".$nomeProgetto);
-        unset($_SESSION['utente']['errore_candidatura']);
-    }else if ($esito === 2){
-        $_SESSION["utente"]["errore_candidatura"] = "Hai già inviato una candidatura per questo profilo che non è stata ancora visionata.";
-        unset($_SESSION['utente']['esito_candidatura']); 
-    }else {
-        $_SESSION["utente"]["errore_candidatura"] = "Hai già inviato una candidatura per questo profilo che è già stata accettata.";
-        unset($_SESSION['utente']['esito_candidatura']); 
+    } elseif ($esito === 2) {
+        AlertManager::setWarning("Hai già inviato una candidatura per questo profilo che non è stata ancora visionata.");
+    } else {
+        AlertManager::setWarning("Hai già inviato una candidatura per questo profilo che è già stata accettata.");
     }
 
 header("location: /home/progetti/".$nomeProgetto."/profili");

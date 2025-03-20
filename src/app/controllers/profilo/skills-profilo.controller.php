@@ -26,10 +26,9 @@ $nomeProfilo = urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]);
 
 //controllo che il profilo esista
 $profiloEsistente = $db->query(
-    'SELECT nome FROM Profilo WHERE nome = :nomeProfilo AND nomeProgetto = :nomeProgetto',
+    'SELECT nome, numero_posizioni FROM Profilo WHERE nome = :nomeProfilo AND nomeProgetto = :nomeProgetto',
      [':nomeProfilo' => $nomeProfilo, ':nomeProgetto' => $nomeProgetto]
 );
-
 if(!$profiloEsistente){
     abort();
 }
@@ -39,5 +38,5 @@ $skills = $db->query(
      [':nomeProgetto' => $nomeProgetto, ':nomeProfilo' => $nomeProfilo]
 );
 
-require view('/profilo/skills-profilo.view.php', ['skills' => $skills]);
+require view('/profilo/skills-profilo.view.php', ['skills' => $skills, 'profiloEsistente' => $profiloEsistente]);
 exit();

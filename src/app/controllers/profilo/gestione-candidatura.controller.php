@@ -3,6 +3,7 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -53,11 +54,9 @@ $scelta = ($scelta === 0 ? "rifiuto" : "approvazione");
 
 //se l'esito è negativo, mostro un errore nella vista
 if(!$esito){
-    $_SESSION["utente"]["errore_validazione"] = "L'operazione di ".$scelta." non è andata a buon fine.";
-    unset($_SESSION['utente']['esito_validazione']); 
+    AlertManager::setError("L'operazione di ".$scelta." non è andata a buon fine.");
 } else {
-    $_SESSION['utente']['esito_validazione'] = "Operazione di ".$scelta." avvenuta con successo.";
-    unset($_SESSION['utente']['errore_validazione']);
+    AlertManager::setSuccess("Operazione di ".$scelta." avvenuta.");
     $scelta = ($scelta === 'rifiuto' ? "rifiutata" : "approvata");
     $db_mongo->inserisciLog("Candidatura ".$idCandidatura." al profilo ".$nomeProfilo." del progetto ".$nomeProgetto. " ".$scelta);
 }
