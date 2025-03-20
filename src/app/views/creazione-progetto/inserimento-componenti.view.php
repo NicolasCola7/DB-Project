@@ -229,30 +229,8 @@ use core\AlertManager;
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
+    <?= AlertManager::show($errori ?? []) ?>
 
-    <?php if (isset($_SESSION['aggiunta-componente'])) : ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                <?php if ($_SESSION['aggiunta-componente']) : ?>
-                    Swal.fire({
-                        title: "Successo!",
-                        text: "Componente aggiunta con successo!",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    });
-                <?php else : ?>
-                    Swal.fire({
-                        title: "Attenzione!",
-                        text: "Componente già inserita!",
-                        icon: "warning",
-                        confirmButtonText: "OK"
-                    });
-                <?php endif; ?>
-            });
-        </script>
-        <?php unset($_SESSION['aggiunta-componente']); ?>
-    <?php endif; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>

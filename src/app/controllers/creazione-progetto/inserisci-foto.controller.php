@@ -1,6 +1,7 @@
 <?php
 
 use \core\Validatore;
+use \core\AlertManager;
 
 $file = $_FILES['foto'];
 $nomeFile = $_FILES['foto']['name'];
@@ -29,10 +30,10 @@ if (!Validatore::isString($descrizione, 1, 100)) {
 }
 
 if (!empty($errori)) {
-    $_SESSION['aggiunta-foto'] = false;
     require view("/creazione-progetto/inserimento-foto.view.php", [
         "errori" => $errori
     ]);
+    AlertManager::setWarning("Immagine già inserita!");
 
     exit();
 }
@@ -57,8 +58,7 @@ $fotoDaInserire = [
 //controllo che non esista una foto identica
 foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
     if($foto['percorso'] === $destinazione) {
-        $_SESSION['aggiunta-foto'] = false;
-        $errori['già-inserita'] = 'Foto già inserita';
+        AlertManager::setWarning("Immagine già inserita!");
         require view("/creazione-progetto/inserimento-foto.view.php", [
             "errori" => $errori
         ]);
@@ -72,7 +72,7 @@ array_push($_SESSION['creazione-progetto']['foto'], $fotoDaInserire);
 
 // sposto la foto in una cartella temporanea in attesa per la conferma di creazione del progetto
 move_uploaded_file($nomeTemp, $destinazione);
-$_SESSION['aggiunta-foto'] = true;
+AlertManager::setSuccess("Immagine aggiunta!");
 
 header('location: /home/crea-progetto/foto');
 exit();

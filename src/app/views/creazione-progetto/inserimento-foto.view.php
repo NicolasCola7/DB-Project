@@ -150,30 +150,7 @@ use core\AlertManager;
         </div>
     </div>
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
-
-    <?php if (isset($_SESSION['aggiunta-foto'])) : ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                <?php if ($_SESSION['aggiunta-foto']) : ?>
-                    Swal.fire({
-                        title: "Successo!",
-                        text: "Foto aggiunta con successo!",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    });
-                <?php else : ?>
-                    Swal.fire({
-                        title: "Attenzione!",
-                        text: "Foto già inserita!",
-                        icon: "warning",
-                        confirmButtonText: "OK"
-                    });
-                <?php endif; ?>
-            });
-        </script>
-        <?php unset($_SESSION['aggiunta-foto']); ?>
-    <?php endif; ?>
+    <?= AlertManager::show($errori ?? []) ?>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

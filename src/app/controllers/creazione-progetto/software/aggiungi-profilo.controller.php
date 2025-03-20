@@ -1,6 +1,7 @@
 <? 
 
 use \core\Validatore;
+use \core\AlertManager;
 
 $nome = $_POST['nome'];
 $posizioni = $_POST['posizioni'];
@@ -16,10 +17,11 @@ if (!Validatore::isNumber($posizioni, 1)) {
 }
 
 if (!empty($errori)) {
-    $_SESSION['aggiunta-profilo'] = false;
     require view("/creazione-progetto/inserimento-profili.view.php", [
         "errori" => $errori
     ]);
+    
+    AlertManager::setWarning("Profilo già inserito!");
     exit();
 }
 
@@ -31,7 +33,7 @@ $profiloDaInserire = [
 //controllo che non sia stato già inserito un profilo uguale uguale
 foreach($_SESSION['creazione-progetto']['profili'] as $profilo){
     if($profilo['nome'] === $nome){
-        $_SESSION['aggiunta-profilo'] = false;
+        AlertManager::setWarning("Profilo già inserito!");
         require view("/creazione-progetto/inserimento-profili.view.php", [
             "errori" => $errori
         ]);
@@ -41,7 +43,7 @@ foreach($_SESSION['creazione-progetto']['profili'] as $profilo){
 
 //inserisco il profilo aggiunta nell'apposita variabile di sessione
 array_push($_SESSION['creazione-progetto']['profili'], $profiloDaInserire);
-$_SESSION['aggiunta-profilo'] = true;
+AlertManager::setSuccess("Profilo aggiunto!");
 
 //sposto tutte le skill che avevo memorizzato all'interno dell'array per il profilo 
 foreach($_SESSION['creazione-progetto']['profili'] as $key=>$profilo) {

@@ -552,46 +552,7 @@ use core\AlertManager;
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
-
-    <?php if (isset($_SESSION['aggiunta-profilo'])) : ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                <?php if ($_SESSION['aggiunta-profilo']) : ?>
-                    Swal.fire({
-                        title: "Successo!",
-                        text: "Profilo aggiunto con successo!",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    });
-                <?php else : ?>
-                    Swal.fire({
-                        title: "Attenzione",
-                        text: "Profilo già inserito!",
-                        icon: "warning",
-                        confirmButtonText: "OK"
-                    });
-                <?php endif; ?>
-            });
-        </script>
-        <?php unset($_SESSION['aggiunta-profilo']); ?>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['aggiunta-skill'])) : ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                <?php if (!$_SESSION['aggiunta-skill']) : ?>
-                    Swal.fire({
-                        title: "Attenzione",
-                        text: "Skill già inserita!",
-                        icon: "warning",
-                        confirmButtonText: "OK"
-                    });
-                <?php endif; ?>
-            });
-        </script>
-        <?php unset($_SESSION['aggiunta-skill']); ?>
-    <?php endif; ?>
+    <?= AlertManager::show($errori ?? []) ?>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

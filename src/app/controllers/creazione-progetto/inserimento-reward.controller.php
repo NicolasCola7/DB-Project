@@ -1,6 +1,7 @@
 <?php
 
 use \core\Validatore;
+use \core\AlertManager;
 
 $file = $_FILES['foto'];
 $nomeFile = $_FILES['foto']['name'];
@@ -29,10 +30,10 @@ if (!Validatore::isString($descrizione, 1, 100)) {
 }
 
 if (!empty($errori)) {
-    $_SESSION['aggiunta-reward'] = false;
     require view("/creazione-progetto/inserimento-foto.view.php", [
         "errori" => $errori
     ]);
+    AlertManager::setWarning("Reward già inserita!");
 
     exit();
 }
@@ -57,7 +58,7 @@ $rewardDaInserire = [
 //controllo che non esista una foto identica
 foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
     if($reward['urlFoto'] === $destinazione) {
-        $_SESSION['aggiunta-reward'] = false;
+        AlertManager::setWarning("Reward già inserita!");
         $errori['già-inserita'] = 'Foto già inserita';
         require view("/creazione-progetto/inserimento-rewards.view.php", [
             "errori" => $errori
@@ -72,7 +73,7 @@ array_push($_SESSION['creazione-progetto']['rewards'], $rewardDaInserire);
 
 // sposto la foto in una cartella temporanea in attesa per la conferma di creazione del progetto
 move_uploaded_file($nomeTemp, $destinazione);
-$_SESSION['aggiunta-reward'] = true;
+AlertManager::setSuccess("Reward aggiunta!");
 
 header('location: /home/crea-progetto/rewards');
 exit();

@@ -149,29 +149,7 @@ if(!$_SESSION['creazione-progetto']['step3']) {
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
-    <?php if (isset($_SESSION['aggiunta-reward'])) : ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                <?php if ($_SESSION['aggiunta-reward']) : ?>
-                    Swal.fire({
-                        title: "Successo!",
-                        text: "Reward aggiunta con successo!",
-                        icon: "success",
-                        confirmButtonText: "OK"
-                    });
-                <?php else : ?>
-                    Swal.fire({
-                        title: "Attenzione!",
-                        text: "Reward già inserita!",
-                        icon: "warning",
-                        confirmButtonText: "OK"
-                    });
-                <?php endif; ?>
-            });
-        </script>
-        <?php unset($_SESSION['aggiunta-reward']); ?>
-    <?php endif; ?>
+    <?= AlertManager::show($errori ?? []) ?>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

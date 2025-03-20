@@ -3,6 +3,7 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 
@@ -34,7 +35,7 @@ if (!empty($errori)) {
         "errori" => $errori
     ]);
     
-    $_SESSION['aggiunta-componente'] = false;
+    AlertManager::setWarning("Componente già inserita!");
     exit();
 }
 
@@ -48,7 +49,7 @@ $componenteDaInserire = [
 //controllo che non sia stata già aggiunta una componente uguale
 foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
     if($componente['nome'] === $nome){
-        $_SESSION['aggiunta-componente'] = false;
+        AlertManager::setWarning("Componente già inserita!");
         require view("/creazione-progetto/inserimento-componenti.view.php", [
             "errori" => $errori
         ]);
@@ -59,7 +60,7 @@ foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
 
 //inserisco la componente aggiunta nell'apposita variabile di sessione
 array_push($_SESSION['creazione-progetto']['componenti'], $componenteDaInserire);
-$_SESSION['aggiunta-componente'] = true;
+AlertManager::setSuccess("Componente aggiunta!");
 
 header('location: /home/crea-progetto/hardware/componenti');
 exit();
