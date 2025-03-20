@@ -3,9 +3,10 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\Validatore;
+use \core\MongoDatabase;
 
-// Ottiene un'istanza della classe MySqlDatabase dal container dell'applicazione
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 // Recupera i dati inviati dal form tramite il metodo POST
 $nome = $_POST['nome'];
@@ -100,5 +101,6 @@ if (!$esito) {
     exit();
 }
 
+$db_mongo->inserisciLog("Nuovo admin registrato: email:".$email);
 header('location: /admin/login');
 exit();

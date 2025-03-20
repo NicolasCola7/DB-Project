@@ -2,9 +2,11 @@
 
 use \core\App;
 use \core\MySqlDatabase;
+use \core\MongoDatabase;
 use \core\Validatore;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 
@@ -77,5 +79,6 @@ if(!$esito) {
 //inserisco la foro nella dir apposita
 move_uploaded_file($nomeTemp, $destinazione);
 
+$db_mongo->inserisciLog("Nuova reward ".$nomeFile." inserita per il progetto ".$nomeProgetto);
 header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto));
 exit();

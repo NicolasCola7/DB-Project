@@ -2,9 +2,11 @@
 
 use \core\App;
 use \core\MySqlDatabase;
+use \core\MongoDatabase;
 use \core\Validatore;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 
@@ -71,6 +73,8 @@ if(!$esito) {
     require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
     exit();
 }
+
+$db_mongo->inserisciLog('Nuovo finanziamento effettuato da '.$email.' per il progetto '.$nomeProgetto);
 
 require view('/finanziamenti/inserisci-finanziamento.view.php', ['successo' => $successo = true, 'rewards' => $rewards]);
 exit();

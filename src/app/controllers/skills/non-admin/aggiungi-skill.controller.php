@@ -1,10 +1,12 @@
 <? 
 
 use \core\App;
-use \core\Database;
+use \core\MySqlDatabase;
+use \core\MongoDatabase;
 use \core\Validatore;
 
-$db = App::getContainer()->risolvi(Database::class);
+$db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 $nomeSkill = $_POST['nome'];
@@ -44,5 +46,6 @@ if (!$esito) {
     exit();
 }
 
+$db_mongo->inserisciLog("Nuova skill di curriculum ".$nomeSkill." aggiunta da ".$email);
 header('location: /home/le-mie-skill');
 exit();

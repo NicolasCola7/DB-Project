@@ -2,9 +2,10 @@
 
 use \core\App;
 use \core\MySqlDatabase;
-use \core\Validatore;
+use \core\MongoDatabase;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $emailCreatore = $_SESSION['utente']['email'];
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
@@ -57,6 +58,8 @@ if(!$esito){
 } else {
     $_SESSION['utente']['esito_validazione'] = "Operazione di ".$scelta." avvenuta con successo.";
     unset($_SESSION['utente']['errore_validazione']);
+    $scelta = ($scelta === 'rifiuto' ? "rifiutata" : "approvata");
+    $db_mongo->inserisciLog("Candidatura ".$idCandidatura." al profilo ".$nomeProfilo." del progetto ".$nomeProgetto. " ".$scelta);
 }
 
 header("location: /home/i-miei-progetti/".urlencode($nomeProgetto)."/profili/".urlencode($nomeProfilo)."/candidature");

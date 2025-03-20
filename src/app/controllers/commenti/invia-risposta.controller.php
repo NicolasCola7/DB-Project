@@ -1,8 +1,10 @@
 <?php
 use \core\App;
 use \core\MySqlDatabase;
+use \core\MongoDatabase;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 // ottengo il nome del progetto
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
@@ -42,5 +44,6 @@ if($esito === 0){
     unset($_SESSION['utente']['errore_risposta']);
 }
 
+$db_mongo->inserisciLog("Risposta pubblicata da ".$email." nel progetto ".$nomeProgetto." al commento ".$idCommento);
 header("location: /home/i-miei-progetti/".$nomeProgetto."/commenti");
 exit();

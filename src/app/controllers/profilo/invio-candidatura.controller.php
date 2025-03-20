@@ -2,8 +2,10 @@
 
 use \core\App;
 use \core\MySqlDatabase;
+use \core\MongoDatabase;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
@@ -37,6 +39,7 @@ $esito = $db->procedure("InserimentoCandidatura", $parametri);
         unset($_SESSION['utente']['esito_candidatura']); 
     }else if ($esito === 1){
         $_SESSION['utente']['esito_candidatura'] = "Candidatura inviata con successo!";
+        $db_mongo->inserisciLog("Nuova candidatura effettuata da ".$email." per il profilo ".$nomeProfilo." del progetto ".$nomeProgetto);
         unset($_SESSION['utente']['errore_candidatura']);
     }else if ($esito === 2){
         $_SESSION["utente"]["errore_candidatura"] = "Hai già inviato una candidatura per questo profilo che non è stata ancora visionata.";

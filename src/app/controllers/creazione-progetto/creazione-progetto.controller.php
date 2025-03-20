@@ -2,8 +2,10 @@
 
 use \core\App;
 use \core\MySqlDatabase;
+use \core\MongoDatabase;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $errori = [];
 
@@ -35,6 +37,9 @@ if (!$esito) {
     exit();
 }
 
+//log creazione progetto
+$db_mongo->inserisciLog("Nuovo progetto ".$nomeProgetto." creato da ".$email);
+
 // inserimento componenti o profili
 if($tipo === 'software') {
     foreach($_SESSION['creazione-progetto']['profili'] as $profilo) {
@@ -60,6 +65,9 @@ if($tipo === 'software') {
             ]);
             exit();
         }
+
+        //log inserimento profilo
+        $db_mongo->inserisciLog("Nuovo profilo ".$nomeProfilo." inserito per il progetto ".$nomeProgetto);
     }
 } else {
     foreach($_SESSION['creazione-progetto']['componenti'] as $componente) {
@@ -86,6 +94,9 @@ if($tipo === 'software') {
             ]);
             exit();
         }
+
+        // log inserimento componente
+        $db_mongo->inserisciLog("Nuova componente ".$nomeComponente." inserita per il progetto ".$nomeProgetto);
     }
 }
 
@@ -127,6 +138,9 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
         ]);
         exit();
     }
+
+    //log foto
+    $db_mongo->inserisciLog("Nuova foto ".$nomeFile." inserita per il progetto ".$nomeProgetto);
 }
 
 
@@ -168,6 +182,9 @@ foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
         ]);
         exit();
     }
+
+    //logo reward
+    $db_mongo->inserisciLog("Nuova reward ".$nomeFile." inserita per il progetto ".$nomeProgetto);
 }
 
 //eliminiamo tutte le variabili per la creazione del progetto

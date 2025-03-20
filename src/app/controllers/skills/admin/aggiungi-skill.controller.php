@@ -2,9 +2,11 @@
 
 use \core\App;
 use \core\MySqlDatabase;
+use \core\MongoDatabase;
 use \core\Validatore;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 $nomeSkill = $_POST['nome'];
@@ -38,5 +40,6 @@ if (!$esito) {
     exit();
 }
 
+$db_mongo->inserisciLog("Nuova skill ".$nomeSkill." aggiunta da ".$email);
 header('location: /admin/home/gestione-skills');
 exit();

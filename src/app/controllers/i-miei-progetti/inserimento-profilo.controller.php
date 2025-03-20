@@ -2,9 +2,11 @@
 
 use \core\App;
 use \core\MySqlDatabase;
+use \core\MongoDatabase;
 use \core\Validatore;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
+$db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 
 $email = $_SESSION['utente']['email'];
 
@@ -71,6 +73,8 @@ if (!$esito) {
     ]);
     exit();
 }
+
+$db_mongo->inserisciLog("Nuovo profilo ".$nomeProfilo." inserito per il progetto ".$nomeProgetto);
 
 header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/profili');
 exit();
