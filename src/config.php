@@ -11,7 +11,7 @@ return [
         ],
         'mongo' => [
             'host'     => 'db-project-mongodb-1',
-            'nome_db'  => 'BOSTARTER_LOG',
+            'nome_db'  => 'BOSTARTER',
             'username' => 'username',
             'password' => 'MatAleNic'
         ]

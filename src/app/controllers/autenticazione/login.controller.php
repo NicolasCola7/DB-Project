@@ -62,7 +62,6 @@ $_SESSION['utente'] = [
     'nickname' => $risultatoQuery[0]['nickname'],
     'creatore' => (isset($checkCreatore[0]['emailCreatore']) ? true : false),
     'admin' => false
-    
 ];
 
 // Reindirizza l'utente alla home dopo un login riuscito

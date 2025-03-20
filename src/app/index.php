@@ -1,4 +1,3 @@
 <?
-
 header("location: /login");
 exit();

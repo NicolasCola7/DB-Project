@@ -11,16 +11,25 @@
 use core\App;
 use core\Container;
 use core\MySqlDatabase;
+use core\MongoDatabase;
 
 $container = new Container();
 
 // Registra il servizio per il MySqlDatabase, associato alla chiave "core\MySqlDatabase"
 $container->associa('core\MySqlDatabase', function () {
-    // Carica il file di configurazione che contiene le impostazioni per le connessioni al MySqlDatabase
-    $config = require percorso_base('config.php');
 
+     // Carica il file di configurazione che contiene le impostazioni per le connessioni al db
+    $config = require percorso_base('config.php');
     // Crea e restituisce un'istanza della classe MySqlDatabase configurata per MySQL
     return new MySqlDatabase($config);
+});
+
+// Registra il servizio per il MongoDatabase, associato alla chiave "core\MongoDatabase"
+$container->associa('core\MongoDatabase', function () {
+    // Carica il file di configurazione che contiene le impostazioni per le connessioni al db
+    $config = require percorso_base('config.php');
+    // Crea e restituisce un'istanza della classe MongoDatabase configurata per MongoDb
+    return new MongoDatabase($config);
 });
 
 // Imposta il container globale dell'applicazione, in modo da renderlo accessibile ovunque

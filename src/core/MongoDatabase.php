@@ -5,24 +5,31 @@ namespace core;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\BulkWrite;
 
+/**
+ * Classe MongoDatabase
+ *
+ * Gestisce la connessione al database MongoDB e fornisce metodi per interagire con la collezione "logs".
+ * I parametri di configurazione vengono passati tramite il costruttore.
+ *
+ * @package core
+ */
 class MongoDatabase {
 
     // Proprietà per la connessione e per i parametri di configurazione
-    protected $collezione;
     protected $manager;
+    protected $collezione;
     private $password;
     private $username;
     private $host;
     private $nome_db;
 
     /**
-     * Costruttore della classe Database
+     * Costruttore della classe MongoDatabase.
      *
-     * Riceve in ingresso un array di configurazione e utilizza i dati per:
-     * - Assegnare i parametri (host, username, password, nome del database) alle proprietà della classe
-     * - Costruire il DSN per la connessione
+     * Inizializza la connessione a MongoDB utilizzando i parametri di configurazione.
+     * Estrae le credenziali e le informazioni necessarie dalla variabile $config e seleziona la collezione "logs".
      *
-     * @param array $config Array di configurazione
+     * @param array $config Configurazione per il database, con le chiavi 'databases', 'mongo', 'password', 'username', 'host' e 'nome_db'.
      */
     public function __construct($config) {
         
@@ -30,17 +37,26 @@ class MongoDatabase {
         $this->username = $config['databases']['mongo']['username'];
         $this->host     = $config['databases']['mongo']['host'];
         $this->nome_db  = $config['databases']['mongo']['nome_db'];
-
-        $this->manager = new Manager("mongodb://".$this->username.":".$this->password."@".$this->host);
         
-        // Seleziono il db e la collezione dei logs
-        $this->collezione = $this->nome_db . '.logs';
+        $uri = "mongodb://".$this->username.":".$this->password."@".$this->host;
+        
+        try {
+            $this->manager = new Manager($uri);
+            $this->collezione = 'logs';
+            
+        } catch (\Exception $e) {
+            echo "Fallita connessione a MongoDB: " . $e->getMessage();
+        }
     }
-    
+
+    /**
+     * Inserisce un log nella collezione "logs" del database.
+     *
+     * @param array $log Testo del log da inserire.
+     */
     public function inserisciLog($log) {
-        $bulk = new BulkWrite;
-        $bulk->insert($log);
-        
-        return $this->manager->executeBulkWrite($this->collezione, $bulk);
+        $bulk = new BulkWrite();
+        $bulk->insert(['testo' =>  $log, 'data' => new \DateTime()]);
+        $this->manager->executeBulkWrite($this->nome_db . '.' . $this->collezione, $bulk);
     }
 }
