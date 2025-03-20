@@ -13,7 +13,7 @@ $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 
 // controllo che il progetto esista e siahardware
 $progettoEsistente = $db->query(
-    "SELECT nome FROM Progetto WHERE nome = :nome AND tipoProgetto = 'Hardware' AND emailCreatore = :email",
+    "SELECT nome FROM Progetto WHERE nome = :nome  AND emailCreatore = :email",
      [':nome' => $nomeProgetto, ':email' => $email]
 );
 

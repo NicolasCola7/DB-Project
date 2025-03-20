@@ -74,7 +74,7 @@ $router->post('/home/i-miei-progetti/{nomeProgetto}/componenti', 'app/controller
 $router->post('/home/i-miei-progetti/{nomeProgetto}/rewards', 'app/controllers/i-miei-progetti/inserimento-reward.controller.php')->soloSe('creatore');
 $router->post('/home/i-miei-progetti/{nomeProgetto}/foto', 'app/controllers/i-miei-progetti/inserimento-foto.controller.php')->soloSe('creatore');
 //commenti
-$router->post('/home/i-miei-progetti/{nomeProgetto}/commenti/{idCommento}/rispondi', '/app/controllers/commenti/invia-risposta.controller.php')->soloSe('creatore');
+$router->post('/home/i-miei-progetti/{nomeProgetto}/commenti/{idCommento}/rispondi', 'app/controllers/commenti/invia-risposta.controller.php')->soloSe('creatore');
 $router->post('/home/progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/inserisci-commento.controller.php')->soloSe('autenticato');
 //finanziamenti
 $router->post('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/inserisci-finanziamento.controller.php')->soloSe('autenticato');
