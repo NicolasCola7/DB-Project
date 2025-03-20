@@ -56,7 +56,7 @@ class MongoDatabase {
      */
     public function inserisciLog($log) {
         $bulk = new BulkWrite();
-        $bulk->insert(['testo' =>  $log, 'data' => new \DateTime()]);
+        $bulk->insert(['testo' =>  $log, 'timestamp' => new \MongoDB\BSON\UTCDateTime()]);
         $this->manager->executeBulkWrite($this->nome_db . '.' . $this->collezione, $bulk);
     }
 }
