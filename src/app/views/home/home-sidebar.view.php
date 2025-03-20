@@ -1,40 +1,7 @@
 
 <html>
     <head>
-        <style>
-            /* Sidebar */
-            .sidebar {
-                width: 250px;
-                background: #1e1e2d;
-                color: white;
-                padding: 20px;
-                min-height: 100vh;
-            }
-
-            .sidebar ul {
-                list-style: none;
-            }
-
-            .sidebar li {
-                margin-bottom: 10px;
-            }
-
-            .sidebar a {
-                color: #f8f9fa;
-                text-decoration: none;
-                display: block;
-                padding: 10px;
-                border-radius: 5px;
-                transition: all 0.3s ease-in-out;
-                font-weight: bold;
-            }
-
-            .sidebar a:hover {
-                background: #0077cc;
-                color: white;
-                transform: scale(1.05);
-            }
-        </style>
+        <link rel='stylesheet' type='text/css' href='/public/styles/home/sidebar.style.css'>
     </head>
 
     <div class="sidebar">

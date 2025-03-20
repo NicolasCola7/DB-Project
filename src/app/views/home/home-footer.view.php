@@ -1,14 +1,6 @@
 <html>
     <head>
-        <style>
-            footer {
-                background: #0077cc;
-                color: white;
-                text-align: center;
-                padding: 10px;
-                margin-top: auto;
-            }
-        </style>
+        <link rel='stylesheet' type='text/css' href='/public/styles/home/footer.style.css'>
     </head>
 
     <footer>

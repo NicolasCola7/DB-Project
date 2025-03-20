@@ -1,27 +1,12 @@
-<!DOCTYPE html>
+
 <html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' type='text/css' href='/public/styles/autenticazione/registrazione.style.css'>
   <title>Bostarter | Registrazione</title>
-  <style>
-  
-    #check {
-      display: flex;
-      align-items: center;
-    }
-    
-    #check input[type="checkbox"] {
-      margin: 0;
-    }
-    
-    #check label {
-      margin: 0;
-      padding-left: 0.5rem;
-    }
-    
-  </style>
 </head>
+
 <body>
   <div class="signup-container">
     <h2>Registrati</h2>
