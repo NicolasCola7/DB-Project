@@ -1,0 +1,151 @@
+html, body {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}    
+
+.main {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.contenutoMain {
+    flex-grow: 1;
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 20px;
+    margin: 10px;
+}
+.contenutoMain h3 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+section form {
+    width: 100%;
+    max-width: 600px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 25px 0;
+}
+
+.container {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #0077cc;
+    box-shadow: 0 0 5px rgba(0, 119, 204, 0.2);
+}
+
+button {
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #005fa3;
+}
+
+#container-rewards {
+    padding: 20px 30px;
+}
+
+#container-rewards header {
+    margin-bottom: 15px;
+    background-color: white;
+}
+
+#container-rewards h4 {
+    color: black;
+    font-size: 18px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+thead {
+    background-color: #0077cc;
+    color: white;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+tbody tr:hover {
+    background-color: #f0f7fc;
+}
+
+.codice-reward {
+    font-weight: 600;
+    color: #0077cc;
+}
+
+.descrizione-reward {
+    max-width: 400px;
+}
+
+.immagine-reward img {
+    max-width: 120px;
+    max-height: 80px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.reward-selezionata {
+    background-color: #e1f0fa !important;
+    border-left: 4px solid #0077cc;
+}
+
+.buttoni {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
