@@ -11,7 +11,7 @@
         <p>
             <?php
                 $ruolo = $_SESSION['utente']['admin'] ? 'A' : ($_SESSION['utente']['creatore'] ? 'C' : 'N');
-                echo " <span class='ruolo ruolo-$ruolo'>$ruolo</span>" . $_SESSION['utente']['nickname'] ;
+                echo " <span class='ruolo ruolo-$ruolo'>$ruolo</span>" . htmlspecialchars($_SESSION['utente']['nickname']) ;
             ?>
         </p>
         <form action='/logout' method='POST'>

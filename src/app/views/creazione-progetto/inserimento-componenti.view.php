@@ -10,7 +10,7 @@ use core\AlertManager;
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insermento componenti</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/inserimento-componenti.style.css'>
 </head>
 <body>
@@ -60,10 +60,10 @@ use core\AlertManager;
                                 <?php if(count($_SESSION['creazione-progetto']['componenti']) > 0): ?>
                                     <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
                                         <tr>
-                                            <td> <?= $componente['nome']; ?> </td>
-                                            <td> <?= $componente['descrizione']; ?> </td>
-                                            <td> <?= $componente['quantità']; ?> </td>
-                                            <td> <?= $componente['prezzo']; ?> </td>
+                                            <td> <?= htmlspecialchars($componente['nome']); ?> </td>
+                                            <td> <?= htmlspecialchars($componente['descrizione']); ?> </td>
+                                            <td> <?= htmlspecialchars($componente['quantità']); ?> </td>
+                                            <td> <?= htmlspecialchars($componente['prezzo']); ?> </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else: ?>

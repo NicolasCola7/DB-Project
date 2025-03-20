@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/progetti/vedi-progetti.style.css'>
 </head>
 <body>

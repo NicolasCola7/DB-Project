@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/progetti/info-progetto.style.css'>
 </head>
 <body>
@@ -11,27 +11,27 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <h3>Dettagli del progetto <?= $progetto['nome']; ?> </h3>
+            <h3>Dettagli del progetto <?= htmlspecialchars($progetto['nome']); ?> </h3>
             <div class='infoContainer'>
                 <h4> Informazioni </h4>
-                <p> Data di inserimento: <?= $progetto['data_inserimento']; ?> </p>
-                <p> Data di fine: <?= $progetto['data_limite']; ?> </p>
+                <p> Data di inserimento: <?= htmlspecialchars($progetto['data_inserimento']); ?> </p>
+                <p> Data di fine: <?= htmlspecialchars($progetto['data_limite']); ?> </p>
                 <div class='descrizione-container'>
                     <p> Descrizione: </p>
-                    <textarea readonly> <?= $progetto['descrizione']; ?> </textarea>
+                    <textarea readonly> <?= htmlspecialchars($progetto['descrizione']); ?> </textarea>
                 </div>
-                <p> Stato: <?= $progetto['stato'] ?> </p>
-                <p> Tipo: <?= $progetto['tipo'] ?> </p>
-                <p> Budget d'avvio: <?= $progetto['budget'] ?> EUR </p>
-                <p> Finaziamenti ricevuti: <?= $progetto['finanziamenti'] ?> EUR </p>
+                <p> Stato: <?= htmlspecialchars($progetto['stato']) ?> </p>
+                <p> Tipo: <?= htmlspecialchars($progetto['tipo']) ?> </p>
+                <p> Budget d'avvio: <?= htmlspecialchars($progetto['budget']) ?> EUR </p>
+                <p> Finaziamenti ricevuti: <?= htmlspecialchars($progetto['finanziamenti']) ?> EUR </p>
             </div>
             <div class='immaginiContainerWrapper'>
                 <h4> Immagini del progetto </h4>
                 <div class='immaginiContainer'>
                     <?php foreach($progetto['foto'] as $foto): ?>
                         <div>
-                            <img src="../../../<?= urldecode($foto['urlImmagine']); ?>">
-                            <p> <?= $foto['descrizione']; ?> </p>
+                            <img src="../../../<?= htmlspecialchars(urldecode($foto['urlImmagine'])); ?>">
+                            <p> <?= htmlspecialchars($foto['descrizione']); ?> </p>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -48,8 +48,8 @@
                 <div class='rewardsContainer'>
                     <?php foreach($progetto['rewards'] as $reward): ?>
                         <div>
-                            <img src="../../../<?= $reward['urlFoto']; ?>" alt="Reward">
-                            <p> <?= $reward['descr']; ?> </p>
+                            <img src="../../../<?= htmlspecialchars($reward['urlFoto']); ?>" alt="Reward">
+                            <p> <?= htmlspecialchars($reward['descr']); ?> </p>
                         </div>
                     <?php endforeach; ?>
                 </div>
@@ -76,10 +76,10 @@
                         <tbody>
                             <?php foreach($progetto['componenti'] as $componente): ?>
                                 <tr>
-                                    <td> <?= $componente['nome']; ?> </td>
-                                    <td> <?= $componente['prezzo']; ?> </td>
-                                    <td> <?= $componente['descr']; ?> </td>
-                                    <td> <?= $componente['quantita']; ?> </td>
+                                    <td> <?= htmlspecialchars($componente['nome']); ?> </td>
+                                    <td> <?= htmlspecialchars($componente['prezzo']); ?> </td>
+                                    <td> <?= htmlspecialchars($componente['descr']); ?> </td>
+                                    <td> <?= htmlspecialchars($componente['quantita']); ?> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

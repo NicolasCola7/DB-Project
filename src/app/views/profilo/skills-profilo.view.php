@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/profilo/skills-profilo.style.css'>
 </head>
 
@@ -25,8 +25,8 @@
                     <tbody>
                         <?php foreach($skills as $skill): ?> 
                             <tr>
-                                <td> <?= $skill['nomeSkill']; ?> </td>
-                                <td> <?= $skill['livello']; ?> </td>
+                                <td> <?= htmlspecialchars($skill['nomeSkill']); ?> </td>
+                                <td> <?= htmlspecialchars($skill['livello']); ?> </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/profilo/vedi-candidatura.style.css'>
 </head>
 
@@ -22,19 +22,19 @@
                 <h4> Candidato </h4>
                 <div class='container'>
                     <p> Nome e cognome: </p>
-                    <input id='nome' type='text' disabled value="<?= $candidato[0]['nome'].' '.$candidato[0]['cognome']; ?>">
+                    <input id='nome' type='text' disabled value="<?= htmlspecialchars($candidato[0]['nome']).' '.htmlspecialchars($candidato[0]['cognome']); ?>">
                 </div>
                 <div class='container'>
                     <p>Email:</p>
-                    <input type='text' disabled value="<?= $candidato[0]['email']; ?>">
+                    <input type='text' disabled value="<?= htmlspecialchars($candidato[0]['email']); ?>">
                 </div>
                 <div class='container'>
                     <p>Anno di nascita</p>
-                    <input type='text' disabled value="<?= $candidato[0]['anno_nascita']; ?>">
+                    <input type='text' disabled value="<?= htmlspecialchars($candidato[0]['anno_nascita']); ?>">
                 </div>
                 <div class='container'>
                     <p>Luogo di nascita</p>
-                    <input type='text' disabled value="<?= $candidato[0]['luogo_nascita']; ?>">
+                    <input type='text' disabled value="<?= htmlspecialchars($candidato[0]['luogo_nascita']); ?>">
                 </div>
             </div>
             <div class='divInfo'>
@@ -51,9 +51,9 @@
                         <tbody>
                             <?php for($i=0; $i<count($richieste); $i++): ?>
                                 <tr>
-                                    <td> <?= $richieste[$i]['nomeSkill']; ?> </td>
-                                    <td> <?= $richieste[$i]['livello']; ?> </td>
-                                    <td> <?= $possedute[$i]['livello']; ?> </td>
+                                    <td> <?= htmlspecialchars($richieste[$i]['nomeSkill']); ?> </td>
+                                    <td> <?= htmlspecialchars($richieste[$i]['livello']); ?> </td>
+                                    <td> <?= htmlspecialchars($possedute[$i]['livello']); ?> </td>
                                 </tr>
                             <?php endfor; ?>
                         </tbody>
@@ -75,8 +75,8 @@
                         <tbody>
                             <?php foreach($posseduteExtra as $extra): ?>
                                 <tr>
-                                    <td> <?= $extra['nomeSkill']; ?> </td>
-                                    <td> <?= $extra['livello']; ?> </td>
+                                    <td> <?= htmlspecialchars($extra['nomeSkill']); ?> </td>
+                                    <td> <?= htmlspecialchars($extra['livello']); ?> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

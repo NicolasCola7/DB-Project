@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Candidature </title>
+    <title> Bostarter </title>
     <link rel='stylesheet' type='text/css' href='/public/styles/profilo/vedi-candidature.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -14,8 +14,8 @@
         
         <div class="contenutoMain">
             <h3>Candidature</h3>
-            <p> Profilo: <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]); ?> </p>
-            <p> Progetto: <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </p>
+            <p> Profilo: <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[5])); ?> </p>
+            <p> Progetto: <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?> </p>
             <div>
                 <label for="filtroCandidature">Filtra per stato:</label>
                 <select id="filtroCandidature" name='filtroCandidature' onchange="filtraCandidature(this.value)">
@@ -39,7 +39,7 @@
                         <div class='candidatura <?= ($candidatura['stato'] === 'chiusa' ? 
                              ($candidatura['risultato'] == 1 ? 'accettata' : 'rifiutata') : 
                              ''); ?>'>
-                            <p> Candidato:  <span> <?= $candidatura['nickname']; ?> </span></p>
+                            <p> Candidato:  <span> <?= htmlspecialchars($candidatura['nickname']); ?> </span></p>
                             <button onclick="dettagliCandidatura(<?= urlencode($candidatura['id']); ?>)">
                                  Vedi dettagli
                             </button>

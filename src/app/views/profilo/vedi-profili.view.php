@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Profili</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/profilo/vedi-profili.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -13,13 +13,13 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <h3>Profili disponibili - <span id='nomeProgetto'> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span> </h3>
+            <h3>Profili disponibili - <span id='nomeProgetto'> <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?> </span> </h3>
             <div id='profili'>
                 <?php if(count($profili) > 0): ?>
                     <?php foreach($profili as $profilo): ?>
                         <div class='divProfilo'>
-                            <p class='nome-profilo'> <?= $profilo['nome'] ?> </p>
-                            <p> <?= $profilo['numero_posizioni'] ?> posizioni disponibili </p>
+                            <p class='nome-profilo'> <?= htmlspecialchars($profilo['nome']) ?> </p>
+                            <p> <?= htmlspecialchars($profilo['numero_posizioni']) ?> posizioni disponibili </p>
                             <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')">
                                  Vedi Dettagli
                             </button>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistiche</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/statistiche/statistiche.style.css'>
 </head>
 <body>
@@ -28,8 +28,8 @@
                         <?php if(!empty($classificaCreatori)): ?>
                             <?php foreach($classificaCreatori as $creatore): ?>
                                 <tr>
-                                    <td> <?= $creatore['nickname']; ?> </td>
-                                    <td> <?= $creatore['affidabilita']; ?> </td>
+                                    <td> <?= htmlspecialchars($creatore['nickname']); ?> </td>
+                                    <td> <?= htmlspecialchars($creatore['affidabilita']); ?> </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -53,9 +53,9 @@
                         <?php if(!empty($progettiVicini)): ?>
                             <?php foreach($progettiVicini as $progetto): ?>
                                 <tr>
-                                    <td> <?= $progetto['nome']; ?> </td>
-                                    <td> <?= $progetto['budget_mancante']; ?> </td>
-                                    <td> <?= $progetto['budget_avvio']; ?> </td>
+                                    <td> <?= htmlspecialchars($progetto['nome']); ?> </td>
+                                    <td> <?= htmlspecialchars($progetto['budget_mancante']); ?> </td>
+                                    <td> <?= htmlspecialchars($progetto['budget_avvio']); ?> </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
@@ -77,8 +77,8 @@
                         <?php if(!empty($classificaFinanziatori)): ?>
                             <?php foreach($classificaFinanziatori as $finanziatore): ?>
                                 <tr>
-                                    <td> <?= $finanziatore['nickname']; ?> </td>
-                                    <td> <?= $finanziatore['totale_finanziamento']; ?> </td>
+                                    <td> <?= htmlspecialchars($finanziatore['nickname']); ?> </td>
+                                    <td> <?= htmlspecialchars($finanziatore['totale_finanziamento']); ?> </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>

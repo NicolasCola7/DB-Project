@@ -17,7 +17,7 @@ if(!$_SESSION['creazione-progetto']['step3']) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insermento componenti</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/inserimento-foto.style.css'>
 </head>
 <body>

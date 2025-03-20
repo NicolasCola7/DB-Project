@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insermento profili</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/i-miei-progetti/inserimento-profilo.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>

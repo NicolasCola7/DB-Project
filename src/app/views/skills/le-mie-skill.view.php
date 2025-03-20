@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Le mie Skill</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/skills/le-mie-skill.style.css'>
 </head>
 <body>
@@ -19,8 +19,8 @@
                         <?php if(count($skills['generali']) > 0): ?>
                             <option value="" disabled selected>Scegli una skill</option>
                             <?php foreach($skills['generali'] as $generale): ?>
-                                <option name='<?= $generale['nome']; ?>'>
-                                     <?= $generale['nome']; ?>
+                                <option name='<?= htmlspecialchars($generale['nome']); ?>'>
+                                     <?= htmlspecialchars($generale['nome']); ?>
                                 </option>
                             <?php endforeach; ?>
                         <?php endif; ?>
@@ -47,10 +47,10 @@
 
                         <div class='skill'>
                             <div>
-                            <span class='nome-skill'> <?= $posseduta['nomeSkill']; ?> </span>
-                            <span class='livello-skill'> <?= $posseduta['livello']; ?> </span>
+                            <span class='nome-skill'> <?= htmlspecialchars($posseduta['nomeSkill']); ?> </span>
+                            <span class='livello-skill'> <?= htmlspecialchars($posseduta['livello']); ?> </span>
                             </div>
-                            <form action='/home/le-mie-skill/<?= urlencode($posseduta['nomeSkill']); ?>' method='POST'>
+                            <form action='/home/le-mie-skill/<?= htmlspecialchars(urlencode($posseduta['nomeSkill'])); ?>' method='POST'>
                                 <input type='hidden' name='_metodo' value='DELETE'>
                                 <button type='submit' class='elimina-btn'> - </button>
                             </form>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Finanzia Progetto</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/finanziamenti/inserisci-finanziamento.style.css'>
 </head>
 <body>
@@ -33,11 +33,11 @@
                             <tbody>
                                 <?php if(count($rewards) > 0): ?>
                                     <?php foreach($rewards as $reward): ?>
-                                        <tr class="reward" data-code="<?= $reward['codice']; ?>">
-                                            <td class='codice-reward'> <?= $reward['codice']; ?> </td>
-                                            <td class='descrizione-reward'> <?= $reward['descr']; ?> </td>
+                                        <tr class="reward" data-code="<?= htmlspecialchars($reward['codice']); ?>">
+                                            <td class='codice-reward'> <?= htmlspecialchars($reward['codice']); ?> </td>
+                                            <td class='descrizione-reward'> <?= htmlspecialchars($reward['descr']); ?> </td>
                                             <td class='immagine-reward'> 
-                                                <img src='../../../../<?= $reward['urlFoto']; ?>' alt='immagine reward'>
+                                                <img src='../../../../<?= htmlspecialchars($reward['urlFoto']); ?>' alt='immagine reward'>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

@@ -16,7 +16,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insermento componenti</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/conferma-dati.style.css'>
 </head>
 <body>
@@ -44,17 +44,17 @@ if(!$_SESSION['creazione-progetto']['step4']) {
 
                         <tbody>
                             <tr>
-                                <td id='nome-progetto'> <?= $_SESSION['creazione-progetto']['nome']; ?> </td>
-                                <td id='data-limite'> <?= $_SESSION['creazione-progetto']['data-limite']; ?> </td>
-                                <td id='descrizione'> <?= $_SESSION['creazione-progetto']['descrizione']; ?> </td>
-                                <td id='budget'> <?= $_SESSION['creazione-progetto']['budget']; ?> </td>
-                                <td id='tipo'> <?= $_SESSION['creazione-progetto']['tipo']; ?> </td>
+                                <td id='nome-progetto'> <?= htmlspecialchars($_SESSION['creazione-progetto']['nome']); ?> </td>
+                                <td id='data-limite'> <?= htmlspecialchars($_SESSION['creazione-progetto']['data-limite']); ?> </td>
+                                <td id='descrizione'> <?= htmlspecialchars($_SESSION['creazione-progetto']['descrizione']); ?> </td>
+                                <td id='budget'> <?= htmlspecialchars($_SESSION['creazione-progetto']['budget']); ?> </td>
+                                <td id='tipo'> <?= htmlspecialchars($_SESSION['creazione-progetto']['tipo']); ?> </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <?php if($_SESSION['creazione-progetto']['tipo']=== 'hardware'): ?>
+                <?php if($_SESSION['creazione-progetto']['tipo'] === 'hardware'): ?>
                     <div class="section-header">Componenti Hardware</div>
                 <?php else: ?>
                     <div class="section-header">Profili Software Richiesti</div>
@@ -75,10 +75,10 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                             <tbody>
                                 <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
                                     <tr>
-                                        <td class='nome-componente'> <?= $componente['nome']; ?> </td>
-                                        <td class='descrizione-componente'> <?= $componente['descrizione']; ?> </td>
-                                        <td class='quantità-componente'> <?= $componente['quantità']; ?> </td>
-                                        <td class='prezzo-componente'> <?= $componente['prezzo']; ?> </td>
+                                        <td class='nome-componente'> <?= htmlspecialchars($componente['nome']); ?> </td>
+                                        <td class='descrizione-componente'> <?= htmlspecialchars($componente['descrizione']); ?> </td>
+                                        <td class='quantità-componente'> <?= htmlspecialchars($componente['quantità']); ?> </td>
+                                        <td class='prezzo-componente'> <?= htmlspecialchars($componente['prezzo']); ?> </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -87,8 +87,8 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                         <?php foreach($_SESSION['creazione-progetto']['profili'] as $index => $profilo): ?>
                             <div class='profilo'>
                                 <div class='header-profilo'>
-                                    <h2 class='nome-profilo'> <?= $profilo['nome']; ?> </h2>
-                                    <span class='posizioni-profilo'> <?= $profilo['numero_posizioni']; ?> posizioni </span>
+                                    <h2 class='nome-profilo'> <?= htmlspecialchars($profilo['nome']); ?> </h2>
+                                    <span class='posizioni-profilo'> <?= htmlspecialchars($profilo['numero_posizioni']); ?> posizioni </span>
                                 </div>
                                 <div class="skills-header" onclick="toggleSkills(<?= $index ?>)">
                                     <span id="arrow-<?= $index ?>" class="arrow"></span>
@@ -106,8 +106,8 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                                         <tbody>
                                             <?php foreach($profilo['skills-richieste'] as $skill): ?>
                                                 <tr>
-                                                    <td> <?= $skill['nomeSkill']; ?> </td>
-                                                    <td> <?= $skill['livello']; ?> </td>
+                                                    <td> <?= htmlspecialchars($skill['nomeSkill']); ?> </td>
+                                                    <td> <?= htmlspecialchars($skill['livello']); ?> </td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -131,8 +131,8 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                         <tbody>
                             <?php foreach($_SESSION['creazione-progetto']['foto'] as $foto): ?>
                                 <tr>
-                                    <td> <?= $foto['descrizione']; ?> </td>
-                                    <td> <img src='../../../<?= $foto['percorso']; ?>'> </td>
+                                    <td> <?= htmlspecialchars($foto['descrizione']); ?> </td>
+                                    <td> <img src='../../../<?= htmlspecialchars($foto['percorso']); ?>'> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -152,8 +152,8 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                         <tbody>
                             <?php foreach($_SESSION['creazione-progetto']['rewards'] as $reward): ?>
                                 <tr>
-                                    <td> <?= $reward['descr']; ?> </td>
-                                    <td> <img src='../../../<?= $reward['urlFoto']; ?>'> </td>
+                                    <td> <?= htmlspecialchars($reward['descr']); ?> </td>
+                                    <td> <img src='../../../<?= htmlspecialchars($reward['urlFoto']); ?>'> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>

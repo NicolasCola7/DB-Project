@@ -10,7 +10,7 @@ use core\AlertManager;
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insermento profili</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/inserimento-profili.style.css'>
 </head>
 <body>
@@ -51,8 +51,8 @@ use core\AlertManager;
                         <?php foreach($_SESSION['creazione-progetto']['profili'] as $index => $profilo): ?>
                             <div class='profilo'>
                                 <div class='header-profilo'>
-                                    <h2 class='nome-profilo'> <?= $profilo['nome']; ?> </h2>
-                                    <span class='posizioni-profilo'> <?= $profilo['numero_posizioni']; ?> posizioni </span>
+                                    <h2 class='nome-profilo'> <?= htmlspecialchars($profilo['nome']); ?> </h2>
+                                    <span class='posizioni-profilo'> <?= htmlspecialchars($profilo['numero_posizioni']); ?> posizioni </span>
                                 </div>
                                 <div class="skills-header" onclick="toggleSkills(<?= $index ?>)">
                                     <span id="arrow-<?= $index ?>" class="arrow"></span>
@@ -69,8 +69,8 @@ use core\AlertManager;
                                         <tbody>
                                             <?php foreach($profilo['skills-richieste'] as $skill): ?>
                                                 <tr>
-                                                    <td> <?= $skill['nomeSkill']; ?> </td>
-                                                    <td> <?= $skill['livello']; ?> </td>
+                                                    <td> <?= htmlspecialchars($skill['nomeSkill']); ?> </td>
+                                                    <td> <?= htmlspecialchars($skill['livello']); ?> </td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
@@ -99,10 +99,10 @@ use core\AlertManager;
                         <?php foreach($_SESSION['creazione-progetto']['skills-richieste'] as $skill) :?>
                             <div class='skills-aggiunte'>
                                 <div>
-                                    <span> <?= $skill['nomeSkill']; ?> </span>
-                                    <span> <?= $skill['livello']; ?> </span>
+                                    <span> <?= htmlspecialchars($skill['nomeSkill']); ?> </span>
+                                    <span> <?= htmlspecialchars($skill['livello']); ?> </span>
                                 </div>
-                                <form action='/home/crea-progetto/software/profili/skills/<?= $skill['nomeSkill']; ?>' method='POST'>
+                                <form action='/home/crea-progetto/software/profili/skills/<?= urlencode(htmlspecialchars($skill['nomeSkill'])); ?>' method='POST'>
                                     <input type='hidden' name='_metodo' value='DELETE'>
                                     <button type='submit' id='elimina'> - </button>
                                 </form>

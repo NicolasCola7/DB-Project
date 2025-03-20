@@ -21,7 +21,7 @@ use core\AlertManager;
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Insermento componenti</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/inserimento-foto.style.css'>
 </head>
 <body>
@@ -59,7 +59,6 @@ use core\AlertManager;
     <?= AlertManager::show($errori ?? []) ?>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     function prosegui() {
         const nFoto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;

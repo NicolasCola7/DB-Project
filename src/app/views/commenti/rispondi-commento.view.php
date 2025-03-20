@@ -16,7 +16,7 @@
             
             <div class="commento">
                     <div class="intestazione">
-                        <p><?= $commento['nickname']; ?> - <?= $commento['data']; ?></p>
+                        <p><?= htmlspecialchars($commento['nickname']); ?> - <?= htmlspecialchars($commento['data']); ?></p>
                     </div>
                     <div class="corpo">
                         <p><?= $commento['commento']; ?></p>

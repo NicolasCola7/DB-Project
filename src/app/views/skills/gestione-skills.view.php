@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Gestione Skills</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/skills/gestione-skills.style.css'>
 </head>
 <body>
@@ -27,7 +27,7 @@
                 <?php if(count($skills) > 0): ?>
                     <?php foreach($skills as $skill): ?>
                         <div class='skill'>
-                            <span class='nome-skill'> <?= $skill['nome']; ?> </span>
+                            <span class='nome-skill'> <?= htmlspecialchars($skill['nome']); ?> </span>
                             <form action='/admin/home/gestione-skills/<?= urlencode($skill['nome']); ?>' method='POST'>
                                 <input type='hidden' name='_metodo' value='DELETE'>
                                 <button type='submit' class='elimina-btn'>-</button>
