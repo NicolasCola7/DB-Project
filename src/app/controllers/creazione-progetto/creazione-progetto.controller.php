@@ -74,7 +74,7 @@ if($tipo === 'software') {
         $nomeComponente = $componente['nome'];
         $descrizioneComponente = $componente['descrizione'];
         $prezzoComponente = $componente['prezzo'];
-        $quantitaComponente = $componente['quantità'];
+        $quantitaComponente = $componente['quantita'];
 
         $paramsComponente = [
             'nomeComponente' => $nomeComponente,

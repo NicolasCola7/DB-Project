@@ -44,7 +44,7 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-profilo', 'app/contr
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/ottieni-candidature.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature/{idCandidatura}', 'app/controllers/profilo/ottieni-candidatura.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/ottieni-commenti.controller.php')->soloSe('autenticato');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-componente', 'app/views/i-miei-progetti/inserimento-componente.view.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-componente', 'app/views//creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-reward', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-foto', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 

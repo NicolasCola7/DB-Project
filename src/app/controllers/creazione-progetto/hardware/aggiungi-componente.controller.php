@@ -9,7 +9,7 @@ $db = App::getContainer()->risolvi(MySqlDatabase::class);
 
 $nome = $_POST['nome'];
 $descrizione = $_POST['descrizione'];
-$quantita = $_POST['quantità'];
+$quantita = $_POST['quantita'];
 $prezzo = $_POST['prezzo'];
 
 $errori = [];
@@ -23,7 +23,7 @@ if (!Validatore::isString($descrizione, 1, 100)) {
 }
 
 if (!Validatore::isNumber($quantita, 1)) {
-    $errori["quantità"] = "La quantità minima deve essere 1!";
+    $errori["quantita"] = "La quantita minima deve essere 1!";
 }
 
 if (!Validatore::isNumber($prezzo, 1)) {
@@ -35,21 +35,21 @@ if (!empty($errori)) {
         "errori" => $errori
     ]);
     
-    AlertManager::setWarning("Componente già inserita!");
+    AlertManager::setWarning("Componente gia inserita!");
     exit();
 }
 
 $componenteDaInserire = [
     'nome' => $nome,
     'descrizione' => $descrizione,
-    'quantità' => $quantita,
+    'quantita' => $quantita,
     'prezzo' => $prezzo
 ];
 
-//controllo che non sia stata già aggiunta una componente uguale
+//controllo che non sia stata gia aggiunta una componente uguale
 foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
     if($componente['nome'] === $nome){
-        AlertManager::setWarning("Componente già inserita!");
+        AlertManager::setWarning("Componente gia inserita!");
         require view("/creazione-progetto/inserimento-componenti.view.php", [
             "errori" => $errori
         ]);

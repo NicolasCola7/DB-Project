@@ -1,8 +1,12 @@
 <?php
-// se non si sono inserite le informazioni base lo redirigo alla pagina apposita
-if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
-    header('location: /home/crea-progetto/informazioni-base');
-    exit();
+
+// se ci si trova nella pagina di creazione del progetto
+if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto') {
+    // se non si sono inserite le informazioni base lo redirigo alla pagina apposita
+    if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
+        header('location: /home/crea-progetto/informazioni-base');
+        exit();
+    }
 }
 use core\AlertManager;
 ?>
@@ -24,7 +28,11 @@ use core\AlertManager;
 
             <section>
                 <div>
-                    <form id='form-componenti' action="/home/crea-progetto/hardware/componenti" method="POST">
+                    <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto'): ?>
+                        <form id='form-componenti' action="/home/crea-progetto/hardware/componenti" method="POST">
+                    <?php else: ?>
+                        <form id='form-componenti' action='/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>/componenti' method="POST">
+                    <?php endif; ?>
                         <div class="container">
                             <label for="nome">Nome</label>
                             <input type="text" id="nome" name="nome" placeholder="nome" required>
@@ -34,8 +42,8 @@ use core\AlertManager;
                             <textarea id="descrizione" name="descrizione" rows="4" placeholder="descrizione" required></textarea>
                         </div>
                         <div class="container">
-                            <label for="quantità">Quantità</label>
-                            <input type="number" id="quantità" name="quantità" placeholder="quantità" min='1' required>
+                            <label for="quantita">Quantita</label>
+                            <input type="number" id="quantita" name="quantita" placeholder="quantita" min='1' required>
                          </div>
                         <div class="container">
                             <label for="prezzo">Prezzo</label>
@@ -45,38 +53,42 @@ use core\AlertManager;
                             <button id='aggiungi' type='submit'>Aggiungi componente</button>
                         </div>
                     </form>
-
-                    <div id='container-tabella'>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th> Nome </th>
-                                    <th> Descrizione </th>
-                                    <th> Quantità </th>
-                                    <th> Prezzo </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if(count($_SESSION['creazione-progetto']['componenti']) > 0): ?>
-                                    <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
-                                        <tr>
-                                            <td> <?= htmlspecialchars($componente['nome']); ?> </td>
-                                            <td> <?= htmlspecialchars($componente['descrizione']); ?> </td>
-                                            <td> <?= htmlspecialchars($componente['quantità']); ?> </td>
-                                            <td> <?= htmlspecialchars($componente['prezzo']); ?> </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <tr> <td colspan='4'> Nessuna componente inserita  </td> </tr>
-                                <?php endif; ?>
-                            </tbody>
-                        </table>
+                    
+                    <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto'): ?>
+                        <div id='container-tabella'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th> Nome </th>
+                                        <th> Descrizione </th>
+                                        <th> Quantita </th>
+                                        <th> Prezzo </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if(count($_SESSION['creazione-progetto']['componenti']) > 0): ?>
+                                        <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
+                                            <tr>
+                                                <td> <?= htmlspecialchars($componente['nome']); ?> </td>
+                                                <td> <?= htmlspecialchars($componente['descrizione']); ?> </td>
+                                                <td> <?= htmlspecialchars($componente['quantita']); ?> </td>
+                                                <td> <?= htmlspecialchars($componente['prezzo']); ?> </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr> <td colspan='4'> Nessuna componente inserita  </td> </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+                <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto'): ?>
+                    <div class='container-bottoni2'>
+                        <button id="btnProsegui" onclick='prosegui()'>Prosegui</button>
                     </div>
-                </div>
-
-                <div class='container-bottoni2'>
-                    <button id="btnProsegui" onclick='prosegui()'>Prosegui</button>
-                </div>
+                <?php endif; ?>
             </section>
         </div>
     </div>

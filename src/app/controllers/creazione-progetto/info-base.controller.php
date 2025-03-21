@@ -40,7 +40,7 @@ if (!empty($errori)) {
 $query = $db->query("SELECT nome FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto]);
 
 if (isset($query[0])) {
-    $errori['procedura'] = "Nome del progetto già in uso!";
+    $errori['procedura'] = "Nome del progetto gia in uso!";
     require view("/creazione-progetto/crea-progetto.view.php", [
         "errori" => $errori
     ]);

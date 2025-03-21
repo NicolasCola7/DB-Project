@@ -46,7 +46,7 @@ if (!Validatore::isNumber($prezzo, 1)) {
 }
 
 if (!empty($errori)) {
-    require view("/i-miei-progetti/inserimento-componente.view.php", [
+    require view("/creazione-progetto/inserimento-componenti.view.php", [
         "errori" => $errori
     ]);
     exit();
@@ -65,7 +65,7 @@ $esito = $db->procedure('InserimentoComponenteHardware', $paramsComponente);
 
 if (!$esito) {
     $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento della componente hardware!";
-    require view("/i-miei-progetti/inserimento-componente.view.php", [
+    require view("/creazione-progetto/inserimento-componenti.view.php", [
         'errori' => $errori
     ]);
     exit();
