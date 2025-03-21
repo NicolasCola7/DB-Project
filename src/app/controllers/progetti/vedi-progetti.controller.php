@@ -21,13 +21,12 @@ if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') {
         GROUP BY P.nome, U.nickname, P.stato, P.budget_avvio;"
     );
 } 
-else 
-{
+else {
     $progetti = $db->query(
-        "SELECT P.nome AS NomeProgetto, U.nickname, P.stato, MIN(FP.urlImmagine) AS urlImmagine, COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento
+        "SELECT P.nome AS NomeProgetto, U.nickname, P.stato,  COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento,
+        (SELECT MIN(FP.urlImmagine) FROM Foto_Progetto AS FP WHERE FP.nomeProgetto = P.nome) AS urlImmagine
         FROM Progetto AS P
         JOIN Utente AS U ON P.emailCreatore = U.email
-        LEFT JOIN Foto_Progetto AS FP ON P.nome = FP.nomeProgetto
         LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto
         WHERE emailCreatore = :email
         GROUP BY P.nome, U.nickname, P.stato, P.budget_avvio;",

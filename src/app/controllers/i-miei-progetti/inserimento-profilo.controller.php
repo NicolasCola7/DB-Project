@@ -46,7 +46,7 @@ if (!Validatore::isNumber($posizioniDisponibili, 1)) {
 $skills = $db->query('SELECT nome FROM Skill');
 
 if (!empty($errori)) {
-    require view("/i-miei-progetti/inserimento-profilo.view.php", [
+    require view("/creazione-progetto/inserimento-profili.view.php", [
         "errori" => $errori,
         "skills" => $skills
     ]);

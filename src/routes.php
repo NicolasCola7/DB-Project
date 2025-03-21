@@ -27,7 +27,6 @@ $router->get('/admin/home/gestione-skills', 'app/controllers/skills/admin/ottien
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');

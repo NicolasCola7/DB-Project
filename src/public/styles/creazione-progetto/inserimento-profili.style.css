@@ -28,21 +28,16 @@ html, body {
     margin-bottom: 15px;
 }
 
-section {
+main {
     margin-top: 20px;
     display: flex;
     flex-direction: row;
     gap: 5%;
     margin-bottom: 5%;
+    justify-content: center;
 }
 
-section > div:first-child > form {
-    width: 50%;
-    display: flex; 
-    flex-direction: column;
-}
-
-section > div{
+main > div{
     flex: 1;
     background-color: #f8f9fa;
     padding: 20px;
@@ -53,7 +48,18 @@ section > div{
     display: flex;
     flex-direction: column;
     gap: 15px;
-    height: 45vh;
+   
+}
+
+main > div:first-child > form {
+    width: 100%;
+    margin: 0 auto; 
+    display: flex; 
+    flex-direction: column;
+}
+
+section > div:first-child {
+    flex: 1;
 }
 
 #container-profili {
@@ -81,7 +87,7 @@ section > div{
     background-color:black;
 }
 
-.bottoni {
+.container-bottoni {
     margin-bottom: 15px;
     display: flex;
     gap: 10px;
@@ -100,12 +106,9 @@ label {
     font-size: 14px;
     width: 100%
 }
-.contenutoMain > .container-bottoni{
-    text-align: center;
-}
 
 button {
-    width: 150px;
+    width: 100%;
     padding: 12px;
     background-color: #0077cc;
     color: white;
@@ -125,48 +128,11 @@ button:focus {
     box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
 }
 
-.successo {
-    color: green;
-    text-align: center;
-    margin: 10px;
-}
 
-#errori-skill {
-    color: red;
-    text-align: center;
-    margin: 10px;
-}
-
-dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 20px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    height: 70vh;
-    width: 40vw;
-}
-
-dialog form {
+#skills-richieste {
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-dialog select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.bottoni {
-    display:flex;
-    flex-direction: row;
-    justify-content: space-between;
 }
 
 #skills-aggiunte {
@@ -177,21 +143,13 @@ dialog select {
 }
 
 #skills-aggiunte > div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) 1fr auto;
+    gap: 15px; 
     align-items: center;
     padding: 2%;
     border-bottom: 1px solid #0077cc;
     color: #0077cc;
-}
-.skills-aggiunte span:last-child{
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    background: #d1ecf1;
-    padding: 5px 10px;
-    border-radius: 5px;
 }
 
 
@@ -205,31 +163,21 @@ dialog select {
     position: relative;
     padding: 20px;
     border-radius: 8px;
+    max-width: 500px;
 }
 
-dialog > header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
 
-#aggiunta > form {
+#aggiunta {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     padding: 3% 5%;
     cursor: pointer;
 }
 
-#aggiunta > form > select, input {
+#aggiunta select {
     width: 20%;
-    border: 1px solid  #0077cc
-}
-
-#aggiunta form select,
-#aggiunta form input[type="number"] {
-    width: 70%;
     padding: 8px 12px;
     border: 2px solid #0077cc;
     border-radius: 5px;
@@ -239,20 +187,23 @@ dialog > header {
     transition: all 0.3s ease-in-out;
 }
 
-#aggiunta form select:hover,
-#aggiunta form input[type="number"]:hover {
+#aggiunta select:hover {
     border-color: #0056b3;
 }
 
-#aggiunta form select:focus{
+#aggiunta select:focus{
     outline: none;
     border-color: #0077cc;
     box-shadow: 0 0 8px rgba(0, 119, 204, 0.3);
 }
 
 #aggiungi-skill {
+    width: 30px;
+    height: 30px;   
+    border-radius: 50%;
     background-color: #007bff;
     color: white;
+    font-size: 24px;
     font-weight: bold;
     border: none;
     cursor: pointer;
@@ -271,7 +222,7 @@ dialog > header {
     transform: scale(0.9);
 }
 
-#elimina{
+.elimina-skill{
     display: flex;
     width: 30px;
     height: 30px;   
@@ -288,35 +239,38 @@ dialog > header {
     transition: background 0.3s, transform 0.2s;
 }
 
-#elimina:hover {
+.elimina-skill:hover {
     background-color:rgb(141, 9, 9);
 }
 
-#elimina:active {
+.elimina-skill:active {
     transform: scale(0.9);
 }
 
-
-#chiudi {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    transition: color 0.2s;
+.skills-container {
+    overflow: scroll;
+    transition: max-height 0.3s ease;
+    max-height: 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    gap: 10px;
 }
 
-#chiudi:hover {
-    color: red;
+.skill {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) 1fr auto;
+    gap: 15px; 
+    align-items: center;
+    padding: 2%;
+    border-bottom: 1px solid #0077cc;
+    color: #0077cc;
 }
 
-dialog::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+.skill> span:first-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .profilo {

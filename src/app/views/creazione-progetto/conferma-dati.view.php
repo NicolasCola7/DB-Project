@@ -132,7 +132,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                             <?php foreach($_SESSION['creazione-progetto']['foto'] as $foto): ?>
                                 <tr>
                                     <td> <?= htmlspecialchars($foto['descrizione']); ?> </td>
-                                    <td> <img src='../../../<?= htmlspecialchars($foto['percorso']); ?>'> </td>
+                                    <td> <img src='/<?= htmlspecialchars($foto['percorso']); ?>'> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -153,7 +153,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                             <?php foreach($_SESSION['creazione-progetto']['rewards'] as $reward): ?>
                                 <tr>
                                     <td> <?= htmlspecialchars($reward['descr']); ?> </td>
-                                    <td> <img src='../../../<?= htmlspecialchars($reward['urlFoto']); ?>'> </td>
+                                    <td> <img src='/<?= htmlspecialchars($reward['urlFoto']); ?>'> </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
