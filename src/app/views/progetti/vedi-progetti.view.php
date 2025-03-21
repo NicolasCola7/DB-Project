@@ -44,7 +44,7 @@
                                     </div>  
                                 </div>
                                 <div class="progress">
-                                    <progress id="myProgress" value="<?= floatval($progetto['avanzamento']) * 100?>" max="100"></progress>
+                                    <progress id="myProgress" value="<?= htmlspecialchars(floatval($progetto['avanzamento']) * 100) ?>" max="100"></progress>
                                 </div>
                                 <div class="azioni">
                                     <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
@@ -76,20 +76,20 @@
             // Cambia colore della barra in base al valore
             let value = parseFloat(progress.value);
 
+            // coloro di verde se la percentuale è minore del 70%, di arancione se è tra il 70% e il 100% e di rosso se è uguale al 100%
             if (value <= 70) 
             {
-                progress.style.setProperty("--progress-color", "#4caf50"); // Verde
+                progress.style.setProperty("--progress-color", "#4caf50");
             } 
             else if (value > 70 && value < 100) 
             {
-                progress.style.setProperty("--progress-color", "#ff9800"); // Arancione
+                progress.style.setProperty("--progress-color", "#ff9800");
             } 
             else 
             {
-                progress.style.setProperty("--progress-color", "#f44336"); // Rosso
+                progress.style.setProperty("--progress-color", "#f44336");
             }
 
-            console.log(value);
             // Mostra il tooltip quando il mouse passa sopra
             progress.addEventListener("mouseenter", (event) => {
                 tooltip.style.display = "block";
