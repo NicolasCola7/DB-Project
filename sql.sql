@@ -910,29 +910,28 @@ CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward5.jpg', '
 CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'VisaAI', @esito);
 
 -- Popolamento dei finanziamenti del progetto, uno finanziato al 100%, due circa al 70%, due circa al 30% e uno non ancora finanziato
--- Problema qui, numeri da mettere a posto
 CALL InserimentoFinanziamento('DriveSenseAI', '200000.00', 'mario.rossi@email.com', @esito);
 CALL SceltaReward('1', 'mario.rossi@email.com', 'DriveSenseAI', @esito);
 CALL InserimentoFinanziamento('DriveSenseAI', '100000.00', 'federica.verdi@email.com', @esito);
-CALL SceltaReward('1', 'federica.verdi@email.com', 'DriveSenseAI', @esito);
+CALL SceltaReward('4', 'federica.verdi@email.com', 'DriveSenseAI', @esito);
 CALL InserimentoFinanziamento('ProgettoNatura', '10000.00', 'mario.rossi@email.com', @esito);
-CALL SceltaReward('1', 'mario.rossi@email.com', 'ProgettoNatura', @esito);
+CALL SceltaReward('9', 'mario.rossi@email.com', 'ProgettoNatura', @esito);
 CALL InserimentoFinanziamento('PulseTech', '100000.00', 'lucia.gialli@email.com', @esito);
-CALL SceltaReward('1', 'lucia.gialli@email.com', 'PulseTech', @esito);
+CALL SceltaReward('11', 'lucia.gialli@email.com', 'PulseTech', @esito);
 CALL InserimentoFinanziamento('PulseTech', '100000.00', 'mario.rossi@email.com', @esito);
-CALL SceltaReward('1', 'mario.rossi@email.com', 'PulseTech', @esito);
+CALL SceltaReward('11', 'mario.rossi@email.com', 'PulseTech', @esito);
 CALL InserimentoFinanziamento('PulseTech', '100000.00', 'federica.verdi@email.com', @esito);
-CALL SceltaReward('1', 'federica.verdi@email.com', 'PulseTech', @esito);
+CALL SceltaReward('11', 'federica.verdi@email.com', 'PulseTech', @esito);
 CALL InserimentoFinanziamento('EcoSmartHome', '200000.00', 'giulia.bianchi@email.com', @esito);
-CALL SceltaReward('1', 'giulia.bianchi@email.com', 'EcoSmartHome', @esito);
+CALL SceltaReward('13', 'giulia.bianchi@email.com', 'EcoSmartHome', @esito);
 CALL InserimentoFinanziamento('EcoSmartHome', '100000.00', 'normal.user@email.com', @esito);
-CALL SceltaReward('1', 'normal.user@email.com', 'EcoSmartHome', @esito);
+CALL SceltaReward('14', 'normal.user@email.com', 'EcoSmartHome', @esito);
 CALL InserimentoFinanziamento('VisaAI', '50000.00', 'federica.verdi@email.com', @esito);
-CALL SceltaReward('1', 'federica.verdi@email.com', 'VisaAI', @esito);
+CALL SceltaReward('16', 'federica.verdi@email.com', 'VisaAI', @esito);
 CALL InserimentoFinanziamento('VisaAI', '50000.00', 'lucia.gialli@email.com', @esito);
-CALL SceltaReward('1', 'lucia.gialli@email.com', 'VisaAI', @esito);
+CALL SceltaReward('17', 'lucia.gialli@email.com', 'VisaAI', @esito);
 CALL InserimentoFinanziamento('VisaAI', '50000.00', 'mario.rossi@email.com', @esito);
-CALL SceltaReward('1', 'mario.rossi@email.com', 'VisaAI', @esito);
+CALL SceltaReward('18', 'mario.rossi@email.com', 'VisaAI', @esito);
 
 -- Popolamento delle competenze inserite dall'utente amministratore
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);

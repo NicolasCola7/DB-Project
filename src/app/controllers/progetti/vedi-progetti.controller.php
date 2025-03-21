@@ -20,7 +20,9 @@ if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') {
         LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto
         GROUP BY P.nome, U.nickname, P.stato, P.budget_avvio;"
     );
-} else {
+} 
+else 
+{
     $progetti = $db->query(
         "SELECT P.nome AS NomeProgetto, U.nickname, P.stato, MIN(FP.urlImmagine) AS urlImmagine, COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento
         FROM Progetto AS P

@@ -15,9 +15,9 @@
         <div class="contenutoMain">
             <?php if(!empty($progetti) && is_array($progetti)): ?>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
-                    <h3>Progetti disponibili </h3>
+                    <h3>Progetti disponibili</h3>
                 <?php else: ?>
-                    <h3> I miei progetti </h3>
+                    <h3>I miei progetti</h3>
                 <?php endif; ?>
                 <div class="grid">
                     <?php foreach ($progetti as $progetto): ?>
@@ -44,7 +44,7 @@
                                     </div>  
                                 </div>
                                 <div class="progress">
-                                    <progress id="myProgress" value="<?= htmlspecialchars(floatval($progetto['avanzamento']) * 100) ?>" max="100"></progress>
+                                    <progress id="myProgress" value="<?= floatval($progetto['avanzamento']) * 100?>" max="100"></progress>
                                 </div>
                                 <div class="azioni">
                                     <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
@@ -76,14 +76,20 @@
             // Cambia colore della barra in base al valore
             let value = parseFloat(progress.value);
 
-            if (value <= 70) {
+            if (value <= 70) 
+            {
                 progress.style.setProperty("--progress-color", "#4caf50"); // Verde
-            } else if (value > 70 && value < 100) {
+            } 
+            else if (value > 70 && value < 100) 
+            {
                 progress.style.setProperty("--progress-color", "#ff9800"); // Arancione
-            } else {
+            } 
+            else 
+            {
                 progress.style.setProperty("--progress-color", "#f44336"); // Rosso
             }
 
+            console.log(value);
             // Mostra il tooltip quando il mouse passa sopra
             progress.addEventListener("mouseenter", (event) => {
                 tooltip.style.display = "block";
