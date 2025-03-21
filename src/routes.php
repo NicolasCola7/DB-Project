@@ -28,8 +28,8 @@ $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-proge
 $router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/software/profili/skills', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto.view.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-rewards.view.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
 //statistiche
 $router->get('/home/statistiche','app/controllers/statistiche/vedi-statistiche.controller.php')->soloSe('autenticato');
@@ -45,8 +45,8 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candida
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature/{idCandidatura}', 'app/controllers/profilo/ottieni-candidatura.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/ottieni-commenti.controller.php')->soloSe('autenticato');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-componente', 'app/views/i-miei-progetti/inserimento-componente.view.php')->soloSe('creatore');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-reward', 'app/views/i-miei-progetti/inserimento-reward.view.php')->soloSe('creatore');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-foto', 'app/views/i-miei-progetti/inserimento-foto.view.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-reward', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-foto', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 
 //POST
 

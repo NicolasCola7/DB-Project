@@ -50,7 +50,7 @@ if (!Validatore::isString($descrizione, 1, 100)) {
 }
 
 if (!empty($errori)) {
-    require view("/i-miei-progetti/inserimento-reward.view.php", [
+    require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
         "errori" => $errori
     ]);
 
@@ -71,7 +71,7 @@ $esito = $db->procedure('CreazioneReward', $paramsReward);
 
 if(!$esito) {
     $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento delle foto del progetto!";
-        require view("/i-miei-progetti/inserimento-reward.view.php", [
+        require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
             'errori' => $errori
     ]);
     exit();

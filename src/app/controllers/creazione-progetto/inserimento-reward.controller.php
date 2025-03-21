@@ -30,7 +30,7 @@ if (!Validatore::isString($descrizione, 1, 100)) {
 }
 
 if (!empty($errori)) {
-    require view("/creazione-progetto/inserimento-foto.view.php", [
+    require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
         "errori" => $errori
     ]);
     AlertManager::setWarning("Reward già inserita!");
@@ -60,7 +60,7 @@ foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
     if($reward['urlFoto'] === $destinazione) {
         AlertManager::setWarning("Reward già inserita!");
         $errori['già-inserita'] = 'Foto già inserita';
-        require view("/creazione-progetto/inserimento-rewards.view.php", [
+        require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
             "errori" => $errori
         ]);
         
