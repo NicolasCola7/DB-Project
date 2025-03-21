@@ -1,6 +1,5 @@
 
 services:
-
   mysql:
     image: mysql:8.0
     restart: always
@@ -14,8 +13,8 @@ services:
       - "3307:3306"
     networks:
       - databases
-  
-   
+    volumes:
+      - ./mysql:/var/lib/mysql
   phpmyadmin:
      image: phpmyadmin:latest
      restart: always
@@ -41,6 +40,8 @@ services:
       - "27018:27017"
     networks:
       - databases
+    volumes:
+      - ./mongo:/data/db
 
   mongo-express:
     image: mongo-express:latest

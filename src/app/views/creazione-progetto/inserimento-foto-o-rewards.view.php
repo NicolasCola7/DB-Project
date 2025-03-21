@@ -176,6 +176,7 @@ use core\AlertManager;
             window.location.href = '/home/crea-progetto/rewards';
         }
     }
+    
     function proseguiAConferma() {
         const rewards =  <?= count($_SESSION['creazione-progetto']['rewards']); ?>;
         if(rewards < 1) {
