@@ -45,10 +45,6 @@ section form {
     flex-direction: column;
 }
 
-.contenutoMain > .container{
-    align-items: center;
-}
-
 .bottoni {
     margin-bottom: 15px;
     display: flex;

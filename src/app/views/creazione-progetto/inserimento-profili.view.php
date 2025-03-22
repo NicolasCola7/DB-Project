@@ -168,8 +168,10 @@ use core\AlertManager;
             skill.innerHTML = `
                 <input type="hidden" name="skills[${contatoreSkills}][nome]" value="${nomeSkill}" class="nome-skill" required>
                 <input type="hidden" name="skills[${contatoreSkills}][livello]" value="${livelloSkill}" required>
-                <span>${nomeSkill}</span>
+                <div>
+                <span id="nome-skill-aggiunta">${nomeSkill}</span>
                 <span> ${livelloSkill} </span>
+                </div>
                 <button type="button" onclick="this.parentElement.remove()" class="elimina-skill"> - </button>
             `;
             

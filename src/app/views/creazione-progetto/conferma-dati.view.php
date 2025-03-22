@@ -77,7 +77,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                                     <tr>
                                         <td class='nome-componente'> <?= htmlspecialchars($componente['nome']); ?> </td>
                                         <td class='descrizione-componente'> <?= htmlspecialchars($componente['descrizione']); ?> </td>
-                                        <td class='quantità-componente'> <?= htmlspecialchars($componente['quantità']); ?> </td>
+                                        <td class='quantità-componente'> <?= htmlspecialchars($componente['quantita']); ?> </td>
                                         <td class='prezzo-componente'> <?= htmlspecialchars($componente['prezzo']); ?> </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -165,7 +165,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                         <input type='hidden' name='_metodo' value='DELETE'>
                         <button type='submit' id='elimina'> Annulla ed Elimina </button>
                     </form>
-                    <form action='/home/crea-progetto/conferma-dati' method='POST'>
+                    <form action='/home/crea-progetto/conferma-dati' id="creaProgetto" method='POST'>
                         <button id='crea' type='submit'> Conferma e Crea </button>
                     </form>
                 </div>
@@ -197,6 +197,28 @@ if(!$_SESSION['creazione-progetto']['step4']) {
             //se l'utente conferma faccio submit
             if (result.isConfirmed) {
                 annullaForm.submit();
+            }
+        });
+    });
+    const submitForm = document.getElementById('creaProgetto');
+    submitForm.addEventListener('submit', event => {
+        event.preventDefault();
+
+        Swal.fire({
+            title: "Sei sicuro?",
+            text: "Vuoi davvero creare questo progetto?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sì, procedi!",
+            cancelButtonText: "Annulla",
+            customClass: {
+                confirmButton: "my-confirm-button",
+                cancelButton: "my-cancel-button"
+            }
+         }).then((result) => {
+            //se l'utente conferma faccio submit
+            if (result.isConfirmed) {
+                submitForm.submit();
             }
         });
     });
