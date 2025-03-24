@@ -934,50 +934,59 @@ CALL InserimentoFinanziamento('VisaAI', '50000.00', 'mario.rossi@email.com', @es
 CALL SceltaReward('18', 'mario.rossi@email.com', 'VisaAI', @esito);
 
 -- Popolamento delle competenze inserite dall'utente amministratore
-CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Conoscenza Lingua Inglese', @esito);
-CALL InserimentoCompetenza('mario.rossi@email.com', 'CyberSecurity', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Programmazione in Python', @esito);
+CALL InserimentoCompetenza('mario.rossi@email.com', 'Machine Learning', @esito);
 CALL InserimentoCompetenza('mario.rossi@email.com', 'Lavorare in Team', @esito);
+CALL InserimentoCompetenza('mario.rossi@email.com', 'CyberSecurity', @esito);
 
 -- Popolamento per l'inserimento delle abilità delle compentenze degli utenti
-CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Programmazione in Python', '5', @esito);
 CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Machine Learning', '4', @esito);
-CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Conoscenza Lingua Inglese', '2', @esito);
-CALL RimozioneSkillCurriculum('mario.rossi@email.com', 'Conoscenza Lingua Inglese', @esito);
-CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Programmazione in Python', '3', @esito);
-CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Machine Learning', '5', @esito);
-CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Conoscenza Lingua Inglese', '5', @esito);
-CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'Machine Learning', '5', @esito);
-CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'CyberSecurity', '2', @esito);
+CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Programmazione in Python', '5', @esito);
+CALL InserimentoSkillCurriculum('mario.rossi@email.com', 'Lavorare in Team', '2', @esito);
+CALL RimozioneSkillCurriculum('mario.rossi@email.com', 'Lavorare in Team', @esito);
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Programmazione in Python', '1', @esito);
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Machine Learning', '4', @esito);
 CALL InserimentoSkillCurriculum('normal.user@email.com', 'Lavorare in Team', '5', @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Conoscenza Lingua Inglese', '5', @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Programmazione in Python', '3', @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Machine Learning', '5', @esito);
+CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Lavorare in Team', '4', @esito);
+CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'Conoscenza Lingua Inglese', '3', @esito);
+CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'Machine Learning', '4', @esito);
+CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'Lavorare in Team', '4', @esito);
+CALL InserimentoSkillCurriculum('lucia.gialli@email.com', 'Conoscenza Lingua Inglese', '3', @esito);
 
 -- Popolamento per l'inserimento dei profili
-CALL InserimentoProfilo('Data Scientist', 'DriveSenseAI', '1','[{"nomeSkill":"Programmazione in Python", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
-CALL InserimentoProfilo('Software Engineer', 'DriveSenseAI', '1','[{"nomeSkill":"Conoscenza Lingua Inglese", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
+CALL InserimentoProfilo('Data Scientist', 'DriveSenseAI', '2','[{"nomeSkill":"Programmazione in Python", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
 CALL InserimentoProfilo('Business Analyst', 'DriveSenseAI', '1','[{"nomeSkill":"Lavorare in Team", "livello": "3"}]', @esito);
+CALL InserimentoProfilo('Software Engineer', 'CompanyTagline', '2','[{"nomeSkill":"Conoscenza Lingua Inglese", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
 
 -- Popolamento per l'inserimento delle candidature alle posizioni disponibili
 CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', @esito);
 CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);
-CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'normal.user@email.com', @esito);
-CALL InserimentoCandidatura('Software Engineer', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);
 CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'normal.user@email.com', @esito);
+CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);
+CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'federica.verdi@email.com', @esito);
+CALL InserimentoCandidatura('Software Engineer', 'CompanyTagline', 'federica.verdi@email.com', @esito);
 
 -- Popolamento per valutare positivamente o negativamente una candidatura arrivate
 CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', true, @esito);
 CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'normal.user@email.com', false, @esito);
 
 -- Popolamento dei commenti al progetto
-CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Intelligenza artificiale sta cambiando il settore automobilistico e DriveSenseAI promette di portare la sicurezza stradale a un nuovo livello. Idea di un sistema avanzato di assistenza alla guida basato su machine learning è davvero interessante. Non vedo il momento di vedere come verrà implementato il rilevamento predittivo degli ostacoli!', @esito);
+CALL CommentaProgetto('DriveSenseAI', 'federica.verdi@email.com', 'Intelligenza artificiale sta cambiando il settore automobilistico e DriveSenseAI promette di portare la sicurezza stradale a un nuovo livello. Idea di un sistema avanzato di assistenza alla guida basato su machine learning è davvero interessante. Non vedo il momento di vedere come verrà implementato il rilevamento predittivo degli ostacoli!', @esito);
 CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Sembra un progetto interessante!', @esito);
+CALL CommentaProgetto('DriveSenseAI', 'lucia.gialli@email.com', 'Sono un sacco interessato a questa macchina, non vedo ora che sia il momento che sia pronta per poterla acquistare!', @esito);
 CALL CommentaProgetto('CompanyTagline', 'federica.verdi@email.com', 'Creare fotografie avanzate con aiuto intelligenza artificiale è una sfida affascinante. Mi piacerebbe sapere di più sulla tecnologia usata per migliorare la qualità dell’immagine e sulle possibili applicazioni nel settore pubblicitario o della fotografia artistica.', @esito);
-CALL CommentaProgetto('ProgettoNatura', 'federica.verdi@email.com', 'Proteggere l’ambiente con la tecnologia è una missione nobile. I droni e i sensori per monitorare la fauna selvatica potrebbero davvero fare la differenza nella lotta contro il bracconaggio. Sarebbe interessante sapere se sono previsti accordi con enti ambientali o università.', @esito);
-CALL CommentaProgetto('EcoSmartHome', 'mario.rossi@email.com','Una casa ecosostenibile e intelligente è un obiettivo essenziale per il futuro. Se i sistemi di automazione possono ridurre i consumi energetici senza compromettere il comfort, questo progetto potrebbe essere un punto di svolta nel settore delle smart home.', @esito);
+CALL CommentaProgetto('ProgettoNatura', 'normal.user@email.com', 'Proteggere l’ambiente con la tecnologia è una missione nobile. I droni e i sensori per monitorare la fauna selvatica potrebbero davvero fare la differenza nella lotta contro il bracconaggio. Sarebbe interessante sapere se sono previsti accordi con enti ambientali o università.', @esito);
+CALL CommentaProgetto('EcoSmartHome', 'giulia.bianchi@email.com', 'Una casa ecosostenibile e intelligente è un obiettivo essenziale per il futuro. Se i sistemi di automazione possono ridurre i consumi energetici senza compromettere il comfort, questo progetto potrebbe essere un punto di svolta nel settore delle smart home.', @esito);
+CALL CommentaProgetto('EcoSmartHome', 'normal.user@email.com', 'Sono un sacco interessato a questa casa, non vedo ora che sia il momento che sia pronta per poterla acquistare!', @esito);
+CALL CommentaProgetto('EcoSmartHome', 'lucia.gialli@email.com', 'Spettacolare!', @esito);
 
 -- Popolamento della risposta ai commenti del progetto da parte dell'utente creatore del progetto
 CALL rispondiACommento(1, 'Grazie Mario! Il nostro focus principale è proprio la sicurezza stradale. Il sistema sarà in grado di analizzare il comportamento degli altri veicoli e dei pedoni in tempo reale, per anticipare possibili pericoli e assistere il guidatore nelle decisioni critiche.', 'giulia.bianchi@email.com', @esito);
 CALL rispondiACommento(2, 'Grazie per il supporto!', 'giulia.bianchi@email.com', @esito);
-CALL rispondiACommento(4, 'Hai ragione Federica! Stiamo collaborando con diverse ONG e università per testare i dispositivi sul campo. Obiettivo di fornire ai ricercatori strumenti avanzati per il monitoraggio della fauna e la prevenzione delle attività illegali.', 'giulia.bianchi@email.com', @esito);
+CALL rispondiACommento(5, 'Hai ragione Federica! Stiamo collaborando con diverse ONG e università per testare i dispositivi sul campo. Obiettivo di fornire ai ricercatori strumenti avanzati per il monitoraggio della fauna e la prevenzione delle attività illegali.', 'giulia.bianchi@email.com', @esito);
+CALL rispondiACommento(6, 'Grazie della precisazione!', 'lucia.gialli@email.com', @esito);
+CALL rispondiACommento(8, 'Verissimo!', 'lucia.gialli@email.com', @esito);
