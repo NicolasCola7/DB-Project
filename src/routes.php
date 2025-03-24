@@ -77,6 +77,8 @@ $router->post('/home/i-miei-progetti/{nomeProgetto}/commenti/{idCommento}/rispon
 $router->post('/home/progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/inserisci-commento.controller.php')->soloSe('autenticato');
 //finanziamenti
 $router->post('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/finanziamenti/inserisci-finanziamento.controller.php')->soloSe('autenticato');
+
+
 //PUT
 
 

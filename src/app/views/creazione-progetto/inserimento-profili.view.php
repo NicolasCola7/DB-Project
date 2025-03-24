@@ -28,9 +28,9 @@ use core\AlertManager;
             <main>
                 <div>
                     <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto'): ?>
-                        <form action='/home/crea-progetto/software/profili' method='POST' id='profilo'>
+                        <form action='/home/crea-progetto/software/profili' method='POST' id='form-profilo'>
                     <?php else: ?>
-                        <form action='/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>/profili' method='POST' id='profilo'>
+                        <form action='/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>/profili' method='POST' id='form-profilo'>
                     <?php endif; ?>
 
                         <section>
@@ -49,7 +49,7 @@ use core\AlertManager;
 
                         <section id='skills-richieste' name='skills-richieste'>
                         
-                            <div id='skills-container' >
+                            <div id='skills' >
 
                             </div>
                             <div id='aggiunta'>
@@ -63,16 +63,16 @@ use core\AlertManager;
                                         <?php endforeach; ?>
                                     <?php endif; ?>
                                 </select>
-                                <select  name='livello' id='livello'>
+                                <select  name='livello' id='livello-richiesto'>
                                     <option value="" disabled selected>Scegli un livello</option>
-                                    <option value="1" name='livello'>1</option>
-                                    <option value="2" name='livello'>2</option>
-                                    <option value="3" name='livello'>3</option>
-                                    <option value="4" name='livello'>4</option>
-                                    <option value="5" name='livello'>5</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
 
-                                <button type="button" id="aggiungi-skill">+</button>
+                                <button type="button" id="aggiungi-skill" onclick="aggiungiSkill()">+</button>
                             </div>
                         </section>
 
@@ -84,7 +84,7 @@ use core\AlertManager;
                 
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto'): ?>
                     <div id='container-profili'>
-                        <?php if(count($_SESSION['creazione-progetto']['profili']) > 0): ?>
+                        <?php if(isset($_SESSION['creazione-progetto']['profili']) && count($_SESSION['creazione-progetto']['profili']) > 0): ?>
                             <?php foreach($_SESSION['creazione-progetto']['profili'] as $index => $profilo): ?>
                                 <div class='profilo'>
                                     <div class='header-profilo'>
@@ -96,7 +96,7 @@ use core\AlertManager;
                                         <span>Skills</span>
                                     </div>
                                     <div id="skills-container-<?= $index ?>" class="skills-container hidden">
-                                        <table class='skills'>
+                                        <table>
                                             <thead>
                                                 <tr>
                                                     <td> Skill </td>
@@ -127,7 +127,6 @@ use core\AlertManager;
                     <button onclick='prosegui()'> Prosegui </button>
                 </div>
             <?php endif; ?>
-    
         </div>
     </div>
     
@@ -136,15 +135,14 @@ use core\AlertManager;
 </body>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    const skillsContainer = document.getElementById('skills-container');
+    const skillsContainer = document.getElementById('skills');
     const disponibili = document.getElementById('skills-disponibili');
-    const livello = document.getElementById('livello');
-    const aggiungiSkillBtn = document.getElementById('aggiungi-skill');
-    const form = document.getElementById('profilo');
+    const livello = document.getElementById('livello-richiesto');
+    const form = document.getElementById('form-profilo');
     let contatoreSkills = 0;
     
     // Funzione per aggiungere una skill
-    aggiungiSkillBtn.addEventListener('click', function() {
+   function aggiungiSkill() {
         const nomeSkill = disponibili.value;
         const livelloSkill = livello.value;
         
@@ -169,7 +167,7 @@ use core\AlertManager;
                 <input type="hidden" name="skills[${contatoreSkills}][nome]" value="${nomeSkill}" class="nome-skill" required>
                 <input type="hidden" name="skills[${contatoreSkills}][livello]" value="${livelloSkill}" required>
                 <div>
-                <span id="nome-skill-aggiunta">${nomeSkill}</span>
+                <span>${nomeSkill}</span>
                 <span> ${livelloSkill} </span>
                 </div>
                 <button type="button" onclick="this.parentElement.remove()" class="elimina-skill"> - </button>
@@ -182,7 +180,7 @@ use core\AlertManager;
             disponibili.selectedIndex = 0;
             livello.selectedIndex = 0;
         }
-    });
+    }
     
     
     // Validazione del form prima dell'invio
@@ -199,6 +197,7 @@ use core\AlertManager;
             });
         }
     });
+
     function prosegui() {
         const profili = <?= count($_SESSION['creazione-progetto']['profili']); ?>;
         if(profili < 1) {
