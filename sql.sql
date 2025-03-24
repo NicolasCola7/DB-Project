@@ -146,7 +146,7 @@ BEGIN
 	set budgetRaggiunto = (SELECT SUM(importo) FROM Finanziamento WHERE nomeProgetto = NEW.nomeprogetto);
     set budgetAvvio = (SELECT budget_avvio FROM Progetto WHERE nome = NEW.nomeProgetto);
     
-    if(budgetraggiunto = budgetAvvio) then
+    if(budgetraggiunto >= budgetAvvio) then
 		UPDATE Progetto SET stato = 'chiuso' WHERE nome = NEW.nomeProgetto;
 	end if;
 END;
@@ -373,12 +373,15 @@ BEGIN
 	
 	declare progettoValido boolean;
     declare emailCorretta boolean;
-    declare utenteValido boolean; -- valido se il finanziamento che sta venendo fatto è in una data diversa dagli altri finanziamenti fatti dallo stesso utente
-    declare importoValido boolean; -- l'importo del finanziamento sommato a tutti gli altri finanziamenti non deve eccedere il budget di avvio
+    -- Valido se il finanziamento che sta venendo fatto è in una data diversa dagli altri finanziamenti fatti dallo stesso utente
+    declare utenteValido boolean; 
+    declare importoValido boolean;
+	declare importoSuperioreBudget boolean; 
     declare budgetCorrente decimal;
     declare budgetAvvio decimal;
-    declare haFinanziamenti boolean;  --  controllo se ha finanziamenti in quanto, se cerco di inserirene uno in un progetto 
-										-- che non ne ha, tale procedura non funziona ed è come se l'imorto eccedesse il budget
+    -- Controllo se ha finanziamenti in quanto, se cerco di inserirene uno in un progetto che non ne ha
+    declare haFinanziamenti boolean;
+    declare importoDecimal decimal;
                                         
     set progettoValido = nomeProgettoI IN (SELECT nome FROM Progetto WHERE stato = 'aperto');
     set emailCorretta = emailI IN (SELECT email FROM Utente);
@@ -392,15 +395,30 @@ BEGIN
 		set budgetCorrente = 0.0;
 	end if;
 	
-    if(CAST(importoI AS DECIMAL(10,2)) > 0) then
-		set importoValido = (importoI + budgetCorrente) <=  budgetAvvio; 
-    end if;
-	
-    if(NOT(progettoValido AND emailCorretta AND utenteValido AND importoValido)) then
-		set esito = 0; -- errore: progetto o utente non trovati o utente ha gia eseguito finanziamento o importo eccedente al budget di avvio 
-	else
-		set esito = 1;
-		INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, nomeProgettoI, CAST(importoI AS DECIMAL(10,2)));
+    SET importoDecimal = CAST(importoI AS DECIMAL(10,2));
+
+    -- Controllo la validità dell'importo (deve essere maggiore di 0)
+    SET importoValido = importoDecimal > 0;
+
+    -- Controllo che l'importo non superi il budget disponibile
+    SET importoSuperioreBudget = (importoDecimal + budgetCorrente) <= budgetAvvio;
+    if(NOT(progettoValido AND emailCorretta AND importoValido)) then
+		-- errore: progetto o utente non trovati o utente ha gia eseguito finanziamento o l'importo inserito non è valido
+		set esito = 0; 
+	else 
+		-- errore: avviso l'utente che ha già fatto un finanziamento quel giorno per quel progetto
+		if(NOT(utenteValido)) then
+			set esito = 1;
+		else 
+			-- errore: avviso l'utente che il finanziamento che ha fatto è superiore al budget del progetto
+			if(NOT(importoSuperioreBudget)) then
+				set esito = 2;
+			else
+				-- è andato tutto a buon fine, permetto l'inserimento del finanziamento
+				set esito = 3;
+				INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, nomeProgettoI, CAST(importoI AS DECIMAL(10,2)));
+			end if;
+        end if;		
 	end if;
 END;
 $ DELIMITER ;

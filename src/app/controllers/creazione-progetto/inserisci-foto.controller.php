@@ -18,7 +18,7 @@ $descrizione = $_POST['descrizione'];
 $errori = [];
 
 if (!Validatore::estensioneValida($estensione)) {
-    $errori["estensione"] = "Estensione non valida, deve essere del tipo .png, jpg o jpeg!";
+    $errori["estensione"] = "Estensione non valida, deve essere di tipo png, jpg, jpeg, webp o avif!";
 }
 
 if (!Validatore::isNumber($dimensione, 1, 3145728)) {

@@ -55,8 +55,22 @@ $parametriFinanziamento = [
 
 $esito = $db->procedure('InserimentoFinanziamento', $parametriFinanziamento);
 
-if(!$esito) {
-    $errori['procedura'] = "Impossibile finanziare il seguente progetto. Importo eccedente il budget o hai già stato inviato un finanziamento in data odierna.";
+if($esito == 0) 
+{
+    $errori['procedura'] = "L'importo inserito non è corretto!";
+    require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
+    exit();
+}
+else if($esito == 1)
+{
+    $errori['procedura'] = "Hai già eseguito un finanziamento per il progetto ".$nomeProgetto." in data odierna!";
+    require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
+    exit();
+}
+else if($esito == 2)
+{
+    //DOMANI ALE SPIEGAMI BENE COME FARE IL CHECK CON SWIPALERT...QUI DOPO ANDRA' FATTA L'INSERT DEL FINANZIAMENTO DA QUERY
+    $errori['procedura'] = "Sei sicuro di voler fare un finanziamento? Supera il budget del progetto.";
     require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
     exit();
 }

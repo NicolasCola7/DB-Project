@@ -123,8 +123,8 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                     <table>
                         <thead>
                             <tr>
-                                <th> Descrizione </th>
-                                <th> Foto </th>
+                                <th>Descrizione</th>
+                                <th>Foto</th>
                             </tr>
                         </thead>
 
@@ -144,8 +144,8 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                     <table>
                         <thead>
                             <tr>
-                                <th> Descrizione </th>
-                                <th> Foto </th>
+                                <th>Descrizione</th>
+                                <th>Foto</th>
                             </tr>
                         </thead>
 
