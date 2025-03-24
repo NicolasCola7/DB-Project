@@ -1,8 +1,11 @@
+<?php 
+use core\AlertManager; ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/progetti/vedi-progetti.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <div id="tooltip-progress" class="tooltip-progress">Avanzamento finanziamenti</div>
@@ -67,6 +70,7 @@
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
+    <?= AlertManager::show($errori ?? []) ?>
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {

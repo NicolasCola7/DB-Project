@@ -67,6 +67,7 @@ section > div:first-child {
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+    max-height: 50%;
 }
 
 .container {
@@ -131,7 +132,6 @@ button:focus {
 #skills-richieste {
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
 #skills-aggiunte {
@@ -269,7 +269,6 @@ button:focus {
     max-height: 200px;
     display: flex;
     flex-direction: column;
-    padding: 2%;
     gap: 10px;
 }
 

@@ -3,6 +3,7 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -194,6 +195,7 @@ unset($_SESSION['aggiunta-reward']);
 unset($_SESSION['aggiunta-skill']);
 unset($_SESSION['aggiunta-componente']);
 
+AlertManager::setSuccess("Progetto creato!");
 // mando l'utente ad una pagina in cui viene comunicato che il progetto è stato creato correttamente
-require view('/creazione-progetto/successo-creazione.view.php'); 
+header("location: /home/i-miei-progetti");
 exit();

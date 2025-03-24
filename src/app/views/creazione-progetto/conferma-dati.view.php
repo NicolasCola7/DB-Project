@@ -163,10 +163,10 @@ if(!$_SESSION['creazione-progetto']['step4']) {
                 <div class='container-btn'>
                     <form action='/home/crea-progetto/annulla' id='annulla' method='POST'>
                         <input type='hidden' name='_metodo' value='DELETE'>
-                        <button type='submit' id='elimina'> Annulla ed Elimina </button>
+                        <button type='submit' id='elimina'>Annulla ed Elimina</button>
                     </form>
                     <form action='/home/crea-progetto/conferma-dati' id="creaProgetto" method='POST'>
-                        <button id='crea' type='submit'> Conferma e Crea </button>
+                        <button id='crea' type='submit'>Conferma e Crea</button>
                     </form>
                 </div>
             </section>

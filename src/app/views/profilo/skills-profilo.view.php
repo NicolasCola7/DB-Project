@@ -31,7 +31,8 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <?php if( ($profiloEsistente[0]['numero_posizioni'] > 0) && (urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') ): ?>
+                <!--l'utente creatore non può candidarsi a un profilo di un suo stesso progetto-->
+                <?php if(($profiloEsistente[0]['numero_posizioni'] > 0) && (urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') ): ?>
                     <form id='candidatiForm' action="/home/progetti/<?= (explode('/', $_SERVER['REQUEST_URI'])[3]) ?>/profili/<?= (explode('/', $_SERVER['REQUEST_URI'])[5]) ?>/candidature" method='POST'>
                         <button id='candidati' type='submit'> Invia candidatura </button>
                     </form>
