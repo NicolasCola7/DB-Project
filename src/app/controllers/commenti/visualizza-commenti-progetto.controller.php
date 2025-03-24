@@ -23,6 +23,6 @@ $commenti = $db->query(
      where C.nomeProgetto = :nomeProgetto order by C.id desc",
     [':nomeProgetto' => $nomeProgetto]
 );
-                    
-require view('/commenti/visualizza-commenti-progetto.view.php', ['commenti' => $commenti]);
+$emailCreatore = $db->query("SELECT emailCreatore from Progetto where nome = :nomeProgetto", [':nomeProgetto' => $nomeProgetto])[0]['emailCreatore'];
+require view('/commenti/visualizza-commenti-progetto.view.php', ['commenti' => $commenti, 'emailCreatore' => $emailCreatore]);
 exit();

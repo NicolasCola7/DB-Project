@@ -25,10 +25,10 @@
                             <div class="risposta">
                                 <p><?= htmlspecialchars($commento['risposta']); ?></p>
                             </div>
-                            <?php elseif($_SESSION['utente']['creatore']): ?>
-                                <div class="bottone">
-                                    <button type="submit" onclick="rispondi('<?= urlencode(htmlspecialchars($commento['id'])) ?>', '<?= htmlspecialchars($nomeProgetto) ?>')">Rispondi</button>
-                                </div>
+                        <?php elseif($_SESSION['utente']['email'] == $emailCreatore): ?>
+                            <div class="bottone">
+                                <button type="submit" onclick="rispondi('<?= urlencode(htmlspecialchars($commento['id'])) ?>', '<?= htmlspecialchars($nomeProgetto) ?>')">Rispondi</button>
+                            </div>
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
