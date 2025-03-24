@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -26,6 +27,7 @@ if (!empty($errori)) {
     require view("/skills/le-mie-skill.view.php", [
         "errori" => $errori
     ]);
+    AlertManager::setWarning("Skill già inserita!");
     exit();
 }
 
@@ -47,5 +49,6 @@ if (!$esito) {
 }
 
 $db_mongo->inserisciLog("Nuova skill di curriculum ".$nomeSkill." aggiunta da ".$email);
+AlertManager::setSuccess("Skill aggiunta.");
 header('location: /home/le-mie-skill');
 exit();

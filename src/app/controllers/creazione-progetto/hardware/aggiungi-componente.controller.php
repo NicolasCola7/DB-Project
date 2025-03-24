@@ -60,7 +60,7 @@ foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
 
 //inserisco la componente aggiunta nell'apposita variabile di sessione
 array_push($_SESSION['creazione-progetto']['componenti'], $componenteDaInserire);
-AlertManager::setSuccess("Componente aggiunta!");
+AlertManager::setSuccess("Componente aggiunta.");
 
 header('location: /home/crea-progetto/hardware/componenti');
 exit();

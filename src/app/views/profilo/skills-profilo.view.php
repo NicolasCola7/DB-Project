@@ -3,6 +3,7 @@
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/profilo/skills-profilo.style.css'>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 
 <body>
@@ -54,23 +55,10 @@
 
     candidati.addEventListener('click', event => {
         event.preventDefault();
-
-        Swal.fire({
+        AlertManager.confirmAction({
             title: "Sei sicuro?",
             text: "Vuoi inviare la tua candidatura come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sì, procedi!",
-            cancelButtonText: "Annulla",
-            customClass: {
-                confirmButton: "my-confirm-button",
-                cancelButton: "my-cancel-button"
-            }
-        }).then((result) => {
-            //se l'utente conferma faccio submit
-            if (result.isConfirmed) {
-                form.submit();
-            }
+            onConfirm: () => form.submit()
         });
     });
 </script>

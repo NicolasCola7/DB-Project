@@ -25,4 +25,23 @@ class AlertManager {
             confirmButtonText: 'OK'
         });
     }
+
+    static confirmAction({ title, text, confirmText = 'Sì, procedi', cancelText = 'Annulla', onConfirm }) {
+        Swal.fire({
+            title: title,
+            text: text,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: confirmText,
+            cancelButtonText: cancelText,
+            customClass: {
+                confirmButton: "my-confirm-button",
+                cancelButton: "my-cancel-button"
+            }
+        }).then(result => {
+            if (result.isConfirmed && typeof onConfirm === 'function') {
+                onConfirm();
+            }
+        });
+    }
 }

@@ -1,8 +1,10 @@
+<?php use \core\AlertManager; ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/progetti/info-progetto.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -68,7 +70,7 @@
                         <thead>
                             <tr>
                                 <th> Nome </th>
-                                <th> Prezzo </th>
+                                <th> Prezzo (&euro;)</th>
                                 <th> Descrizione </th>
                                 <th> Quantità </th>
                             </tr>
@@ -109,6 +111,7 @@
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
+    <?= AlertManager::show($errori ?? []) ?>
 </body>
 
 <script>

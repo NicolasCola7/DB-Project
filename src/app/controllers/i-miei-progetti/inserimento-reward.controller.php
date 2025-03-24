@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -53,7 +54,7 @@ if (!empty($errori)) {
     require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
         "errori" => $errori
     ]);
-
+    AlertManager::setWarning("Immagine già inserita!");
     exit();
 }
 
@@ -80,5 +81,6 @@ if(!$esito) {
 move_uploaded_file($nomeTemp, $destinazione);
 
 $db_mongo->inserisciLog("Nuova reward ".$nomeFile." inserita per il progetto ".$nomeProgetto);
+AlertManager::setSuccess("Reward aggiunta!");
 header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto));
 exit();

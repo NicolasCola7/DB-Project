@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -49,6 +50,8 @@ if (!empty($errori)) {
     require view("/creazione-progetto/inserimento-componenti.view.php", [
         "errori" => $errori
     ]);
+    
+    AlertManager::setWarning("Componente gia inserita!");
     exit();
 }
 
@@ -72,5 +75,6 @@ if (!$esito) {
 }
 
 $db_mongo->inserisciLog("Nuova componente ".$nome." inserita per il progetto ".$nomeProgetto);
+AlertManager::setSuccess("Componente aggiunta.");
 header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto));
 exit();

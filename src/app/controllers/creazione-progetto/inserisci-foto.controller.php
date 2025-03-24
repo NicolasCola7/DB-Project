@@ -72,7 +72,7 @@ array_push($_SESSION['creazione-progetto']['foto'], $fotoDaInserire);
 
 // sposto la foto in una cartella temporanea in attesa per la conferma di creazione del progetto
 move_uploaded_file($nomeTemp, $destinazione);
-AlertManager::setSuccess("Immagine aggiunta!");
+AlertManager::setSuccess("Immagine aggiunta.");
 
 header('location: /home/crea-progetto/foto');
 exit();

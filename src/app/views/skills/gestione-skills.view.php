@@ -1,8 +1,10 @@
+<?php use \core\AlertManager; ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/skills/gestione-skills.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -38,16 +40,7 @@
                         <p>Non hai ancora aggiunto alcuna skill.</p>
                 <?php endif; ?>
             </section>
-
-            <div id="errori">
-                <?php if (isset($errori['nome'])) : ?>
-                    <p> <?= $errori['nome'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['procedura'])) : ?>
-                    <p> <?= $errori['procedura'] ?> </p>
-                <?php endif; ?>
-            </div>
+            <?= AlertManager::show($errori ?? []) ?>
         </div>
     </div>
     

@@ -3,6 +3,8 @@
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/profilo/vedi-candidatura.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 
 <body>
@@ -105,7 +107,6 @@
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     const nomeCandidato = document.getElementById('nome').value;
     const nomeProgetto = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) ?>';
@@ -120,44 +121,20 @@
     rifiutaBtn.addEventListener('click', event => {
         event.preventDefault();
 
-        Swal.fire({
+        AlertManager.confirmAction({
             title: "Sei sicuro?",
-            text: "Vuoi davvero rifiutare la candidatura di " + nomeCandidato + " come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sì, procedi!",
-            cancelButtonText: "Annulla",
-            customClass: {
-                confirmButton: "my-confirm-button",
-                cancelButton: "my-cancel-button"
-            }
-         }).then((result) => {
-            //se l'utente conferma faccio submit
-            if (result.isConfirmed) {
-                rifiuta.submit();
-            }
+            text: `Vuoi davvero rifiutare la candidatura di ${nomeCandidato} come ${nomeProfilo} per il progetto ${nomeProgetto}?`,
+            onConfirm: () => rifiuta.submit()
         });
     });
 
     accettaBtn.addEventListener('click', event => {
         event.preventDefault();
 
-        Swal.fire({
+        AlertManager.confirmAction({
             title: "Sei sicuro?",
-            text: "Vuoi davvero accettare la candidatura di " + nomeCandidato + " come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "Sì, procedi!",
-            cancelButtonText: "Annulla",
-            customClass: {
-                confirmButton: "my-confirm-button",
-                cancelButton: "my-cancel-button"
-            }
-         }).then((result) => {
-            //se l'utente conferma faccio submit
-            if (result.isConfirmed) {
-                accetta.submit();
-            }
+            text: `Vuoi davvero accettare la candidatura di ${nomeCandidato} come ${nomeProfilo} per il progetto ${nomeProgetto}?`,
+            onConfirm: () => accetta.submit()
         });
     });
 </script>
