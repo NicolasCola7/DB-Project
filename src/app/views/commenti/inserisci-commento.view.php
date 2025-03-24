@@ -1,8 +1,10 @@
+<?php use \core\AlertManager; ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Commenta Progetto</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/commenti/inserisci-commento.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 <?php require view('/home/home-nav.view.php'); ?>
@@ -25,23 +27,7 @@
                 </form>
             </section>
             
-            <div id="errori">
-                <?php if (isset($errori['testo'])) : ?>
-                    <p> <?= $errori['testo'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['procedura'])) : ?>
-                    <p> <?= $errori['procedura'] ?> </p>
-                <?php endif; ?>
-            </div>
-
-            <div id='successo'>
-                <?php if (isset($successo)) : ?>
-                    <script>
-                        alert("Progetto commentato con successo");
-                    </script>
-                <?php endif; ?>
-            </div>
+        <?= AlertManager::show($errori ?? []) ?>
         </div>
     </div>
     

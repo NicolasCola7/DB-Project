@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -39,6 +40,8 @@ if(!Validatore::isNumber($codice)) {
 
 if(!empty($errori)) {
     require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
+    
+    AlertManager::setWarning("Oggi hai già inviato un finanziamento per questo progetto.");
     exit();
 }
 
@@ -76,5 +79,6 @@ if(!$esito) {
 
 $db_mongo->inserisciLog('Nuovo finanziamento effettuato da '.$email.' per il progetto '.$nomeProgetto);
 
+AlertManager::setSuccess("Finanziamento eseguito.");
 require view('/finanziamenti/inserisci-finanziamento.view.php', ['successo' => $successo = true, 'rewards' => $rewards]);
 exit();

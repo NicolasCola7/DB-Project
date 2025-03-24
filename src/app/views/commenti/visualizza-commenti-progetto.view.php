@@ -1,8 +1,10 @@
+<?php use core\AlertManager; ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Home</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/commenti/visualizza-commenti.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -37,6 +39,7 @@
             <?php endif; ?>  
         </div>
     </div>
+    <?= AlertManager::show($errori ?? []) ?>
     
     <?php require view('/home/home-footer.view.php'); ?>
     <?php if (isset($_SESSION["utente"]['errore_risposta'])): ?>
@@ -65,7 +68,6 @@
         <?php unset($_SESSION["utente"]['esito_risposta']); // Elimina il messaggio di successo dopo averlo mostrato ?>
     <?php endif; ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script> 
     function rispondi(id, nomeProgetto){
         window.location.href =  `/home/i-miei-progetti/${nomeProgetto}/commenti/${id}/rispondi`;

@@ -1,8 +1,11 @@
+<?php use core\AlertManager; ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/finanziamenti/inserisci-finanziamento.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 <body>
 <?php require view('/home/home-nav.view.php'); ?>
@@ -57,28 +60,7 @@
                     </div>
                 </form>
             </section>
-            
-            <div id="errori">
-                <?php if (isset($errori['importo'])) : ?>
-                    <p> <?= $errori['importo'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['codice-reward'])) : ?>
-                    <p> <?= $errori['codice'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['procedura'])) : ?>
-                    <p> <?= $errori['procedura'] ?> </p>
-                <?php endif; ?>
-            </div>
-
-            <div id='successo'>
-                <?php if (isset($successo)) : ?>
-                    <script>
-                        alert("Progetto finanziato con successo");
-                     </script>
-                <?php endif; ?>
-            </div>
+            <?= AlertManager::show($errori ?? []) ?>
         </div>
     </div>
     
@@ -111,7 +93,7 @@
     form.addEventListener('submit', event => {
         if(codiceReward.value === "") {
             event.preventDefault();
-            alert('Per finanziare il progetto devi selezionare una reward!');
+            AlertManager.error('Per finanziare il progetto devi selezionare una reward!');
         } 
     });
 </script>
