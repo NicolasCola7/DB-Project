@@ -33,7 +33,7 @@ if (!empty($errori)) {
     require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
         "errori" => $errori
     ]);
-    AlertManager::setWarning("Immagine già inserita!");
+    
 
     exit();
 }
