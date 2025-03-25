@@ -152,8 +152,22 @@ tbody tr:hover {
 #divFinanziamenti{
     display: flex;
     flex-direction: row;
-    width: 70%;
+    width: 60%;
     justify-content: space-between;
     gap: 10px;
     align-items: center;
+}
+progress {
+    height: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+}
+
+progress::-webkit-progress-value {
+    border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #ddd;
+    border-radius: 10px;
 }

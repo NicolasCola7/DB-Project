@@ -21,9 +21,11 @@
                     <div class='container'>
                         <label for="myProgress">Avanzamento finanziamenti attuale</label>
                         <div id="divFinanziamenti">
-                            <progress id="myProgress" value="<?= htmlspecialchars(floatval($percFinanziamento)) ?>" max="100"></progress>
                             <div>
-                                <span><?= htmlspecialchars(floatval($percFinanziamento)) ?>%</span>
+                                <progress id="myProgress" value="<?= htmlspecialchars(number_format($valori['avanzamento'] * 100, 2)) ?>" max="100"></progress>
+                                <span><?= htmlspecialchars(number_format($valori['avanzamento'] * 100, 2)) ?>%</span>
+                            </div>
+                            <div>
                                 <span><?= htmlspecialchars(floatval($valori['sommaRicevuta']))?> &euro; / <?= htmlspecialchars(floatval($valori['budget_avvio']))?> &euro;</span>
                             </div>
                         </div>
@@ -104,29 +106,29 @@
         });
     });
 
-    form.addEventListener('submit', event => {
-        if(codiceReward.value === "") {
-            event.preventDefault();
-            AlertManager.error('Per finanziare il progetto devi selezionare una reward!');
-        } 
-    });
-
     btnFinanzia.addEventListener('click', event => {
         event.preventDefault();
         const importoValue = parseFloat(document.getElementById('importo').value);
-        const sommaTotale = importoValue + sommaRicevuta;
-        if (sommaTotale > budgetAvvio) {
-            AlertManager.confirmAction({
-                title: "Superamento budget",
-                text: `Attenzione! Con questo finanziamento il progetto supererebbe il budget d'avvio (${budgetAvvio}€). Vuoi procedere comunque?`,
-                onConfirm: () => form.submit()
-            });
-        } else {
-            AlertManager.confirmAction({
-                title: "Sei sicuro?",
-                text: "Vuoi finanziare veramente questo progetto?",
-                onConfirm: () => form.submit()
-            });
+        if(codiceReward.value === "") {
+            AlertManager.error('Per finanziare il progetto devi selezionare una reward!');
+        }else if(isNaN(importoValue)){
+            AlertManager.error("L'importo deve essere un numero positivo");
+        }else{
+            const sommaTotale = importoValue + sommaRicevuta;
+            
+            if (sommaTotale > budgetAvvio) {
+                AlertManager.confirmAction({
+                    title: "Superamento budget",
+                    text: `Attenzione! Con questo finanziamento il progetto supererebbe il budget d'avvio (${budgetAvvio}€). Vuoi procedere comunque?`,
+                    onConfirm: () => form.submit()
+                });
+            } else {
+                AlertManager.confirmAction({
+                    title: "Sei sicuro?",
+                    text: "Vuoi finanziare veramente questo progetto?",
+                    onConfirm: () => form.submit()
+                });
+            }
         }
     });
 
@@ -134,19 +136,17 @@
         // Cambia colore della barra in base al valore
         let value = parseFloat(progress.value);
 
-        // coloro di verde se la percentuale è minore del 70%, di arancione se è tra il 70% e il 100% e di rosso se è uguale al 100%
-        if (value <= 70) 
+        let color = "#4caf50"; // verde di default
+        if (value > 70 && value < 100) 
         {
-            progress.style.setProperty("--progress-color", "#4caf50");
+            color = "#ff9800"; // arancione
         } 
-        else if (value > 70 && value < 100) 
+        else if (value >= 100) 
         {
-            progress.style.setProperty("--progress-color", "#ff9800");
-        } 
-        else 
-        {
-            progress.style.setProperty("--progress-color", "#f44336");
+            color = "#f44336"; // rosso
         }
+
+        progress.style.setProperty("accent-color", color);
     });
 </script>
 </html>

@@ -20,11 +20,11 @@ if(!$progettoEsistente) {
 $rewards = $db->query("SELECT codice, urlFoto, descr FROM Reward WHERE nomeProgetto = :nomeProgetto", [':nomeProgetto' => $nomeProgetto]);
 
 //ottengo la percentuale di avanzamento del progetto sui finanziamenti ricevuti
-$percFinanziamento = $_GET['perc_finanziamenti'];
 
-$valori = $db->query("SELECT P.budget_avvio, COALESCE(SUM(F.importo), 0) AS sommaRicevuta 
+$valori = $db->query("SELECT P.budget_avvio, COALESCE(SUM(F.importo), 0) AS sommaRicevuta, COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento
                         FROM Progetto P LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto 
                         WHERE P.nome = :nomeProgetto 
                         GROUP BY P.budget_avvio", [':nomeProgetto' => $nomeProgetto])[0];
-require view('/finanziamenti/inserisci-finanziamento.view.php', ['rewards' => $rewards, 'percFinanziamento' => $percFinanziamento, 'valori' => $valori]);
+                        
+require view('/finanziamenti/inserisci-finanziamento.view.php', ['rewards' => $rewards, 'valori' => $valori]);
 exit();

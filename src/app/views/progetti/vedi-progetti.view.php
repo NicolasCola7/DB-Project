@@ -54,8 +54,7 @@ use core\AlertManager; ?>
                                         <button type="submit">Commenta</button>
                                     </form>
                                     <?php if($progetto['stato'] === 'aperto'): ?>
-                                        <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/finanzia' method='GET'>
-                                        <input type="hidden" id="perc_finanziamenti" name="perc_finanziamenti" value="<?= htmlspecialchars(floatval($progetto['avanzamento']) * 100) ?>" required>   
+                                        <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/finanzia' method='GET'>  
                                         <button type="submit">Finanzia</button>
                                         </form>
                                     <?php endif; ?>
