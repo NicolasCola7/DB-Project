@@ -24,7 +24,8 @@
                             <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')">
                                  Vedi Dettagli
                             </button>
-                            <?php if($_SESSION['utente']['creatore']): ?>
+                            <!--solo l'utente creatore di quel progetto può vedere il bottone che mostra le candidature-->
+                            <?php if($_SESSION['utente']['creatore'] && htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2])) === 'i-miei-progetti'): ?>
                                 <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')">
                                      Visualizza Candidature
                                 </button>
