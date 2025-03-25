@@ -31,7 +31,7 @@ use core\AlertManager; ?>
                         <?php endif; ?>
                             <div class="card">
                                 <div class="img">
-                                    <img src="<?= '../'.htmlspecialchars($progetto['urlImmagine'])?>" alt="Foto del progetto" >
+                                    <img src="<?= '/'.htmlspecialchars($progetto['urlImmagine'])?>" alt="Foto del progetto" >
                                 </div>
                                 <div class="info">
                                     <div id="nomeProgetto">

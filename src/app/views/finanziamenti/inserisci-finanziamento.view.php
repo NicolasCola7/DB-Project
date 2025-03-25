@@ -51,7 +51,7 @@
                                             <td class='codice-reward'> <?= htmlspecialchars($reward['codice']); ?> </td>
                                             <td class='descrizione-reward'> <?= htmlspecialchars($reward['descr']); ?> </td>
                                             <td class='immagine-reward'> 
-                                                <img src='../../../../<?= htmlspecialchars($reward['urlFoto']); ?>' alt='immagine reward'>
+                                                <img src='/<?= htmlspecialchars($reward['urlFoto']); ?>' alt='immagine reward'>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

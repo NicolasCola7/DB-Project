@@ -32,7 +32,7 @@
                 <div class='immaginiContainer'>
                     <?php foreach($progetto['foto'] as $foto): ?>
                         <div>
-                            <img src="../../../<?= htmlspecialchars(urldecode($foto['urlImmagine'])); ?>">
+                            <img src="/<?= htmlspecialchars(urldecode($foto['urlImmagine'])); ?>">
                             <p> <?= htmlspecialchars($foto['descrizione']); ?> </p>
                         </div>
                     <?php endforeach; ?>
@@ -50,7 +50,7 @@
                 <div class='rewardsContainer'>
                     <?php foreach($progetto['rewards'] as $reward): ?>
                         <div>
-                            <img src="../../../<?= htmlspecialchars($reward['urlFoto']); ?>" alt="Reward">
+                            <img src="/<?= htmlspecialchars($reward['urlFoto']); ?>" alt="Reward">
                             <p> <?= htmlspecialchars($reward['descr']); ?> </p>
                         </div>
                     <?php endforeach; ?>
