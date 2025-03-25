@@ -22,9 +22,9 @@ $rewards = $db->query("SELECT codice, urlFoto, descr FROM Reward WHERE nomeProge
 //ottengo la percentuale di avanzamento del progetto sui finanziamenti ricevuti
 $percFinanziamento = $_GET['perc_finanziamenti'];
 
-$valori = $db->query("SELECT P.budget_avvio, sum(F.importo) as sommaRicevuta 
-                      from Progetto P join Finanziamento F on P.nome = F.nomeProgetto 
-                      where P.nome = :nomeProgetto
-                      group by P.budget_avvio", [':nomeProgetto' => $nomeProgetto])[0];
+$valori = $db->query("SELECT P.budget_avvio, COALESCE(SUM(F.importo), 0) AS sommaRicevuta 
+                        FROM Progetto P LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto 
+                        WHERE P.nome = :nomeProgetto 
+                        GROUP BY P.budget_avvio", [':nomeProgetto' => $nomeProgetto])[0];
 require view('/finanziamenti/inserisci-finanziamento.view.php', ['rewards' => $rewards, 'percFinanziamento' => $percFinanziamento, 'valori' => $valori]);
 exit();
