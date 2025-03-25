@@ -14,7 +14,7 @@ $progetti = [];
 if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') {
     $progetti = $db->query(
         "SELECT P.nome AS NomeProgetto, U.nickname, P.stato, COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento,
-        (SELECT MIN(FP.urlImmagine) FROM Foto_Progetto AS FP WHERE FP.nomeProgetto = P.nome) AS urlImmagine
+        (SELECT MIN(FP.urlImmagine) FROM Foto_Progetto AS FP WHERE FP.nomeProgetto = P.nome) AS urlImmagine, P.tipoProgetto
         FROM Progetto AS P
         JOIN Utente AS U ON P.emailCreatore = U.email
         LEFT JOIN Finanziamento AS F ON P.nome = F.nomeProgetto
@@ -24,7 +24,7 @@ if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti') {
 else {
     $progetti = $db->query(
         "SELECT P.nome AS NomeProgetto, U.nickname, P.stato,  COALESCE(SUM(F.importo), 0) / P.budget_avvio AS avanzamento,
-        (SELECT MIN(FP.urlImmagine) FROM Foto_Progetto AS FP WHERE FP.nomeProgetto = P.nome) AS urlImmagine
+        (SELECT MIN(FP.urlImmagine) FROM Foto_Progetto AS FP WHERE FP.nomeProgetto = P.nome) AS urlImmagine, P.tipoProgetto
         FROM Progetto AS P
         JOIN Utente AS U ON P.emailCreatore = U.email
         LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto

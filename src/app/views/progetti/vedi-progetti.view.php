@@ -6,6 +6,9 @@ use core\AlertManager; ?>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/progetti/vedi-progetti.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        
+    </style>
 </head>
 <body>
 <div id="tooltip-progress" class="tooltip-progress">Avanzamento finanziamenti</div>
@@ -22,6 +25,20 @@ use core\AlertManager; ?>
                 <?php else: ?>
                     <h3>I miei progetti</h3>
                 <?php endif; ?>
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Cerca progetto per nome...">
+                    <select id="statusFilter">
+                        <option value="tutti">Stato: Tutti</option>
+                        <option value="aperto">Aperto</option>
+                        <option value="chiuso">Chiuso</option>
+                    </select>
+                    <select id="typeFilter">
+                        <option value="tutti">Tipo: Tutti</option>
+                        <option value="hardware">Hardware</option>
+                        <option value="software">Software</option>
+                    </select>
+                </div>
+
                 <div class="grid">
                     <?php foreach ($progetti as $progetto): ?>
                         <?php if($progetto['nickname'] === $_SESSION['utente']['nickname']): ?>
@@ -29,7 +46,7 @@ use core\AlertManager; ?>
                         <? else: ?>
                             <a href="/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']) ?>">
                         <?php endif; ?>
-                            <div class="card">
+                            <div class="card" data-type="<?= htmlspecialchars($progetto['tipoProgetto']) ?>">
                                 <div class="img">
                                     <img src="<?= '/'.htmlspecialchars($progetto['urlImmagine'])?>" alt="Foto del progetto" >
                                 </div>
@@ -65,6 +82,9 @@ use core\AlertManager; ?>
                 <?php else: ?>
                     <h3>Nessun progetto disponibile.</h3>
                 <?php endif; ?>
+                <p id="noProjectsMessage">
+                    Nessun progetto trovato.
+                </p>
             </div>
         </div>
     </div>
@@ -75,6 +95,9 @@ use core\AlertManager; ?>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const tooltip = document.getElementById("tooltip-progress");
+        const searchInput = document.getElementById("searchInput");
+        const statusFilter = document.getElementById("statusFilter");
+        const noProjectsMessage = document.getElementById("noProjectsMessage");
 
         document.querySelectorAll("progress").forEach(progress => {
             // Cambia colore della barra in base al valore
@@ -110,6 +133,42 @@ use core\AlertManager; ?>
                 tooltip.style.display = "none";
             });
         });
+
+        //metodo richiamato ad ogni evento di input o change dei filtri
+        function filterProjects() {
+            const filter = searchInput.value.toLowerCase();
+            const selectedStatus = statusFilter.value;
+            const selectedType = typeFilter.value;
+            const cards = document.querySelectorAll(".grid .card");
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                //leggo il nome, lo stato e il tipo di ogni progetto
+                const nomeProgetto = card.querySelector("#nomeProgetto p").textContent.toLowerCase();
+                const statoProgetto = card.querySelector("#stato p").textContent.toLowerCase();
+                const tipoProgetto = card.getAttribute("data-type").toLowerCase();
+
+                //controllo se la stringa inserita nel filtro è inclusa nel filtro
+                const matchesName = nomeProgetto.startsWith(filter);
+                //controllo lo stato stato
+                const matchesStatus = (selectedStatus === "tutti") || (statoProgetto === selectedStatus);
+                const matchesType = (selectedType === "tutti") || (tipoProgetto === selectedType);
+
+                if (matchesName && matchesStatus && matchesType) {
+                    card.parentElement.style.display = "inline-block";
+                    visibleCount++;
+                } else {
+                    card.parentElement.style.display = "none";
+                }
+            });
+
+            //se non ci sono progetti visualizzati visualizzo il paragrafo
+            noProjectsMessage.style.display = (visibleCount === 0) ? "block" : "none";
+        }
+
+        searchInput.addEventListener("input", filterProjects);
+        statusFilter.addEventListener("change", filterProjects);
+        typeFilter.addEventListener("change", filterProjects);
     });
 </script>
 </html>

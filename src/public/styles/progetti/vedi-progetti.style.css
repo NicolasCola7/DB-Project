@@ -204,3 +204,44 @@ progress::-webkit-progress-bar {
 a{
     text-decoration: none;
 }
+
+.search-container {
+    margin-bottom: 10px;
+    text-align: center;
+    position: relative;
+}
+
+#searchInput{
+    padding: 12px 40px 12px 16px;
+    width: 50%;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    background: linear-gradient(135deg, #f9f9f9, #ffffff);
+}
+
+#searchInput:focus, #statusFilter:focus, #typeFilter:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 8px rgba(76, 135, 175, 0.3);
+}
+#statusFilter, #typeFilter {
+    padding: 12px 14px;
+    margin-left: 10px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f9f9f9, #ffffff);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+#noProjectsMessage{
+    display: none; 
+    text-align: center; 
+    font-size: 18px; 
+    margin-top: 20px; 
+    color: #666;
+}

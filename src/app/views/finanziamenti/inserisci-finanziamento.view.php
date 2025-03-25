@@ -133,20 +133,16 @@
     });
 
     document.querySelectorAll("progress").forEach(progress => {
-        // Cambia colore della barra in base al valore
         let value = parseFloat(progress.value);
 
         let color = "#4caf50"; // verde di default
-        if (value > 70 && value < 100) 
-        {
+        if (value > 70 && value < 100) {
             color = "#ff9800"; // arancione
-        } 
-        else if (value >= 100) 
-        {
+        } else if (value >= 100) {
             color = "#f44336"; // rosso
         }
 
-        progress.style.setProperty("accent-color", color);
+        progress.style.setProperty('--progress-color', color);
     });
 </script>
 </html>
