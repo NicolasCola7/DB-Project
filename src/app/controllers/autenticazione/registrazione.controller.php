@@ -39,9 +39,11 @@ if (!Validatore::isString($luogo_nascita, 1, 100)) {
     $errori['luogo_nascita'] = "Devi inserire un luogo di nascita valido!"; 
 }
 
-// Controllo validità dell'anno di nascita (minimo 1900)
-if (!Validatore::isNumber($anno_nascita, 1900)) {
-    $errori["anno_nascita"] = "Devi inserire un anno di nascita valido!";
+// Controllo validità dell'anno di nascita (minimo 1900, massimo utnete maggiorennte)
+$anno_corrente = date('Y');
+$anno_massimo = $anno_corrente - 18;
+if (!Validatore::isNumber($anno_nascita, 1920, $anno_massimo)) {
+    $errori["anno_nascita"] = "Il tuo anno di nascita deve essere compreso tra 1920 e ".$anno_massimo;
 }
 
 // Controllo validità dell'email

@@ -35,7 +35,7 @@ $errori = [];
 $importo = $_POST['importo'];
 $codice = $_POST['codice-reward'];
 
-if(!Validatore::isNumber($importo, 1)) {
+if(!Validatore::isNumber($importo, 0)) {
     $errori['importo'] = "L'importo deve essere un numero  maggiore di 0!";
 }
 

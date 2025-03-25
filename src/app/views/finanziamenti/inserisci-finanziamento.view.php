@@ -108,26 +108,28 @@
 
     btnFinanzia.addEventListener('click', event => {
         event.preventDefault();
-        const importoValue = parseFloat(document.getElementById('importo').value);
+        const importoValue = normalizza(document.getElementById('importo').value);
         if(codiceReward.value === "") {
             AlertManager.error('Per finanziare il progetto devi selezionare una reward!');
-        }else if(isNaN(importoValue)){
-            AlertManager.error("L'importo deve essere un numero positivo");
-        }else{
+        } else {
             const sommaTotale = importoValue + sommaRicevuta;
-            
-            if (sommaTotale > budgetAvvio) {
-                AlertManager.confirmAction({
-                    title: "Superamento budget",
-                    text: `Attenzione! Con questo finanziamento il progetto supererebbe il budget d'avvio (${budgetAvvio}€). Vuoi procedere comunque?`,
-                    onConfirm: () => form.submit()
-                });
+
+            if(importoValue > 999999999) {
+                AlertManager.error('Importo troppo grande!');
             } else {
-                AlertManager.confirmAction({
-                    title: "Sei sicuro?",
-                    text: "Vuoi finanziare veramente questo progetto?",
-                    onConfirm: () => form.submit()
-                });
+                if (sommaTotale > budgetAvvio) {
+                    AlertManager.confirmAction({
+                        title: "Superamento budget",
+                        text: `Attenzione! Con questo finanziamento il progetto supererebbe il budget d'avvio (${budgetAvvio}€). Vuoi procedere comunque?`,
+                        onConfirm: () => form.submit()
+                    });
+                } else {
+                    AlertManager.confirmAction({
+                        title: "Sei sicuro?",
+                        text: "Vuoi finanziare veramente questo progetto?",
+                        onConfirm: () => form.submit()
+                    });
+                }
             }
         }
     });
@@ -144,5 +146,25 @@
 
         progress.style.setProperty('--progress-color', color);
     });
+
+    function normalizza(input) {
+        let valore = parseFloat(input);
+        let valoreStr = valore.toString();
+
+        // Divido la parte intera e decimale
+        const parts = valoreStr.split('.');
+
+        // Se ci sono più di 2 cifree decimali le tronco
+        if (parts.length > 1) {
+            const interi = parts[0];
+            const decimali = parts[1].slice(0, 2);
+
+            // Ricostruusco il numero con massimo 2 cifre decimali
+            return `${interi}.${decimali.padEnd(2, '0')}`;
+        } else {
+            // Se non ci sono decimali aggiungo ".00"
+            return `${parts[0]}.00`;
+        }
+    }
 </script>
 </html>

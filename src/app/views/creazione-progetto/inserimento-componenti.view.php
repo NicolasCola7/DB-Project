@@ -99,9 +99,30 @@ use core\AlertManager;
     <?= AlertManager::show($errori ?? []) ?>
 </body>
 <script>
+    const form = document.getElementById('form-componenti');
+    const prezzo = document.getElementById('prezzo');
+    const quantita = document.getElementById('quantita');
+    const aggiungiBtn = document.getElementById('aggiungi');
+    const componenti = document.querySelectorAll('tbody > tr');
+
+    aggiungiBtn.addEventListener('click', event => {
+        event.preventDefault();
+
+        if(normalizza(prezzo.value) > 999999999.99 ) {
+            AlertManager.error('Il prezzo deve essere <= 999.999.999,99!');
+            return;
+        } 
+
+        if(quantita.value > 999999999 ) {
+            AlertManager.error('la quantità deve essere <= 999.999.999!');
+            return;
+        } 
+
+        form.submit();
+    })
 
     function prosegui() {
-        let nComponenti = <?php echo count($_SESSION["creazione-progetto"]["componenti"]); ?>;
+        let nComponenti = componenti.length;
         if(nComponenti > 0) {
             <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
             window.location.href = "/home/crea-progetto/foto";
@@ -109,5 +130,25 @@ use core\AlertManager;
             AlertManager.error('Devi inserire almeno una componente.');
         }
     } 
+
+    function normalizza(input) {
+        let valore = parseFloat(input);
+        let valoreStr = valore.toString();
+
+        // Divido la parte intera e decimale
+        const parts = valoreStr.split('.');
+
+        // Se ci sono più di 2 cifree decimali le tronco
+        if (parts.length > 1) {
+            const interi = parts[0];
+            const decimali = parts[1].slice(0, 2);
+
+            // Ricostruusco il numero con massimo 2 cifre decimali
+            return `${interi}.${decimali.padEnd(2, '0')}`;
+        } else {
+            // Se non ci sono decimali aggiungo ".00"
+            return `${parts[0]}.00`;
+        }
+    }
 </script>
 </html>

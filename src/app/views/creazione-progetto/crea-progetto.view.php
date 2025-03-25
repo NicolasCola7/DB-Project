@@ -8,6 +8,7 @@ use core\AlertManager;
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/crea-progetto.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 <body>
 
@@ -20,7 +21,7 @@ use core\AlertManager;
             <h3>Crea un nuovo progetto</h3>
 
             <section>
-                <form action="/home/crea-progetto/informazioni-base" method="POST">
+                <form action="/home/crea-progetto/informazioni-base" method="POST" id='prosegui-form'>
                     
                     <div class="container">
                         <label for="nome">Nome</label>
@@ -53,7 +54,7 @@ use core\AlertManager;
                             <label for="software">Software</label>
                         </div>
                     </div>
-                    <button type="submit">Prosegui</button>
+                    <button id='prosegui' type="submit">Prosegui</button>
                 </form>
             </section>
         </div>
@@ -62,4 +63,41 @@ use core\AlertManager;
     <?php require view('/home/home-footer.view.php'); ?>
     <?= isset($errori) ? AlertManager::show($errori) : '' ?>
 </body>
+
+<script>
+    const proseguiBtn = document.getElementById('prosegui');
+    const form = document.getElementById('prosegui-form');
+    const budget = document.getElementById('budget');
+
+    proseguiBtn.addEventListener('click', event => {
+        event.preventDefault();
+
+        if(normalizza(budget.value) > 999999999.99) {
+            AlertManager.error('Il budget deve essere <= 999.999.999,99!');
+        } else {
+            form.submit();
+        }
+    });
+
+    
+    function normalizza(input) {
+        let valore = parseFloat(input);
+        let valoreStr = valore.toString();
+
+        // Divido la parte intera e decimale
+        const parts = valoreStr.split('.');
+
+        // Se ci sono più di 2 cifree decimali le tronco
+        if (parts.length > 1) {
+            const interi = parts[0];
+            const decimali = parts[1].slice(0, 2);
+
+            // Ricostruusco il numero con massimo 2 cifre decimali
+            return `${interi}.${decimali.padEnd(2, '0')}`;
+        } else {
+            // Se non ci sono decimali aggiungo ".00"
+            return `${parts[0]}.00`;
+        }
+    }
+</script>
 </html>
