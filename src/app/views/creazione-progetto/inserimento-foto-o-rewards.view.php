@@ -163,6 +163,9 @@ use core\AlertManager;
         }
     }
 
+</script>
+
+<script>
     function proseguiARewards() {
         const nFoto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
         if(nFoto < 1) {
