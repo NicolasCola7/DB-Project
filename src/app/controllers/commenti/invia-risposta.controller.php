@@ -44,6 +44,6 @@ if($esito === 0){
     unset($_SESSION['utente']['errore_risposta']);
 }
 
-$db_mongo->inserisciLog("Risposta pubblicata da ".$email." nel progetto ".$nomeProgetto." al commento ".$idCommento);
+$db_mongo->inserisciLog("Risposta pubblicata da ".$_SESSION['utente']['email']." nel progetto ".$nomeProgetto." al commento ".$idCommento);
 header("location: /home/i-miei-progetti/".$nomeProgetto."/commenti");
 exit();
