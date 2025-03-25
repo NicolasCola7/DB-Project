@@ -114,7 +114,7 @@
         } else {
             const sommaTotale = importoValue + sommaRicevuta;
 
-            if(importoValue > 999999999) {
+            if(importoValue > 999999999.99) {
                 AlertManager.error('Importo troppo grande!');
             } else {
                 if (sommaTotale > budgetAvvio) {
@@ -160,10 +160,10 @@
             const decimali = parts[1].slice(0, 2);
 
             // Ricostruusco il numero con massimo 2 cifre decimali
-            return `${interi}.${decimali.padEnd(2, '0')}`;
+            return parseFloat(`${interi}.${decimali.padEnd(2, '0')}`);
         } else {
             // Se non ci sono decimali aggiungo ".00"
-            return `${parts[0]}.00`;
+            return parseFloat(`${parts[0]}.00`);
         }
     }
 </script>
