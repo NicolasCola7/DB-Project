@@ -48,7 +48,7 @@ use core\AlertManager;
                             <input type="number" id="quantita" name="quantita" placeholder="quantita" min='1' required>
                          </div>
                         <div class="container">
-                            <label for="prezzo">Prezzo</label>
+                            <label for="prezzo">Prezzo (€)</label>
                             <input type="number" id="prezzo" name="prezzo" placeholder="prezzo" min='1' required>
                         </div>
                         <div class='container-bottoni'>
