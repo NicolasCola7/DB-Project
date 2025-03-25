@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\Validatore;
 use \core\MongoDatabase;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -101,6 +102,7 @@ if (!$esito) {
     exit();
 }
 
+AlertManager::setSuccess("Registrazione aggiunta!");
 $db_mongo->inserisciLog("Nuovo admin registrato: email:".$email);
 header('location: /admin/login');
 exit();

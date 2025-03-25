@@ -67,13 +67,6 @@ else if($esito == 1)
     require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
     exit();
 }
-else if($esito == 2)
-{
-    //DOMANI ALE SPIEGAMI BENE COME FARE IL CHECK CON SWIPALERT...QUI DOPO ANDRA' FATTA L'INSERT DEL FINANZIAMENTO DA QUERY
-    $errori['procedura'] = "Sei sicuro di voler fare un finanziamento? Supera il budget del progetto.";
-    require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
-    exit();
-}
 
 // inserimento reward scelta
 $parametriReward = [
@@ -94,5 +87,5 @@ if(!$esito) {
 $db_mongo->inserisciLog('Nuovo finanziamento effettuato da '.$email.' per il progetto '.$nomeProgetto);
 
 AlertManager::setSuccess("Finanziamento eseguito.");
-require view('/finanziamenti/inserisci-finanziamento.view.php', ['successo' => $successo = true, 'rewards' => $rewards]);
+header("location: /home/progetti");
 exit();

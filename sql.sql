@@ -399,9 +399,7 @@ BEGIN
 
     -- Controllo la validità dell'importo (deve essere maggiore di 0)
     SET importoValido = importoDecimal > 0;
-
-    -- Controllo che l'importo non superi il budget disponibile
-    SET importoSuperioreBudget = (importoDecimal + budgetCorrente) <= budgetAvvio;
+    
     if(NOT(progettoValido AND emailCorretta AND importoValido)) then
 		-- errore: progetto o utente non trovati o utente ha gia eseguito finanziamento o l'importo inserito non è valido
 		set esito = 0; 
@@ -410,14 +408,9 @@ BEGIN
 		if(NOT(utenteValido)) then
 			set esito = 1;
 		else 
-			-- errore: avviso l'utente che il finanziamento che ha fatto è superiore al budget del progetto
-			if(NOT(importoSuperioreBudget)) then
-				set esito = 2;
-			else
-				-- è andato tutto a buon fine, permetto l'inserimento del finanziamento
-				set esito = 3;
-				INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, nomeProgettoI, CAST(importoI AS DECIMAL(10,2)));
-			end if;
+			-- è andato tutto a buon fine, permetto l'inserimento del finanziamento
+			set esito = 2;
+			INSERT INTO Finanziamento (data, emailUtente, nomeProgetto, importo) VALUES (current_date(), emailI, nomeProgettoI, CAST(importoI AS DECIMAL(10,2)));
         end if;		
 	end if;
 END;

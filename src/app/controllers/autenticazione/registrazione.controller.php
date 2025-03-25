@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\Validatore;
 use \core\MongoDatabase;
+use \core\AlertManager;
 
 // Ottiene un'istanza della classe MySqlDatabase dal container dell'applicazione
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
@@ -104,6 +105,7 @@ if($check_creatore) {
     $db_mongo->inserisciLog("Nuovo utente registrato: email:".$email);
 }
 
+AlertManager::setSuccess("Registrazione aggiunta!");
 // reindirizzo l'utente al login
 header('location: /login');
 exit();

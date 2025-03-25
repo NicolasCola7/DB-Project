@@ -149,3 +149,11 @@ tbody tr:hover {
     justify-content: center;
     margin-top: 20px;
 }
+#divFinanziamenti{
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: center;
+}

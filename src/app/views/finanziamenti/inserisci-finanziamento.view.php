@@ -19,6 +19,17 @@
             <section>
                 <form id='form-finanziamento' action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/finanziamenti' method='POST'>
                     <div class='container'>
+                        <label for="myProgress">Avanzamento finanziamenti attuale</label>
+                        <div id="divFinanziamenti">
+                            <progress id="myProgress" value="<?= htmlspecialchars(floatval($percFinanziamento)) ?>" max="100"></progress>
+                            <div>
+                                <span><?= htmlspecialchars(floatval($percFinanziamento)) ?>%</span>
+                                <span><?= htmlspecialchars(floatval($valori['sommaRicevuta']))?> &euro; / <?= htmlspecialchars(floatval($valori['budget_avvio']))?> &euro;</span>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class='container'>
                         <label for='importo'>Importo (€)</label>
                         <input type='number' name='importo' id='importo' required min='1'>
                     </div>
@@ -73,6 +84,9 @@
     const rewards = document.querySelectorAll('.reward');
     const codiceReward = document.getElementById('codice-reward');
     const form = document.getElementById('form-finanziamento');
+    const btnFinanzia = document.getElementById('btnFinanzia');
+    const sommaRicevuta = parseFloat(<?= json_encode($valori['sommaRicevuta']) ?>);
+    const budgetAvvio = parseFloat(<?= json_encode($valori['budget_avvio']) ?>);
 
     rewards.forEach(reward => {
         reward.addEventListener('click', function() {
@@ -99,11 +113,40 @@
 
     btnFinanzia.addEventListener('click', event => {
         event.preventDefault();
-        AlertManager.confirmAction({
-            title: "Sei sicuro?",
-            text: "Vuoi finanziare questo veramente questo progetto?",
-            onConfirm: () => form.submit()
-        });
+        const importoValue = parseFloat(document.getElementById('importo').value);
+        const sommaTotale = importoValue + sommaRicevuta;
+        if (sommaTotale > budgetAvvio) {
+            AlertManager.confirmAction({
+                title: "Superamento budget",
+                text: `Attenzione! Con questo finanziamento il progetto supererebbe il budget d'avvio (${budgetAvvio}€). Vuoi procedere comunque?`,
+                onConfirm: () => form.submit()
+            });
+        } else {
+            AlertManager.confirmAction({
+                title: "Sei sicuro?",
+                text: "Vuoi finanziare veramente questo progetto?",
+                onConfirm: () => form.submit()
+            });
+        }
+    });
+
+    document.querySelectorAll("progress").forEach(progress => {
+        // Cambia colore della barra in base al valore
+        let value = parseFloat(progress.value);
+
+        // coloro di verde se la percentuale è minore del 70%, di arancione se è tra il 70% e il 100% e di rosso se è uguale al 100%
+        if (value <= 70) 
+        {
+            progress.style.setProperty("--progress-color", "#4caf50");
+        } 
+        else if (value > 70 && value < 100) 
+        {
+            progress.style.setProperty("--progress-color", "#ff9800");
+        } 
+        else 
+        {
+            progress.style.setProperty("--progress-color", "#f44336");
+        }
     });
 </script>
 </html>
