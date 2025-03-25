@@ -84,7 +84,7 @@ use core\AlertManager;
                 
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto'): ?>
                     <div id='container-profili'>
-                        <?php if(isset($_SESSION['creazione-progetto']['profili']) && count($_SESSION['creazione-progetto']['profili']) > 0): ?>
+                        <?php if(count($_SESSION['creazione-progetto']['profili']) > 0): ?>
                             <?php foreach($_SESSION['creazione-progetto']['profili'] as $index => $profilo): ?>
                                 <div class='profilo'>
                                     <div class='header-profilo'>
@@ -140,6 +140,7 @@ use core\AlertManager;
     const livello = document.getElementById('livello-richiesto');
     const form = document.getElementById('form-profilo');
     let contatoreSkills = 0;
+    let profili = document.querySelectorAll('.profilo');
     
     // Funzione per aggiungere una skill
    function aggiungiSkill() {
@@ -199,8 +200,7 @@ use core\AlertManager;
     });
 
     function prosegui() {
-        const profili = <?= count($_SESSION['creazione-progetto']['profili']); ?>;
-        if(profili < 1) {
+        if(profili.length === 0) {
             Swal.fire({
                 title: "Attenzione!",
                 text: 'Devi inserire almeno 1 profilo prima di proseguire!',
