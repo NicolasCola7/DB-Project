@@ -460,6 +460,7 @@ BEGIN
     declare candidaturaGiaPresente boolean default false;
     declare candidaturaGiaAccettata boolean default false;
     declare postiDisponibili boolean default true;
+    declare candidatoNonCreatore boolean;
 
     -- variabili da usare in fase di controllo della correttezza della candidatura
     declare livelloRichiesto int;
@@ -499,6 +500,8 @@ BEGIN
                             P.nomeProgetto = nomeProgettoI and
                             P.numero_posizioni > 0) > 0;
                             
+	set candidatoNonCreatore = emailUtenteI NOT IN (SELECT emailCreatore FROM Progetto WHERE nome = nomeProgettoI); -- il candidato non deve essere il creatore del progetto a cui si candida
+                            
 	-- se la candidatura è già presente ritorno dei codici di errori che mi serviranno per mostrare messaggi personalizzati all'utente
 	if(candidaturaGiaPresente) then
 		set esito = 2;
@@ -508,7 +511,7 @@ BEGIN
 		set esito =  3;
 	end if;
     
-    if(correttezzaNomeEProgetto and correttezzaEmail and not candidaturaGiaPresente and not candidaturaGiaAccettata and postiDisponibili) then
+    if(candidatoNonCreatore and correttezzaNomeEProgetto and correttezzaEmail and not candidaturaGiaPresente and not candidaturaGiaAccettata and postiDisponibili) then
         -- inizia il ciclo che scorre tutte le skill possedute 
         open cursore_skillRichiestaProfilo;
 
@@ -709,6 +712,7 @@ BEGIN
     declare candidaturaGiaPresente boolean default false;
 	declare correttezzaSceltaCreatore boolean default false;
     declare postiDisponibili boolean default true;
+    
     
     -- il campo profilo deve coincidere un profilo esistente nel sistema
     set correttezzaNomeEProgetto = (SELECT count(*) from Profilo where Profilo.nome = nomeProfiloI and Profilo.nomeProgetto = nomeProgettoI) > 0;
