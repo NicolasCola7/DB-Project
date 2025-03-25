@@ -970,7 +970,9 @@ CALL InserimentoSkillCurriculum('giulia.bianchi@email.com', 'Lavorare in Team', 
 CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'Conoscenza Lingua Inglese', '3', @esito);
 CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'Machine Learning', '4', @esito);
 CALL InserimentoSkillCurriculum('federica.verdi@email.com', 'Lavorare in Team', '4', @esito);
-CALL InserimentoSkillCurriculum('lucia.gialli@email.com', 'Conoscenza Lingua Inglese', '3', @esito);
+CALL InserimentoSkillCurriculum('lucia.gialli@email.com', 'Programmazione in Python', '4', @esito);
+CALL InserimentoSkillCurriculum('lucia.gialli@email.com', 'Machine Learning', '4', @esito);
+CALL InserimentoSkillCurriculum('lucia.gialli@email.com', 'CyberSecurity', '2', @esito);
 
 -- Popolamento per l'inserimento dei profili
 CALL InserimentoProfilo('Data Scientist', 'DriveSenseAI', '2','[{"nomeSkill":"Programmazione in Python", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
@@ -978,16 +980,19 @@ CALL InserimentoProfilo('Business Analyst', 'DriveSenseAI', '1','[{"nomeSkill":"
 CALL InserimentoProfilo('Software Engineer', 'CompanyTagline', '2','[{"nomeSkill":"Conoscenza Lingua Inglese", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
 
 -- Popolamento per l'inserimento delle candidature alle posizioni disponibili
+CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'lucia.gialli@email.com', @esito);
 CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', @esito);
-CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);
 CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'normal.user@email.com', @esito);
+-- La candidatura fallirà in quanto è lei l'utente creatore del progetto
 CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'giulia.bianchi@email.com', @esito);
 CALL InserimentoCandidatura('Business Analyst', 'DriveSenseAI', 'federica.verdi@email.com', @esito);
 CALL InserimentoCandidatura('Software Engineer', 'CompanyTagline', 'federica.verdi@email.com', @esito);
+CALL InserimentoCandidatura('Software Engineer', 'CompanyTagline', 'giulia.bianchi@email.com', @esito);
 
 -- Popolamento per valutare positivamente o negativamente una candidatura arrivate
 CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com', true, @esito);
-CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'normal.user@email.com', false, @esito);
+CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'lucia.gialli@email.com', false, @esito);
+CALL checkCandidatura('Business Analyst', 'DriveSenseAI', 'federica.verdi@email.com', true, @esito);
 
 -- Popolamento dei commenti al progetto
 CALL CommentaProgetto('DriveSenseAI', 'federica.verdi@email.com', 'Intelligenza artificiale sta cambiando il settore automobilistico e DriveSenseAI promette di portare la sicurezza stradale a un nuovo livello. Idea di un sistema avanzato di assistenza alla guida basato su machine learning è davvero interessante. Non vedo il momento di vedere come verrà implementato il rilevamento predittivo degli ostacoli!', @esito);
