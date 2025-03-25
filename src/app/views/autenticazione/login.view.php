@@ -1,3 +1,4 @@
+<?php use core\AlertManager; ?>
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -5,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Bostarter </title>
     <link rel='stylesheet' type='text/css' href='/public/styles/autenticazione/login.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body>
@@ -34,24 +36,6 @@
                     <input type="number" id="codiceSicurezza" name="codiceSicurezza" required min = "1" max = "9999">
                 </div>
             <?php endif; ?>
-            
-            <div id="errori">
-                <?php if (isset($errori['email'])) : ?>
-                    <p> <?= $errori['email'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['password'])) : ?>
-                    <p> <?= $errori['password'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['codiceSicurezza'])) : ?>
-                    <p> <?= $errori['codiceSicurezza'] ?> </p>
-                <?php endif; ?>
-
-                <?php if (isset($errori['procedura'])) : ?>
-                    <p> <?= $errori['procedura'] ?> </p>
-                <?php endif; ?>
-            </div>
 
             <button type="submit" class="login-btn">Login</button>
 
@@ -72,5 +56,6 @@
             </div>
         </form>
     </div>
+    <?= AlertManager::show($errori ?? []) ?>
 </body>
 </html>

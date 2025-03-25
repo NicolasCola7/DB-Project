@@ -56,7 +56,7 @@
                     <input type="hidden" id="codice-reward" name="codice-reward" value="" required>
                     
                     <div class='container bottoni'>
-                        <button type='submit'>Invia Finanziamento</button>
+                        <button type='submit' id="btnFinanzia">Invia Finanziamento</button>
                     </div>
                 </form>
             </section>
@@ -95,6 +95,15 @@
             event.preventDefault();
             AlertManager.error('Per finanziare il progetto devi selezionare una reward!');
         } 
+    });
+
+    btnFinanzia.addEventListener('click', event => {
+        event.preventDefault();
+        AlertManager.confirmAction({
+            title: "Sei sicuro?",
+            text: "Vuoi finanziare questo veramente questo progetto?",
+            onConfirm: () => form.submit()
+        });
     });
 </script>
 </html>

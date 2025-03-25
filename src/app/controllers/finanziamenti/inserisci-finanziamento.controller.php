@@ -41,7 +41,7 @@ if(!Validatore::isNumber($codice)) {
 if(!empty($errori)) {
     require view('/finanziamenti/inserisci-finanziamento.view.php', ['errori' => $errori, 'rewards' => $rewards]);
     
-    AlertManager::setWarning("Oggi hai già inviato un finanziamento per questo progetto.");
+    AlertManager::setError("Oggi hai già inviato un finanziamento per questo progetto.");
     exit();
 }
 

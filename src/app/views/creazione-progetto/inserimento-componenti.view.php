@@ -16,6 +16,8 @@ use core\AlertManager;
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/inserimento-componenti.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -95,9 +97,6 @@ use core\AlertManager;
     
     <?php require view('/home/home-footer.view.php'); ?>
     <?= AlertManager::show($errori ?? []) ?>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 <script>
 
@@ -107,12 +106,7 @@ use core\AlertManager;
             <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
             window.location.href = "/home/crea-progetto/foto";
         } else {
-            Swal.fire({
-                title: "Attenzione!",
-                text: "Devi inserire almeno una componente.",
-                icon: "error",
-                confirmButtonText: "OK"
-            });
+            AlertManager.error('Devi inserire almeno una componente.');
         }
     } 
 </script>

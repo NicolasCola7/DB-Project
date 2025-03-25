@@ -7,6 +7,7 @@ use core\AlertManager;
     <meta charset="UTF-8">
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/crea-progetto.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
 
@@ -61,5 +62,4 @@ use core\AlertManager;
     <?php require view('/home/home-footer.view.php'); ?>
     <?= isset($errori) ? AlertManager::show($errori) : '' ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>

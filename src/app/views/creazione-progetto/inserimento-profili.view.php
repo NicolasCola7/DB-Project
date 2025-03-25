@@ -15,6 +15,8 @@ use core\AlertManager;
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/inserimento-profili.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -133,7 +135,6 @@ use core\AlertManager;
     <?php require view('/home/home-footer.view.php'); ?>
     <?= AlertManager::show($errori ?? []) ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     const skillsContainer = document.getElementById('skills');
     const disponibili = document.getElementById('skills-disponibili');
@@ -152,12 +153,7 @@ use core\AlertManager;
             const esistente = document.querySelectorAll('.nome-skill');
             for (let i = 0; i < esistente.length; i++) {
                 if (esistente[i].value === nomeSkill) {
-                    Swal.fire({
-                        title: "Errore!",
-                        text: "Questa skill è già stata aggiunta!",
-                        icon: "error",
-                        confirmButtonText: "OK"
-                    });
+                    AlertManager.error('Questa skill è già stata aggiunta!');
                     return;
                 }
             }
@@ -190,23 +186,13 @@ use core\AlertManager;
         
         if (skills.length === 0) {
             e.preventDefault();
-            Swal.fire({
-                title: "Errore!",
-                text: "Devi inserire almeno una skill richiesta",
-                icon: "error",
-                confirmButtonText: "OK"
-            });
+            AlertManager.error('Devi inserire almeno una skill richiesta.');
         }
     });
 
     function prosegui() {
         if(profili.length === 0) {
-            Swal.fire({
-                title: "Attenzione!",
-                text: 'Devi inserire almeno 1 profilo prima di proseguire!',
-                icon: "error",
-                confirmButtonText: "OK"
-            });
+            AlertManager.error('Devi inserire almeno 1 profilo prima di proseguire!');
         } else {
             <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
             window.location.href = '/home/crea-progetto/foto';

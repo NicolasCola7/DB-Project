@@ -40,6 +40,8 @@ use core\AlertManager;
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/creazione-progetto/inserimento-foto.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -105,7 +107,6 @@ use core\AlertManager;
     <?php require view('/home/home-footer.view.php'); ?>
     <?= AlertManager::show($errori ?? []) ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     const fileDropArea = document.querySelector('.file-drop-area');
     const fileInput = fileDropArea.querySelector('.file-input');
@@ -165,12 +166,7 @@ use core\AlertManager;
     function proseguiARewards() {
         const nFoto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
         if(nFoto < 1) {
-            Swal.fire({
-                title: "Attenzione!",
-                text: "Devi inserire almeno una foto.",
-                icon: "error",
-                confirmButtonText: "OK"
-            });
+            AlertManager.error('Devi inserire almeno una foto.');
         } else {
             <?php $_SESSION["creazione-progetto"]["step3"] = true; ?>
             window.location.href = '/home/crea-progetto/rewards';
@@ -180,12 +176,7 @@ use core\AlertManager;
     function proseguiAConferma() {
         const rewards =  <?= count($_SESSION['creazione-progetto']['rewards']); ?>;
         if(rewards < 1) {
-            Swal.fire({
-                title: "Errore",
-                text: "Devi inserire almeno una reward!",
-                icon: "error",
-                confirmButtonText: "OK"
-            });
+            AlertManager.error('Devi inserire almeno una reward!');
         } else {
             <?php $_SESSION["creazione-progetto"]["step4"] = true; ?>
             window.location.href = '/home/crea-progetto/conferma-dati';

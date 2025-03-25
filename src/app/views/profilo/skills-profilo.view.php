@@ -3,6 +3,7 @@
 <head>
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/profilo/skills-profilo.style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/public/js/AlertManager.js"></script>
 </head>
 
@@ -44,8 +45,6 @@
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     let candidati = document.getElementById('candidati');
     let form = document.getElementById('candidatiForm');

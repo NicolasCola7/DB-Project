@@ -3,7 +3,8 @@
 <head>
     <title>Home</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/commenti/rispondi-commento.style.css'>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -33,7 +34,6 @@
     
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const form = document.querySelector(".risposta form");
@@ -41,16 +41,8 @@
 
         form.addEventListener("submit", function(event) {
             if (!textarea.value.trim()) {
-                event.preventDefault(); 
-                Swal.fire({
-                    title: "Attenzione",
-                    text: "Non puoi inviare un messaggio vuoto.",
-                    icon: "warning",
-                    confirmButtonText: "OK",
-                    customClass: {
-                        confirmButton: "my-confirm-button",
-                    }
-                })
+                event.preventDefault();
+                AlertManager.warning('Non puoi inviare un messaggio vuoto.');
             }
         });
     });
