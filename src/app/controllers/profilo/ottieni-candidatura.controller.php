@@ -34,6 +34,7 @@ $emailCandidato = $db->query(
     [':id' => $idCandidatura]
 )[0]['emailUtente'];
 
+
 //query che mi restituisce dati sul candidato
 $candidato = $db->query(
     "SELECT email, nome, cognome, luogo_nascita, anno_nascita from Utente where email = :email",
@@ -87,8 +88,9 @@ $presente = $db->query(
         AND C.emailUtente = :email
         AND C.nomeProfilo = :nomeProfilo
         AND C.nomeProgetto = :nomeProgetto
+        AND C.id = :idCandidatura
     ) AS risultato",
-    [":nomeProfilo" => $nomeProfilo, ":nomeProgetto" => $nomeProgetto, ":email" => $emailCandidato]
+    [":nomeProfilo" => $nomeProfilo, ":nomeProgetto" => $nomeProgetto, ":email" => $emailCandidato, ":idCandidatura" => $idCandidatura]
 );
 //query che mi restituisce true o false a seconda del fatto se l'utente possiede tutte le skill con livello adeguato al profilo
 $idoneita = $db->query(

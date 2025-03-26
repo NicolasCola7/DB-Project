@@ -23,6 +23,8 @@ $router->get('/home/progetti/{nomeProgetto}/finanzia', 'app/views/finanziamenti/
 //skills
 $router->get('/home/le-mie-skill', 'app/controllers/skills/non-admin/ottieni-skill.controller.php')->soloSe('autenticato');
 $router->get('/admin/home/gestione-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('admin');
+//candidature
+$router->get('/home/le-mie-candidature', 'app/controllers/candidature/ottieni-candidature.controller.php')->soloSe('autenticato');
 //creazione progetto
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
