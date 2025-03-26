@@ -100,7 +100,7 @@ if (!$esito) {
     exit();
 }
 
-AlertManager::setSuccess("Registrazione aggiunta!");
+AlertManager::setSuccess("Registrazione avvenuta correttamente, ora puoi accedere");
 $db_mongo->inserisciLog("Nuovo admin registrato: email:".$email);
 header('location: /admin/login');
 exit();

@@ -97,7 +97,7 @@ if($check_creatore) {
     $db_mongo->inserisciLog("Nuovo utente registrato: email:".$email);
 }
 
-AlertManager::setSuccess("Registrazione aggiunta!");
+AlertManager::setSuccess("Registrazione avvenuta correttamente, ora puoi accedere");
 // reindirizzo l'utente al login
 header('location: /login');
 exit();
