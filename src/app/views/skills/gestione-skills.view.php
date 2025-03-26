@@ -40,7 +40,7 @@
                         <p>Non hai ancora aggiunto alcuna skill.</p>
                 <?php endif; ?>
             </section>
-            <?= AlertManager::show($errori ?? []) ?>
+            <?= AlertManager::show() ?>
         </div>
     </div>
     

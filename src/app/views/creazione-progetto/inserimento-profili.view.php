@@ -7,8 +7,6 @@ if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto') {
         exit();
     }
 }
-
-require PERCORSO_BASE.'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php';
 use core\AlertManager;
 ?>
 
@@ -135,7 +133,7 @@ use core\AlertManager;
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= AlertManager::show($errori ?? []) ?>
+    <?= AlertManager::show() ?>
 </body>
 <script>
     const skillsContainer = document.getElementById('skills');

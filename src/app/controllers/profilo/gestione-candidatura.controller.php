@@ -54,7 +54,7 @@ $scelta = ($scelta === 0 ? "rifiuto" : "approvazione");
 
 //se l'esito è negativo, mostro un errore nella vista
 if(!$esito){
-    AlertManager::setError("L'operazione di ".$scelta." non è andata a buon fine.");
+    AlertManager::setError("procedura", "operazione di ".$scelta." non è andata a buon fine.");
 } else {
     AlertManager::setSuccess("Operazione di ".$scelta." avvenuta.");
     $scelta = ($scelta === 'rifiuto' ? "rifiutata" : "approvata");

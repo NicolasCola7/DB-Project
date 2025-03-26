@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -32,24 +33,19 @@ foreach($skills as $skill){
 $nomeProfilo = $_POST['nome'];
 $posizioniDisponibili = $_POST['posizioni'];
 
-$errori = [];
-
 if (!Validatore::isString($nomeProfilo, 1, 50)) {
-    $errori["nome"] = "Nome del profilo non valido!";
+     AlertManager::setError("nome", "Nome del profilo non valido!");
 }
 
 if (!Validatore::isNumber($posizioniDisponibili, 1)) {
-    $errori["posizioni"] = "Devi inserire almeno 1 posizione disponibile!";
+     AlertManager::setError("posizioni", "Devi inserire almeno 1 posizione disponibile!");
 }
 
 
-if (!empty($errori)) {
-    require view("/creazione-progetto/inserimento-profili.view.php", [
-        "errori" => $errori,
-    ]);
+if (!empty($_SESSION['errore'])) {
+    header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/aggiungi-profilo');
     exit();
 }
-
 
 $paramsProfilo = [
     'nome' => $nomeProfilo,
@@ -63,10 +59,8 @@ $paramsProfilo = [
 $esito = $db->procedure('InserimentoProfilo', $paramsProfilo);
 
 if (!$esito) {
-    $errori['procedura'] =  "Profilo già esistente!";
-    require view("/creazione-progetto/inserimento-profili.view.php", [
-        'errori' => $errori,
-    ]);
+    AlertManager::setError('procedura', "Profilo già esistente!");
+    header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/aggiungi-profilo');
     exit();
 }
 

@@ -1,6 +1,5 @@
 <?php 
     use core\AlertManager; 
-    require PERCORSO_BASE.'app/controllers/finanziamenti/rewards-disponibili.controller.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,7 +75,7 @@
                     </div>
                 </form>
             </section>
-            <?= AlertManager::show($errori ?? []) ?>
+            <?= AlertManager::show() ?>
         </div>
     </div>
     

@@ -15,26 +15,20 @@ $estensione = strtolower(end($estensioneParts));
 
 $descrizione = $_POST['descrizione'];
 
-$errori = [];
-
 if (!Validatore::estensioneValida($estensione)) {
-    $errori["estensione"] = "Estensione non valida, deve essere di tipo png, jpg, jpeg, webp o avif!";
+    AlertManager::setError("estensione", "Estensione non valida, deve essere di tipo png, jpg, jpeg, webp o avif!");
 }
 
 if (!Validatore::isNumber($dimensione, 1, 3145728)) {
-    $errori["dimensione"] = "La dimensione del file non deve superare i 3 MB";
+    AlertManager::setError("dimensione", "La dimensione del file non deve superare i 3 MB");
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-    $errori["descrizione"] = "Descrizione non valida!";
+    AlertManager::setError("descrizione", "Descrizione non valida!");
 }
 
-if (!empty($errori)) {
-    require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
-        "errori" => $errori
-    ]);
-    
-
+if (!empty($_SESSION['errore'])) {
+    header('location: /home/crea-progetto/foto');
     exit();
 }
 
@@ -59,10 +53,7 @@ $fotoDaInserire = [
 foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
     if($foto['percorso'] === $destinazione) {
         AlertManager::setWarning("Immagine già inserita!");
-        require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
-            "errori" => $errori
-        ]);
-        
+        header('location: /home/crea-progetto/foto');
         exit();
     }
 }

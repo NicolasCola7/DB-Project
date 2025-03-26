@@ -59,7 +59,7 @@ if (!Validatore::isString($password, 8, 50)) {
 }
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore
-if (!empty($errori)) {
+if (!empty($_SESSION['errore'])) {
     header('location: /registrazione');
     exit();
 }

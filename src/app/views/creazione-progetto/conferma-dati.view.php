@@ -11,6 +11,8 @@ if(!$_SESSION['creazione-progetto']['step4']) {
     header('location: /home/crea-progetto/rewards');
     exit();
 }
+
+use \core\AlertManager;
 ?>
 
 <!DOCTYPE html>
@@ -176,6 +178,7 @@ if(!$_SESSION['creazione-progetto']['step4']) {
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
+    <?= AlertManager::show(); ?>
 </body>
 
 <script>

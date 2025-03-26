@@ -3,6 +3,7 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 
@@ -12,38 +13,32 @@ $descrizione = $_POST['descrizione'];
 $budget = $_POST['budget'];
 $tipo = $_POST['tipo'];
 
-$errori = [];
-
 if (!Validatore::isString($nomeProgetto, 1, 50)) {
-    $errori["nome"] = "Nome del progetto non valido!";
+     AlertManager::setError("nome", "Nome del progetto non valido!");
 }
 
 if (!Validatore::isDate($dataLimite, date('d/m/Y'))) {
-    $errori["data-limite"] = "La data limite deve essere maggiore della data corrente";
+     AlertManager::setError("data-limite", "La data limite deve essere maggiore della data corrente");
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-    $errori["descrizione"] = "Descrizione troppo lunga!";
+     AlertManager::setError("descrizione", "Descrizione troppo lunga!");
 }
 
 if (!Validatore::isNumber($budget, 1)) {
-    $errori["budget"] = "Budget non valido!";
+     AlertManager::setError("budget", "Budget non valido!");
 }
 
-if (!empty($errori)) {
-    require view("/creazione-progetto/crea-progetto.view.php", [
-        "errori" => $errori
-    ]);
+if (!empty($_SESSION['errore'])) {
+    header('location: /home/crea-progetto/informazioni-base');
     exit();
 }
 
 $query = $db->query("SELECT nome FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto]);
 
 if (isset($query[0])) {
-    $errori['procedura'] = "Nome del progetto gia in uso!";
-    require view("/creazione-progetto/crea-progetto.view.php", [
-        "errori" => $errori
-    ]);
+    AlertManager::setError('procedura', "Nome del progetto gia in uso!");
+    header('location: /home/crea-progetto/informazioni-base');
     exit();
 }
 

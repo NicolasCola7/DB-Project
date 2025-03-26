@@ -1,3 +1,4 @@
+<? use \core\AlertManager; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,6 +106,7 @@
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
+    <?= AlertManager::show(); ?>
 </body>
 
 <script>

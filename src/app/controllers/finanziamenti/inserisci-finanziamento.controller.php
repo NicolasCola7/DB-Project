@@ -21,22 +21,20 @@ if(!$progettoEsistente) {
     abort();
 }
 
-$errori = [];
-
 //recupero l'importo del finanziamento
 $importo = $_POST['importo'];
 $codice = $_POST['codice-reward'];
 
 if(!Validatore::isNumber($importo, 0)) {
-    $errori['importo'] = "L'importo deve essere un numero  maggiore di 0!";
+    AlertManager::setError('importo', "L'importo deve essere un numero  maggiore di 0!");
 }
 
 if(!Validatore::isNumber($codice)) {
-    $errori['codice-reward'] = "Codice reward non valido";
+    AlertManager::setError('codice-reward', "Codice reward non valido");
 }
 
-if(!empty($errori)) {
-    require view('/finanziamenti/inserisci-finanziamento.view.php');
+if(!empty($_SESSION['errore'])) {
+    header('location: /home/progetti/'.urlencode($nomeProgetto).'/finanzia');
     exit();
 }
 
@@ -50,16 +48,13 @@ $parametriFinanziamento = [
 
 $esito = $db->procedure('InserimentoFinanziamento', $parametriFinanziamento);
 
-if($esito == 0) 
-{
-    $errori['procedura'] = "L'importo inserito non è corretto!";
-    require view('/finanziamenti/inserisci-finanziamento.view.php');
+if($esito == 0) {
+    AlertManager::setError('procedura', "L'importo inserito non è corretto!");
+    header('location: /home/progetti/'.urlencode($nomeProgetto).'/finanzia');
     exit();
-}
-else if($esito == 1)
-{
-    $errori['procedura'] = "Hai già eseguito un finanziamento per il progetto ".$nomeProgetto." in data odierna!";
-    require view('/finanziamenti/inserisci-finanziamento.view.php');
+} else if($esito == 1) {
+    AlertManager::setError('procedura', "Hai già eseguito un finanziamento per il progetto ".$nomeProgetto." in data odierna!");
+    header('location: /home/progetti/'.urlencode($nomeProgetto).'/finanzia');
     exit();
 }
 
@@ -74,8 +69,8 @@ $parametriReward = [
 $esito = $db->procedure('SceltaReward', $parametriReward);
 
 if(!$esito) {
-    $errori['procedura'] = "Si è verificato un'errore nella scelta della reward, riprova.";
-    require view('/finanziamenti/inserisci-finanziamento.view.php');
+    AlertManager::setError('procedura', "Si è verificato un'errore nella scelta della reward, riprova.");
+    header('location: /home/progetti/'.urlencode($nomeProgetto).'/finanzia');
     exit();
 }
 

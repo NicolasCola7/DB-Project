@@ -1,16 +1,13 @@
 <?php
-
-$errori = [];
+use \core\AlertManager;
 
 $cartellaUtente = md5($_SESSION['utente']['nickname']);
 $directoryTemporanea = 'public/immagini/temporanee/'.$cartellaUtente;
 
 $rimossa = rimuoviDirectory($directoryTemporanea);
 if(!$rimossa) {
-    $errori['eliminazione'] = "Si è verificato un errore nell'eliminazione";
-    require view("/creazione-progetto/conferma-dati.view.php", [
-        "errori" => $errori
-    ]);
+    AlertManager::setError('eliminazione', "Si è verificato un errore nell'eliminazione");
+    header('location: /home/crea-progetto/conferma-dati');
     exit();
 }
 

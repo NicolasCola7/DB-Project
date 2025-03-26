@@ -66,7 +66,7 @@
     </div>
     
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= AlertManager::show($errori ?? []) ?>
+    <?= AlertManager::show() ?>
 
 </body>
 

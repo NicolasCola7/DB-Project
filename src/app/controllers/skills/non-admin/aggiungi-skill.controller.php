@@ -23,11 +23,8 @@ if (!Validatore::isNumber($livello, 1, 5)) {
     $errori["livello"] = "Il lovello deve essere compreso tra 1 e 5!";
 }
 
-if (!empty($errori)) {
-    require view("/skills/le-mie-skill.view.php", [
-        "errori" => $errori
-    ]);
-    AlertManager::setWarning("Skill già inserita!");
+if (!empty($_SESSION['errore'])) {
+    header('location: /home/le-mie-skill');
     exit();
 }
 
@@ -41,10 +38,8 @@ $parametri = [
 $esito = $db->procedure('InserimentoSkillCurriculum', $parametri);
 
 if (!$esito) {
-    $errori['procedura'] =  "Impossibile aggiungere la seguente competenza!";
-    require view("/skills/le-mie-skill.view.php", [
-        'errori' => $errori
-    ]);
+    AlertManager::setError('procedura', "Impossibile aggiungere la seguente competenza!");
+    header('location: /home/le-mie-skill');
     exit();
 }
 

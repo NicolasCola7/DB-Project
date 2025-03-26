@@ -105,7 +105,7 @@ use core\AlertManager;
         </div>
     </div>
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= AlertManager::show($errori ?? []) ?>
+    <?= AlertManager::show(); ?>
 </body>
 <script>
     const fileDropArea = document.querySelector('.file-drop-area');

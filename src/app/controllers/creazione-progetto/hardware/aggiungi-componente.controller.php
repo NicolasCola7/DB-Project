@@ -12,30 +12,26 @@ $descrizione = $_POST['descrizione'];
 $quantita = $_POST['quantita'];
 $prezzo = $_POST['prezzo'];
 
-$errori = [];
-
 if (!Validatore::isString($nome, 1, 50)) {
-    $errori["nome"] = "Nome del componente non valido";
+    AlertManager::setError("nome", "Nome del componente non valido");
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-    $errori["descrizione"] = "Descrizione troppo lunga!";
+    AlertManager::setError("descrizione", "Descrizione troppo lunga!");
 }
 
 if (!Validatore::isNumber($quantita, 1)) {
-    $errori["quantita"] = "La quantita minima deve essere 1!";
+    AlertManager::setError("quantita", "La quantita minima deve essere 1!");
 }
 
 if (!Validatore::isNumber($prezzo, 1)) {
-    $errori["prezzo"] = "Il prezzo minimo deve essere 1!";
+    AlertManager::setError("prezzo", "Il prezzo minimo deve essere 1!");
+    header('location: /home/crea-progetto/hardware/componenti');
+    exit();
 }
 
-if (!empty($errori)) {
-    require view("/creazione-progetto/inserimento-componenti.view.php", [
-        "errori" => $errori
-    ]);
-    
-    AlertManager::setWarning("Componente gia inserita!");
+if (!empty($_SESSION['errore'])) {
+    header('location: /home/crea-progetto/hardware/componenti');
     exit();
 }
 
@@ -50,10 +46,7 @@ $componenteDaInserire = [
 foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
     if($componente['nome'] === $nome){
         AlertManager::setWarning("Componente gia inserita!");
-        require view("/creazione-progetto/inserimento-componenti.view.php", [
-            "errori" => $errori
-        ]);
-        
+        header('location: /home/crea-progetto/hardware/componenti');
         exit();
     }
 }

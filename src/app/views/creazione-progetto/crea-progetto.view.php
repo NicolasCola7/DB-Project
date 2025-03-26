@@ -61,7 +61,7 @@ use core\AlertManager;
     </div>
 
     <?php require view('/home/home-footer.view.php'); ?>
-    <?= isset($errori) ? AlertManager::show($errori) : '' ?>
+    <?= AlertManager::show($errori); ?>
 </body>
 
 <script>
