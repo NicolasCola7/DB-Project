@@ -39,34 +39,9 @@
             <?php endif; ?>  
         </div>
     </div>
-    <?= AlertManager::show($errori ?? []) ?>
     
     <?php require view('/home/home-footer.view.php'); ?>
-    <?php if (isset($_SESSION["utente"]['errore_risposta'])): ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                Swal.fire({
-                    title: "Errore!",
-                    text: "<?php echo $_SESSION["utente"]['errore_risposta']; ?>",
-                    icon: "error",
-                    confirmButtonText: "OK"
-                });
-            });
-        </script>
-        <?php unset($_SESSION["utente"]['errore_risposta']); // Elimina il messaggio di errore dopo averlo mostrato ?>
-    <?php elseif (isset($_SESSION["utente"]['esito_risposta'])): ?>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                Swal.fire({
-                    title: "Successo!",
-                    text: "<?php echo $_SESSION["utente"]['esito_risposta']; ?>",
-                    icon: "success",
-                    confirmButtonText: "OK"
-                });
-            });
-        </script>
-        <?php unset($_SESSION["utente"]['esito_risposta']); // Elimina il messaggio di successo dopo averlo mostrato ?>
-    <?php endif; ?>
+    <?= AlertManager::show() ?>
 </body>
 <script> 
     function rispondi(id, nomeProgetto){

@@ -2,6 +2,7 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -37,13 +38,12 @@ $esito = $db->procedure("rispondiACommento", $parametri);
 
 //se l'esito è negativo, mostro un errore nella vista
 if($esito === 0){
-    $_SESSION["utente"]["errore_risposta"] = "L'operazione di invio della risposta non è andata a buon fine.";
-    unset($_SESSION['utente']['esito_risposta']); 
-} else if ($esito === 1) {
-    $_SESSION['utente']['esito_risposta'] = "L'operazione di invio della risposta è andata a buon fine.";
-    unset($_SESSION['utente']['errore_risposta']);
-}
+     AlertManager::setError("errore_risposta", "L'operazione di invio della risposta non è andata a buon fine.");
+     header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/commenti/'.$idCommento.'/rispondi');
+     exit();
+} 
 
+AlertManager::setSuccess("L'operazione di invio della risposta è andata a buon fine.");
 $db_mongo->inserisciLog("Risposta pubblicata da ".$_SESSION['utente']['email']." nel progetto ".$nomeProgetto." al commento ".$idCommento);
-header("location: /home/i-miei-progetti/".$nomeProgetto."/commenti");
+header("location: /home/i-miei-progetti/".urlencode($nomeProgetto)."/commenti");
 exit();

@@ -1,42 +1,21 @@
 <?php
 namespace core;
 
-class AlertManager
-{
-    public static function setSuccess($msg)
-    {
+class AlertManager {
+    
+    public static function setSuccess($msg) {
         $_SESSION['successo'] = $msg;
     }
 
-    public static function setWarning($msg)
-    {
+    public static function setWarning($msg) {
         $_SESSION['avviso'] = $msg;
     }
 
-    public static function setError($msg)
-    {
-        $_SESSION['errore'] = $msg;
+    public static function setError($chiave, $msg) {
+        $_SESSION['errore'][$chiave] = $msg;
     }
 
-    public static function show($errori = [])
-    {
-        if (!empty($errori)) {
-            echo "<script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    let messaggi = '';";
-            foreach ($errori as $msg) {
-                echo "messaggi += '" . addslashes($msg) . "\\n';";
-            }
-            echo "Swal.fire({
-                        title: 'Errore!',
-                        text: messaggi.trim(),
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                });
-            </script>";
-        }
-
+    public static function show() {
         if (isset($_SESSION['successo'])) {
             echo "<script>
                 document.addEventListener('DOMContentLoaded', function () {
@@ -66,16 +45,19 @@ class AlertManager
         }
 
         if (isset($_SESSION['errore'])) {
-            echo "<script>
-                document.addEventListener('DOMContentLoaded', function () {
-                    Swal.fire({
-                        title: 'Errore!',
-                        text: '" . addslashes($_SESSION['errore']) . "',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
+            foreach($_SESSION['errore'] as $chiave => $errore) {
+                echo "<script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        Swal.fire({
+                            title: 'Errore!',
+                            text: '" . addslashes($errore) . "',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
                     });
-                });
-            </script>";
+                </script>";
+                unset($_SESSION['errore'][$chiave]);
+            }
             unset($_SESSION['errore']);
         }
     }

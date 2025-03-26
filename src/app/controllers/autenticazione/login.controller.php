@@ -3,6 +3,7 @@
 use \core\App;
 use \core\MySqlDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 // Ottiene un'istanza della classe MySqlMySqlDatabase dal container dell'applicazione
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
@@ -11,24 +12,19 @@ $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-// Inizializza un array per raccogliere eventuali errori di validazione
-$errori = [];
-
 // Controllo validità dell'email
 if (!Validatore::isEmail($email)) {
-    $errori['email'] = "Devi inserire un indirizzo email valido!"; 
+    AlertManager::setError('email', "Devi inserire un indirizzo email valido!"); 
 }
 
 // Controllo validità della password (lunghezza tra 8 e 50 caratteri)
 if (!Validatore::isString($password, 8, 50)) {
-    $errori["password"] = "La password deve essere almeno 8 caratteri e al massimo 50!";
+    AlertManager::setError("password", "La password deve essere almeno 8 caratteri e al massimo 50!");
 }
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore
 if (!empty($errori)) {
-    require view("/autenticazione/login.view.php", [
-        "errori" => $errori
-    ]);
+    header('location: /login');
     exit();
 }
 
@@ -44,10 +40,8 @@ $esito = $db->procedure("AutenticazioneNormale", $parametri);
 
 // Se l'esito è negativo, mostra un errore nella vista login
 if (!$esito) {
-    $errori['procedura'] =  "Email o password errata!";
-    require view("/autenticazione/login.view.php", [
-        'errori' => $errori
-    ]);
+    AlertManager::setError('procedura', "Email o password errata!");
+    header('location: /login');
     exit();
 }
 

@@ -27,7 +27,7 @@
                 </form>
             </section>
             
-        <?= AlertManager::show($errori ?? []) ?>
+        <?= AlertManager::show() ?>
         </div>
     </div>
     

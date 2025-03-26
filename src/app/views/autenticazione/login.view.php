@@ -56,6 +56,6 @@
             </div>
         </form>
     </div>
-    <?= AlertManager::show($errori ?? []) ?>
+    <?= AlertManager::show() ?>
 </body>
 </html>

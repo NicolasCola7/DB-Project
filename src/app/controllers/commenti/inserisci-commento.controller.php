@@ -21,14 +21,12 @@ if(!$progettoEsistente) {
     abort();
 }
 
-$errori = [];
-
 //recupero il testo del commento
 $testo = $_POST['testo'];
 
 if(!Validatore::isString($testo, 1)) {
-    $errori['testo'] = 'Devi inserire un testo di lunghezza maggiore di 1!';
-    require view('/commenti/inserisci-commento.view.php', ['errori' => $errori]);
+    AlertManager::setError('testo', 'Devi inserire un testo di lunghezza maggiore di 1!');
+    header('location: /home/progetti/'.$nomeProgetto."/commenta");
     exit();
 }
 
@@ -42,8 +40,8 @@ $parametri = [
 $esito = $db->procedure('CommentaProgetto', $parametri);
 
 if(!$esito) {
-    $errori['procedura'] = "Si è verificato un errore nell'invio del commento, riprova.";
-    require view('/commenti/inserisci-commento.view.php', ['errori' => $errori]);
+    AlertManager::setError('procedura', "Si è verificato un errore nell'invio del commento, riprova.");
+    header('location: /home/progetti/'.$nomeProgetto."/commenta");
     exit();
 }
 
