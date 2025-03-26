@@ -1,4 +1,7 @@
-<?php use core\AlertManager; ?>
+<?php 
+    use core\AlertManager; 
+    require PERCORSO_BASE.'app/controllers/finanziamenti/rewards-disponibili.controller.php';
+?>
 <!DOCTYPE html>
 <html>
 <head>
