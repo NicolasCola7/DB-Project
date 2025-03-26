@@ -14,10 +14,11 @@
                 <li><a href="/home/i-miei-progetti">I miei progetti</a></li>
             <?php endif; ?>
             <li><a href="/home/le-mie-skill">Le mie skill</a></li>
-            <li><a href="/home/le-mie-candidature">Le mie candidature</a></li>
             <?php if ($_SESSION['utente']['admin']) : ?>
                 <li><a href="/admin/home/gestione-skills">Gestione skills</a></li> 
             <?php endif; ?>
+            <li><a href="/home/le-mie-candidature">Le mie candidature</a></li>
+            <li><a href="/home/i-miei-finanziamenti">I miei finanziamenti</a></li>
             <li><a href="/home/statistiche">Visualizza statistiche</a></li>
         </ul>
     </div>
