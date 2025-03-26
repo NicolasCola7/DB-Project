@@ -111,28 +111,33 @@
 
     btnFinanzia.addEventListener('click', event => {
         event.preventDefault();
-        const importoValue = normalizza(document.getElementById('importo').value);
+        const importo = document.getElementById('importo');
+        const importoValue = normalizza(importo.value);
+        //controllo degli errori
         if(codiceReward.value === "") {
             AlertManager.error('Per finanziare il progetto devi selezionare una reward!');
+        } else if(isNaN(importoValue)){
+            AlertManager.error('Inserisci un importo valido');
+            importo.value = "";
+        } else if(importoValue <= 0){
+            AlertManager.error('Inserisci un importo valido');
+            importo.value = "";
+        } else if(importoValue > 999999999.99) {
+                AlertManager.error('Importo troppo grande!');
         } else {
             const sommaTotale = importoValue + sommaRicevuta;
-
-            if(importoValue > 999999999.99) {
-                AlertManager.error('Importo troppo grande!');
+            if (sommaTotale > budgetAvvio) {
+                AlertManager.confirmAction({
+                    title: "Superamento budget",
+                    text: `Attenzione! Con questo finanziamento il progetto supererebbe il budget d'avvio (${budgetAvvio}€). Vuoi procedere comunque?`,
+                    onConfirm: () => form.submit()
+                });
             } else {
-                if (sommaTotale > budgetAvvio) {
-                    AlertManager.confirmAction({
-                        title: "Superamento budget",
-                        text: `Attenzione! Con questo finanziamento il progetto supererebbe il budget d'avvio (${budgetAvvio}€). Vuoi procedere comunque?`,
-                        onConfirm: () => form.submit()
-                    });
-                } else {
-                    AlertManager.confirmAction({
-                        title: "Sei sicuro?",
-                        text: "Vuoi finanziare veramente questo progetto?",
-                        onConfirm: () => form.submit()
-                    });
-                }
+                AlertManager.confirmAction({
+                    title: "Sei sicuro?",
+                    text: "Vuoi finanziare veramente questo progetto?",
+                    onConfirm: () => form.submit()
+                });
             }
         }
     });

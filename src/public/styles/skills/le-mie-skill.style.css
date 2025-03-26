@@ -100,7 +100,9 @@ html, body {
     flex-direction: column;
     gap: 15px;
 }
-
+#skill-disponibili{
+    min-width: 140px;
+}
 #skills h4, #aggiunta h4 {
     text-align: left;
     margin-bottom: 15px;

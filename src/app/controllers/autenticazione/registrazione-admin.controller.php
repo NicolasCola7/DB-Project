@@ -72,7 +72,7 @@ if (!Validatore::isNumber($codiceSicurezza, 1000, 9999)) {
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore
 if (!empty($errori)) {
-    require view("/autenticazione/registrazione-admin.view.php", [
+    require view("/autenticazione/registrazione.view.php", [
         "errori" => $errori
     ]);
     exit();
@@ -98,7 +98,7 @@ $esito = $db->procedure("RegistrazioneAmministratore", $parametri);
 // Se l'esito è negativo, mostra un errore nella vista login
 if (!$esito) {
     $errori['procedura'] =  "Email, password, codice errati o email/nickname già esistente!";
-    require view("/autenticazione/registrazione-admin.view.php", [
+    require view("/autenticazione/registrazione.view.php", [
         'errori' => $errori
     ]);
     exit();

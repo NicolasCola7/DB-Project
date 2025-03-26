@@ -27,12 +27,12 @@ if (!Validatore::isString($password, 8, 50)) {
 
 // Controllo validità del codice di sicurezza 
 if (!Validatore::isNumber($codiceSicurezza, 1000, 9999)) {
-    $errori["codiceSicurezza"] = "Il codice di sicurezza deve essere numerico e deve essere massimo 4 cifre!";
+    $errori["codiceSicurezza"] = "Il codice di sicurezza deve essere numerico e deve essere di 4 cifre!";
 }
 
 // Se ci sono errori di validazione, torna alla vista del login con i messaggi di errore
 if (!empty($errori)) {
-    require view("/autenticazione/login-admin.view.php", [
+    require view("/autenticazione/login.view.php", [
         "errori" => $errori
     ]);
     exit();
@@ -52,7 +52,7 @@ $esito = $db->procedure("AutenticazioneAmministratore", $parametri);
 // Se l'esito è negativo, mostra un errore nella vista login
 if (!$esito) {
     $errori['procedura'] =  "Email, password o codice sicurezza errato!";
-    require view("/autenticazione/login-admin.view.php", [
+    require view("/autenticazione/login.view.php", [
         'errori' => $errori
     ]);
     exit();
