@@ -32,11 +32,12 @@ $parametri = [
         'emailUtenteI' => $email,
         '@esito' => '@esito'
 ];
+
 $esito = $db->procedure("InserimentoCandidatura", $parametri);
     
 //se l'esito è negativo, mostro un errore nella vista
 if ($esito === 0) {
-    AlertManager::setError("Non disponi di tutti i livelli skill minimi richiesti dal profilo.");
+    AlertManager::setError('procedura', "Non disponi di tutti i livelli skill minimi richiesti dal profilo.");
 } elseif ($esito === 1) {
     AlertManager::setSuccess("Candidatura inviata con successo!");
     $db_mongo->inserisciLog("Nuova candidatura effettuata da ".$email." per il profilo ".$nomeProfilo." del progetto ".$nomeProgetto);

@@ -31,10 +31,8 @@ $paramsProgetto = [
 $esito = $db->procedure('CreazioneProgetto', $paramsProgetto);
 
 if (!$esito) {
-    $errori['procedura'] =  "Si è verificato un errore imprevisto nella creazione del progetto!";
-    require view("/creazione-progetto/conferma-dati.view.php", [
-        'errori' => $errori
-    ]);
+    AlertManager::setError('procedura', "Si è verificato un errore imprevisto nella creazione del progetto!");
+    header('location: /home/crea-progetto/conferma-dati');
     exit();
 }
 
@@ -60,10 +58,8 @@ if($tipo === 'software') {
         $esito = $db->procedure('InserimentoProfilo', $paramsProfilo);
 
         if (!$esito) {
-            $errori['procedura'] =  "Si è verificato un errore imprevisto nella creazione dei profili!";
-            require view("/creazione-progetto/conferma-dati.view.php", [
-                'errori' => $errori
-            ]);
+            AlertManager::setError('procedura', "Si è verificato un errore imprevisto nella creazione dei profili!");
+            header('location: /home/crea-progetto/conferma-dati');
             exit();
         }
 
@@ -89,10 +85,8 @@ if($tipo === 'software') {
         $esito = $db->procedure('InserimentoComponenteHardware', $paramsComponente);
 
         if (!$esito) {
-            $errori['procedura'] =  "Si è verificato un errore imprevisto nella creazione delle componenti hardware!";
-            require view("/creazione-progetto/conferma-dati.view.php", [
-                'errori' => $errori
-            ]);
+            AlertManager::setError('procedura', "Si è verificato un errore imprevisto nella creazione delle componenti hardware!");
+            header('location: /home/crea-progetto/conferma-dati');
             exit();
         }
 
@@ -133,10 +127,8 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
     $esito = $db->procedure('InserimentoFotoProgetto', $paramsFoto);
 
     if(!$esito) {
-        $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento delle foto del progetto!";
-            require view("/creazione-progetto/conferma-dati.view.php", [
-                'errori' => $errori
-        ]);
+        AlertManager::setError('procedura', "Si è verificato un errore imprevisto nell'inserimento delle foto del progetto!");
+        header('location: home/crea-progetto/conferma-dati');
         exit();
     }
 
@@ -177,10 +169,8 @@ foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
     $esito = $db->procedure('CreazioneReward', $paramsReward);
 
     if(!$esito) {
-        $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento delle rewards del progetto!";
-            require view("/creazione-progetto/conferma-dati.view.php", [
-                'errori' => $errori
-        ]);
+        AlertManager::setError('procedura', "Si è verificato un errore imprevisto nell'inserimento delle rewards del progetto!");
+        header('location: /home/crea-progetto/conferma-dati');
         exit();
     }
 

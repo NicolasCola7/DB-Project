@@ -25,3 +25,12 @@ $valori = $db->query("SELECT P.budget_avvio, COALESCE(SUM(F.importo), 0) AS somm
                         FROM Progetto P LEFT JOIN Finanziamento F ON P.nome = F.nomeProgetto 
                         WHERE P.nome = :nomeProgetto 
                         GROUP BY P.budget_avvio", [':nomeProgetto' => $nomeProgetto])[0];
+
+require view(
+    'app/views/finanziamenti/inserisci-finanziamento.view.php',
+    [
+        'rewards' => $rewards,
+        'valori' => $valori
+    ]
+);
+exit();

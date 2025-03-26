@@ -4,6 +4,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
 use \core\Validatore;
+use \core\AlertManager;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -11,17 +12,9 @@ $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
 $email = $_SESSION['utente']['email'];
 $nomeSkill = $_POST['nome'];
 
-$errori = [];
-
 if (!Validatore::isString($nomeSkill, 1, 50)) {
-    $errori["nome"] = "Nome della skill non valido!";
-}
-
-if (!empty($errori)) {
-    require view("/skills/gestione-skills.view.php", [
-        "errori" => $errori
-    ]);
-    exit();
+    AlertManager::setError("nome", "Nome della skill non valido!");
+    header('location: /admin/home/gestione-skills');
 }
 
 $parametri = [
@@ -33,10 +26,8 @@ $parametri = [
 $esito = $db->procedure('InserimentoCompetenza', $parametri);
 
 if (!$esito) {
-    $errori['procedura'] = "Impossibile aggiungere la seguente competenza!";
-    require view("/skills/gestione-skills.view.php", [
-        'errori' => $errori
-    ]);
+    AlertManager::setError('procedura', "Impossibile aggiungere la seguente competenza!");
+    header('location: /admin/home/gestione-skills');
     exit();
 }
 

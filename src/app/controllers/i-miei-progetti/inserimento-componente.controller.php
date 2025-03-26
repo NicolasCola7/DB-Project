@@ -28,30 +28,24 @@ $descrizione = $_POST['descrizione'];
 $quantita = $_POST['quantita'];
 $prezzo = $_POST['prezzo'];
 
-$errori = [];
-
 if (!Validatore::isString($nome, 1, 50)) {
-    $errori["nome"] = "Nome del componente non valido";
+    AlertManager::setError("nome", "Nome del componente non valido");
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-    $errori["descrizione"] = "Descrizione troppo lunga!";
+    AlertManager::setError("descrizione", "Descrizione troppo lunga!");
 }
 
 if (!Validatore::isNumber($quantita, 1)) {
-    $errori["quantita"] = "La quantità minima deve essere 1!";
+    AlertManager::setError("quantita", "La quantità minima deve essere 1!");
 }
 
 if (!Validatore::isNumber($prezzo, 1)) {
-    $errori["prezzo"] = "Il prezzo minimo deve essere 1!";
+    AlertManager::setError("prezzo", "Il prezzo minimo deve essere 1!");
 }
 
-if (!empty($errori)) {
-    require view("/creazione-progetto/inserimento-componenti.view.php", [
-        "errori" => $errori
-    ]);
-    
-    AlertManager::setWarning("Componente gia inserita!");
+if (!empty($_SESSION['errore'])) {
+    header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/aggiungi-componente');
     exit();
 }
 
@@ -67,10 +61,8 @@ $paramsComponente = [
 $esito = $db->procedure('InserimentoComponenteHardware', $paramsComponente);
 
 if (!$esito) {
-    $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento della componente hardware!";
-    require view("/creazione-progetto/inserimento-componenti.view.php", [
-        'errori' => $errori
-    ]);
+    AlertManager::setError('procedura', "Si è verificato un errore imprevisto nell'inserimento della componente hardware!");
+    header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/aggiungi-componente');
     exit();
 }
 

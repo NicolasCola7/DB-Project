@@ -36,25 +36,20 @@ $estensione = strtolower(end($estensioneParts));
 
 $descrizione = $_POST['descrizione'];
 
-$errori = [];
-
 if (!Validatore::estensioneValida($estensione)) {
-    $errori["estensione"] = "Estensione non valida, deve essere del tipo .png, jpg o jpeg!";
+    AlertManager::setError("estensione", "Estensione non valida, deve essere del tipo .png, jpg, webp o avif!");
 }
 
 if (!Validatore::isNumber($dimensione, 1, 3145728)) {
-    $errori["dimensione"] = "La dimensione del file non deve superare i 3 MB";
+    AlertManager::setError("dimensione", "La dimensione del file non deve superare i 3 MB");
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-    $errori["descrizione"] = "Descrizione non valida!";
+    AlertManager::setError("descrizione", "Descrizione non valida!");
 }
 
-if (!empty($errori)) {
-    require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
-        "errori" => $errori
-    ]);
-    AlertManager::setWarning("Immagine già inserita!");
+if (!empty($_SESSION['errore'])) {
+    header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/aggiungi-foto');
     exit();
 }
 
@@ -71,10 +66,8 @@ $paramsFoto = [
 $esito = $db->procedure('InserimentoFotoProgetto', $paramsFoto);
 
 if(!$esito) {
-    $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento delle foto del progetto!";
-        require view("/creazione-progetto/inserimento-foto-o-rewards.view.php", [
-            'errori' => $errori
-    ]);
+    AlertManager::setError('procedura', "Si è verificato un errore imprevisto nell'inserimento delle foto del progetto!");
+    header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/aggiungi-foto');
     exit();
 }
 //inserisco la foro nella dir apposita
