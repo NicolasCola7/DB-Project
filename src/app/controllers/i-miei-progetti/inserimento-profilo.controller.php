@@ -42,13 +42,10 @@ if (!Validatore::isNumber($posizioniDisponibili, 1)) {
     $errori["posizioni"] = "Devi inserire almeno 1 posizione disponibile!";
 }
 
-//recupero le skills disponibili da ripassare alla view in caso di errori
-$skills = $db->query('SELECT nome FROM Skill');
 
 if (!empty($errori)) {
     require view("/creazione-progetto/inserimento-profili.view.php", [
         "errori" => $errori,
-        "skills" => $skills
     ]);
     exit();
 }
@@ -66,10 +63,9 @@ $paramsProfilo = [
 $esito = $db->procedure('InserimentoProfilo', $paramsProfilo);
 
 if (!$esito) {
-    $errori['procedura'] =  "Si è verificato un errore imprevisto nell'inserimento del profilo!";
-    require view("/i-miei-progetti/inserimento-profilo.view.php", [
+    $errori['procedura'] =  "Profilo già esistente!";
+    require view("/creazione-progetto/inserimento-profili.view.php", [
         'errori' => $errori,
-        'skills' => $skills
     ]);
     exit();
 }

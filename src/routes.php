@@ -26,7 +26,7 @@ $router->get('/admin/home/gestione-skills', 'app/controllers/skills/admin/ottien
 //creazione progetto
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
+$router->get('/home/crea-progetto/software/profili', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('creatore');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('creatore');
@@ -39,7 +39,7 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/pr
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/skills-richieste', 'app/controllers/profilo/skills-profilo.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/commenta', 'app/views/commenti/inserisci-commento.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/finanzia', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('creatore');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-profilo', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
+$router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-profilo', 'app/views/creazione-progetto/inserimento-profili.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/ottieni-candidature.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature/{idCandidatura}', 'app/controllers/profilo/ottieni-candidatura.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/visualizza-commenti-progetto.controller.php')->soloSe('autenticato');

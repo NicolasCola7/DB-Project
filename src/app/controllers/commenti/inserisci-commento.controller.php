@@ -28,7 +28,7 @@ $testo = $_POST['testo'];
 
 if(!Validatore::isString($testo, 1)) {
     $errori['testo'] = 'Devi inserire un testo di lunghezza maggiore di 1!';
-    require view('/commenti/inserisci-commento.view.php', $errori);
+    require view('/commenti/inserisci-commento.view.php', ['errori' => $errori]);
     exit();
 }
 
@@ -43,7 +43,7 @@ $esito = $db->procedure('CommentaProgetto', $parametri);
 
 if(!$esito) {
     $errori['procedura'] = "Si è verificato un errore nell'invio del commento, riprova.";
-    require view('/commenti/inserisci-commento.view.php', $errori);
+    require view('/commenti/inserisci-commento.view.php', ['errori' => $errori]);
     exit();
 }
 
