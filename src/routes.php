@@ -20,6 +20,7 @@ $router->get('/home/i-miei-progetti/{nomeProgetto}/commenti/{idCommento}/rispond
 $router->get('/home/progetti/{nomeProgetto}/commenti', 'app/controllers/commenti/visualizza-commenti-progetto.controller.php')->soloSe('autenticato');
 //finanziamenti
 $router->get('/home/progetti/{nomeProgetto}/finanzia', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('autenticato');
+$router->get('/home/i-miei-finanziamenti', 'app/controllers/finanziamenti/ottieni-finanziamenti.controller.php')->soloSe('autenticato');
 //skills
 $router->get('/home/le-mie-skill', 'app/controllers/skills/non-admin/ottieni-skill.controller.php')->soloSe('autenticato');
 $router->get('/admin/home/gestione-skills', 'app/controllers/skills/admin/ottieni-skills.controller.php')->soloSe('admin');

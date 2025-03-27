@@ -1,0 +1,162 @@
+html, body {
+    height: 100vh; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}    
+    
+.main {
+    display: flex;
+    flex-grow: 1; 
+    overflow: hidden; 
+}
+
+.contenutoMain {
+    flex-grow: 1;
+    max-height: 100%;
+    overflow-y: auto; 
+    padding: 20px;
+    margin: 10px;
+}
+
+.contenutoMain h3 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+#finanziamenti {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.finanziamento {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    position: relative;
+}
+.finanziamento:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Info in alto */
+.info {
+    display: flex;
+    gap: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    justify-content: center;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+/* Div centrale con immagini */
+.divImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #fafafa;
+}
+
+/* Stesse dimensioni per le immagini */
+#divFoto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 140px;
+    height: 140px;
+    text-align: center;
+}
+
+#divFoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    background-color: white;
+    padding: 5px;
+}
+/* Importo grande in basso a destra */
+.importo p{
+    font-size: 24px;
+    font-weight: bold;
+    color: #008000;
+}
+.importo{
+    margin-top: 20px;
+    text-align: right;
+}
+.tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.tooltip-reward {
+    position: absolute;
+    background: rgba(241, 241, 241, 0.9); /* Grigio chiaro */
+    color: black; /* Testo nero per contrasto */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    white-space: nowrap;
+    display: none;
+    pointer-events: none;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Leggera ombra */
+    z-index: 1000;
+}
+
+
+.tooltip {
+    opacity: 1;
+}
+
+.filter-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#filtroProgetti {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+#filtroProgetti:focus{
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 8px rgba(76, 135, 175, 0.3);
+}
