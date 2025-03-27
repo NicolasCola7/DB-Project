@@ -1,8 +1,11 @@
-<?php use \core\AlertManager; ?>
+<?php 
+
+use \core\AlertManager; 
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Commenta Progetto</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/commenti/inserisci-commento.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home</title>
+    <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/commenti/rispondi-commento.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/public/js/AlertManager.js"></script>

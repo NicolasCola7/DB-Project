@@ -21,6 +21,18 @@ if(!$progettoEsistente) {
     abort();
 }
 
+//controllo che l'utente non sia il creatore di quel progetto
+$nonCreatore = $db->query(
+    "SELECT nome FROM Progetto WHERE nome = :nome AND emailCreatore != :email",
+     [':nome' => $nomeProgetto, ':email' => $email]
+);
+
+if(!$nonCreatore) {
+    AlertManager::setError('creatore', 'Non puoi commentare un progetto che hai creato!');
+    header('location: /home/progetti/'.$nomeProgetto."/commenta");
+    exit();
+}
+
 //recupero il testo del commento
 $testo = $_POST['testo'];
 

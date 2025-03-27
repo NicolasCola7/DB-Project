@@ -67,9 +67,11 @@ use core\AlertManager; ?>
                                     <progress id="myProgress" value="<?= htmlspecialchars(floatval($progetto['avanzamento']) * 100) ?>" max="100"></progress>
                                 </div>
                                 <div class="azioni">
-                                    <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
-                                        <button type="submit">Commenta</button>
-                                    </form>
+                                    <?php  if($progetto['nickname'] !== $_SESSION['utente']['nickname']): ?>
+                                        <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/commenta' method='GET'>
+                                            <button type="submit">Commenta</button>
+                                        </form>
+                                    <?php endif; ?>
                                     <?php if($progetto['stato'] === 'aperto'): ?>
                                         <form action='/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']); ?>/finanzia' method='GET'>  
                                         <button type="submit">Finanzia</button>
