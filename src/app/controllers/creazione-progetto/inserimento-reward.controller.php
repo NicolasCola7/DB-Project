@@ -25,7 +25,7 @@ if (!Validatore::isNumber($dimensione, 1, 3145728)) {
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-    AlertManager::setError("descrizione", "Descrizione non valida!");
+    AlertManager::setError("descrizione", "Descrizione non valida o troppo lunga!");
 }
 
 if (!empty($_SESSION['errore'])) {

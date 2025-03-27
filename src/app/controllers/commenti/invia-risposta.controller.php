@@ -3,6 +3,7 @@ use \core\App;
 use \core\MySqlDatabase;
 use \core\MongoDatabase;
 use \core\AlertManager;
+use \core\Validatore;
 
 $db = App::getContainer()->risolvi(MySqlDatabase::class);
 $db_mongo = App::getContainer()->risolvi(MongoDatabase::class);
@@ -26,10 +27,19 @@ if(!$progettoEsistente || !$commentoEsistente) {
     abort();
 }
 
+//recupero il testo della risposta
+$testo = $_POST['contenuto'];
+
+if(!Validatore::isString($testo, 1)) {
+    AlertManager::setError('testo', 'Devi inserire un testo di lunghezza maggiore di 1!');
+    header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/commenti/'.$idCommento.'/rispondi');
+    exit();
+}
+
 // Definizione dei parametri per la procedura di autenticazione nel MySqlDatabase
 $parametri = [
     'idCommentoI' => $idCommento,
-    'contenutoI' => $_POST['contenuto'],
+    'contenutoI' => $testo,
     'emailCreatoreI' => $_SESSION['utente']['email'],
     '@esito' => '@esito' 
 ];
@@ -37,7 +47,7 @@ $parametri = [
 $esito = $db->procedure("rispondiACommento", $parametri);
 
 //se l'esito è negativo, mostro un errore nella vista
-if($esito === 0){
+if(!$esito){
      AlertManager::setError("errore_risposta", "L'operazione di invio della risposta non è andata a buon fine.");
      header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/commenti/'.$idCommento.'/rispondi');
      exit();

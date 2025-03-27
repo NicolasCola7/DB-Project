@@ -33,7 +33,7 @@ if (!Validatore::isString($nome, 1, 50)) {
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-    AlertManager::setError("descrizione", "Descrizione troppo lunga!");
+    AlertManager::setError("descrizione", "Descrizione non valida o troppo lunga!");
 }
 
 if (!Validatore::isNumber($quantita, 1)) {
