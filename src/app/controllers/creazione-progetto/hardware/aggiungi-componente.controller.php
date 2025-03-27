@@ -25,7 +25,7 @@ if (!Validatore::isNumber($quantita, 1)) {
 }
 
 if (!Validatore::isNumber($prezzo, 1)) {
-    AlertManager::setError("prezzo", "Il prezzo minimo deve essere 1!");
+    AlertManager::setError("prezzo", "Il prezzo minimo deve essere > 0");
     header('location: /home/crea-progetto/hardware/componenti');
     exit();
 }

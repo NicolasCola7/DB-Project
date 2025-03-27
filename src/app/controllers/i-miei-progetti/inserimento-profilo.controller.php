@@ -37,8 +37,8 @@ if (!Validatore::isString($nomeProfilo, 1, 50)) {
      AlertManager::setError("nome", "Nome del profilo non valido!");
 }
 
-if (!Validatore::isNumber($posizioniDisponibili, 1)) {
-     AlertManager::setError("posizioni", "Devi inserire almeno 1 posizione disponibile!");
+if (!Validatore::isNumber($posizioniDisponibili, 1, 100)) {
+     AlertManager::setError("posizioni", "Devi inserire almeno 1 e massimo 100 posizioni disponibili!");
 }
 
 

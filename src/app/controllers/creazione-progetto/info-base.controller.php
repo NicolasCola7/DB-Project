@@ -26,7 +26,7 @@ if (!Validatore::isString($descrizione, 1, 100)) {
 }
 
 if (!Validatore::isNumber($budget, 1)) {
-     AlertManager::setError("budget", "Budget non valido!");
+     AlertManager::setError("budget", "Budget deve essere > 1");
 }
 
 if (!empty($_SESSION['errore'])) {
