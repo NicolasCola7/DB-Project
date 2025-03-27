@@ -5,6 +5,7 @@
     <title>Bostarter</title>
     <link rel='stylesheet' type='text/css' href='/public/styles/skills/gestione-skills.style.css'>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/public/js/AlertManager.js"></script>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>
@@ -17,8 +18,8 @@
 
             <section id='aggiunta'>
                 <h4>Aggiungi</h4>
-                <form action='/admin/home/gestione-skills' method='POST'>
-                    <input type="text" name='nome' id='aggiunta' placeholder="Nome della Skill">
+                <form action='/admin/home/gestione-skills' method='POST' id="formAddSkill">
+                    <input type="text" name='nome' id='aggiuntaSkill' placeholder="Nome della Skill" required>
                     <button type='submit' id='aggiungi-skill'>+</button>
                 </form>
             </section>
@@ -48,3 +49,17 @@
 </body>
 
 </html>
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+        const txtSkill = document.getElementById("aggiuntaSkill");
+        const buttonAdd = document.getElementById("aggiungi-skill");
+        const form = document.getElementById("formAddSkill");
+
+        buttonAdd.addEventListener("click", function(event){
+            if(txtSkill.value.trim() === ""){
+                event.preventDefault(); // Impedisce il submit se il campo è vuoto
+                AlertManager.error('inserisci un nome della skill valido');
+            }
+        });
+    });
+</script>
