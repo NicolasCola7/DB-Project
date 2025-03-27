@@ -55,5 +55,6 @@ foreach($_SESSION['creazione-progetto']['componenti'] as $componente){
 array_push($_SESSION['creazione-progetto']['componenti'], $componenteDaInserire);
 AlertManager::setSuccess("Componente aggiunta.");
 
+$_SESSION["creazione-progetto"]["step2"] = true;
 header('location: /home/crea-progetto/hardware/componenti');
 exit();

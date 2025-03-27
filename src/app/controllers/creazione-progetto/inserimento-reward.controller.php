@@ -65,6 +65,6 @@ array_push($_SESSION['creazione-progetto']['rewards'], $rewardDaInserire);
 // sposto la foto in una cartella temporanea in attesa per la conferma di creazione del progetto
 move_uploaded_file($nomeTemp, $destinazione);
 AlertManager::setSuccess("Reward aggiunta!");
-
+$_SESSION["creazione-progetto"]["step4"] = true;
 header('location: /home/crea-progetto/rewards');
 exit();

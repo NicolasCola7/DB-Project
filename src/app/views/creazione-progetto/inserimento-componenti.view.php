@@ -1,13 +1,4 @@
 <?php
-
-// se ci si trova nella pagina di creazione del progetto
-if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto') {
-    // se non si sono inserite le informazioni base lo redirigo alla pagina apposita
-    if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
-        header('location: /home/crea-progetto/informazioni-base');
-        exit();
-    }
-}
 use core\AlertManager;
 ?>
 
@@ -126,7 +117,6 @@ use core\AlertManager;
     function prosegui() {
         let nComponenti = componenti.length;
         if(nComponenti > 0) {
-            <?php $_SESSION["creazione-progetto"]["step2"] = true; ?>
             window.location.href = "/home/crea-progetto/foto";
         } else {
             AlertManager.error('Devi inserire almeno una componente.');

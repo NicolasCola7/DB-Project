@@ -11,7 +11,11 @@ class Middleware {
         'creatore' => Creatore::class,
         'autenticato' => Autenticato::class,
         'admin' => Admin::class,
-        'non-autenticato' => NonAutenticato::class
+        'non-autenticato' => NonAutenticato::class,
+        'step1' => CreazioneProgetto\Step1::class,
+        'step2' => CreazioneProgetto\Step2::class,
+        'step3' => CreazioneProgetto\Step3::class,
+        'step4' => CreazioneProgetto\Step4::class
     ];
 
    

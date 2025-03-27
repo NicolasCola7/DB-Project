@@ -65,5 +65,6 @@ array_push($_SESSION['creazione-progetto']['foto'], $fotoDaInserire);
 move_uploaded_file($nomeTemp, $destinazione);
 AlertManager::setSuccess("Immagine aggiunta.");
 
+$_SESSION["creazione-progetto"]["step3"] = true;
 header('location: /home/crea-progetto/foto');
 exit();

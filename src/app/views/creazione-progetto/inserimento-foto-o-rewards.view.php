@@ -1,37 +1,4 @@
 <?php
-
-//se ci si trova nella pagina di caricamento delle foto
-if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) === 'inserimento-foto') {
-    //se l'utente non ha inserito le informazioni base lo redirigo alla pagina apposita
-    if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
-        header('location: /home/crea-progetto/informazioni-base');
-        exit();
-    }
-
-    //se l'utente, a seconda del tipo di progetto, non ha inserito componenti o profili lo redirigo alle pagine apposite 
-    if(!$_SESSION['creazione-progetto']['step2']) {
-        if($_SESSION['creazione-progetto']['tipo'] === 'hardware')
-            header('location: /home/crea-progetto/hardware/componenti');
-        else
-            header('location: /home/crea-progetto/software/profili');
-        exit();
-    }
-
-} elseif(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) === 'inserimento-rewards') { //se ci si trova nella pagina di caricamento delle rewards
-    //se l'utente non ha inserito le informazioni base lo redirigo alla pagina apposita
-    if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
-        header('location: /home/crea-progetto/informazioni-base');
-        exit();
-    }
-
-    //se l'utente non ha inserito le foto lo redirigo alle pagine apposite 
-    if(!$_SESSION['creazione-progetto']['step3']) {
-        header('location: /home/crea-progetto/foto');
-        exit();
-    }
-}
-
-
 use core\AlertManager;
 ?>
 
@@ -171,7 +138,6 @@ use core\AlertManager;
         if(nFoto < 1) {
             AlertManager.error('Devi inserire almeno una foto.');
         } else {
-            <?php $_SESSION["creazione-progetto"]["step3"] = true; ?>
             window.location.href = '/home/crea-progetto/rewards';
         }
     }
@@ -181,7 +147,6 @@ use core\AlertManager;
         if(rewards < 1) {
             AlertManager.error('Devi inserire almeno una reward!');
         } else {
-            <?php $_SESSION["creazione-progetto"]["step4"] = true; ?>
             window.location.href = '/home/crea-progetto/conferma-dati';
         }
     }

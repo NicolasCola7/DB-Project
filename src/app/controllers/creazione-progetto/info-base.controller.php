@@ -22,7 +22,7 @@ if (!Validatore::isDate($dataLimite, date('d/m/Y'))) {
 }
 
 if (!Validatore::isString($descrizione, 1, 100)) {
-     AlertManager::setError("descrizione", "Descrizione troppo lunga!");
+     AlertManager::setError("descrizione", "La descrizione deve avere una lunghezza maggiore di 0 e minore di 100 caratteri!");
 }
 
 if (!Validatore::isNumber($budget, 1)) {

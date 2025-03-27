@@ -1,12 +1,4 @@
 <?php
-
-if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'crea-progetto') {
-    // se l'utente non ha inserito le informazioni base lo redirigo alla pagina apposita
-    if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
-        header('location: /home/crea-progetto/informazioni-base');
-        exit();
-    }
-}
 use core\AlertManager;
 ?>
 

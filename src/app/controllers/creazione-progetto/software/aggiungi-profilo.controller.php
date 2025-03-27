@@ -48,5 +48,6 @@ foreach($_SESSION['creazione-progetto']['profili'] as $profilo){
 //inserisco il profilo aggiunta nell'apposita variabile di sessione
 array_push($_SESSION['creazione-progetto']['profili'], $profiloDaInserire);
 AlertManager::setSuccess("Profilo aggiunto!");
+$_SESSION["creazione-progetto"]["step2"] = true;
 header('location: /home/crea-progetto/software/profili');
 exit();

@@ -1,17 +1,4 @@
 <?php
-
-//se l'utente non ha inserito le informazioni base lo redirigo alla pagina apposita
-if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
-    header('location: /home/crea-progetto/informazioni-base');
-    exit();
-}
-
-//se l'utente, a seconda del tipo di progetto, non ha inserito rewards o profuli lo redirigo alle pagine apposite 
-if(!$_SESSION['creazione-progetto']['step4']) {
-    header('location: /home/crea-progetto/rewards');
-    exit();
-}
-
 use \core\AlertManager;
 ?>
 
