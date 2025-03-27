@@ -95,4 +95,24 @@ class MySqlDatabase {
         
         return $esito['esito']; 
     }
+    /**
+     * Avvia una transazione
+     */
+    public function beginTransaction() {
+        return $this->connessione->beginTransaction();
+    }
+    
+    /**
+     * Fa il commit di una transazione
+     */
+    public function commit() {
+        return $this->connessione->commit();
+    }
+    
+    /**
+     * Fa il rollback di una transazione
+     */
+    public function rollback() {
+        return $this->connessione->rollBack();
+    }
 }

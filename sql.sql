@@ -2,7 +2,6 @@
 DROP DATABASE IF EXISTS BOSTARTER;
 CREATE database IF NOT exists BOSTARTER;
 USE BOSTARTER;
-
 -- Creazione delle tabelle
 CREATE TABLE Utente (
     email VARCHAR(255) PRIMARY KEY,
@@ -204,10 +203,11 @@ END ;
 $ DELIMITER ;
 
 DELIMITER $
-CREATE EVENT CambiaStatoProgetto on schedule every 1 day starts date_format(curdate(), '%Y-%m-%d 00:00:00') do
-begin
-	update Progetto P set P.stato = 'chiuso' where P.data_limite < curdate() and stato <> 'chiuso';
-end
+CREATE EVENT CambiaStatoProgetto ON SCHEDULE EVERY 1 DAY STARTS TIMESTAMP(CURRENT_DATE + INTERVAL 1 DAY, '00:00:00')
+DO
+BEGIN
+    UPDATE Progetto SET stato = 'chiuso' WHERE data_limite <= CURDATE() AND stato <> 'chiuso';
+END;
 $ DELIMITER ;
 
 -- OPERAZIONI RIGARDANTI GLI UTENTI:
@@ -808,13 +808,16 @@ CREATE PROCEDURE InserimentoComponenteHardware(IN nomeComponenteI VARCHAR(255), 
 BEGIN
     declare progettoEsistenteHardware boolean;
     declare componenteEsistente boolean;
+    declare nomeIdoneo boolean;
     
+    -- il nome deve essere compilato e non deve contenere esclusivamente cifre
+    set nomeIdoneo = IF(nomeComponenteI = '' or nomeComponenteI is null or nomeComponenteI REGEXP '^[0-9]+$', false, true);
     -- Controllo se il progetto è esistente e se è di tipo "Hardware"
 	set progettoEsistenteHardware = (SELECT COUNT(*) FROM Progetto WHERE nome = nomeProgettoI AND tipoProgetto = "Hardware") > 0;
 	-- Controllo se il componente è già esistente per il progetto (non possono esserci duplicati ma per lo stesso componente possono esserci più quantita)
 	set componenteEsistente = (SELECT COUNT(*) FROM Componente WHERE nome = nomeComponenteI AND nomeProgetto = nomeProgettoI) > 0;
-    
-    if ((NOT(progettoEsistenteHardware)) OR (componenteEsistente)) then
+    --
+    if ((NOT(progettoEsistenteHardware)) OR (componenteEsistente) OR (NOT(nomeIdoneo))) then
 		-- Restituisco 0 che indica che il progetto non esiste o il progetto è software o il componente hardware è già presente
 		set esito = 0; 
 	else 
