@@ -12,6 +12,7 @@ $emailCreatore = $_SESSION['utente']['email'];
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 $nomeProfilo = urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]);
 $idCandidatura = urldecode(explode('/', $_SERVER['REQUEST_URI'])[7]);
+$idCandidatura = explode('?', $idCandidatura)[0];
 
 // controllo che progetto, profilo  e candidatura esistano
 $progettoEsistente = $db->query(

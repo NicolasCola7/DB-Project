@@ -32,7 +32,8 @@ $esito = $db->procedure('CreazioneProgetto', $paramsProgetto);
 
 if (!$esito) {
     AlertManager::setError('procedura', "Si è verificato un errore imprevisto nella creazione del progetto!");
-    header('location: /home/crea-progetto/conferma-dati');
+    rimuoviDatiCreazione();
+    header("location: /home/i-miei-progetti");
     exit();
 }
 
@@ -59,7 +60,8 @@ if($tipo === 'software') {
 
         if (!$esito) {
             AlertManager::setError('procedura', "Si è verificato un errore imprevisto nella creazione dei profili!");
-            header('location: /home/crea-progetto/conferma-dati');
+            rimuoviDatiCreazione();
+            header("location: /home/i-miei-progetti");
             exit();
         }
 
@@ -86,7 +88,8 @@ if($tipo === 'software') {
 
         if (!$esito) {
             AlertManager::setError('procedura', "Si è verificato un errore imprevisto nella creazione delle componenti hardware!");
-            header('location: /home/crea-progetto/conferma-dati');
+            rimuoviDatiCreazione();
+            header("location: /home/i-miei-progetti");
             exit();
         }
 
@@ -128,7 +131,8 @@ foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
 
     if(!$esito) {
         AlertManager::setError('procedura', "Si è verificato un errore imprevisto nell'inserimento delle foto del progetto!");
-        header('location: home/crea-progetto/conferma-dati');
+        rimuoviDatiCreazione();
+        header("location: /home/i-miei-progetti");
         exit();
     }
 
@@ -170,7 +174,8 @@ foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
 
     if(!$esito) {
         AlertManager::setError('procedura', "Si è verificato un errore imprevisto nell'inserimento delle rewards del progetto!");
-        header('location: /home/crea-progetto/conferma-dati');
+        rimuoviDatiCreazione();
+        header("location: /home/i-miei-progetti");
         exit();
     }
 
@@ -179,13 +184,10 @@ foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
 }
 
 //eliminiamo tutte le variabili per la creazione del progetto
-unset($_SESSION['creazione-progetto']);
-unset($_SESSION['aggiunta-foto']);
-unset($_SESSION['aggiunta-reward']);
-unset($_SESSION['aggiunta-skill']);
-unset($_SESSION['aggiunta-componente']);
+rimuoviDatiCreazione();
 
 AlertManager::setSuccess("Progetto creato!");
+
 // mando l'utente ad una pagina in cui viene comunicato che il progetto è stato creato correttamente
 header("location: /home/i-miei-progetti");
 exit();

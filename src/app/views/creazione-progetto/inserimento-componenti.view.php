@@ -45,11 +45,11 @@ use core\AlertManager;
                         </div>
                         <div class="container">
                             <label for="quantita">Quantita</label>
-                            <input type="number" id="quantita" name="quantita" placeholder="quantita" required>
+                            <input type="number" id="quantita" name="quantita" placeholder="quantita" required min=1>
                          </div>
                         <div class="container">
                             <label for="prezzo">Prezzo (€)</label>
-                            <input type="number" id="prezzo" name="prezzo" placeholder="prezzo"  required>
+                            <input type="number" id="prezzo" name="prezzo" placeholder="prezzo"  step=0.01 required>
                         </div>
                         <div class='container-bottoni'>
                             <button id='aggiungi' type='submit'>Aggiungi componente</button>

@@ -40,7 +40,7 @@ use core\AlertManager;
                     
                     <div class="container">
                         <label for="budget">Budget (€)</label>
-                        <input type="number" id="budget" name="budget" placeholder="budget" required>
+                        <input type="number" id="budget" name="budget" step=0.01 placeholder="budget" required>
                     </div>
                     
                     <div class="container radio-group">
