@@ -32,5 +32,6 @@ if (!$esito) {
 }
 
 $db_mongo->inserisciLog("Nuova skill ".$nomeSkill." aggiunta da ".$email);
+AlertManager::setSuccess('Skill creata con successo!');
 header('location: /admin/home/gestione-skills');
 exit();
