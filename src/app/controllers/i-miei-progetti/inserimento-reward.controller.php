@@ -53,8 +53,8 @@ if (!empty($_SESSION['errore'])) {
     exit();
 }
 
-$directoryFotoProgetto = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/fotoReward';
-$destinazione = $directoryFotoProgetto . '/' . $nomeFile;
+$directoryFotoReward = 'public/immagini/progetti/'.urlencode($nomeProgetto).'/fotoRewards';
+$destinazione = $directoryFotoReward . '/' . $nomeFile;
 
 $paramsReward = [
     'url' => $destinazione,

@@ -40,7 +40,6 @@ $router->get('/home/i-miei-progetti', 'app/controllers/progetti/vedi-progetti.co
 $router->get('/home/i-miei-progetti/{nomeProgetto}', 'app/controllers/progetti/info-progetto.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili', 'app/controllers/profilo/vedi-profili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/skills-richieste', 'app/controllers/profilo/skills-profilo.controller.php')->soloSe('creatore');
-$router->get('/home/i-miei-progetti/{nomeProgetto}/commenta', 'app/views/commenti/inserisci-commento.view.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/finanzia', 'app/controllers/finanziamenti/rewards-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/aggiungi-profilo', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('creatore');
 $router->get('/home/i-miei-progetti/{nomeProgetto}/profili/{nomeProfilo}/candidature', 'app/controllers/profilo/ottieni-candidature.controller.php')->soloSe('creatore');

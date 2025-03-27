@@ -70,7 +70,7 @@ use core\AlertManager;
                                 <tbody>
                                     <?php if(count($_SESSION['creazione-progetto']['componenti']) > 0): ?>
                                         <?php foreach($_SESSION['creazione-progetto']['componenti'] as $componente): ?>
-                                            <tr>
+                                            <tr class="componente">
                                                 <td> <?= htmlspecialchars($componente['nome']); ?> </td>
                                                 <td> <?= htmlspecialchars($componente['descrizione']); ?> </td>
                                                 <td> <?= htmlspecialchars($componente['quantita']); ?> </td>
@@ -103,7 +103,7 @@ use core\AlertManager;
     const prezzo = document.getElementById('prezzo');
     const quantita = document.getElementById('quantita');
     const aggiungiBtn = document.getElementById('aggiungi');
-    const componenti = document.querySelectorAll('tbody > tr');
+    const componenti = document.querySelectorAll('tbody > .componente');
 
     form.addEventListener('submit', event => {
         event.preventDefault();

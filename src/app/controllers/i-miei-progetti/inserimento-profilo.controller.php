@@ -66,5 +66,6 @@ if (!$esito) {
 
 $db_mongo->inserisciLog("Nuovo profilo ".$nomeProfilo." inserito per il progetto ".$nomeProgetto);
 
+AlertManager::setSuccess("Profilo aggiunto.");
 header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/profili');
 exit();

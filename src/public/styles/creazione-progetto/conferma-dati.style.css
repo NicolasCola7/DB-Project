@@ -60,7 +60,7 @@ th, td {
     text-align: left;
 }
 
-th {
+th, .skills thead tr {
     background-color: #0077cc;
     color: white;
 }
