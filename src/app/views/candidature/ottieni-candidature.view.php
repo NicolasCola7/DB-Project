@@ -44,11 +44,11 @@ use core\AlertManager; ?>
                             <div class="divInfo">
                                 <div class="info-row">
                                     <strong>Progetto:</strong>
-                                    <p><?= htmlspecialchars($candidatura['nomeProgetto']) ?></p>
+                                    <a href="/home/progetti/<?= urlencode($candidatura['nomeProgetto']) ?>"><p><?= htmlspecialchars($candidatura['nomeProgetto']) ?></p></a>
                                 </div>
                                 <div class="info-row">
                                     <strong>Profilo:</strong>
-                                    <p><?= htmlspecialchars($candidatura['nomeProfilo']) ?></p>
+                                    <a href="/home/progetti/<?= urlencode($candidatura['nomeProgetto']) ?>/profili/<?= urlencode($candidatura['nomeProfilo']) ?>/skills-richieste"><p><?= htmlspecialchars($candidatura['nomeProfilo']) ?></p></a>
                                 </div>
                                 <div class="status-badge 
                                     <?php 
@@ -72,7 +72,7 @@ use core\AlertManager; ?>
             </div>
         </div>
     </div>
-    
+    <?= AlertManager::show() ?>
     <?php require view('/home/home-footer.view.php'); ?>
 </body>
 <script>

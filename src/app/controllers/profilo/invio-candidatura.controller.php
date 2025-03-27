@@ -41,6 +41,8 @@ if ($esito === 0) {
 } elseif ($esito === 1) {
     AlertManager::setSuccess("Candidatura inviata con successo!");
     $db_mongo->inserisciLog("Nuova candidatura effettuata da ".$email." per il profilo ".$nomeProfilo." del progetto ".$nomeProgetto);
+    header("location: /home/le-mie-candidature");
+exit();
 } elseif ($esito === 2) {
     AlertManager::setWarning("Hai già inviato una candidatura per questo profilo che non è stata ancora visionata.");
 } else {

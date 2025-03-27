@@ -77,5 +77,5 @@ if(!$esito) {
 $db_mongo->inserisciLog('Nuovo finanziamento effettuato da '.$email.' per il progetto '.$nomeProgetto);
 
 AlertManager::setSuccess("Finanziamento eseguito.");
-header("location: /home/progetti");
+header("location: /home/i-miei-finanziamenti");
 exit();
