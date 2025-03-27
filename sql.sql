@@ -557,6 +557,7 @@ BEGIN
     declare correttezzaData boolean;
     declare correttezzaEmailCreatore boolean;
     declare correttezzaTipo boolean;
+    declare nonEsistente boolean;
     
     set correttezzaData = false;
     
@@ -581,8 +582,10 @@ BEGIN
 	set correttezzaEmailCreatore = (SELECT COUNT(*) FROM Creatore WHERE emailCreatore = emailCreatoreI) > 0;
     -- il tipo deve essere o hardware o software
     set correttezzaTipo = (tipoI IN ('Hardware','Software'));
+    -- il progetto non deve già esistere
+    set nonEsistente = nomeI NOT IN (SELECT nome FROM Progetto);
     
-    if (correttezzaNome and correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo) then
+    if (correttezzaNome and correttezzaBudget and correttezzaData and correttezzaEmailCreatore and correttezzaTipo and nonEsistente) then
 		set esito = 1;
 		INSERT IGNORE INTO Progetto VALUES (nomeI, CURDATE(), dataLimiteI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), 'aperto', budgetI, TipoI, emailCreatoreI);
 	else
