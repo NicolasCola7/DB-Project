@@ -44,7 +44,7 @@ use core\AlertManager; ?>
                         <?php if($progetto['nickname'] === $_SESSION['utente']['nickname']): ?>
                             <a href="/home/i-miei-progetti/<?= urlencode($progetto['NomeProgetto']) ?>">
                         <? else: ?>
-                            <a href="/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= urlencode($progetto['NomeProgetto']) ?>">
+                            <a href="/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/<?= rawurlencode($progetto['NomeProgetto']) ?>">
                         <?php endif; ?>
                             <div class="card" data-type="<?= htmlspecialchars($progetto['tipoProgetto']) ?>">
                                 <div class="img">

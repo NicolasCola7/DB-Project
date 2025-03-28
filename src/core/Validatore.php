@@ -30,10 +30,17 @@ class Validatore {
     static function isString($val, $min = 1, $max = INF) {
         $val = trim($val);
     
-        return is_string($val) && 
-               strlen($val) >= $min && 
-               strlen($val) <= $max && 
-               !ctype_digit($val);
+        // Verifica che sia una stringa, che la sua lunghezza sia nei limiti richiesti e che non sia composta solo da numeri
+        if (!is_string($val) || strlen($val) < $min || strlen($val) > $max || ctype_digit($val)) {
+            return false;
+        }
+    
+        // Verifica che non contenga i caratteri non consentiti: /, \, :, *, ?, ", <, >, |
+        if (preg_match('/[\/\\\\:*?"<>|]/', $val)) {
+            return false;
+        }
+        
+        return true;
     }
     
 

@@ -12,6 +12,6 @@ class Step1 {
         if(!isset($_SESSION['creazione-progetto']) || !$_SESSION['creazione-progetto']['step1']) {
             header('location: /home/crea-progetto/informazioni-base');
             exit();
-        }
+        } 
     }
 }

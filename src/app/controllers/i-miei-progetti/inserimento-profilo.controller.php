@@ -41,7 +41,6 @@ if (!Validatore::isNumber($posizioniDisponibili, 1, 100)) {
      AlertManager::setError("posizioni", "Devi inserire almeno 1 e massimo 100 posizioni disponibili!");
 }
 
-
 if (!empty($_SESSION['errore'])) {
     header('location: /home/i-miei-progetti/'.urlencode($nomeProgetto).'/aggiungi-profilo');
     exit();
