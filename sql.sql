@@ -5,17 +5,17 @@ USE BOSTARTER;
 -- Creazione delle tabelle
 CREATE TABLE Utente (
     email VARCHAR(255) PRIMARY KEY,
-    nome VARCHAR(100),
-    cognome VARCHAR(100),
-    luogo_nascita VARCHAR(100),
-    anno_nascita INT,
-    nickname VARCHAR(50) UNIQUE,
-    password VARCHAR(255)
+    nome VARCHAR(100) NOT NULL,
+    cognome VARCHAR(100) NOT NULL,
+    luogo_nascita VARCHAR(100) NOT NULL,
+    anno_nascita INT NOT NULL,
+    nickname VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
 ) ENGINE=INNODB;
 
 CREATE TABLE Amministratore (
     emailAmministratore VARCHAR(255) PRIMARY KEY,
-    codice INT UNIQUE,
+    codice INT UNIQUE NOT NULL,
     FOREIGN KEY (emailAmministratore) REFERENCES Utente(email)
 ) ENGINE=INNODB;
 
@@ -28,19 +28,19 @@ CREATE TABLE Creatore (
 CREATE TABLE Progetto (
     nome VARCHAR(255) PRIMARY KEY,
     data_inserimento DATE,
-    data_limite DATE,
-    descr TEXT,
+    data_limite DATE NOT NULL,
+    descr TEXT NOT NULL,
     stato ENUM('aperto', 'chiuso'),
-    budget_avvio DECIMAL(10,2),
-    tipoProgetto ENUM('Hardware', 'Software'),
+    budget_avvio DECIMAL(10,2) NOT NULL,
+    tipoProgetto ENUM('Hardware', 'Software') NOT NULL,
     emailCreatore VARCHAR(255),
     FOREIGN KEY (emailCreatore) REFERENCES Creatore(emailCreatore)
 ) ENGINE=INNODB;
 
 CREATE TABLE Reward (
     codice INT PRIMARY KEY auto_increment,
-    urlFoto VARCHAR(100),
-    descr TEXT,
+    urlFoto VARCHAR(100) NOT NULL,
+    descr TEXT NOT NULL,
     nomeProgetto VARCHAR(255),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;
@@ -49,7 +49,7 @@ CREATE TABLE Finanziamento (
     data DATE,
     emailUtente VARCHAR(255),
     nomeProgetto VARCHAR(255),
-    importo DECIMAL(10,2),
+    importo DECIMAL(10,2) NOT NULL,
     codiceReward INT,
     PRIMARY KEY (data, emailUtente, nomeProgetto),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email),
@@ -64,7 +64,7 @@ CREATE TABLE Skill (
 CREATE TABLE Profilo (
     nome VARCHAR(100),
     nomeProgetto VARCHAR(255),
-    numero_posizioni INT,
+    numero_posizioni INT NOT NULL,
     PRIMARY KEY (nome, nomeProgetto),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;
@@ -72,7 +72,7 @@ CREATE TABLE Profilo (
 CREATE TABLE Skill_Possesso (
     emailUtente VARCHAR(255),
     nomeSkill VARCHAR(100),
-    livello INT CHECK (livello BETWEEN 0 AND 5),
+    livello INT CHECK (livello BETWEEN 0 AND 5) NOT NULL,
     PRIMARY KEY (emailUtente, nomeSkill),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email),
     FOREIGN KEY (nomeSkill) REFERENCES Skill(nome) ON DELETE CASCADE
@@ -82,7 +82,7 @@ CREATE TABLE Skill_Requisito (
     nomeSkill VARCHAR(100),
     nomeProfilo VARCHAR(100),
     nomeProgetto VARCHAR(255),
-    livello INT CHECK (livello BETWEEN 0 AND 5),
+    livello INT CHECK (livello BETWEEN 0 AND 5) NOT NULL,
     PRIMARY KEY (nomeSkill, nomeProfilo, nomeProgetto),
     FOREIGN KEY (nomeSkill) REFERENCES Skill(nome) ON DELETE CASCADE,
     FOREIGN KEY (nomeProfilo, nomeProgetto) REFERENCES Profilo(nome, nomeProgetto)
@@ -102,7 +102,7 @@ CREATE TABLE Candidatura (
 CREATE TABLE Commento (
     id INT PRIMARY KEY AUTO_INCREMENT,
     data DATE,
-    testo TEXT,
+    testo TEXT NOT NULL,
     emailUtente VARCHAR(255),
     nomeProgetto VARCHAR(255),
     FOREIGN KEY (emailUtente) REFERENCES Utente(email),
@@ -111,7 +111,7 @@ CREATE TABLE Commento (
 
 CREATE TABLE Risposta (
     idCommento INT PRIMARY KEY,
-    contenuto TEXT,
+    contenuto TEXT NOT NULL,
     emailCreatore VARCHAR(255),
     FOREIGN KEY (idCommento) REFERENCES Commento(id),
     FOREIGN KEY (emailCreatore) REFERENCES Creatore(emailCreatore)
@@ -119,18 +119,18 @@ CREATE TABLE Risposta (
 
 CREATE TABLE Foto_Progetto (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    descrizione TEXT,
+    descrizione TEXT NOT NULL,
     nomeProgetto VARCHAR(255),
-    urlImmagine VARCHAR(100),
+    urlImmagine VARCHAR(100) NOT NULL,
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;
 
 CREATE TABLE Componente (
     nome VARCHAR(255),
     nomeProgetto VARCHAR(255),
-    prezzo DECIMAL(10,2),
-    descr TEXT,
-    quantita INT CHECK (quantita > 0),
+    prezzo DECIMAL(10,2) NOT NULL,
+    descr TEXT NOT NULL,
+    quantita INT CHECK (quantita > 0) NOT NULL,
     PRIMARY KEY (nome, nomeProgetto),
     FOREIGN KEY (nomeProgetto) REFERENCES Progetto(nome)
 ) ENGINE=INNODB;

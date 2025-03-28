@@ -54,7 +54,7 @@ if (!Validatore::isString($nickname, 1, 50)) {
 }
 
 // Controllo validità della password (lunghezza tra 8 e 50 caratteri)
-if (!Validatore::isString($password, 8, 50)) {
+if (!Validatore::isPassword($password, 8, 50)) {
     AlertManager::setError("password", "La password deve essere almeno 8 caratteri e al massimo 50!");
 }
 

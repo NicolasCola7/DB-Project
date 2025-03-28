@@ -31,12 +31,33 @@ class Validatore {
         $val = trim($val);
     
         // Verifica che sia una stringa, che la sua lunghezza sia nei limiti richiesti e che non sia composta solo da numeri
-        if (!is_string($val) || strlen($val) < $min || strlen($val) > $max || ctype_digit($val)) {
+        if (!is_string($val) && strlen($val) < $min && strlen($val) > $max && !ctype_digit($val)) 
+        {
             return false;
         }
     
         // Verifica che non contenga i caratteri non consentiti: /, \, :, *, ?, ", <, >, |
         if (preg_match('/[\/\\\\:*?"<>|]/', $val)) {
+            return false;
+        }
+        
+        return true;
+    }
+
+        /**
+     * Controlla se la password è valida
+     *
+     * @param string $val La stringa da verificare.
+     * @param int $min Lunghezza minima consentita (default: 1).
+     * @param int $max Lunghezza massima consentita (default: infinito).
+     * @return bool True se la stringa è valida, False altrimenti.
+     */
+    static function isPassword($val, $min = 1, $max = INF) {
+        $val = trim($val);
+    
+        // Verifica che sia una stringa e che la sua lunghezza sia nei limiti massimi e minimi richiesti
+        if (strlen($val) < $min && strlen($val) > $max) 
+        {
             return false;
         }
         
