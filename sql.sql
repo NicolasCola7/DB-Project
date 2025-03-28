@@ -438,12 +438,15 @@ BEGIN
 	declare progettoEsistente boolean;
     declare autoreEsistente boolean;
     declare testoNonVuoto boolean;
+    declare nonCreatore boolean;
     
     set progettoEsistente = nomeProgettoI IN (SELECT nome FROM Progetto WHERE nome = nomeProgettoI);
     set autoreEsistente = emailAutoreI IN (SELECT email FROM Utente WHERE email = emailAutoreI);
     set testoNonVuoto = LENGTH(trim(testoI)) > 0;
+    -- utente creatore non può commentare il suo progetto, solo rispondere
+    set nonCreatore = emailAutoreI NOT IN (SELECT emailCreatore FROM Progetto WHERE nome = nomeProgettoI);
     
-    if (progettoEsistente AND autoreEsistente AND testoNonVuoto) then
+    if (progettoEsistente AND autoreEsistente AND testoNonVuoto and nonCreatore) then
 		set esito = 1;
 		INSERT INTO Commento (data, testo, emailUtente, nomeProgetto) VALUES (current_date(), testoI, emailAutoreI, nomeProgettoI);
 	else

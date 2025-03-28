@@ -20,8 +20,6 @@ $password = $_POST['password'];
 $conferma_password = $_POST['conferma-password'];
 $codiceSicurezza = (int) $_POST['codiceSicurezza'];
 
-// Inizializza un array per raccogliere eventuali errori di validazione
-$errori = [];
 
 // Controllo validità del nome (lunghezza tra 1 e 100 caratteri)
 if (!Validatore::isString($nome, 1, 100)) {
