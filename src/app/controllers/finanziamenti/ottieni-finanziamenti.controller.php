@@ -17,5 +17,10 @@ $finanziamenti = $db->query(
      WHERE F.emailUtente = :emailUtente",
      [':emailUtente' => $email]
 );
-require view('/finanziamenti/ottieni-finanziamenti.view.php', ['finanziamenti' => $finanziamenti]);
+
+$progettiFinanziati = $db->query(
+   "SELECT DISTINCT(nomeProgetto) FROM Finanziamento WHERE emailUtente = :emailUtente",
+   [':emailUtente' => $email]
+);
+require view('/finanziamenti/ottieni-finanziamenti.view.php', ['finanziamenti' => $finanziamenti, 'progettiFinanziati' => $progettiFinanziati]);
 exit();

@@ -20,8 +20,8 @@
                 <label for="filtroProgetti">Filtra per progetto: </label>
                 <select id="filtroProgetti">
                     <option value="tutti">Tutti</option>
-                    <?php for($i = 0; $i < count($finanziamenti); $i++):?>
-                        <option value="<?= htmlspecialchars($finanziamenti[$i]['nomeProgetto']) ?>"><?= htmlspecialchars($finanziamenti[$i]['nomeProgetto']) ?></option>
+                    <?php for($i = 0; $i < count($progettiFinanziati); $i++):?>
+                        <option value="<?= htmlspecialchars($progettiFinanziati[$i]['nomeProgetto']) ?>"><?= htmlspecialchars($progettiFinanziati[$i]['nomeProgetto']) ?></option>
                     <?php endfor; ?>
                 </select>
             </div>

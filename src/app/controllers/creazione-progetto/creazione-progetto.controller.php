@@ -79,7 +79,6 @@ try {
             if (!$esito) {
                 throw new Exception("Errore nell'inserimento delle componenti");
             }
-
         }
     }
 
