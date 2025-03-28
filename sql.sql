@@ -1000,6 +1000,14 @@ CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'mario.rossi@email.com',
 CALL checkCandidatura('Data Scientist', 'DriveSenseAI', 'lucia.gialli@email.com', false, @esito);
 CALL checkCandidatura('Business Analyst', 'DriveSenseAI', 'federica.verdi@email.com', true, @esito);
 
+-- Popolamento dei progetti di tipo Hardware e Software -- DA FINIRE
+CALL CreazioneProgetto('DriveSenseAI', '2025-10-10', 'Progetto software innovativo per auto con AI', '500000.00', 'Software', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('CompanyTagline', '2026-01-01', 'Progetto software per creare delle fotografie avanzate', '100000.00', 'Software', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('ProgettoNatura', '2027-02-02', 'Progetto per la salvaguardia della natura', '50000.00', 'Hardware', 'giulia.bianchi@email.com', @esito);
+CALL CreazioneProgetto('PulseTech', '2025-08-08', 'Progetto per creare uno smartwatch avanzato con AI per salute e fitness', '300000.00', 'Hardware', 'federica.verdi@email.com', @esito);
+CALL CreazioneProgetto('EcoSmartHome', '2025-07-07', 'Progetto per costruire una casa smart ecosostenibile', '1000000.00', 'Hardware', 'lucia.gialli@email.com', @esito);
+CALL CreazioneProgetto('VisaAI', '2026-03-03', 'Progetto per migliorare la sicurezza dei pagamenti con AI', '200000.00', 'Software', 'lucia.gialli@email.com', @esito);
+
 -- Popolamento dei commenti al progetto
 CALL CommentaProgetto('DriveSenseAI', 'federica.verdi@email.com', 'Intelligenza artificiale sta cambiando il settore automobilistico e DriveSenseAI promette di portare la sicurezza stradale a un nuovo livello. Idea di un sistema avanzato di assistenza alla guida basato su machine learning è davvero interessante. Non vedo il momento di vedere come verrà implementato il rilevamento predittivo degli ostacoli!', @esito);
 CALL CommentaProgetto('DriveSenseAI', 'mario.rossi@email.com', 'Sembra un progetto interessante!', @esito);
@@ -1008,7 +1016,7 @@ CALL CommentaProgetto('CompanyTagline', 'federica.verdi@email.com', 'Creare foto
 CALL CommentaProgetto('ProgettoNatura', 'normal.user@email.com', 'Proteggere l’ambiente con la tecnologia è una missione nobile. I droni e i sensori per monitorare la fauna selvatica potrebbero davvero fare la differenza nella lotta contro il bracconaggio. Sarebbe interessante sapere se sono previsti accordi con enti ambientali o università.', @esito);
 CALL CommentaProgetto('EcoSmartHome', 'giulia.bianchi@email.com', 'Una casa ecosostenibile e intelligente è un obiettivo essenziale per il futuro. Se i sistemi di automazione possono ridurre i consumi energetici senza compromettere il comfort, questo progetto potrebbe essere un punto di svolta nel settore delle smart home.', @esito);
 CALL CommentaProgetto('EcoSmartHome', 'normal.user@email.com', 'Sono un sacco interessato a questa casa, non vedo ora che sia il momento che sia pronta per poterla acquistare!', @esito);
-CALL CommentaProgetto('EcoSmartHome', 'lucia.gialli@email.com', 'Spettacolare!', @esito);
+CALL CommentaProgetto('EcoSmartHome', 'mario.rossi@email.com', 'Spettacolare!', @esito);
 
 -- Popolamento della risposta ai commenti del progetto da parte dell'utente creatore del progetto
 CALL rispondiACommento(1, 'Grazie Mario! Il nostro focus principale è proprio la sicurezza stradale. Il sistema sarà in grado di analizzare il comportamento degli altri veicoli e dei pedoni in tempo reale, per anticipare possibili pericoli e assistere il guidatore nelle decisioni critiche.', 'giulia.bianchi@email.com', @esito);
