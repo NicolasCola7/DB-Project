@@ -43,9 +43,5 @@
     <?php require view('/home/home-footer.view.php'); ?>
     <?= AlertManager::show() ?>
 </body>
-<script> 
-    function rispondi(id, nomeProgetto){
-        window.location.href =  `/home/i-miei-progetti/${nomeProgetto}/commenti/${id}/rispondi`;
-    }
-</script>
+<script src='/public/js/commenti/visualizza-commenti-progetto.script.js'> </script>
 </html>

@@ -49,17 +49,3 @@
 </body>
 
 </html>
-<script>
-    document.addEventListener("DOMContentLoaded", function(){
-        const txtSkill = document.getElementById("aggiuntaSkill");
-        const buttonAdd = document.getElementById("aggiungi-skill");
-        const form = document.getElementById("formAddSkill");
-
-        buttonAdd.addEventListener("click", function(event){
-            if(txtSkill.value.trim() === ""){
-                event.preventDefault(); // Impedisce il submit se il campo è vuoto
-                AlertManager.error('inserisci un nome della skill valido');
-            }
-        });
-    });
-</script>

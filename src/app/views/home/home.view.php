@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Home</title>
-    <link rel='stylesheet' type='text/css' href='../../../public/styles/home/home.style.css'>
+    <link rel='stylesheet' type='text/css' href='/public/styles/home/home.style.css'>
 </head>
 <body>
     <?php require view('/home/home-nav.view.php'); ?>

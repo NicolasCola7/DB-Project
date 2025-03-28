@@ -64,42 +64,6 @@ use core\AlertManager;
     <?= AlertManager::show(); ?>
 </body>
 
-<script>
-    const proseguiBtn = document.getElementById('prosegui');
-    const form = document.getElementById('prosegui-form');
-    const budget = document.getElementById('budget');
-
-    form.addEventListener('submit', event => {
-        event.preventDefault();
-
-        if(budget.value) {
-            if(normalizza(budget.value) > 999999999.99) {
-                AlertManager.error('Il budget deve essere <= 999.999.999,99!');
-            } else {
-                form.submit();
-            }
-        }
-    });
-
-
-    function normalizza(input) {
-        let valore = parseFloat(input);
-        let valoreStr = valore.toString();
-
-        // Divido la parte intera e decimale
-        const parts = valoreStr.split('.');
-
-        // Se ci sono più di 2 cifree decimali le tronco
-        if (parts.length > 1) {
-            const interi = parts[0];
-            const decimali = parts[1].slice(0, 2);
-
-            // Ricostruusco il numero con massimo 2 cifre decimali
-            return parseFloat(`${interi}.${decimali.padEnd(2, '0')}`);
-        } else {
-            // Se non ci sono decimali aggiungo ".00"
-            return parseFloat(`${parts[0]}.00`);
-        }
-    }
-</script>
+<script src='/public/js/normalizza.script.js'> </script>
+<script src='/public/js/creazione-progetto/info-base.script.js'></script>
 </html>

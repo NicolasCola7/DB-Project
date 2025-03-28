@@ -33,8 +33,10 @@ use core\AlertManager;
             <section>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) === 'foto'): ?>
                     <form id='submit-foto' action="/home/crea-progetto/foto" method="POST" enctype='multipart/form-data'>
+                        <input type='hidden' id='nFoto' value='<?= count($_SESSION['creazione-progetto']['foto']); ?>'>
                 <?php elseif(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) === 'rewards'): ?>
                     <form id='submit-reward' action="/home/crea-progetto/rewards" method="POST" enctype='multipart/form-data'>
+                        <input type='hidden' id='nRewards' value='<?= count($_SESSION['creazione-progetto']['rewards']); ?>'>
                 <?php else: ?>
                     <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[4]) === 'aggiungi-reward'): ?>
                         <form action='/home/i-miei-progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>/rewards' method="POST" enctype='multipart/form-data'>
@@ -74,81 +76,6 @@ use core\AlertManager;
     <?php require view('/home/home-footer.view.php'); ?>
     <?= AlertManager::show(); ?>
 </body>
-<script>
-    const fileDropArea = document.querySelector('.file-drop-area');
-    const fileInput = fileDropArea.querySelector('.file-input');
-    const fileMsg = fileDropArea.querySelector('.file-msg');
-    
-    // Evidenzia la drag area quando un file è trascinato sopra essa
-    ['dragenter', 'dragover'].forEach(event => {
-        fileDropArea.addEventListener(event, e => {
-        e.preventDefault();
-        highlight();
-        });
-    });
-    
-    ['dragleave', 'drop'].forEach(event => {
-        fileDropArea.addEventListener(event, e => {
-        e.preventDefault();
-        unhighlight();
-        });
-    });
-    
-    // Gestione file droppato
-    fileDropArea.addEventListener('drop', handleDrop);
-    
-    // Festione file inserito
-    fileInput.addEventListener('change', function() {
-        if (this.files.length > 0) {
-            fileMsg.textContent = this.files[0].name;
-        }
-    });
-    
-    function highlight() {
-        fileDropArea.classList.add('is-active');
-    }
-    
-    function unhighlight() {
-        fileDropArea.classList.remove('is-active');
-    }
-    
-    function handleDrop(e) {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0]; // Ottengo solo il primo file
-        
-        if (file) {
-        fileMsg.textContent = file.name;
-        
-        // Aggiorno il file di input
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(file);
-        fileInput.files = dataTransfer.files;
-        
-        // Triggera un change event
-        const event = new Event('change');
-        fileInput.dispatchEvent(event);
-        }
-    }
+<script src='/public/js/creazione-progetto/inserimento-foto-o-rewards.script.js'></script>
 
-</script>
-
-<script>
-    function proseguiARewards() {
-        const nFoto =  <?= count($_SESSION['creazione-progetto']['foto']); ?>;
-        if(nFoto < 1) {
-            AlertManager.error('Devi inserire almeno una foto.');
-        } else {
-            window.location.href = '/home/crea-progetto/rewards';
-        }
-    }
-    
-    function proseguiAConferma() {
-        const rewards =  <?= count($_SESSION['creazione-progetto']['rewards']); ?>;
-        if(rewards < 1) {
-            AlertManager.error('Devi inserire almeno una reward!');
-        } else {
-            window.location.href = '/home/crea-progetto/conferma-dati';
-        }
-    }
-</script>
 </html>

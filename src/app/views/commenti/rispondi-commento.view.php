@@ -36,17 +36,5 @@
     <?php require view('/home/home-footer.view.php'); ?>
     <?= AlertManager::show() ?>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const form = document.querySelector(".risposta form");
-        const textarea = form.querySelector("textarea");
-
-        form.addEventListener("submit", function(event) {
-            if (!textarea.value.trim()) {
-                event.preventDefault();
-                AlertManager.warning('Non puoi inviare un messaggio vuoto.');
-            }
-        });
-    });
-</script>
+<script src='/public/js/commenti/rispondi-commento.script.js'></script>
 </html>

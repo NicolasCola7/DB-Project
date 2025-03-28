@@ -13,7 +13,11 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <h3>Dettagli del progetto <?= htmlspecialchars($progetto['nome']); ?> </h3>
+            <h3>Dettagli del progetto 
+                <span id='nomeProgetto'>
+                    <?= htmlspecialchars($progetto['nome']); ?>
+                </span> 
+            </h3>
             <div class='infoContainer'>
                 <h4> Informazioni </h4>
                 <p> Data di inserimento: <?= htmlspecialchars($progetto['data_inserimento']); ?> </p>
@@ -38,7 +42,7 @@
                     <?php endforeach; ?>
                 </div>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
-                    <div class="aggiungi" onclick="aggiungiFoto()">
+                    <div class="aggiungi" onclick="aggiungiFoto('<?= urlencode($progetto['nome']) ?>')">
                         <div class="plus-icon">+</div>
                         <p>Aggiungi Nuova Foto</p>
                     </div>  
@@ -56,7 +60,7 @@
                     <?php endforeach; ?>
                 </div>
                 <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
-                        <div class="aggiungi" onclick="aggiungiReward()">
+                        <div class="aggiungi" onclick="aggiungiReward('<?= urlencode($progetto['nome']) ?>')">
                             <div class="plus-icon">+</div>
                             <p>Aggiungi Nuova Reward</p>
                         </div>  
@@ -87,7 +91,7 @@
                         </tbody>
                     </table>
                     <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
-                        <div class="aggiungi" onclick="aggiungiComponente()">
+                        <div class="aggiungi" onclick="aggiungiComponente('<?= urlencode($progetto['nome']) ?>')">
                             <div class="plus-icon">+</div>
                             <p>Aggiungi Nuova Componente</p>
                         </div>  
@@ -114,20 +118,6 @@
     <?= AlertManager::show() ?>
 </body>
 
-<script>
-    const nomeProgetto = '<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>';
-    
-     function aggiungiComponente() {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-componente`;
-    }
-
-    function aggiungiReward() {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-reward`;
-    }
-
-    function aggiungiFoto() {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-foto`;
-    }
-</script>
+<script src='/public/js/progetti/info-progetto.script.js'></script>
 
 </html>

@@ -17,8 +17,16 @@
         <div class="contenutoMain">
             <h3>
                 Dettagli candidatura 
-                <span>
+                <span id='idCandidatura'>
                      <?=  urldecode(explode('/', $_SERVER['REQUEST_URI'])[7]); ?> 
+                </span>
+                per il profilo 
+                <span id='nomeProfilo'>
+                     <?=  htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[5])); ?> 
+                </span>
+                del progetto 
+                <span id='nomeProgetto'>
+                     <?=  htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?> 
                 </span>
             </h3>
             <div class='divInfo'>
@@ -109,35 +117,6 @@
     <?= AlertManager::show(); ?>
 </body>
 
-<script>
-    const nomeCandidato = document.getElementById('nome').value;
-    const nomeProgetto = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) ?>';
-    const nomeProfilo = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]) ?>';
+<script src='/public/js/profilo/gestione-candidatura.script.js'></script>
 
-    const rifiuta = document.getElementById('rifiutaForm');
-    const accetta = document.getElementById('accettaForm');
-
-    const rifiutaBtn = document.getElementById('rifiuta');
-    const accettaBtn = document.getElementById('accetta');
-
-    rifiutaBtn.addEventListener('click', event => {
-        event.preventDefault();
-
-        AlertManager.confirmAction({
-            title: "Sei sicuro?",
-            text: `Vuoi davvero rifiutare la candidatura di ${nomeCandidato} come ${nomeProfilo} per il progetto ${nomeProgetto}?`,
-            onConfirm: () => rifiuta.submit()
-        });
-    });
-
-    accettaBtn.addEventListener('click', event => {
-        event.preventDefault();
-
-        AlertManager.confirmAction({
-            title: "Sei sicuro?",
-            text: `Vuoi davvero accettare la candidatura di ${nomeCandidato} come ${nomeProfilo} per il progetto ${nomeProgetto}?`,
-            onConfirm: () => accetta.submit()
-        });
-    });
-</script>
 </html>

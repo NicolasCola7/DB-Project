@@ -8,25 +8,32 @@
 </head>
 
 <body>
+    <!-- recupero la sezione inn cui ci si trova -->
+    <input type='hidden' id='sezione' value='<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>'>
     <?php require view('/home/home-nav.view.php'); ?>
     
     <div class="main">
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <h3>Profili disponibili - <span id='nomeProgetto'> <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?> </span> </h3>
+            <h3>
+                Profili disponibili -
+                <span id='nomeProgetto'>
+                     <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?>
+                </span>
+             </h3>
             <div id='profili'>
                 <?php if(count($profili) > 0): ?>
                     <?php foreach($profili as $profilo): ?>
                         <div class='divProfilo'>
                             <p class='nome-profilo'> <?= htmlspecialchars($profilo['nome']) ?> </p>
                             <p> <?= htmlspecialchars($profilo['numero_posizioni']) ?> posizioni disponibili </p>
-                            <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']) ?>')">
+                            <button class='dettagli' onclick="vediDettagli('<?= urlencode($profilo['nome']); ?>', '<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>')">
                                  Vedi Dettagli
                             </button>
                             <!--solo l'utente creatore di quel progetto può vedere il bottone che mostra le candidature-->
                             <?php if($_SESSION['utente']['creatore'] && htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2])) === 'i-miei-progetti'): ?>
-                                <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>')">
+                                <button class='candidature' onclick="vediCandidature('<?= urlencode($profilo['nome']); ?>', '<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>')">
                                      Visualizza Candidature
                                 </button>
                             <?php endif; ?>
@@ -39,7 +46,8 @@
     
             <!-- Pulsante per aggiungere un nuovo profilo -->
             <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'i-miei-progetti'): ?>
-                <div class="aggiungi-profilo" onclick="aggiungiProfilo()">
+              
+                <div class="aggiungi-profilo" onclick="aggiungiProfilo('<?= explode('/', $_SERVER['REQUEST_URI'])[3] ?>')">
                     <div class="plus-icon">+</div>
                     <p>Aggiungi Nuovo Profilo</p>
                 </div>
@@ -51,20 +59,6 @@
     <?= AlertManager::show() ?>
 </body>
 
-<script>
-    const nomeProgetto = '<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>';
-    
-    function vediDettagli(nomeProfilo){
-        window.location.href = `/home/<?= explode('/', $_SERVER['REQUEST_URI'])[2] ?>/${nomeProgetto}/profili/${nomeProfilo}/skills-richieste`;
-    }
-
-    function vediCandidature(nomeProfilo) {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature`;
-    }
-    
-    function aggiungiProfilo() {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/aggiungi-profilo`;
-    }
-</script>
+<script src='/public/js/profilo/vedi-profili.script.js'></script>
 
 </html>

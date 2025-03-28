@@ -15,6 +15,7 @@ $nomeSkill = $_POST['nome'];
 if (!Validatore::isString($nomeSkill, 1, 50)) {
     AlertManager::setError("nome", "Nome della skill non valido!");
     header('location: /admin/home/gestione-skills');
+    exit();
 }
 
 $parametri = [

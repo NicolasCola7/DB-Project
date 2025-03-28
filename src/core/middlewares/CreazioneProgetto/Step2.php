@@ -21,7 +21,5 @@ class Step2 {
                 header('location: /home/crea-progetto/software/profili');
             exit();
         }
-
-        $_SESSION["creazione-progetto"]["step2"] = true;
     }
 }

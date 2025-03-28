@@ -15,8 +15,18 @@
         
         <div class="contenutoMain">
             <h3>Candidature</h3>
-            <p> Profilo: <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[5])); ?> </p>
-            <p> Progetto: <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?> </p>
+            <p> 
+                Profilo: 
+                <span id='nomeProfilo'>
+                    <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[5])); ?>
+                </span>
+            </p>
+            <p>
+                Progetto:
+                <span id='nomeProgetto'>
+                    <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?>
+                </span>
+            </p>
             <div>
                 <label for="filtroCandidature">Filtra per stato:</label>
                 <select id="filtroCandidature" name='filtroCandidature' onchange="filtraCandidature(this.value)">
@@ -56,33 +66,5 @@
     <?= AlertManager::show() ?>
 </body>
 
-<script>
-   const nomeProgetto = '<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>'
-   const nomeProfilo = '<?= explode('/', $_SERVER['REQUEST_URI'])[5]; ?>'
-
-    //Filtra l'elenco delle candidature in base allo stato selezionato dal menu a tendina e aggiorna la visualizzazione
-    function filtraCandidature(filtro) {
-        switch(filtro) {
-            case "accettata":
-                window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature?filtro=accettata`;
-                break;
-            case "rifiutata" :
-                window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature?filtro=rifiutata`;
-                break;
-            case "aperta" :
-                window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature?filtro=aperta`;
-                break;
-            case "tutte":
-                window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature`;
-                break;
-            default:
-                break;
-        }
-    }
-
-    function dettagliCandidatura(id) {
-        window.location.href = `/home/i-miei-progetti/${nomeProgetto}/profili/${nomeProfilo}/candidature/${id}`;
-    }
-
-</script>
+<script src='/public/js/profilo/vedi-candidature.script.js'></script>
 </html>

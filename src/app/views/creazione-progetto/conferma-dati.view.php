@@ -168,32 +168,7 @@ use \core\AlertManager;
     <?= AlertManager::show(); ?>
 </body>
 
-<script>
-    const annullaForm = document.getElementById('annulla');
-    annullaForm.addEventListener('submit', event => {
-        event.preventDefault();
-        AlertManager.confirmAction({
-            title: "Sei sicuro?",
-            text: "Vuoi davvero eliminare tutti i dati inseriti fino a d'ora?",
-            onConfirm: () => annullaForm.submit()
-        });
-    });
-    const submitForm = document.getElementById('creaProgetto');
-    submitForm.addEventListener('submit', event => {
-        event.preventDefault();
-        AlertManager.confirmAction({
-            title: "Sei sicuro?",
-            text: "Vuoi davvero creare questo progetto?",
-            onConfirm: () => submitForm.submit()
-        });
-    });
+<script src='/public/js/creazione-progetto/conferma-dati.script.js'> </script>
+<script src='/public/js/creazione-progetto/gestione-skills.script.js'></script>
 
-    function toggleSkills(index) {
-        const skillsContainer = document.getElementById('skills-container-' + index);
-        const arrow = document.getElementById('arrow-' + index);
-        
-        skillsContainer.classList.toggle('hidden');
-        arrow.classList.toggle('up');
-    }
-</script>
 </html>

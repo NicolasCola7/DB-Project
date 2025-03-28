@@ -15,7 +15,15 @@
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
-            <h3>Skills richieste - <span id='nomeProfilo'> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]); ?> </span></h3>
+            <h3>Skills richieste per
+                <span id='nomeProfilo'> 
+                    <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[5])); ?>
+                 </span>
+                di
+                <span id='nomeProgetto'>
+                     <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?>
+                </span>
+            </h3>
             <div class='contenitoreSkill'>
                 <p> Di seguito sono riportate le skill, e il loro rispettivo livello, richieste per candidarsi al profilo </p>
                 <table>
@@ -47,20 +55,5 @@
     <?php require view('/home/home-footer.view.php'); ?>
     <?= AlertManager::show(); ?>
 </body>
-<script>
-    let candidati = document.getElementById('candidati');
-    let form = document.getElementById('candidatiForm');
-
-    const nomeProgetto = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]) ?>';
-    const nomeProfilo = '<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]) ?>';
-
-    candidati.addEventListener('click', event => {
-        event.preventDefault();
-        AlertManager.confirmAction({
-            title: "Sei sicuro?",
-            text: "Vuoi inviare la tua candidatura come " + nomeProfilo + " per il progetto " + nomeProgetto + "?",
-            onConfirm: () => form.submit()
-        });
-    });
-</script>
+<script src='/public/js/profilo/invia-candidatura.script.js'></script>
 </html>

@@ -911,24 +911,24 @@ CALL InserimentoComponenteHardware('Sistema Domotico AI', 'EcoSmartHome', 'Siste
 CALL InserimentoComponenteHardware('Sistema di Recupero Acque Piovane', 'EcoSmartHome', 'Impianto per raccogliere e riutilizzare acqua piovana', '5000.00', '10', @esito);
 
 -- Popolamento delle reward dei progetti creati
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward1.webp', 'buono sconto amazon di 15€', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward2.avif', 'buono sconto sephora da 20€', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward3.png', 'buono sconto unieuro da 10€', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward4.jpg', 'buono sconto conad di 5€', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoReward/reward5.jpg', 'buono sconto adidas di 25€', 'DriveSenseAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward6.jpg', 'smartbox gratuita "Adrenalina Pace"', 'CompanyTagline', @esito);
-CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'CompanyTagline', @esito);
-CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward8.jpg', 'personalizzazione gratuita di un prodotto', 'ProgettoNatura', @esito);
-CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward9.jpg', 'penna del progetto ProgettoNatura', 'ProgettoNatura', @esito);
-CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoReward/reward10.jpg', 'portachiavi del progetto ProgettoNatura', 'ProgettoNatura', @esito);
-CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoReward/reward10.jpg', 'portachiavi del progetto PulseTech', 'PulseTech', @esito);
-CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward1.webp', 'buono sconto amazon di 15€', 'EcoSmartHome', @esito);
-CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward2.avif', 'buono sconto sephora da 20€', 'EcoSmartHome', @esito);
-CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward5.jpg', 'buono sconto adidas di 25€', 'EcoSmartHome', @esito);
-CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoReward/reward6.jpg', 'smartbox gratuita "Adrenalina Pace"', 'EcoSmartHome', @esito);
-CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward3.png', 'buono sconto unieuro da 10€', 'VisaAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward5.jpg', 'buono sconto adidas di 25€', 'VisaAI', @esito);
-CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoReward/reward7.avif', 'un biglietto aereo gratuito', 'VisaAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoRewards/reward1.webp', 'buono sconto amazon di 15€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoRewards/reward2.avif', 'buono sconto sephora da 20€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoRewards/reward3.png', 'buono sconto unieuro da 10€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoRewards/reward4.jpg', 'buono sconto conad di 5€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/DriveSenseAI/fotoRewards/reward5.jpg', 'buono sconto adidas di 25€', 'DriveSenseAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoRewards/reward6.jpg', 'smartbox gratuita "Adrenalina Pace"', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/CompanyTagline/fotoRewards/reward7.avif', 'un biglietto aereo gratuito', 'CompanyTagline', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoRewards/reward8.jpg', 'personalizzazione gratuita di un prodotto', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoRewards/reward9.jpg', 'penna del progetto ProgettoNatura', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/ProgettoNatura/fotoRewards/reward10.jpg', 'portachiavi del progetto ProgettoNatura', 'ProgettoNatura', @esito);
+CALL CreazioneReward('public/immagini/progetti/PulseTech/fotoRewards/reward10.jpg', 'portachiavi del progetto PulseTech', 'PulseTech', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoRewards/reward1.webp', 'buono sconto amazon di 15€', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoRewards/reward2.avif', 'buono sconto sephora da 20€', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoRewards/reward5.jpg', 'buono sconto adidas di 25€', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/EcoSmartHome/fotoRewards/reward6.jpg', 'smartbox gratuita "Adrenalina Pace"', 'EcoSmartHome', @esito);
+CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoRewards/reward3.png', 'buono sconto unieuro da 10€', 'VisaAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoRewards/reward5.jpg', 'buono sconto adidas di 25€', 'VisaAI', @esito);
+CALL CreazioneReward('public/immagini/progetti/VisaAI/fotoRewards/reward7.avif', 'un biglietto aereo gratuito', 'VisaAI', @esito);
 
 -- Popolamento dei finanziamenti del progetto, uno finanziato al 100%, due circa al 70%, due circa al 30% e uno non ancora finanziato
 CALL InserimentoFinanziamento('DriveSenseAI', '200000.00', 'mario.rossi@email.com', @esito);
