@@ -74,4 +74,14 @@ document.addEventListener("DOMContentLoaded", function () {
     searchInput.addEventListener("input", filterProjects);
     statusFilter.addEventListener("change", filterProjects);
     typeFilter.addEventListener("change", filterProjects);
+
+    //se il div con classe .azioni non ha elementi al suo interno significa che quell'utente non può 
+    //ne finanziare e ne commentare quel progetto e quindi impedisco che la card aumenti la sua altezza in fase di hover
+    document.querySelectorAll(".card").forEach(card => {
+        const azioni = card.querySelector(".azioni");
+
+        if (!azioni || azioni.children.length === 0) {
+            card.classList.add("no-actions");
+        }
+    });
 });
