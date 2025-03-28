@@ -142,7 +142,7 @@ try {
 
         $paramsReward = [
             'url' => $nuovoUrl,
-            'descrizione' => $descrizioneFoto,
+            'descrizione' => $descrizioneReward,
             'nomeProgetto' => $nomeProgetto,
             '@esito' => '@esito'
         ];
