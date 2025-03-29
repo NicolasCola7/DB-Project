@@ -30,8 +30,11 @@ class Validatore {
     static function isString($val, $min = 1, $max = INF) {
         $val = trim($val);
     
+        if(empty($val)){
+            return false;
+        }
         // Verifica che sia una stringa, che la sua lunghezza sia nei limiti richiesti e che non sia composta solo da numeri
-        if (!is_string($val) && strlen($val) < $min && strlen($val) > $max && !ctype_digit($val)) {
+        if (!is_string($val) || strlen($val) < $min || strlen($val) > $max || ctype_digit($val)) {
             return false;
         }
     
@@ -55,8 +58,7 @@ class Validatore {
         $val = trim($val);
     
         // Verifica che sia una stringa e che la sua lunghezza sia nei limiti massimi e minimi richiesti
-        if (strlen($val) < $min && strlen($val) > $max) 
-        {
+        if (strlen($val) < $min || strlen($val) > $max) {
             return false;
         }
         

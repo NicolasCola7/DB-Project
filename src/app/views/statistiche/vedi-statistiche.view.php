@@ -21,7 +21,7 @@
                     <thead>
                         <tr>
                             <th>Nickname</th>
-                            <th>Affidabilità</th>
+                            <th>Affidabilità (&percnt;)</th>
                         </tr>
                     </thead>
                     <tbody>
