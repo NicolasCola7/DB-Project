@@ -1,5 +1,5 @@
-const nomeProgetto = document.getElementById('nomeProgetto').textContent;
-const nomeProfilo = document.getElementById('nomeProfilo').textContent;
+const nomeProgetto = document.getElementById('nomeProgetto').value;
+const nomeProfilo = document.getElementById('nomeProfilo').value;
 
 //Filtra l'elenco delle candidature in base allo stato selezionato dal menu a tendina e aggiorna la visualizzazione
 function filtraCandidature(filtro) {

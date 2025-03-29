@@ -29,6 +29,7 @@ $skills = $_POST['skills'];
 $skillsRichieste = [];
 foreach($skills as $skill){
     array_push($skillsRichieste,['nomeSkill' => $skill['nome'], 'livello' => $skill['livello']]);
+    
 }
 $nomeProfilo = $_POST['nome'];
 $posizioniDisponibili = $_POST['posizioni'];

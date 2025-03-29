@@ -17,14 +17,16 @@
             <h3>Candidature</h3>
             <p> 
                 Profilo: 
-                <span id='nomeProfilo'>
+                <span>
                     <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[5])); ?>
+                    <input type='hidden' id='nomeProfilo' value='<?= explode('/', $_SERVER['REQUEST_URI'])[5]; ?>'>
                 </span>
             </p>
             <p>
                 Progetto:
-                <span id='nomeProgetto'>
+                <span>
                     <?= htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?>
+                    <input type='hidden' id='nomeProgetto' value='<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>'>
                 </span>
             </p>
             <div>
@@ -51,7 +53,7 @@
                              ($candidatura['risultato'] == 1 ? 'accettata' : 'rifiutata') : 
                              ''); ?>'>
                             <p> Candidato:  <span> <?= htmlspecialchars($candidatura['nickname']); ?> </span></p>
-                            <button onclick="dettagliCandidatura(<?= urlencode($candidatura['id']); ?>)">
+                            <button onclick="dettagliCandidatura('<?= urlencode($candidatura['id']); ?>')">
                                  Vedi dettagli
                             </button>
                         </div>

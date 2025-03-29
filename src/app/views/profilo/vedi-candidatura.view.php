@@ -16,17 +16,11 @@
         
         <div class="contenutoMain">
             <h3>
+                <input type='hidden' id='nomeProgetto' value='<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>'>
+                <input type='hidden' id='nomeProfilo' value='<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[5]); ?>'>
                 Dettagli candidatura 
                 <span id='idCandidatura'>
                      <?=  urldecode(explode('/', $_SERVER['REQUEST_URI'])[7]); ?> 
-                </span>
-                per il profilo 
-                <span id='nomeProfilo'>
-                     <?=  htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[5])); ?> 
-                </span>
-                del progetto 
-                <span id='nomeProgetto'>
-                     <?=  htmlspecialchars(urldecode(explode('/', $_SERVER['REQUEST_URI'])[3])); ?> 
                 </span>
             </h3>
             <div class='divInfo'>
@@ -50,27 +44,27 @@
             </div>
             <div class='divInfo'>
                 <h4> Skills richieste</h4>
-                <?php if($idoneita[0]['isQualified']): ?>
-                    <table>
-                        <thead>
+              
+                <table>
+                    <thead>
+                        <tr>
+                            <th> NOME </th>
+                            <th> LIVELLO RICHIESTO </th>
+                            <th> LIVELLO POSSEDUTO </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php for($i=0; $i<count($richieste); $i++): ?>
                             <tr>
-                                <th> NOME </th>
-                                <th> LIVELLO RICHIESTO </th>
-                                <th> LIVELLO POSSEDUTO </th>
+                                <td> <?= htmlspecialchars($richieste[$i]['nomeSkill']); ?> </td>
+                                <td> <?= htmlspecialchars($richieste[$i]['livello']); ?> </td>
+                                <td> <?= htmlspecialchars($possedute[$i]['livello']); ?> </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <?php for($i=0; $i<count($richieste); $i++): ?>
-                                <tr>
-                                    <td> <?= htmlspecialchars($richieste[$i]['nomeSkill']); ?> </td>
-                                    <td> <?= htmlspecialchars($richieste[$i]['livello']); ?> </td>
-                                    <td> <?= htmlspecialchars($possedute[$i]['livello']); ?> </td>
-                                </tr>
-                            <?php endfor; ?>
-                        </tbody>
-                    </table>
-                <?php else: ?>
-                    <p> Il candidato a seguito dell'invio della candidatura ha modificato le sue skill diventando non idoneo al profilo </p>
+                        <?php endfor; ?>
+                    </tbody>
+                </table>
+                <?php if($idoneita[0]['isQualified'] === 'false'): ?>
+                    <p> *** <b>Il candidato a seguito dell'invio della candidatura ha modificato le sue skill diventando non idoneo al profilo </b>***</p>
                 <?php endif; ?>
             </div>
             <div class='divInfo'>

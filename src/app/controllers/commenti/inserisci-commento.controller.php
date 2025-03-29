@@ -59,5 +59,5 @@ if(!$esito) {
 
 $db_mongo->inserisciLog("Nuovo commento pubblicato da ".$email." nel progetto ".$nomeProgetto);
 AlertManager::setSuccess("Messaggio inviato.");
-header("location: /home/progetti/".$nomeProgetto."/commenti");
+header("location: /home/progetti/".urlencode($nomeProgetto)."/commenti");
 exit();

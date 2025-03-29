@@ -49,5 +49,5 @@ exit();
     AlertManager::setWarning("Hai già inviato una candidatura per questo profilo che è già stata accettata.");
 }
 
-header("location: /home/progetti/".$nomeProgetto."/profili");
+header("location: /home/progetti/".urlencode($nomeProgetto)."/profili");
 exit();

@@ -1,7 +1,7 @@
 const nomeCandidato = document.getElementById('nome').value;
    
-const nomeProgetto = document.getElementById('nomeProgetto').textContent;
-const nomeProfilo = document.getElementById('nomeProfilo').textContent;
+const nomeProgetto = document.getElementById('nomeProgetto').value;
+const nomeProfilo = document.getElementById('nomeProfilo').value;
 
 const rifiuta = document.getElementById('rifiutaForm');
 const accetta = document.getElementById('accettaForm');
