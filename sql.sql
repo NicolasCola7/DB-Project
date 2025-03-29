@@ -27,10 +27,10 @@ CREATE TABLE Creatore (
 
 CREATE TABLE Progetto (
     nome VARCHAR(255) PRIMARY KEY,
-    data_inserimento DATE,
+    data_inserimento DATE NOT NULL,
     data_limite DATE NOT NULL,
     descr TEXT NOT NULL,
-    stato ENUM('aperto', 'chiuso'),
+    stato ENUM('aperto', 'chiuso') DEFAULT 'aperto',
     budget_avvio DECIMAL(10,2) NOT NULL,
     tipoProgetto ENUM('Hardware', 'Software') NOT NULL,
     emailCreatore VARCHAR(255),
@@ -90,7 +90,7 @@ CREATE TABLE Skill_Requisito (
 
 CREATE TABLE Candidatura (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    stato ENUM('aperta', 'chiusa'),
+    stato ENUM('aperta', 'chiusa') default 'aperta',
     accettata BOOLEAN default false,
     nomeProfilo VARCHAR(100),
     nomeProgetto VARCHAR(255),
@@ -101,7 +101,7 @@ CREATE TABLE Candidatura (
 
 CREATE TABLE Commento (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    data DATE,
+    data DATE NOT NULL,
     testo TEXT NOT NULL,
     emailUtente VARCHAR(255),
     nomeProgetto VARCHAR(255),
