@@ -648,7 +648,7 @@ $ DELIMITER ;
 
 DELIMITER $
 CREATE PROCEDURE InserimentoProfilo(IN nomeProfiloI VARCHAR(100), IN nomeProgettoI VARCHAR(255), IN numeroPosizioniI VARCHAR(255), IN skillsRichiestaI text, OUT esito INT)
-BEGIN
+procedura: BEGIN
     declare correttezzaProfilo boolean;
     declare correttezzaProgetto boolean;
     declare correttezzaNPosizioni boolean;
@@ -679,7 +679,7 @@ BEGIN
 	set profiloEsistente = nomeProfiloI IN (SELECT nome FROM Profilo WHERE nomeProgetto = nomeProgettoI);
     
     if(correttezzaProfilo and correttezzaProgetto and correttezzaNPosizioni and !profiloEsistente) then
-        
+        START TRANSACTION; -- inizio la transazione
         INSERT IGNORE INTO Profilo VALUES (nomeProfiloI, nomeProgettoI, numeroPosizioniI);
 
         OPEN skillCursore;
@@ -700,14 +700,19 @@ BEGIN
                 set esito = 1;
                 INSERT INTO Skill_Requisito VALUES (skillNome, nomeProfiloI, nomeProgettoI, livelloSkill);
             else 
-                set esito = 0;
+				-- eseguo il rollback e termino la procedura
+                ROLLBACK;
+                SET esito = 0;
+                LEAVE procedura;
             end if;
         end loop;
         CLOSE skillCursore;
+        
+         COMMIT; -- salvo i dati	
     else
         set esito = 0;
     end if;
-END
+END procedura
 $ DELIMITER ;
 
 DELIMITER $
