@@ -991,7 +991,8 @@ CALL InserimentoSkillCurriculum('lucia.gialli@email.com', 'CyberSecurity', '2', 
 -- Popolamento per l'inserimento dei profili
 CALL InserimentoProfilo('Data Scientist', 'DriveSenseAI', '2','[{"nomeSkill":"Programmazione in Python", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
 CALL InserimentoProfilo('Business Analyst', 'DriveSenseAI', '1','[{"nomeSkill":"Lavorare in Team", "livello": "3"}]', @esito);
-CALL InserimentoProfilo('Software Engineer', 'CompanyTagline', '2','[{"nomeSkill":"Conoscenza Lingua Inglese", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
+CALL InserimentoProfilo('Software Engineer', 'CompanyTagline', '3','[{"nomeSkill":"Conoscenza Lingua Inglese", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "3"}]', @esito);
+CALL InserimentoProfilo('Software Engineer', 'VisaAI', '1','[{"nomeSkill":"Conoscenza Lingua Inglese", "livello": "2"},{"nomeSkill":"Machine Learning", "livello": "2"},{"nomeSkill":"Programmazione in Python", "livello": "2"}]', @esito);
 
 -- Popolamento per l'inserimento delle candidature alle posizioni disponibili
 CALL InserimentoCandidatura('Data Scientist', 'DriveSenseAI', 'lucia.gialli@email.com', @esito);
