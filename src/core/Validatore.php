@@ -31,8 +31,7 @@ class Validatore {
         $val = trim($val);
     
         // Verifica che sia una stringa, che la sua lunghezza sia nei limiti richiesti e che non sia composta solo da numeri
-        if (!is_string($val) && strlen($val) < $min && strlen($val) > $max && !ctype_digit($val)) 
-        {
+        if (!is_string($val) && strlen($val) < $min && strlen($val) > $max && !ctype_digit($val)) {
             return false;
         }
     

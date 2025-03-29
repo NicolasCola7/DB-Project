@@ -28,8 +28,8 @@ $router->get('/admin/home/gestione-skills', 'app/controllers/skills/admin/ottien
 $router->get('/home/le-mie-candidature', 'app/controllers/candidature/ottieni-candidature.controller.php')->soloSe('autenticato');
 //creazione progetto
 $router->get('/home/crea-progetto/informazioni-base', 'app/views/creazione-progetto/crea-progetto.view.php')->soloSe('creatore');
-$router->get('/home/crea-progetto/hardware/componenti', 'app/views/creazione-progetto/inserimento-componenti.view.php')->soloSe('step1');
-$router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/software/ottieni-skills-disponibili.controller.php')->soloSe('step1');
+$router->get('/home/crea-progetto/hardware/componenti', 'app/controllers/creazione-progetto/step2.controller.php')->soloSe('step1');
+$router->get('/home/crea-progetto/software/profili', 'app/controllers/creazione-progetto/step2.controller.php' )->soloSe('step1');
 $router->get('/home/crea-progetto/foto', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('step2');
 $router->get('/home/crea-progetto/rewards', 'app/views/creazione-progetto/inserimento-foto-o-rewards.view.php')->soloSe('step3');
 $router->get('/home/crea-progetto/conferma-dati', 'app/views/creazione-progetto/conferma-dati.view.php')->soloSe('step4');
