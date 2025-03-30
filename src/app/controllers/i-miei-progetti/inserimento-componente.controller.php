@@ -40,8 +40,8 @@ if (!Validatore::isNumber($quantita, 1)) {
     AlertManager::setError("quantita", "La quantità minima deve essere 1!");
 }
 
-if (!Validatore::isNumber($prezzo, 1)) {
-    AlertManager::setError("prezzo", "Il prezzo minimo deve essere 1!");
+if (!Validatore::isNumber($prezzo, 0.01)) {
+    AlertManager::setError("prezzo", "Il prezzo minimo deve essere maggiore di 0");
 }
 
 if (!empty($_SESSION['errore'])) {

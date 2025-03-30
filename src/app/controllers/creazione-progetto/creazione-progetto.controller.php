@@ -33,7 +33,7 @@ try {
     $esito = $db->procedure('CreazioneProgetto', $paramsProgetto);
 
     if (!$esito) {
-        throw new Exception("Errore nell'inserimento del progetto");
+        throw new Exception("Errore nell'inserimento del progetto, riprova");
     }
 
     // inserimento componenti o profili
@@ -55,7 +55,7 @@ try {
             $esito = $db->procedure('InserimentoProfilo', $paramsProfilo);
 
             if (!$esito) {
-                throw new Exception("Errore nell'inserimento dei profili");
+                throw new Exception("Errore nell'inserimento dei profili, riprova");
             }
         }
     } else {
@@ -77,7 +77,7 @@ try {
             $esito = $db->procedure('InserimentoComponenteHardware', $paramsComponente);
 
             if (!$esito) {
-                throw new Exception("Errore nell'inserimento delle componenti");
+                throw new Exception("Errore nell'inserimento delle componenti, riprova");
             }
         }
     }
@@ -98,14 +98,9 @@ try {
 
         $nomeFile = basename($urlTemporaneo);
         $destinazione = $directoryFotoProgetto . '/' . $nomeFile;
-        
-        copy($urlTemporaneo, $destinazione);
-        unlink($urlTemporaneo);
-        
-        $nuovoUrl = $destinazione;
 
         $paramsFoto = [
-            'url' => $nuovoUrl,
+            'url' => $destinazione,
             'descrizione' => $descrizioneFoto,
             'nomeProgetto' => $nomeProgetto,
             '@esito' => '@esito'
@@ -114,7 +109,7 @@ try {
         $esito = $db->procedure('InserimentoFotoProgetto', $paramsFoto);
 
         if(!$esito) {
-            throw new Exception("Errore nell'inserimento delle foto");
+            throw new Exception("Errore nell'inserimento delle foto, riprova");
         }
     }
 
@@ -131,17 +126,11 @@ try {
         $urlTemporaneo = $reward['urlFoto'];
         $descrizioneReward = $reward['descr'];
 
-        //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
         $nomeFile = basename($urlTemporaneo);
         $destinazione = $directoryFotoRewards . '/' . $nomeFile;
-        
-        copy($urlTemporaneo, $destinazione);
-        unlink($urlTemporaneo);
-        
-        $nuovoUrl = $destinazione;
 
         $paramsReward = [
-            'url' => $nuovoUrl,
+            'url' => $destinazione,
             'descrizione' => $descrizioneReward,
             'nomeProgetto' => $nomeProgetto,
             '@esito' => '@esito'
@@ -150,7 +139,7 @@ try {
         $esito = $db->procedure('CreazioneReward', $paramsReward);
 
         if(!$esito) {
-            throw new Exception("Errore nell'inserimento delle rewards");
+            throw new Exception("Errore nell'inserimento delle rewards, riprova.");
         }
     }
 
@@ -174,11 +163,31 @@ try {
 
     //foto
     foreach($_SESSION['creazione-progetto']['foto'] as $foto) {
+        $urlTemporaneo = $foto['percorso'];
+        $descrizioneFoto = $foto['descrizione'];
+
+        $nomeFile = basename($urlTemporaneo);
+        $destinazione = $directoryFotoProgetto . '/' . $nomeFile;
+        
+        //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
+        copy($urlTemporaneo, $destinazione);
+        unlink($urlTemporaneo);
+
         $db_mongo->inserisciLog("Nuova foto ".basename($foto['percorso'])." inserita per il progetto ".$nomeProgetto);
     }
 
     //rewards
     foreach($_SESSION['creazione-progetto']['rewards'] as $reward) {
+        $urlTemporaneo = $reward['urlFoto'];
+        $descrizioneReward = $reward['descr'];
+
+        $nomeFile = basename($urlTemporaneo);
+        $destinazione = $directoryFotoRewards . '/' . $nomeFile;
+        
+        //copio l'immagine nella nuova cartella e lo elimino dalla vecchia
+        copy($urlTemporaneo, $destinazione);
+        unlink($urlTemporaneo);
+
         $db_mongo->inserisciLog("Nuova reward ".basename($reward['urlFoto'])." inserita per il progetto ".$nomeProgetto);
     }
 
@@ -189,7 +198,7 @@ try {
 } catch(Exception $e) {
     // annullo tutte le modifiche effettuate in caso di errore
     $db->rollback();
-    AlertManager::setError('procedura', "Si è verificato un errore: " . $e->getMessage());
+    AlertManager::setError('procedura', "Si è verificato un errore imprevisto: " . $e->getMessage());
     rimuoviDatiCreazione();
 }
 
