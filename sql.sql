@@ -15,7 +15,7 @@ CREATE TABLE Utente (
 
 CREATE TABLE Amministratore (
     emailAmministratore VARCHAR(255) PRIMARY KEY,
-    codice INT UNIQUE NOT NULL,
+    codice INT NOT NULL,
     FOREIGN KEY (emailAmministratore) REFERENCES Utente(email)
 ) ENGINE=INNODB;
 
@@ -602,14 +602,15 @@ CREATE PROCEDURE CreazioneReward(IN urlFotoI TEXT, IN descrI TEXT, IN nomeI VARC
 BEGIN
     declare correttezzaFoto boolean;
     declare correttezzaNomeProg boolean;
-
+	declare fotoNuova boolean;
     -- la foto deve avere una estensione valida
     set correttezzaFoto = (urlFotoI REGEXP '\\.(jpg|jpeg|png|webp|avif)$');
     -- se la query ritorna zero significa che non esiste alcun progetto con quel determinato nome e quindi non è possibile
     -- creare la reward
     set correttezzaNomeProg = (SELECT count(*) from Progetto where Progetto.nome = nomeI) > 0;
+    set fotoNuova = urlFotoI NOT IN (SELECT urlFoto FROM Reward WHERE nomeProgetto = nomeI);
     
-    if(correttezzaFoto and correttezzaNomeProg) then
+    if(correttezzaFoto and correttezzaNomeProg and fotoNuova) then
         -- se descrI è vuoto o null imposto di default la descrizione
         set esito = 1;
 		INSERT INTO Reward (urlFoto, descr, nomeProgetto) values (urlFotoI, IFNULL(NULLIF(descrI, ''), 'descrizione assente'), nomeI);
@@ -700,6 +701,7 @@ BEGIN
                 INSERT INTO Skill_Requisito VALUES (skillNome, nomeProfiloI, nomeProgettoI, livelloSkill);
             else 
                 SET esito = 0;
+                leave skill_loop;
             end if;
         end loop;
         CLOSE skillCursore;

@@ -19,7 +19,7 @@
             <h3>Finanzia il progetto <span> <?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?> </span></h3>
 
             <section>
-                <form id='form-finanziamento' action='/home/progetti/<?= urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]); ?>/finanziamenti' method='POST'>
+                <form id='form-finanziamento' action='/home/progetti/<?= explode('/', $_SERVER['REQUEST_URI'])[3]; ?>/finanziamenti' method='POST'>
                     <div class='container'>
                         <label for="myProgress">Avanzamento finanziamenti attuale</label>
                         <div id="divFinanziamenti">

@@ -10,7 +10,7 @@ $email = $_SESSION['utente']['email'];
 // ottengo il nome del progetto
 $nomeProgetto = urldecode(explode('/', $_SERVER['REQUEST_URI'])[3]);
 // controllo che il progetto esista e che sia stato inserito appena un finanziamento ad esso
-$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome", [':nome' => $nomeProgetto]);
+$progettoEsistente = $db->query("SELECT nome FROM Progetto WHERE nome = :nome AND stato = 'aperto'", [':nome' => $nomeProgetto]);
 
 if(!$progettoEsistente) {
     abort();

@@ -19,12 +19,13 @@ use core\AlertManager; ?>
         <?php require view('/home/home-sidebar.view.php'); ?>
         
         <div class="contenutoMain">
+            <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
+                <h3>Progetti disponibili</h3>
+            <?php else: ?>
+                <h3>I miei progetti</h3>
+            <?php endif; ?>
+                
             <?php if(!empty($progetti) && is_array($progetti)): ?>
-                <?php if(urldecode(explode('/', $_SERVER['REQUEST_URI'])[2]) === 'progetti'): ?>
-                    <h3>Progetti disponibili</h3>
-                <?php else: ?>
-                    <h3>I miei progetti</h3>
-                <?php endif; ?>
                 <div class="search-container">
                     <input type="text" id="searchInput" placeholder="Cerca progetto per nome...">
                     <select id="statusFilter">
@@ -78,16 +79,16 @@ use core\AlertManager; ?>
                                         </form>
                                     <?php endif; ?>
                                 </div>
-                             </div>
+                            </div>
                         </a>
                     <?php endforeach; ?>
-                <?php else: ?>
-                    <h3>Nessun progetto disponibile.</h3>
-                <?php endif; ?>
-                <p id="noProjectsMessage">
-                    Nessun progetto trovato.
-                </p>
-            </div>
+                </div>   
+            <?php else: ?>
+                <p>Nessun progetto disponibile.</p>
+            <?php endif; ?>
+            <p id="noProjectsMessage">
+                Nessun progetto trovato.
+            </p>
         </div>
     </div>
     

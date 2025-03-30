@@ -39,7 +39,7 @@ use core\AlertManager; ?>
                             ?>
                             <div class="candidatura" data-status="<?= htmlspecialchars($status) ?>">
                             <div class="divImg">
-                            <img src="/<?= htmlspecialchars(urldecode($candidatura['logoProgetto'])); ?>">
+                            <img src="/<?= $candidatura['logoProgetto']; ?>">
                             </div>
                             <div class="divInfo">
                                 <div class="info-row">

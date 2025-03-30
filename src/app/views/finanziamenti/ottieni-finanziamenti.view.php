@@ -35,11 +35,11 @@
                         <div class="divImg">
                             <div id="divFoto">
                                 <strong>Progetto</strong>
-                                <img src="/<?= htmlspecialchars(urldecode($finanziamento['logoProgetto'])); ?>">
+                                <img src="/<?= $finanziamento['logoProgetto']; ?>">
                             </div>
                             <div id="divFoto">
                                 <strong>Reward</strong>
-                                <img src="/<?= htmlspecialchars(urldecode($finanziamento['fotoReward'])); ?>" 
+                                <img src="/<?= $finanziamento['fotoReward']; ?>" 
                                     class="fotoReward" 
                                     data-descrizione="<?= htmlspecialchars($finanziamento['descrizioneReward']) ?>">
                             </div>
