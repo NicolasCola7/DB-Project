@@ -86,7 +86,6 @@ $router->post('/home/progetti/{nomeProgetto}/finanziamenti', 'app/controllers/fi
 
 //DELETE
 $router->delete('/home/le-mie-skill/{nomeSkill}', 'app/controllers/skills/non-admin/elimina-skill.controller.php')->soloSe('autenticato');
-$router->delete('/admin/home/gestione-skills/{nomeSkill}',  'app/controllers/skills/admin/elimina-skill.controller.php')->soloSe('admin');
 $router->delete('/home/crea-progetto/software/profili/skills/{nomeSkill}', 'app/controllers/creazione-progetto/software/elimina-skill-richiesta.controller.php')->soloSe('creatore');
 $router->delete('/home/crea-progetto/annulla', 'app/controllers/creazione-progetto/elimina-dati.controller.php')->soloSe('creatore');
 

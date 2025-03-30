@@ -26,15 +26,11 @@
 
             <section id='skills'>
             <h4>Modifica</h4>
-            <p>Queste sono le skill. Puoi rimuoverle o aggiungerne di nuove.</p>
+            <p>Queste sono le skill. Puoi aggiungerne di nuove.</p>
                 <?php if(count($skills) > 0): ?>
                     <?php foreach($skills as $skill): ?>
                         <div class='skill'>
                             <span class='nome-skill'> <?= htmlspecialchars($skill['nome']); ?> </span>
-                            <form action='/admin/home/gestione-skills/<?= urlencode($skill['nome']); ?>' method='POST'>
-                                <input type='hidden' name='_metodo' value='DELETE'>
-                                <button type='submit' class='elimina-btn'>-</button>
-                            </form>
                         </div>
                     <?php endforeach; ?>
                     <?php else: ?>
