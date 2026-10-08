@@ -23,6 +23,8 @@ Serve Docker installato. Dalla cartella principale del progetto:
 
     docker compose up -d
 
+Al primo avvio, esegui `sql.sql` sul database: dalla scheda *SQL* di phpMyAdmin oppure con un client MySQL su `localhost:3307`.
+
 Poi apri:
 
 - **Applicazione:** http://localhost
