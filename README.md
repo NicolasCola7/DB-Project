@@ -19,7 +19,7 @@ MySQL · MongoDB · PHP · Docker · Apache · phpMyAdmin
 
 ## Come avviarlo
 
-Serve Docker installato. Dalla cartella principale del progetto:
+Serve Docker installato. Dalla cartella principale del progetto, copia `.env.example` in `.env` e scegli una password (solo lettere e numeri). Poi:
 
     docker compose up -d
 
