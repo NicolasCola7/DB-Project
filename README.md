@@ -1,36 +1,36 @@
 # BoStarter
 
-Piattaforma di **crowdfunding** in cui i creatori pubblicano progetti e gli utenti li finanziano.
-Progetto del corso di Basi di Dati, Laurea Triennale in Informatica per il Management, Università di Bologna (2025).
+A **crowdfunding** platform where creators publish projects and users fund them.
+Project for the Databases course, BSc in Computer Science for Management, University of Bologna (2025).
 
-📄 **Relazione completa:** [statics/relazione.pdf](statics/relazione.pdf)
+**Full report (in Italian):** [statics/relazione.pdf](statics/relazione.pdf)
 
-## Cosa abbiamo fatto
+## What we built
 
-- **Progettazione completa del database:** schema ER, ristrutturazione, normalizzazione e schema logico
-- **MySQL:** 20 stored procedure, 4 trigger, 3 viste e un evento programmato
-- **MongoDB** per la registrazione dei log degli eventi
-- **Back-end in PHP** con tre ruoli utente: utente, creatore e amministratore
-- Tutto l'ambiente avviabile con **Docker**
+- **Complete database design:** ER model, restructuring, normalisation and logical schema
+- **MySQL:** 20 stored procedures, 4 triggers, 3 views and a scheduled event
+- **MongoDB** for event logging
+- **PHP back end** with three user roles: user, creator and administrator
+- The whole environment runs with **Docker**
 
-## Tecnologie
+## Technologies
 
 MySQL · MongoDB · PHP · Docker · Apache · phpMyAdmin
 
-## Come avviarlo
+## How to run it
 
-Serve Docker installato. Dalla cartella principale del progetto, copia `.env.example` in `.env` e scegli una password (solo lettere e numeri). Poi:
+You need Docker installed. From the project's main folder, copy `.env.example` to `.env` and choose a password (letters and numbers only). Then:
 
     docker compose up -d
 
-Al primo avvio, esegui `sql.sql` sul database: dalla scheda *SQL* di phpMyAdmin oppure con un client MySQL su `localhost:3307`.
+On the first run, execute `sql.sql` on the database: from the *SQL* tab in phpMyAdmin, or with a MySQL client on `localhost:3307`.
 
-Poi apri:
+Then open:
 
-- **Applicazione:** http://localhost
+- **Application:** http://localhost
 - **phpMyAdmin:** http://localhost:9876
 - **Mongo Express:** http://localhost:8081
 
-## Gruppo
+## Team
 
 Matteo Boscherini, Alessandro Campedelli, Nicolas Cola
